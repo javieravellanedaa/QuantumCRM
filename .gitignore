@@ -1,3 +1,9 @@
 bin/
 obj/
 .vs/
+# Ignorar archivos de compilación de INTERFACES y SERVICIOS
+INTERFACES/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+SERVICIOS/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+SERVICIOS/obj/Debug/SERVICIOS.csproj.AssemblyReference.cache
+
+
