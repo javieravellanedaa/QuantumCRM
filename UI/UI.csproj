@@ -52,12 +52,6 @@
     <Compile Include="frmAdministrarIdioma.Designer.cs">
       <DependentUpon>frmAdministrarIdioma.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmCampo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmCampo.Designer.cs">
-      <DependentUpon>frmCampo.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmCategorias.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,9 +98,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAdministrarIdioma.resx">
       <DependentUpon>frmAdministrarIdioma.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmCampo.resx">
-      <DependentUpon>frmCampo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCategorias.resx">
       <DependentUpon>frmCategorias.cs</DependentUpon>

@@ -113,7 +113,7 @@ namespace DAL
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
                                 Estado = reader.GetBoolean(reader.GetOrdinal("Estado")),
-                                Campos = ObtenerCamposPorCategoriaId(categoriaId)  // Obtener los campos asociados
+                                
                             };
                         }
                     }
@@ -142,7 +142,7 @@ namespace DAL
                                 Id = categoriaId,
                                 Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
                                 Estado = reader.GetBoolean(reader.GetOrdinal("Estado")),
-                                Campos = ObtenerCamposPorCategoriaId(categoriaId)  // Obtener los campos asociados
+                                
                             };
                             categorias.Add(categoria);
                         }
@@ -155,35 +155,6 @@ namespace DAL
         
 
         // Obtener campos asociados a una categoría por su Id
-        private List<Campo> ObtenerCamposPorCategoriaId(int categoriaId)
-        {
-            List<Campo> campos = new List<Campo>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                string sql = "SELECT c.Id, c.Nombre, c.Descripcion, c.Estado " +
-                             "FROM Campo c " +
-                             "INNER JOIN CategoriaCampo cc ON c.Id = cc.CampoId " +
-                             "WHERE cc.CategoriaId = @CategoriaId";
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            campos.Add(new Campo
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
-                                Descripcion = reader.GetString(reader.GetOrdinal("Descripcion")),
-                                Estado = reader.GetBoolean(reader.GetOrdinal("Estado"))
-                            });
-                        }
-                    }
-                }
-            }
-            return campos;
-        }
+
     }
 }

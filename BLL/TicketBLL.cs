@@ -22,10 +22,6 @@ namespace BLL
                 throw new ArgumentNullException(nameof(ticket), "El ticket no puede ser nulo.");
             }
 
-            if (ticket.Campos == null || ticket.Campos.Count == 0)
-            {
-                throw new ArgumentException("El ticket debe contener al menos un campo.");
-            }
 
             // Guarda el ticket usando TicketDAL.
             ticketDAL.GuardarTicket(ticket);
@@ -57,10 +53,7 @@ namespace BLL
                 throw new ArgumentNullException(nameof(ticket), "El ticket no puede ser nulo.");
             }
 
-            if (ticket.Campos == null || ticket.Campos.Count == 0)
-            {
-                throw new ArgumentException("El ticket debe contener al menos un campo para ser actualizado.");
-            }
+         
 
             // Actualiza el ticket usando TicketDAL.
             ticketDAL.ActualizarTicket(ticket);

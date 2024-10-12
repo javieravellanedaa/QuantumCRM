@@ -14,7 +14,7 @@
         public int? UsuarioAprobadorId { get; set; }
         public string Asunto { get; set; } // Campo por defecto
         public string Detalle { get; set; } // Campo por defecto
-        public List<Campo> Campos { get; set; } = new List<Campo>(); // Lista de campos adicionales
+
         public List<Comentario> Comentarios { get; set; } = new List<Comentario>(); // Comentarios de usuarios y técnicos
 
         public int TecnicoAsignadoId { get; set; }
@@ -23,7 +23,7 @@
         public Ticket()
         {
             Id = Guid.NewGuid();
-            Campos = new List<Campo>();
+           
             Comentarios = new List<Comentario>();
         }
         private string tipo;

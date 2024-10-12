@@ -53,3 +53,14 @@ D:\Javier\UAI\UAI - Ingeniería de Soft\@CARPETA_ACTUALIZADA_SEPT_2024\QuantumCR
 D:\Javier\UAI\UAI - Ingeniería de Soft\@CARPETA_ACTUALIZADA_SEPT_2024\QuantumCRM_v01\EntregaFinal\SERVICIOS\obj\Debug\SERVICIOS.csproj.Up2Date
 D:\Javier\UAI\UAI - Ingeniería de Soft\@CARPETA_ACTUALIZADA_SEPT_2024\QuantumCRM_v01\EntregaFinal\SERVICIOS\obj\Debug\SERVICIOS.dll
 D:\Javier\UAI\UAI - Ingeniería de Soft\@CARPETA_ACTUALIZADA_SEPT_2024\QuantumCRM_v01\EntregaFinal\SERVICIOS\obj\Debug\SERVICIOS.pdb
+D:\Javier\QuantumCRM\SERVICIOS\bin\Debug\SERVICIOS.dll
+D:\Javier\QuantumCRM\SERVICIOS\bin\Debug\SERVICIOS.pdb
+D:\Javier\QuantumCRM\SERVICIOS\bin\Debug\BE.dll
+D:\Javier\QuantumCRM\SERVICIOS\bin\Debug\INTERFACES.dll
+D:\Javier\QuantumCRM\SERVICIOS\bin\Debug\BE.pdb
+D:\Javier\QuantumCRM\SERVICIOS\bin\Debug\INTERFACES.pdb
+D:\Javier\QuantumCRM\SERVICIOS\obj\Debug\SERVICIOS.csproj.AssemblyReference.cache
+D:\Javier\QuantumCRM\SERVICIOS\obj\Debug\SERVICIOS.csproj.CoreCompileInputs.cache
+D:\Javier\QuantumCRM\SERVICIOS\obj\Debug\SERVICIOS.csproj.Up2Date
+D:\Javier\QuantumCRM\SERVICIOS\obj\Debug\SERVICIOS.dll
+D:\Javier\QuantumCRM\SERVICIOS\obj\Debug\SERVICIOS.pdb

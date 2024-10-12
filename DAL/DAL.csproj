@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="AbstractDAL.cs" />
     <Compile Include="Acceso.cs" />
-    <Compile Include="CampoDAL.cs" />
     <Compile Include="CategoriaDAL.cs" />
     <Compile Include="DepartamentoDAL.cs" />
     <Compile Include="EtiquetaDAL.cs" />

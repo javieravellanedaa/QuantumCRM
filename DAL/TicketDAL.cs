@@ -25,14 +25,7 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@Tipo", ticket.Tipo);
                         cmd.ExecuteNonQuery();
 
-                        foreach (var campo in ticket.Campos)
-                        {
-                            cmd = new SqlCommand("INSERT INTO TicketCampo (TicketId, CampoId, Valor) VALUES (@TicketId, @CampoId, @Valor)", conn, transaction);
-                            cmd.Parameters.AddWithValue("@TicketId", ticket.Id);
-                            cmd.Parameters.AddWithValue("@CampoId", campo.Id);
-                            cmd.Parameters.AddWithValue("@Valor", campo.Valor);
-                            cmd.ExecuteNonQuery();
-                        }
+                       
 
                         transaction.Commit();
                     }
@@ -65,7 +58,7 @@ namespace DAL
                                 UsuarioCreador = new Usuario { Id = (Guid)reader["UsuarioId"] },
                                 Categoria = new Categoria { Id = (int)reader["CategoriaId"] },
                                 Tipo = reader["Tipo"].ToString(),
-                                Campos = ListarCamposPorTicket((Guid)reader["Id"])
+                                
                             };
                         }
                     }
@@ -93,7 +86,7 @@ namespace DAL
                                 UsuarioCreador = new Usuario { Id = (Guid)reader["UsuarioId"], Nombre = reader["UsuarioNombre"].ToString() },
                                 Categoria = new Categoria { Id = (int)reader["CategoriaId"], Nombre = reader["CategoriaNombre"].ToString() },
                                 Tipo = reader["Tipo"].ToString(),
-                                Campos = ListarCamposPorTicket((Guid)reader["Id"])
+                              
                             };
                             tickets.Add(ticket);
                         }
@@ -123,14 +116,7 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@TicketId", ticket.Id);
                         cmd.ExecuteNonQuery();
 
-                        foreach (var campo in ticket.Campos)
-                        {
-                            cmd = new SqlCommand("INSERT INTO TicketCampo (TicketId, CampoId, Valor) VALUES (@TicketId, @CampoId, @Valor)", conn, transaction);
-                            cmd.Parameters.AddWithValue("@TicketId", ticket.Id);
-                            cmd.Parameters.AddWithValue("@CampoId", campo.Id);
-                            cmd.Parameters.AddWithValue("@Valor", campo.Valor);
-                            cmd.ExecuteNonQuery();
-                        }
+                   
 
                         transaction.Commit();
                     }
@@ -171,32 +157,7 @@ namespace DAL
             }
         }
 
-        private List<Campo> ListarCamposPorTicket(Guid ticketId)
-        {
-            List<Campo> campos = new List<Campo>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                string sql = "SELECT c.Id, c.Nombre, c.Descripcion, tc.Valor FROM Campo c JOIN TicketCampo tc ON c.Id = tc.CampoId WHERE tc.TicketId = @TicketId";
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@TicketId", ticketId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            campos.Add(new Campo
-                            {
-                                Id = (int)reader["Id"],
-                                Nombre = reader["Nombre"].ToString(),
-                                Descripcion = reader["Descripcion"].ToString(),
-                                Valor = reader["Valor"].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return campos;
-        }
+
+        
     }
 }

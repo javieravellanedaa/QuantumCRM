@@ -168,7 +168,6 @@ namespace UI
             this.pedidosToolStripMenuItem.Enabled = false;
             this.buscarToolStripMenuItem.Enabled = false;
             this.cambiarToolStripMenuItem.Enabled = false;
-            this.crearCamposToolStripMenuItem.Enabled = false;
             this.crearCategoriasToolStripMenuItem.Enabled = false;
             this.crearPedidoToolStripMenuItem.Enabled = false;  
             this.estadisticasToolStripMenuItem .Enabled = false;
@@ -218,13 +217,11 @@ namespace UI
             
 
 
-            this.crearCamposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
             this.crearCategoriasToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(16);
             this.gestorDeGruposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(18);
             this.gestorDePermisosToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(18);
 
 
-            this.crearCamposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
             this.crearCategoriasToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
             this.gestorDeGruposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
             this.gestorDePermisosToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
@@ -375,16 +372,7 @@ namespace UI
             }
         }
 
-        private void crearCamposToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmCampo frmCampo = new frmCampo();
-            frmCampo.MdiParent = this;
-            int x = (this.ClientSize.Width - frmCampo.Width) / 2;
-            int y = (this.ClientSize.Height - frmCampo.Height) / 2;
-            frmCampo.StartPosition = FormStartPosition.Manual;
-            frmCampo.Location = new Point(x, y);
-            frmCampo.Show();
-        }
+
 
         private void crearCategoriasToolStripMenuItem_Click(object sender, EventArgs e)
         {

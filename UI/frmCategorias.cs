@@ -16,12 +16,13 @@ namespace UI
     {
         
         private CategoriaBLL categoriaBLL;
-        private CampoBLL campoBLL;
+
         public frmCategorias()
         {
             InitializeComponent();
             categoriaBLL = new CategoriaBLL();
-            campoBLL = new CampoBLL();
+
+
             ConfigurarDataGridViewCampos();
             CargarCategorias();
         }
@@ -37,10 +38,6 @@ namespace UI
         {
             ConfigurarDataGridViewCampos();
             CargarCategorias();
-        }
-        private void CargarCampos()
-        {
-            dgvCampos.DataSource = campoBLL.ListarTodosLosCampos();
         }
 
         private void ConfigurarDataGridViewCampos()
@@ -72,7 +69,7 @@ namespace UI
             nameColumn.ReadOnly = true;
             dgvCampos.Columns.Add(nameColumn);
 
-            CargarCampos();
+            
         }
 
 
@@ -152,11 +149,8 @@ namespace UI
                 txtNombre.Text = categoria.Nombre;
                 chkEstado.Checked = categoria.Estado;
 
-                // Cargar los campos seleccionados para la categoría actual
-                foreach (DataGridViewRow row in dgvCampos.Rows)
-                {
-                    row.Cells["Seleccionar"].Value = categoria.Campos.Exists(c => c.Id == (int)row.Cells["Id"].Value);
-                }
+
+             
             }
         }
 

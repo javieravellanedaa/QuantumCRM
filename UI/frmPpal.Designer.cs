@@ -301,13 +301,7 @@
             this.toolStripLabelLoginUser.Size = new System.Drawing.Size(110, 17);
             this.toolStripLabelLoginUser.Text = "[Sesión no iniciada]";
             // 
-            // crearCamposToolStripMenuItem
-            // 
-            this.crearCamposToolStripMenuItem.Name = "crearCamposToolStripMenuItem";
-            this.crearCamposToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.crearCamposToolStripMenuItem.Text = "Crear Campos";
-            this.crearCamposToolStripMenuItem.Click += new System.EventHandler(this.crearCamposToolStripMenuItem_Click);
-            // 
+
             // crearCategoriasToolStripMenuItem
             // 
             this.crearCategoriasToolStripMenuItem.Name = "crearCategoriasToolStripMenuItem";

@@ -41,18 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PN\CampoValor.cs" />
     <Compile Include="PN\Comentario.cs" />
     <Compile Include="Departamento.cs" />
     <Compile Include="PN\Categoria.cs" />
-    <Compile Include="PN\Campo.cs" />
     <Compile Include="Composite\Componente.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Etiqueta.cs" />
     <Compile Include="Composite\Familia.cs" />
     <Compile Include="Idioma.cs" />
     <Compile Include="Composite\Patente.cs" />
-    <Compile Include="Persona.cs" />
     <Compile Include="PN\EstadoTicket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tecnico.cs" />

@@ -7,7 +7,7 @@ namespace BE
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public List<Campo> Campos { get; set; } = new List<Campo>(); // Lista de campos asociados a la categoría
+    
         public bool RequiereAprobacion { get; set; }
        
         public Usuario UsuarioAprobador { get; set; }
@@ -20,7 +20,7 @@ namespace BE
         }
         public Categoria()
         {
-            Campos = new List<Campo>();
+           
         }
         private bool estado;
 
