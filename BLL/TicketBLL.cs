@@ -11,7 +11,7 @@ namespace BLL
 
         public TicketBLL()
         {
-            ticketDAL = new TicketDAL(); // Inicialización de la capa de acceso a datos para tickets.
+            ticketDAL = new TicketDAL(); 
         }
 
         // Método para guardar un ticket en la base de datos.
