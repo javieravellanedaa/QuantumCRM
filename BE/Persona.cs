@@ -9,6 +9,6 @@ namespace BE
     internal class Persona
     {
 
-      // se debe usar esta clase en vez de "usuario" y hacer que usuario y tecnico hereden de esta clase
+      // se debe usar esta clase en vez de "usuario" y hacer que usu
     }
 }
