@@ -389,11 +389,12 @@ namespace UI
         {
             CrearTicket frmTicke = new CrearTicket();
             frmTicke.MdiParent = this;
-            int x = (this.ClientSize.Width - frmTicke.Width) / 2;
-            int y = (this.ClientSize.Height - frmTicke.Height) / 2;
-            frmTicke.StartPosition = FormStartPosition.Manual;
-            frmTicke.Location = new Point(x, y);
+            frmTicke.FormBorderStyle = FormBorderStyle.None; // Sin bordes
+            frmTicke.Dock = DockStyle.Fill; // Ajustar al formulario padre
+            frmTicke.WindowState = FormWindowState.Maximized; // Maximizar
             frmTicke.Show();
         }
+
+
     }
 }

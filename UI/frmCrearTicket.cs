@@ -12,19 +12,14 @@ using System.Windows.Forms;
 
 namespace UI
 {
-    public partial class CrearTicket : Form
+    public partial class frmCrearTicket : Form
     {
-        public CrearTicket()
+        private void frmCrearTicket_Load(object sender, EventArgs e)
         {
             InitializeComponent();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CrearTicket_Load(object sender, EventArgs e)
+        private void btnGuardar_Click(object sender, EventArgs e)
         {
 
         }

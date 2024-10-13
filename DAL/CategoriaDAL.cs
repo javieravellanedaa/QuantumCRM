@@ -25,14 +25,7 @@ namespace DAL
                         cmd.Parameters.AddWithValue("@Estado", categoria.Estado);
                         categoria.CategoriaId = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        // Insertar los campos asociados en la tabla puente
-                        foreach (var campoId in idsCampos)
-                        {
-                            cmd = new SqlCommand("INSERT INTO CategoriaCampo (CategoriaId, CampoId) VALUES (@CategoriaId, @CampoId)", conn, transaction);
-                            cmd.Parameters.AddWithValue("@CategoriaId", categoria.CategoriaId);
-                            cmd.Parameters.AddWithValue("@CampoId", campoId);
-                            cmd.ExecuteNonQuery();
-                        }
+
 
                         transaction.Commit();
                     }
