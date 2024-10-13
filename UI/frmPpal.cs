@@ -161,29 +161,29 @@ namespace UI
             this.verPerfilMenuItem.Enabled = SingletonSesion.Instancia.IsLogged();
 
             // Desactivar menús principales
-            this.menuEmpleados.Enabled = false;
-            this.menuGestores.Enabled = false;
-            this.menuNovedades.Enabled = false;
+            this.menuEmpleados.Enabled = true;
+            this.menuGestores.Enabled = true;
+            this.menuNovedades.Enabled = true;
 
-            this.pedidosToolStripMenuItem.Enabled = false;
-            this.buscarToolStripMenuItem.Enabled = false;
-            this.cambiarToolStripMenuItem.Enabled = false;
-            this.crearCategoriasToolStripMenuItem.Enabled = false;
-            this.crearPedidoToolStripMenuItem.Enabled = false;  
-            this.estadisticasToolStripMenuItem .Enabled = false;
-            this.inventarioToolStripMenuItem.Enabled = false;
-            this.inventarioGeneralToolStripMenuItem.Enabled = false;
-            this.inventarioProyectoToolStripMenuItem.Enabled = false;
-            this.gestorDeGruposToolStripMenuItem.Enabled = false;
-            this.gestorDePermisosToolStripMenuItem.Enabled = false;
-            this.misTicketsToolStripMenuItem.Enabled = false;
-            this.tableroGeneralToolStripMenuItem.Enabled = false;
-            this.verToolStripMenuItem.Enabled = false;
-            this.verToolStripMenuItem1.Enabled = false;
-            this.agregarToolStripMenuItem.Enabled = false;
-            this.modificarToolStripMenuItem.Enabled = false;
-            this.actualToolStripMenuItem.Enabled = false;
-            this.ayudaToolStripMenuItem.Enabled = false;
+            this.pedidosToolStripMenuItem.Enabled = true;
+            this.buscarToolStripMenuItem.Enabled = true;
+            this.cambiarToolStripMenuItem.Enabled = true;
+            this.crearCategoriasToolStripMenuItem.Enabled = true;
+            this.crearPedidoToolStripMenuItem.Enabled = true;  
+            this.estadisticasToolStripMenuItem .Enabled = true;
+            this.inventarioToolStripMenuItem.Enabled = true;
+            this.inventarioGeneralToolStripMenuItem.Enabled = true;
+            this.inventarioProyectoToolStripMenuItem.Enabled = true;
+            this.gestorDeGruposToolStripMenuItem.Enabled = true;
+            this.gestorDePermisosToolStripMenuItem.Enabled = true;
+            this.misTicketsToolStripMenuItem.Enabled = true;
+            this.tableroGeneralToolStripMenuItem.Enabled = true;
+            this.verToolStripMenuItem.Enabled = true;
+            this.verToolStripMenuItem1.Enabled = true;
+            this.agregarToolStripMenuItem.Enabled = true;
+            this.modificarToolStripMenuItem.Enabled = true;
+            this.actualToolStripMenuItem.Enabled = true;
+            this.ayudaToolStripMenuItem.Enabled = true;
             
             // Si hay más menús o submenús, sigue el mismo patrón
 
@@ -200,33 +200,33 @@ namespace UI
             //////
             //this.mnuGestorPermisos.Enabled = SingletonSesion.Instancia.IsInRole(TipoPermiso.GestorPermiso);
             //this.mnuGestorUsuarios.Enabled = SingletonSesion.Instancia.IsInRole(TipoPermiso.GestorUsuario);
-            this.menuNovedades.Enabled = SingletonSesion.Instancia.IsInRole(15); // paso el id del permiso
-            this.menuEmpleados.Enabled = SingletonSesion.Instancia.IsInRole(15);
-            this.menuGestores.Enabled = SingletonSesion.Instancia.IsInRole(15);
-            if (SingletonSesion.Instancia.IsInRole(15) || SingletonSesion.Instancia.IsInRole(16) || SingletonSesion.Instancia.IsInRole(15)) 
-            {
-                this.pedidosToolStripMenuItem.Enabled = true;
+            //this.menuNovedades.Enabled = SingletonSesion.Instancia.IsInRole(15); // paso el id del permiso
+            //this.menuEmpleados.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //this.menuGestores.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //if (SingletonSesion.Instancia.IsInRole(15) || SingletonSesion.Instancia.IsInRole(16) || SingletonSesion.Instancia.IsInRole(15)) 
+            //{
+            //    this.pedidosToolStripMenuItem.Enabled = true;
                 
                
-            }
-            if (SingletonSesion.Instancia.IsInRole(18) || SingletonSesion.Instancia.IsInRole(15))
-            {
-                this.menuGestores.Enabled = true;
-            }
+            //}
+            //if (SingletonSesion.Instancia.IsInRole(18) || SingletonSesion.Instancia.IsInRole(15))
+            //{
+            //    this.menuGestores.Enabled = true;
+            //}
 
             
 
 
-            this.crearCategoriasToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(16);
-            this.gestorDeGruposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(18);
-            this.gestorDePermisosToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(18);
+            //this.crearCategoriasToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(16);
+            //this.gestorDeGruposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(18);
+            //this.gestorDePermisosToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(18);
 
 
-            this.crearCategoriasToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
-            this.gestorDeGruposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
-            this.gestorDePermisosToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
-            this.cambiarToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
-            this.actualToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //this.crearCategoriasToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //this.gestorDeGruposToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //this.gestorDePermisosToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //this.cambiarToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
+            //this.actualToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsInRole(15);
 
 
         }

@@ -21,7 +21,7 @@ namespace DAL
                         SqlCommand cmd = new SqlCommand("INSERT INTO Ticket (Id, UsuarioId, CategoriaId, Tipo) VALUES (@Id, @UsuarioId, @CategoriaId, @Tipo)", conn, transaction);
                         cmd.Parameters.AddWithValue("@Id", ticket.Id);
                         cmd.Parameters.AddWithValue("@UsuarioId", ticket.UsuarioCreador.Id);
-                        cmd.Parameters.AddWithValue("@CategoriaId", ticket.Categoria.Id);
+                        cmd.Parameters.AddWithValue("@CategoriaId", ticket.Categoria.CategoriaId);
                         cmd.Parameters.AddWithValue("@Tipo", ticket.Tipo);
                         cmd.ExecuteNonQuery();
 
@@ -56,7 +56,7 @@ namespace DAL
                             {
                                 Id = (Guid)reader["Id"],
                                 UsuarioCreador = new Usuario { Id = (Guid)reader["UsuarioId"] },
-                                Categoria = new Categoria { Id = (int)reader["CategoriaId"] },
+                                Categoria = new Categoria { CategoriaId = (int)reader["CategoriaId"] },
                                 Tipo = reader["Tipo"].ToString(),
                                 
                             };
@@ -84,7 +84,7 @@ namespace DAL
                             {
                                 Id = (Guid)reader["Id"],
                                 UsuarioCreador = new Usuario { Id = (Guid)reader["UsuarioId"], Nombre = reader["UsuarioNombre"].ToString() },
-                                Categoria = new Categoria { Id = (int)reader["CategoriaId"], Nombre = reader["CategoriaNombre"].ToString() },
+                                Categoria = new Categoria { CategoriaId = (int)reader["CategoriaId"], Nombre = reader["CategoriaNombre"].ToString() },
                                 Tipo = reader["Tipo"].ToString(),
                               
                             };
@@ -108,7 +108,7 @@ namespace DAL
                         SqlCommand cmd = new SqlCommand("UPDATE Ticket SET UsuarioId = @UsuarioId, CategoriaId = @CategoriaId, Tipo = @Tipo WHERE Id = @Id", conn, transaction);
                         cmd.Parameters.AddWithValue("@Id", ticket.Id);
                         cmd.Parameters.AddWithValue("@UsuarioId", ticket.UsuarioCreador.Id);
-                        cmd.Parameters.AddWithValue("@CategoriaId", ticket.Categoria.Id);
+                        cmd.Parameters.AddWithValue("@CategoriaId", ticket.Categoria.CategoriaId);
                         cmd.Parameters.AddWithValue("@Tipo", ticket.Tipo);
                         cmd.ExecuteNonQuery();
 

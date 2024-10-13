@@ -62,15 +62,15 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 string query = @"
-                    SELECT 
-                        e.id as EtiquetaId,
-                        e.name as EtiquetaNombre,
-                        ISNULL(t.id, NEWID()) as TraduccionId,
-                        t.idioma_id as IdiomaId,
-                        t.texto as Texto
-                    FROM Etiqueta e
-                    LEFT JOIN Traduccion t ON e.id = t.etiqueta_id AND t.idioma_id = @idioma_id
-                    ORDER BY e.name ASC";
+                           SELECT 
+                           e.etiqueta_id as EtiquetaId,
+                           e.nombre as EtiquetaNombre,
+                           ISNULL(t.idioma_id, NEWID()) as TraduccionId,
+                           t.idioma_id as IdiomaId,
+                           t.texto as Texto
+                           FROM Etiquetas e
+                           LEFT JOIN Traducciones t ON e.etiqueta_id = t.etiqueta_id AND t.idioma_id = @idioma_id
+                           ORDER BY e.nombre ASC";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idioma_id", idiomaId);

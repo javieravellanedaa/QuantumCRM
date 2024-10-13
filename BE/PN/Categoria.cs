@@ -1,35 +1,70 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime;
 
 namespace BE
 {
     public class Categoria
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-    
-        public bool RequiereAprobacion { get; set; }
-       
-        public Usuario UsuarioAprobador { get; set; }
-        private Departamento departamento;
+        public int CategoriaId { get; set; } 
+        public string Nombre { get; set; } 
+        public int GroupId { get; set; } 
+        public int TipoId { get; set; } 
+        public int EstadoCategoriaId { get; set; } 
+        public DateTime FechaCreacion { get; set; }
+        public int CreadorId { get; set; } 
+        public string Descripcion { get; set; }
 
+        private bool aprobadorRequerido;
+        public bool AprobadorRequerido
+        {
+            get { return aprobadorRequerido; }
+            set
+            {
+                aprobadorRequerido = value;
+
+                
+                if (!aprobadorRequerido)
+                {
+                    UsuarioAprobador = null;
+                }
+            }
+        }
+        private Usuario usuarioAprobador;
+        public Usuario UsuarioAprobador
+        {
+            get { return usuarioAprobador; }
+            set
+            {
+               
+                if (AprobadorRequerido)
+                {
+                    usuarioAprobador = value;
+                }
+                else
+                {
+                    usuarioAprobador = null; 
+                }
+            }
+        }
+
+        private Departamento departamento;
         public Departamento Departamento
         {
             get { return departamento; }
             set { departamento = value; }
         }
+
+       
         public Categoria()
         {
-           
         }
-        private bool estado;
 
+        private bool estado;
         public bool Estado
         {
             get { return estado; }
             set { estado = value; }
         }
-
-
     }
 }

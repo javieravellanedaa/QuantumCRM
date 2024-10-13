@@ -129,7 +129,7 @@ namespace UI
             {
                 try
                 {
-                    int categoriaId = ((Categoria)dgvCategorias.CurrentRow.DataBoundItem).Id;
+                    int categoriaId = ((Categoria)dgvCategorias.CurrentRow.DataBoundItem).CategoriaId;
                     categoriaBLL.EliminarCategoria(categoriaId);
                     MessageBox.Show("Categoría eliminada correctamente.");
                     CargarCategorias();

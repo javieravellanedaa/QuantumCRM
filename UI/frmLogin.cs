@@ -94,7 +94,8 @@ namespace UI
                 try
                 {
                     var res = _usuarioBLL.Login(this.texEmail.Text, this.textPassword.Text);
-                    frmPpal frm = (frmPpal)this.MdiParent;
+                   
+                   frmPpal frm = (frmPpal)this.MdiParent;
                     frm.ValidarForm();
 
                     this.Close();

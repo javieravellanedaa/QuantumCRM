@@ -23,13 +23,13 @@ namespace DAL
                         SqlCommand cmd = new SqlCommand("INSERT INTO Categoria (Nombre, Estado) VALUES (@Nombre, @Estado); SELECT SCOPE_IDENTITY();", conn, transaction);
                         cmd.Parameters.AddWithValue("@Nombre", categoria.Nombre);
                         cmd.Parameters.AddWithValue("@Estado", categoria.Estado);
-                        categoria.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                        categoria.CategoriaId = Convert.ToInt32(cmd.ExecuteScalar());
 
                         // Insertar los campos asociados en la tabla puente
                         foreach (var campoId in idsCampos)
                         {
                             cmd = new SqlCommand("INSERT INTO CategoriaCampo (CategoriaId, CampoId) VALUES (@CategoriaId, @CampoId)", conn, transaction);
-                            cmd.Parameters.AddWithValue("@CategoriaId", categoria.Id);
+                            cmd.Parameters.AddWithValue("@CategoriaId", categoria.CategoriaId);
                             cmd.Parameters.AddWithValue("@CampoId", campoId);
                             cmd.ExecuteNonQuery();
                         }
@@ -54,7 +54,7 @@ namespace DAL
                 string sql = "UPDATE Categoria SET Nombre = @Nombre, Estado = @Estado WHERE Id = @Id";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Id", categoria.Id);
+                    cmd.Parameters.AddWithValue("@Id", categoria.CategoriaId);
                     cmd.Parameters.AddWithValue("@Nombre", categoria.Nombre);
                     cmd.Parameters.AddWithValue("@Estado", categoria.Estado);
                     cmd.ExecuteNonQuery();
@@ -110,7 +110,7 @@ namespace DAL
                         {
                             categoria = new Categoria
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                CategoriaId = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
                                 Estado = reader.GetBoolean(reader.GetOrdinal("Estado")),
                                 
@@ -129,7 +129,7 @@ namespace DAL
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                string sql = "SELECT Id, Nombre, Estado FROM Categoria";
+                string sql = "SELECT categoria_id AS Id, nombre AS Nombre, estado_categoria_id AS Estado \r\nFROM categorias;\r\n";
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -139,7 +139,7 @@ namespace DAL
                             var categoriaId = reader.GetInt32(reader.GetOrdinal("Id"));
                             var categoria = new Categoria
                             {
-                                Id = categoriaId,
+                                CategoriaId = categoriaId,
                                 Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
                                 Estado = reader.GetBoolean(reader.GetOrdinal("Estado")),
                                 

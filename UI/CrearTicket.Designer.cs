@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Asunto = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,8 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Descripcion = new System.Windows.Forms.Label();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.Asunto = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +67,22 @@
             this.groupBox1.Size = new System.Drawing.Size(1053, 644);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
+            // 
+            // Asunto
+            // 
+            this.Asunto.AutoSize = true;
+            this.Asunto.Location = new System.Drawing.Point(100, 208);
+            this.Asunto.Name = "Asunto";
+            this.Asunto.Size = new System.Drawing.Size(40, 13);
+            this.Asunto.TabIndex = 29;
+            this.Asunto.Text = "Asunto";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(221, 208);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(495, 20);
+            this.textBox1.TabIndex = 28;
             // 
             // label4
             // 
@@ -158,32 +174,15 @@
             this.txtDescripcion.Size = new System.Drawing.Size(495, 192);
             this.txtDescripcion.TabIndex = 13;
             // 
-            // Asunto
-            // 
-            this.Asunto.AutoSize = true;
-            this.Asunto.Location = new System.Drawing.Point(100, 208);
-            this.Asunto.Name = "Asunto";
-            this.Asunto.Size = new System.Drawing.Size(40, 13);
-            this.Asunto.TabIndex = 29;
-            this.Asunto.Text = "Asunto";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(221, 208);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(495, 20);
-            this.textBox1.TabIndex = 28;
-            // 
             // CrearTicket
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(1077, 679);
+            this.ClientSize = new System.Drawing.Size(1130, 746);
             this.Controls.Add(this.groupBox1);
             this.Name = "CrearTicket";
             this.Text = "Nuevo Ticket";
-           // this.Load += new System.EventHandler(this.frmTicke_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
