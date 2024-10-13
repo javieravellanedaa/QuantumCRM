@@ -72,11 +72,11 @@ namespace UI
             
         }
 
-
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
+                // Obtener las IDs de los campos seleccionados
                 List<int> selectedFieldIds = new List<int>();
                 foreach (DataGridViewRow row in dgvCampos.Rows)
                 {
@@ -86,13 +86,20 @@ namespace UI
                     }
                 }
 
+                // Asignar la categoría
                 var categoria = new Categoria
                 {
                     Nombre = txtNombre.Text,
-                    Estado = chkEstado.Checked
+                    Estado = new EstadosCategoria
+                    {
+                        // Asumimos que chkEstado representa si la categoría está activa o inactiva
+                        Nombre = chkEstado.Checked ? "Activo" : "Inactivo"
+                    }
                 };
 
+                // Llamar al BLL para agregar la categoría
                 categoriaBLL.AgregarCategoria(categoria, selectedFieldIds);
+
                 MessageBox.Show("Categoría agregada correctamente.");
                 CargarCategorias();
             }
@@ -102,6 +109,7 @@ namespace UI
             }
         }
 
+
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             if (dgvCategorias.CurrentRow != null)
@@ -110,7 +118,7 @@ namespace UI
                 {
                     var categoria = (Categoria)dgvCategorias.CurrentRow.DataBoundItem;
                     categoria.Nombre = txtNombre.Text;
-                    categoria.Estado = chkEstado.Checked;
+                    categoria.Estado = new EstadosCategoria { Nombre = chkEstado.Checked ? "Activo" : "Inactivo" };
 
                     categoriaBLL.ActualizarCategoria(categoria);
                     MessageBox.Show("Categoría actualizada correctamente.");
@@ -145,14 +153,24 @@ namespace UI
         {
             if (dgvCategorias.CurrentRow != null)
             {
+                // Obtener la categoría seleccionada
                 var categoria = (Categoria)dgvCategorias.CurrentRow.DataBoundItem;
+
+                // Asignar el nombre de la categoría al TextBox
                 txtNombre.Text = categoria.Nombre;
-                chkEstado.Checked = categoria.Estado;
 
-
-             
+                // Verificar el estado de la categoría y reflejarlo en el checkbox
+                if (categoria.Estado != null)
+                {
+                    chkEstado.Checked = categoria.Estado.Nombre == "Activo";
+                }
+                else
+                {
+                    chkEstado.Checked = false;
+                }
             }
         }
+
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -168,7 +186,7 @@ namespace UI
             Categoria categoria = new Categoria
             {
                 Nombre = txtNombre.Text,
-                Estado = chkEstado.Checked
+                Estado = new EstadosCategoria { Nombre = chkEstado.Checked ? "Activo" : "Inactivo" }
             };
 
             try
@@ -184,6 +202,11 @@ namespace UI
         }
 
         private void dgvCampos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvCategorias_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

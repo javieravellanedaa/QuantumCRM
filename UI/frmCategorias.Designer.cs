@@ -49,6 +49,7 @@
             this.dgvCategorias.Name = "dgvCategorias";
             this.dgvCategorias.Size = new System.Drawing.Size(313, 269);
             this.dgvCategorias.TabIndex = 0;
+            this.dgvCategorias.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCategorias_CellContentClick);
             this.dgvCategorias.SelectionChanged += new System.EventHandler(this.dgvCategorias_SelectionChanged);
             // 
             // txtNombre

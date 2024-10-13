@@ -10,7 +10,6 @@ namespace BE
         public string Nombre { get; set; } 
         public int GroupId { get; set; } 
         public int TipoId { get; set; } 
-        public int EstadoCategoriaId { get; set; } 
         public DateTime FechaCreacion { get; set; }
         public int CreadorId { get; set; } 
         public string Descripcion { get; set; }
@@ -60,8 +59,8 @@ namespace BE
         {
         }
 
-        private bool estado;
-        public bool Estado
+        private EstadosCategoria estado;
+        public EstadosCategoria Estado
         {
             get { return estado; }
             set { estado = value; }

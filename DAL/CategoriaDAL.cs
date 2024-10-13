@@ -90,13 +90,21 @@ namespace DAL
         public Categoria ObtenerCategoriaPorId(int categoriaId)
         {
             Categoria categoria = null;
+
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                string sql = "SELECT Id, Nombre, Estado FROM Categoria WHERE Id = @Id";
+
+                // Consulta SQL para hacer JOIN con la tabla de estados y obtener el nombre del estado
+                string sql = @"SELECT c.categoria_id AS Id, c.nombre AS Nombre, e.nombre AS EstadoNombre
+                       FROM categorias c
+                       JOIN estados_categoria e ON c.estado_categoria_id = e.estado_categoria_id
+                       WHERE c.categoria_id = @Id";
+
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@Id", categoriaId);
+
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -105,24 +113,33 @@ namespace DAL
                             {
                                 CategoriaId = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
-                                Estado = reader.GetBoolean(reader.GetOrdinal("Estado")),
-                                
+                                // Se asigna el nombre del estado en el objeto EstadosCategoria
+                                Estado = new EstadosCategoria
+                                {
+                                    Nombre = reader.GetString(reader.GetOrdinal("EstadoNombre"))
+                                }
                             };
                         }
                     }
                 }
             }
+
             return categoria;
         }
 
-        // Listar todas las categorías
         public List<Categoria> ListarCategorias()
         {
             List<Categoria> categorias = new List<Categoria>();
+
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                string sql = "SELECT categoria_id AS Id, nombre AS Nombre, estado_categoria_id AS Estado \r\nFROM categorias;\r\n";
+
+                // Consulta SQL que hace un JOIN para obtener el nombre del estado
+                string sql = @"SELECT c.categoria_id AS Id, c.nombre AS Nombre, e.nombre AS EstadoNombre
+                       FROM categorias c
+                       JOIN estados_categorias e ON c.estado_categoria_id = e.estado_categoria_id;";
+
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -130,13 +147,18 @@ namespace DAL
                         while (reader.Read())
                         {
                             var categoriaId = reader.GetInt32(reader.GetOrdinal("Id"));
+
                             var categoria = new Categoria
                             {
                                 CategoriaId = categoriaId,
                                 Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
-                                Estado = reader.GetBoolean(reader.GetOrdinal("Estado")),
-                                
+                                // Aquí se crea el objeto EstadosCategoria y se asigna el nombre del estado
+                                Estado = new EstadosCategoria
+                                {
+                                    Nombre = reader.GetString(reader.GetOrdinal("EstadoNombre"))
+                                }
                             };
+
                             categorias.Add(categoria);
                         }
                     }
@@ -145,7 +167,8 @@ namespace DAL
             return categorias;
         }
 
-        
+
+
 
         // Obtener campos asociados a una categoría por su Id
 

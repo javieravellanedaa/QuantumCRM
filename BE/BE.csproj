@@ -50,6 +50,7 @@
     <Compile Include="Composite\Familia.cs" />
     <Compile Include="Idioma.cs" />
     <Compile Include="Composite\Patente.cs" />
+    <Compile Include="PN\EstadosCategoria.cs" />
     <Compile Include="PN\EstadoTicket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tecnico.cs" />
