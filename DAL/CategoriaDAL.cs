@@ -136,9 +136,11 @@ namespace DAL
                 conn.Open();
 
                 // Consulta SQL que hace un JOIN para obtener el nombre del estado
-                string sql = @"SELECT c.categoria_id AS Id, c.nombre AS Nombre, e.nombre AS EstadoNombre
-                       FROM categorias c
-                       JOIN estados_categorias e ON c.estado_categoria_id = e.estado_categoria_id;";
+                string sql = @"select c.categoria_id as Id, c.nombre as nombre_categoria,c.descripcion, e.nombre as nombre_estado, t.nombre as nombre_tipo from  categorias c
+
+                                inner join estados_categorias e on c.estado_categoria_id = e.estado_categoria_id
+
+                                 inner join tipo_categoria t on t.tipo_id = c.tipo_id";          
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -151,11 +153,11 @@ namespace DAL
                             var categoria = new Categoria
                             {
                                 CategoriaId = categoriaId,
-                                Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                                Nombre = reader.GetString(reader.GetOrdinal("nombre_categoria")),
                                 // Aquí se crea el objeto EstadosCategoria y se asigna el nombre del estado
                                 Estado = new EstadosCategoria
                                 {
-                                    Nombre = reader.GetString(reader.GetOrdinal("EstadoNombre"))
+                                    Nombre = reader.GetString(reader.GetOrdinal("nombre_estado"))
                                 }
                             };
 
