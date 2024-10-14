@@ -11,7 +11,8 @@ namespace BE
         public int GroupId { get; set; } 
         public int TipoId { get; set; } 
         public DateTime FechaCreacion { get; set; }
-        public int CreadorId { get; set; } 
+        public Guid CreadorId { get; set; }
+
         public string Descripcion { get; set; }
 
         private bool aprobadorRequerido;
@@ -47,12 +48,7 @@ namespace BE
             }
         }
 
-        private Departamento departamento;
-        public Departamento Departamento
-        {
-            get { return departamento; }
-            set { departamento = value; }
-        }
+
 
        
         public Categoria()

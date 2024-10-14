@@ -30,7 +30,7 @@ namespace UI
         private void CargarCategorias()
         {
             dgvCategorias.DataSource = categoriaBLL.ListarCategorias();
-            // Ocultar la columna de ID si está presente
+           
             dgvCategorias.AutoResizeColumns();
         }
 

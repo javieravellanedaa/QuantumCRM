@@ -44,6 +44,7 @@
     <Compile Include="AbstractBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="DepartamentoBLL.cs" />
+    <Compile Include="EstadosCategoriaBLL.cs" />
     <Compile Include="IdiomaBLL.cs" />
     <Compile Include="PermisoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

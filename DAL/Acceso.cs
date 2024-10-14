@@ -108,6 +108,13 @@ namespace DAL
             return tabla;
         }
 
+        public SqlDataReader EjecutarLectura(string nombre, List<SqlParameter> pars = null)
+        {
+            SqlCommand cmd = CrearComando(nombre, pars);
+            return cmd.ExecuteReader(); // Retorna el SqlDataReader
+        }
+
+
         public int Escribir(string nombre, List<SqlParameter> pars = null)
         {
 

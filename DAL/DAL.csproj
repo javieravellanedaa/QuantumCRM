@@ -45,6 +45,7 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="CategoriaDAL.cs" />
     <Compile Include="DepartamentoDAL.cs" />
+    <Compile Include="EstadosCategoriaDAL.cs" />
     <Compile Include="EtiquetaDAL.cs" />
     <Compile Include="IdiomaDAL.cs" />
     <Compile Include="MP_PERMISO.cs" />

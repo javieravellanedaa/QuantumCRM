@@ -17,8 +17,8 @@ namespace BLL
         // Agregar una nueva categoría con campos asociados
         public void AgregarCategoria(Categoria categoria, List<int> idsCampos)
         {
-            if (categoria == null || idsCampos == null || categoria.Departamento == null)
-                throw new ArgumentException("La categoría,lista de campos o departamento no pueden ser nulos.");
+            if (categoria == null )
+                throw new ArgumentException("La categoría o departamento no pueden ser nulos.");
             if (string.IsNullOrEmpty(categoria.Nombre))
                 throw new ArgumentException("El nombre de la categoría no puede estar vacío.");
 
