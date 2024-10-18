@@ -274,45 +274,44 @@ namespace DAL
             return list;
         }
 
+        public List<Usuario> ListarUsuariosConTodosLosAtributos()
+        {
+            Abrir();
+            IniciarTx();
 
-        //    public void GuardarPermisos(Usuario u)
-        //    {
+            // Leer los usuarios desde la base de datos
+            DataTable tabla = acceso.Leer("sp_ListarUsuariosConAtributos");
 
-        //        try
-        //        {
-        //            Abrir();
-        //            IniciarTx();
-        //            SqlParameter sqlParameter = new SqlParameter("@id", u.Id);
-        //            acceso.Escribir("sp_EliminarPermisos", new List<SqlParameter> { sqlParameter });
+            var lista = new List<Usuario>();
 
-        //            Cerrar();
+            foreach (DataRow registro in tabla.Rows)
+            {
+                Usuario usuario = new Usuario
+                {
+                    Id = Guid.Parse(registro["id_usuario"].ToString()),
+                    Email = registro["email"].ToString(),
+                    Nombre = registro["nombre"].ToString(),
+                    Apellido = registro["apellido"].ToString(),
+                    Password = registro["password"].ToString(),
+                    // Asigna el idioma si no es nulo
+                    Idioma = registro.IsNull("nombre_idioma") ? null : new Idioma
+                    {
+                        Nombre = registro["nombre_idioma"].ToString()
+                    }
+                };
 
-        //            foreach (var item in u.Permisos)
-        //            {
-        //                Abrir();
-        //                IniciarTx();
-        //                SqlParameter sqlParameter1 = new SqlParameter("@id_usuario", u.Id);
-        //                SqlParameter sqlParameter2 = new SqlParameter("@id_permiso", item.Id);
-        //                List<SqlParameter> sqlParameters = new List<SqlParameter> { sqlParameter1, sqlParameter2 };
-        //                acceso.Escribir("sp_InsertarPermisos", sqlParameters);
+                // Obtener los permisos del usuario
+                usuario.Permisos.AddRange(GetPermisos(usuario));
 
-        //                Cerrar();
+                lista.Add(usuario);
+            }
 
-
-
-
-        //            }
-
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            throw;
-        //        }
+            Cerrar();
+            return lista;
+        }
 
 
-        //    }
-        //}
+
     }
 
 }

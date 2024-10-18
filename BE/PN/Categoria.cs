@@ -30,6 +30,15 @@ namespace BE
                 }
             }
         }
+
+        public string NombreUsuarioAprobador
+        {
+            get
+            {
+                return UsuarioAprobador != null ? UsuarioAprobador.NombreUsuario : string.Empty;
+            }
+        }
+
         private Usuario usuarioAprobador;
         public Usuario UsuarioAprobador
         {
