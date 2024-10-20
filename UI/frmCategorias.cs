@@ -27,6 +27,9 @@ namespace UI
             
         }
 
+
+        
+
         private void CargarCategorias()
         {
             try
@@ -52,42 +55,39 @@ namespace UI
                 nombreColumn.HeaderText = "Nombre";
                 dgvCategorias.Columns.Add(nombreColumn);
 
-                // Columna group_id (int)
-                DataGridViewTextBoxColumn groupIdColumn = new DataGridViewTextBoxColumn();
-                groupIdColumn.DataPropertyName = "GroupId";
-                groupIdColumn.HeaderText = "ID Grupo";
-                dgvCategorias.Columns.Add(groupIdColumn);
-
-                // Columna tipo_id (int)
-                DataGridViewTextBoxColumn tipoIdColumn = new DataGridViewTextBoxColumn();
-                tipoIdColumn.DataPropertyName = "TipoId";
-                tipoIdColumn.HeaderText = "ID Tipo";
-                dgvCategorias.Columns.Add(tipoIdColumn);
-
-                // Columna estado_categoria_id (int)
-                DataGridViewTextBoxColumn estadoCategoriaIdColumn = new DataGridViewTextBoxColumn();
-                estadoCategoriaIdColumn.DataPropertyName = "EstadoCategoriaId";
-                estadoCategoriaIdColumn.HeaderText = "ID Estado Categoría";
-                dgvCategorias.Columns.Add(estadoCategoriaIdColumn);
-
-                // Columna fecha_creacion (datetime)
-                DataGridViewTextBoxColumn fechaCreacionColumn = new DataGridViewTextBoxColumn();
-                fechaCreacionColumn.DataPropertyName = "FechaCreacion";
-                fechaCreacionColumn.HeaderText = "Fecha de Creación";
-                fechaCreacionColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"; // Formato opcional
-                dgvCategorias.Columns.Add(fechaCreacionColumn);
-
-                // Columna creador_id (uniqueidentifier)
-                DataGridViewTextBoxColumn creadorIdColumn = new DataGridViewTextBoxColumn();
-                creadorIdColumn.DataPropertyName = "CreadorId";
-                creadorIdColumn.HeaderText = "ID Creador";
-                dgvCategorias.Columns.Add(creadorIdColumn);
-
                 // Columna descripcion (nvarchar)
                 DataGridViewTextBoxColumn descripcionColumn = new DataGridViewTextBoxColumn();
                 descripcionColumn.DataPropertyName = "Descripcion";
                 descripcionColumn.HeaderText = "Descripción";
                 dgvCategorias.Columns.Add(descripcionColumn);
+
+                //// Columna group_id (int)
+                //DataGridViewTextBoxColumn groupIdColumn = new DataGridViewTextBoxColumn();
+                //groupIdColumn.DataPropertyName = "GroupId";
+                //groupIdColumn.HeaderText = "ID Grupo";
+                //dgvCategorias.Columns.Add(groupIdColumn);
+
+                //// Columna tipo_id (int)
+                //DataGridViewTextBoxColumn tipoIdColumn = new DataGridViewTextBoxColumn();
+                //tipoIdColumn.DataPropertyName = "TipoId";
+                //tipoIdColumn.HeaderText = "ID Tipo";
+                //dgvCategorias.Columns.Add(tipoIdColumn);
+
+
+                // Columna estado_categoria_id (int)
+                DataGridViewTextBoxColumn estadoCategoriaIdColumn = new DataGridViewTextBoxColumn();
+                estadoCategoriaIdColumn.DataPropertyName = "NombreEstadoCategoria";
+                estadoCategoriaIdColumn.HeaderText = "Estado";
+                dgvCategorias.Columns.Add(estadoCategoriaIdColumn);
+
+
+                //// Columna creador_id (uniqueidentifier)
+                //DataGridViewTextBoxColumn creadorIdColumn = new DataGridViewTextBoxColumn();
+                //creadorIdColumn.DataPropertyName = "CreadorId";
+                //creadorIdColumn.HeaderText = "ID Creador";
+                //dgvCategorias.Columns.Add(creadorIdColumn);
+
+
 
                 // Columna aprobador_requerido (bit / bool)
                 DataGridViewCheckBoxColumn aprobadorRequeridoColumn = new DataGridViewCheckBoxColumn();
@@ -103,6 +103,14 @@ namespace UI
                 usuarioAprobadorNombreColumn.DataPropertyName = "NombreUsuarioAprobador"; // Propiedad calculada
                 usuarioAprobadorNombreColumn.HeaderText = "Nombre Usuario Aprobador";
                 dgvCategorias.Columns.Add(usuarioAprobadorNombreColumn);
+
+
+                // Columna fecha_creacion (datetime)
+                DataGridViewTextBoxColumn fechaCreacionColumn = new DataGridViewTextBoxColumn();
+                fechaCreacionColumn.DataPropertyName = "FechaCreacion";
+                fechaCreacionColumn.HeaderText = "Fecha de Creación";
+                fechaCreacionColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"; // Formato opcional
+                dgvCategorias.Columns.Add(fechaCreacionColumn);
 
                 // Asignar la lista de categorías al DataSource
                 dgvCategorias.DataSource = categoriaBLL.ListarCategorias();
@@ -187,18 +195,24 @@ namespace UI
             {
                 // Obtener la categoría seleccionada
                 var categoria = (Categoria)dgvCategorias.CurrentRow.DataBoundItem;
+                
 
                 // Asignar el nombre de la categoría al TextBox
                 txtNombre.Text = categoria.Nombre;
-
+                txtDescripcion.Text = categoria.Descripcion;
                 // Verificar el estado de la categoría y reflejarlo en el checkbox
                 if (categoria.Estado != null)
                 {
-                    chkEstado.Checked = categoria.Estado.Nombre == "Activo";
-                }
-                else
-                {
+
+                    if (categoria.Estado.EstadoCategoriaId ==1)
+                    {
+                        chkEstado.Checked = true;
+                    }
+                    else
+                    {
                     chkEstado.Checked = false;
+                    }
+
                 }
             }
         }

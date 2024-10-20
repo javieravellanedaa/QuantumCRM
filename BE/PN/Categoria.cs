@@ -39,6 +39,14 @@ namespace BE
             }
         }
 
+        
+        public string NombreEstadoCategoria
+            {
+            get
+            {
+                return Estado.Nombre;
+            }
+        }
         private Usuario usuarioAprobador;
         public Usuario UsuarioAprobador
         {

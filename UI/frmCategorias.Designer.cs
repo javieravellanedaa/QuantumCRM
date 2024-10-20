@@ -35,17 +35,17 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.dgvCategorias = new System.Windows.Forms.DataGridView();
             this.gbxDatos = new System.Windows.Forms.GroupBox();
-            this.lblDescripcion = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.lblDepartamento = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.lblAprobador = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.lblGrupoTecnico = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.lblTipo = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.lblTipo = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.lblGrupoTecnico = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.lblAprobador = new System.Windows.Forms.Label();
+            this.lblEstado = new System.Windows.Forms.Label();
+            this.lblDepartamento = new System.Windows.Forms.Label();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.lblDescripcion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCategorias)).BeginInit();
             this.gbxDatos.SuspendLayout();
             this.SuspendLayout();
@@ -119,7 +119,7 @@
             this.gbxDatos.Controls.Add(this.btnGuardar);
             this.gbxDatos.Controls.Add(this.lblEstado);
             this.gbxDatos.Controls.Add(this.lblDepartamento);
-            this.gbxDatos.Controls.Add(this.textBox1);
+            this.gbxDatos.Controls.Add(this.txtDescripcion);
             this.gbxDatos.Controls.Add(this.lblDescripcion);
             this.gbxDatos.Controls.Add(this.lblNombreDeLaCategoria);
             this.gbxDatos.Controls.Add(this.txtNombre);
@@ -131,82 +131,13 @@
             this.gbxDatos.TabStop = false;
             this.gbxDatos.Text = "Datos";
             // 
-            // lblDescripcion
+            // comboBox4
             // 
-            this.lblDescripcion.AutoSize = true;
-            this.lblDescripcion.Location = new System.Drawing.Point(6, 54);
-            this.lblDescripcion.Name = "lblDescripcion";
-            this.lblDescripcion.Size = new System.Drawing.Size(63, 13);
-            this.lblDescripcion.TabIndex = 8;
-            this.lblDescripcion.Text = "Descripcion";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(142, 51);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(329, 46);
-            this.textBox1.TabIndex = 9;
-            // 
-            // lblDepartamento
-            // 
-            this.lblDepartamento.AutoSize = true;
-            this.lblDepartamento.Location = new System.Drawing.Point(509, 39);
-            this.lblDepartamento.Name = "lblDepartamento";
-            this.lblDepartamento.Size = new System.Drawing.Size(74, 13);
-            this.lblDepartamento.TabIndex = 10;
-            this.lblDepartamento.Text = "Departamento";
-            // 
-            // lblEstado
-            // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(339, 134);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(40, 13);
-            this.lblEstado.TabIndex = 11;
-            this.lblEstado.Text = "Estado";
-            // 
-            // lblAprobador
-            // 
-            this.lblAprobador.AutoSize = true;
-            this.lblAprobador.Location = new System.Drawing.Point(6, 115);
-            this.lblAprobador.Name = "lblAprobador";
-            this.lblAprobador.Size = new System.Drawing.Size(56, 13);
-            this.lblAprobador.TabIndex = 13;
-            this.lblAprobador.Text = "Aprobador";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(142, 115);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(163, 21);
-            this.comboBox1.TabIndex = 14;
-            // 
-            // lblGrupoTecnico
-            // 
-            this.lblGrupoTecnico.AutoSize = true;
-            this.lblGrupoTecnico.Location = new System.Drawing.Point(509, 98);
-            this.lblGrupoTecnico.Name = "lblGrupoTecnico";
-            this.lblGrupoTecnico.Size = new System.Drawing.Size(78, 13);
-            this.lblGrupoTecnico.TabIndex = 15;
-            this.lblGrupoTecnico.Text = "Grupo Técnico";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(593, 36);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(247, 21);
-            this.comboBox2.TabIndex = 16;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(593, 95);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(247, 21);
-            this.comboBox3.TabIndex = 17;
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(142, 145);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(163, 21);
+            this.comboBox4.TabIndex = 19;
             // 
             // lblTipo
             // 
@@ -217,13 +148,82 @@
             this.lblTipo.TabIndex = 18;
             this.lblTipo.Text = "Tipo";
             // 
-            // comboBox4
+            // comboBox3
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(142, 145);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(163, 21);
-            this.comboBox4.TabIndex = 19;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(593, 95);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(247, 21);
+            this.comboBox3.TabIndex = 17;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(593, 36);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(247, 21);
+            this.comboBox2.TabIndex = 16;
+            // 
+            // lblGrupoTecnico
+            // 
+            this.lblGrupoTecnico.AutoSize = true;
+            this.lblGrupoTecnico.Location = new System.Drawing.Point(509, 98);
+            this.lblGrupoTecnico.Name = "lblGrupoTecnico";
+            this.lblGrupoTecnico.Size = new System.Drawing.Size(78, 13);
+            this.lblGrupoTecnico.TabIndex = 15;
+            this.lblGrupoTecnico.Text = "Grupo Técnico";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(142, 115);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(163, 21);
+            this.comboBox1.TabIndex = 14;
+            // 
+            // lblAprobador
+            // 
+            this.lblAprobador.AutoSize = true;
+            this.lblAprobador.Location = new System.Drawing.Point(6, 115);
+            this.lblAprobador.Name = "lblAprobador";
+            this.lblAprobador.Size = new System.Drawing.Size(56, 13);
+            this.lblAprobador.TabIndex = 13;
+            this.lblAprobador.Text = "Aprobador";
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.Location = new System.Drawing.Point(339, 134);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(40, 13);
+            this.lblEstado.TabIndex = 11;
+            this.lblEstado.Text = "Estado";
+            // 
+            // lblDepartamento
+            // 
+            this.lblDepartamento.AutoSize = true;
+            this.lblDepartamento.Location = new System.Drawing.Point(509, 39);
+            this.lblDepartamento.Name = "lblDepartamento";
+            this.lblDepartamento.Size = new System.Drawing.Size(74, 13);
+            this.lblDepartamento.TabIndex = 10;
+            this.lblDepartamento.Text = "Departamento";
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(142, 51);
+            this.txtDescripcion.Multiline = true;
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(329, 46);
+            this.txtDescripcion.TabIndex = 9;
+            // 
+            // lblDescripcion
+            // 
+            this.lblDescripcion.AutoSize = true;
+            this.lblDescripcion.Location = new System.Drawing.Point(6, 54);
+            this.lblDescripcion.Name = "lblDescripcion";
+            this.lblDescripcion.Size = new System.Drawing.Size(63, 13);
+            this.lblDescripcion.TabIndex = 8;
+            this.lblDescripcion.Text = "Descripcion";
             // 
             // frmCategorias
             // 
@@ -253,7 +253,7 @@
         private System.Windows.Forms.Label lblDescripcion;
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.Label lblDepartamento;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDescripcion;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label lblGrupoTecnico;
