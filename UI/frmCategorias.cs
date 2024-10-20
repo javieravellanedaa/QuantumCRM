@@ -16,19 +16,21 @@ namespace UI
     {
         
         private CategoriaBLL categoriaBLL;
+        private UsuarioBLL usuarioBLL;
 
         public frmCategorias()
         {
             InitializeComponent();
             categoriaBLL = new CategoriaBLL();
+            usuarioBLL = new UsuarioBLL();
+         
 
 
-           
-            
+
         }
 
 
-        
+
 
         private void CargarCategorias()
         {
@@ -141,6 +143,8 @@ namespace UI
         {
             
             CargarCategorias();
+            cargarAprobador();
+
         }
 
 
@@ -188,34 +192,51 @@ namespace UI
                 }
             }
         }
-
         private void dgvCategorias_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvCategorias.CurrentRow != null)
             {
                 // Obtener la categoría seleccionada
                 var categoria = (Categoria)dgvCategorias.CurrentRow.DataBoundItem;
-                
 
                 // Asignar el nombre de la categoría al TextBox
                 txtNombre.Text = categoria.Nombre;
                 txtDescripcion.Text = categoria.Descripcion;
+
                 // Verificar el estado de la categoría y reflejarlo en el checkbox
                 if (categoria.Estado != null)
                 {
+                    chkEstado.Checked = (categoria.Estado.EstadoCategoriaId == 1);
+                }
 
-                    if (categoria.Estado.EstadoCategoriaId ==1)
+                // Verificar si UsuarioAprobador es null antes de intentar acceder a su Id
+                Guid? idAprobador = null; // Inicializar como null
+
+                if (categoria.UsuarioAprobador != null)
+                {
+                    idAprobador = categoria.UsuarioAprobador.Id; // Asignar el Id si no es null
+                }
+
+                // Comparar con los usuarios cargados
+                if (idAprobador.HasValue)
+                {
+                    if (usuariosMap.ContainsKey(idAprobador.Value))
                     {
-                        chkEstado.Checked = true;
+                        cmbAprobador.Text = usuariosMap[idAprobador.Value]; // Seleccionar el usuario en el ComboBox
                     }
                     else
                     {
-                    chkEstado.Checked = false;
+                        cmbAprobador.SelectedIndex = -1; // Desmarcar si no hay coincidencia
                     }
-
+                }
+                else
+                {
+                    // Si no hay un aprobador, desmarcar el ComboBox
+                    cmbAprobador.SelectedIndex = -1; // Desmarcar el ComboBox
                 }
             }
         }
+
 
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -229,6 +250,31 @@ namespace UI
         }
 
         private void dgvCategorias_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private Dictionary<Guid, string> usuariosMap = new Dictionary<Guid, string>();
+
+        private void cargarAprobador()
+        {
+            // Asumiendo que Usuario tiene propiedades Id (GUID), Nombre y Apellido
+            List<Usuario> usuarios = usuarioBLL.ListarTodosLosUsuarios();
+            List<string> nombresYApellidos = new List<string>();
+
+            foreach (var usuario in usuarios)
+            {
+                nombresYApellidos.Add($"{usuario.Apellido}, {usuario.Nombre}");
+                usuariosMap[usuario.Id] = $"{usuario.Apellido}, {usuario.Nombre}"; // Mapear ID a nombre completo
+            }
+
+            // Asignar la lista al ComboBox
+            cmbAprobador.DataSource = nombresYApellidos;
+            cmbAprobador.SelectedIndex = -1; // Opcional: Desmarcar selección inicial
+        }
+
+
+        private void cmbAprobador_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

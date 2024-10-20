@@ -40,7 +40,7 @@
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.lblGrupoTecnico = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmbAprobador = new System.Windows.Forms.ComboBox();
             this.lblAprobador = new System.Windows.Forms.Label();
             this.lblEstado = new System.Windows.Forms.Label();
             this.lblDepartamento = new System.Windows.Forms.Label();
@@ -114,7 +114,7 @@
             this.gbxDatos.Controls.Add(this.btnEliminar);
             this.gbxDatos.Controls.Add(this.comboBox2);
             this.gbxDatos.Controls.Add(this.lblGrupoTecnico);
-            this.gbxDatos.Controls.Add(this.comboBox1);
+            this.gbxDatos.Controls.Add(this.cmbAprobador);
             this.gbxDatos.Controls.Add(this.lblAprobador);
             this.gbxDatos.Controls.Add(this.btnGuardar);
             this.gbxDatos.Controls.Add(this.lblEstado);
@@ -173,13 +173,14 @@
             this.lblGrupoTecnico.TabIndex = 15;
             this.lblGrupoTecnico.Text = "Grupo Técnico";
             // 
-            // comboBox1
+            // cmbAprobador
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(142, 115);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(163, 21);
-            this.comboBox1.TabIndex = 14;
+            this.cmbAprobador.FormattingEnabled = true;
+            this.cmbAprobador.Location = new System.Drawing.Point(142, 115);
+            this.cmbAprobador.Name = "cmbAprobador";
+            this.cmbAprobador.Size = new System.Drawing.Size(163, 21);
+            this.cmbAprobador.TabIndex = 14;
+            this.cmbAprobador.SelectedIndexChanged += new System.EventHandler(this.cmbAprobador_SelectedIndexChanged);
             // 
             // lblAprobador
             // 
@@ -257,7 +258,7 @@
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label lblGrupoTecnico;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbAprobador;
         private System.Windows.Forms.Label lblAprobador;
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.ComboBox comboBox4;

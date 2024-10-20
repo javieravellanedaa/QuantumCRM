@@ -288,15 +288,16 @@ namespace DAL
             {
                 Usuario usuario = new Usuario
                 {
-                    Id = Guid.Parse(registro["id_usuario"].ToString()),
+                    Id = Guid.Parse(registro["usuario_id"].ToString()),
                     Email = registro["email"].ToString(),
                     Nombre = registro["nombre"].ToString(),
                     Apellido = registro["apellido"].ToString(),
                     Password = registro["password"].ToString(),
                     // Asigna el idioma si no es nulo
-                    Idioma = registro.IsNull("nombre_idioma") ? null : new Idioma
+                    Idioma = registro.IsNull("idioma_id") ? null : new Idioma
                     {
-                        Nombre = registro["nombre_idioma"].ToString()
+                        Id = Guid.Parse(registro["idioma_id"].ToString()), // Se obtiene el ID del idioma
+                        Nombre = registro["nombre_idioma"].ToString() // Se asume que se extrae también el nombre del idioma
                     }
                 };
 
@@ -309,6 +310,7 @@ namespace DAL
             Cerrar();
             return lista;
         }
+
 
 
 

@@ -35,7 +35,7 @@ namespace BE
         {
             get
             {
-                return UsuarioAprobador != null ? UsuarioAprobador.NombreUsuario : string.Empty;
+                return UsuarioAprobador != null ? usuarioAprobador.Apellido + "," +UsuarioAprobador.Nombre  : string.Empty;
             }
         }
 

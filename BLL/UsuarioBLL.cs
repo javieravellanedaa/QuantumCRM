@@ -67,5 +67,11 @@ namespace BLL
             _crud.GuardarPermisos(u);
         }
 
+        public List<Usuario> ListarTodosLosUsuarios()
+        {
+
+            return _crud.ListarUsuariosConTodosLosAtributos();
+        }
+
     }
 }
