@@ -1,59 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System;
 
 namespace BE
 {
     public class Departamento
     {
-		private int id;
+        public int Id { get; set; } // ID del departamento
+        public string Nombre { get; set; } // Nombre del departamento
+        public int? ClienteLiderId { get; set; } // ID del cliente líder (opcional)
+        public DateTime FechaCreacion { get; set; } // Fecha de creación
+        public string CodigoDepartamento { get; set; } // Código del departamento
+        public string Descripcion { get; set; } // Descripción
+        public int? UbicacionId { get; set; } // ID de la ubicación (opcional)
+        public bool Estado { get; set; } // Estado (activo/inactivo)
+        public bool EsPrioritario { get; set; } // Indica si es prioritario
+        public string HorarioAtencion { get; set; } // Horario de atención
+        public string EmailContacto { get; set; } // Email de contacto
 
-		public int Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
-
-		private string nombre;
-
-		public string Nombre
-		{
-			get { return nombre; }
-			set { nombre = value; }
-		}
-
-		private List<Usuario> usuarios;
-
-		public List<Usuario> Usuarios
-		{
-			get { return usuarios; }
-			set { usuarios = value; }
-		}
-
-		private List<Ticket> bandejaDeTickets;
-
-		public List<Ticket> BandejaDeTickets
-		{
-			get { return bandejaDeTickets; }
-			set { bandejaDeTickets = value; }
-		}
-
-		//***************MODIFICAR ESTO ********************/////
-
-		//private List<Tecnico> tecnicos;
-
-		//public List<Tecnico> Tecnicos
-		//{
-		//	get { return tecnicos; }
-		//	set { tecnicos = value; }
-		//}
-
-
-
-
-
-
-	}
+        // Listas para asociaciones (por ejemplo, con usuarios o tickets)
+        public List<Usuario> Usuarios { get; set; } // Lista de usuarios asociados
+        public List<Ticket> BandejaDeTickets { get; set; } // Bandeja de tickets
+    }
 }

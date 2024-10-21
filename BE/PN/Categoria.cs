@@ -81,10 +81,31 @@ namespace BE
                 }
             }
         }
+        private Departamento departamento;
+
+        public Departamento Departamento
+        {
+            get { return departamento; }
+            set { departamento = value; }
+        }
+
+
+        public string nombreDepartamento
+
+        {
+
+            get
+            {
+                return Departamento.Nombre;
+
+               
+
+            }
+        }
 
 
 
-       
+
         public Categoria()
         {
         }

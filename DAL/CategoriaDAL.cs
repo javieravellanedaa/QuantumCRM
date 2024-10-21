@@ -172,6 +172,7 @@ namespace DAL
             c.creador_id, 
             c.aprobador_requerido, 
             c.usuario_aprobador, 
+            c.departamento_id,
             u.usuario_id, 
             u.email, 
             u.password, 
@@ -204,6 +205,11 @@ namespace DAL
                                 {
                                     Id = reader.GetInt32(reader.GetOrdinal("tipo_id"))
                                 },
+                                Departamento = new Departamento
+                                {
+                                    Id = reader.IsDBNull(reader.GetOrdinal("departamento_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("departamento_id"))
+                                },
+
                                
                                 GroupId = reader.IsDBNull(reader.GetOrdinal("group_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("group_id")),
                                 FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
@@ -235,11 +241,14 @@ namespace DAL
             EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
             List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
 
+            DepartamentosDAL departamentosDAL = new DepartamentosDAL();
+            List<Departamento> departamentos = departamentosDAL.ListarDepartamentos(); // Obtener lista de departamentos
+
             // Obtener todos los tipos de categorías
             TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
             List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
 
-            // Paso 3: Hacer un "JOIN" en memoria para asignar el objeto EstadosCategoria a cada Categoría
+            // Paso 3: Hacer un "JOIN" en memoria para asignar el objeto EstadosCategoria y Departamento a cada Categoría
             foreach (var categoria in categorias)
             {
                 // Buscar el estado correspondiente en la lista de estados
@@ -261,7 +270,18 @@ namespace DAL
                 {
                     categoria.tipoCategoria = tipoCorrespondiente; // Asegúrate de que la clase Categoria tenga una propiedad Tipo
                 }
+
+                // Buscar el departamento correspondiente en la lista de departamentos
+                var departamentoCorrespondiente = departamentos
+                    .FirstOrDefault(d => d.Id == categoria.Departamento.Id); // Asegúrate de que la propiedad esté bien definida
+
+                // Asignar el departamento encontrado a la categoría
+                if (departamentoCorrespondiente != null)
+                {
+                    categoria.Departamento = departamentoCorrespondiente; // Asignar el objeto Departamento
+                }
             }
+
 
             return categorias;
         }

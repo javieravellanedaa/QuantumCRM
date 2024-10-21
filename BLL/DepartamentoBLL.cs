@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BE;
+using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +10,18 @@ namespace BLL
 {
     public class DepartamentoBLL
     {
-        public void CrearDepartamento(string nombre)
-        
-        {
-            BE.Departamento departamento = new BE.Departamento();
-            departamento.Nombre = nombre;
-            DAL.DepartamentoDAL departamentoDAL = new DAL.DepartamentoDAL();
-           // departamentoDAL.CrearDepartamento(departamento);
+       
+            public List<Departamento> ListarDepartamentos()
+            {
+                // Instancia de la capa DAL
+                DepartamentosDAL departamentosDAL = new DepartamentosDAL();
 
-        }
+                // Llamamos al método DAL y devolvemos la lista
+                return departamentosDAL.ListarDepartamentos();
+           
+            }
 
 
 
-	}
+    }
 }

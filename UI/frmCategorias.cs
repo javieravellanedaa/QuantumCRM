@@ -153,6 +153,7 @@ namespace UI
             CargarCategorias();
             cargarAprobador();
             cargarTiposCategoria();
+            CargarDepartamentos();
 
         }
 
@@ -160,6 +161,17 @@ namespace UI
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             
+        }
+        private void CargarDepartamentos()
+        {
+            DepartamentoBLL departamentosBLL = new DepartamentoBLL();
+            List<Departamento> departamentos = departamentosBLL.ListarDepartamentos();
+
+            // Aquí puedes asignar la lista al ComboBox o a cualquier otro control
+            cmbDepartamento.DataSource = departamentos;
+            cmbDepartamento.DisplayMember = "Nombre"; // Asegúrate de que esta propiedad exista
+            cmbDepartamento.ValueMember = "Id"; // Asegúrate de que esta propiedad exista
+            cmbDepartamento.SelectedIndex = -1; // Desmarcar selección inicial
         }
 
 
@@ -256,8 +268,19 @@ namespace UI
                 {
                     cmbTiposCategoria.SelectedIndex = -1; // Desmarcar si no hay un tipo válido
                 }
+
+                // Lógica para seleccionar el departamento
+                if (categoria.Departamento != null) // Verificar si el departamento está asignado
+                {
+                    cmbDepartamento.SelectedValue = categoria.Departamento.Id; // Seleccionar el departamento en el ComboBox
+                }
+                else
+                {
+                    cmbDepartamento.SelectedIndex = -1; // Desmarcar si no hay un departamento
+                }
             }
         }
+
 
 
 
