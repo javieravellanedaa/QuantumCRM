@@ -8,12 +8,29 @@ namespace BE
     {
         public int CategoriaId { get; set; } 
         public string Nombre { get; set; } 
-        public int GroupId { get; set; } 
-        public int TipoId { get; set; } 
+        public int GroupId { get; set; }
+
         public DateTime FechaCreacion { get; set; }
         public Guid CreadorId { get; set; }
 
         public string Descripcion { get; set; }
+        public TipoCategoria tipoCategoria { get; set; }
+        public string nombreTipoCategoria
+        {
+            get
+            {
+                if (tipoCategoria != null)
+                {
+                    return tipoCategoria.Nombre;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
+
 
         private bool aprobadorRequerido;
         public bool AprobadorRequerido

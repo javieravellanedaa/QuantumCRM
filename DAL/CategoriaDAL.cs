@@ -14,8 +14,12 @@ namespace DAL
         public void AgregarCategoria(Categoria categoria, List<int> idsCampos)
         {
             // Instanciar EstadosCategoriaDAL para listar los estados
+          
+            TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
+            List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
             EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
             List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
+          
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -50,6 +54,8 @@ namespace DAL
         public void ActualizarCategoria(Categoria categoria)
         {
             // Instanciar EstadosCategoriaDAL para listar los estados
+            TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
+            List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
             EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
             List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
 
@@ -144,6 +150,7 @@ namespace DAL
             return categoria;
         }
         // Listar todas las categorías con sus estados
+
         public List<Categoria> ListarCategorias()
         {
             List<Categoria> categorias = new List<Categoria>();
@@ -154,28 +161,28 @@ namespace DAL
                 conn.Open();
 
                 string sql = @"
-            SELECT 
-                c.categoria_id, 
-                c.nombre AS categoria_nombre, 
-                c.descripcion, 
-                c.estado_categoria_id, 
-                c.tipo_id, 
-                c.group_id, 
-                c.fecha_creacion, 
-                c.creador_id, 
-                c.aprobador_requerido, 
-                c.usuario_aprobador, 
-                u.usuario_id, 
-                u.email, 
-                u.password, 
-                u.nombre AS usuario_nombre, 
-                u.apellido, 
-                u.nombre_usuario, 
-                u.legajo, 
-                u.fecha_alta, 
-                u.ultimo_inicio_sesion
-            FROM categorias c
-            LEFT JOIN usuarios u ON c.usuario_aprobador = u.usuario_id";
+        SELECT 
+            c.categoria_id, 
+            c.nombre AS categoria_nombre, 
+            c.descripcion, 
+            c.estado_categoria_id, 
+            c.tipo_id, 
+            c.group_id, 
+            c.fecha_creacion, 
+            c.creador_id, 
+            c.aprobador_requerido, 
+            c.usuario_aprobador, 
+            u.usuario_id, 
+            u.email, 
+            u.password, 
+            u.nombre AS usuario_nombre, 
+            u.apellido, 
+            u.nombre_usuario, 
+            u.legajo, 
+            u.fecha_alta, 
+            u.ultimo_inicio_sesion
+        FROM categorias c
+        LEFT JOIN usuarios u ON c.usuario_aprobador = u.usuario_id";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
@@ -192,8 +199,12 @@ namespace DAL
                                 Estado = new EstadosCategoria
                                 {
                                     EstadoCategoriaId = reader.GetInt32(reader.GetOrdinal("estado_categoria_id"))
-                                }, // Solo asignamos el ID del estado, se completa luego en el join en memoria
-                                TipoId = reader.IsDBNull(reader.GetOrdinal("tipo_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("tipo_id")),
+                                },
+                                tipoCategoria = new TipoCategoria
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("tipo_id"))
+                                },
+                               
                                 GroupId = reader.IsDBNull(reader.GetOrdinal("group_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("group_id")),
                                 FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
                                 CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("creador_id")),
@@ -224,6 +235,10 @@ namespace DAL
             EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
             List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
 
+            // Obtener todos los tipos de categorías
+            TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
+            List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
+
             // Paso 3: Hacer un "JOIN" en memoria para asignar el objeto EstadosCategoria a cada Categoría
             foreach (var categoria in categorias)
             {
@@ -236,11 +251,20 @@ namespace DAL
                 {
                     categoria.Estado = estadoCorrespondiente;
                 }
+
+                // Buscar el tipo correspondiente en la lista de tipos
+                var tipoCorrespondiente = tiposCategorias
+                    .FirstOrDefault(t => t.Id == categoria.tipoCategoria.Id);
+
+                // Asignar el tipo encontrado a la categoría
+                if (tipoCorrespondiente != null)
+                {
+                    categoria.tipoCategoria = tipoCorrespondiente; // Asegúrate de que la clase Categoria tenga una propiedad Tipo
+                }
             }
 
             return categorias;
         }
-
 
 
     }

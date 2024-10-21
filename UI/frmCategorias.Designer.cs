@@ -35,7 +35,7 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.dgvCategorias = new System.Windows.Forms.DataGridView();
             this.gbxDatos = new System.Windows.Forms.GroupBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.cmbTiposCategoria = new System.Windows.Forms.ComboBox();
             this.lblTipo = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -46,6 +46,8 @@
             this.lblDepartamento = new System.Windows.Forms.Label();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.lblDescripcion = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbAprobacion = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCategorias)).BeginInit();
             this.gbxDatos.SuspendLayout();
             this.SuspendLayout();
@@ -53,7 +55,7 @@
             // chkEstado
             // 
             this.chkEstado.AutoSize = true;
-            this.chkEstado.Location = new System.Drawing.Point(402, 134);
+            this.chkEstado.Location = new System.Drawing.Point(402, 119);
             this.chkEstado.Name = "chkEstado";
             this.chkEstado.Size = new System.Drawing.Size(56, 17);
             this.chkEstado.TabIndex = 2;
@@ -108,7 +110,9 @@
             // 
             // gbxDatos
             // 
-            this.gbxDatos.Controls.Add(this.comboBox4);
+            this.gbxDatos.Controls.Add(this.cmbAprobacion);
+            this.gbxDatos.Controls.Add(this.label1);
+            this.gbxDatos.Controls.Add(this.cmbTiposCategoria);
             this.gbxDatos.Controls.Add(this.lblTipo);
             this.gbxDatos.Controls.Add(this.comboBox3);
             this.gbxDatos.Controls.Add(this.btnEliminar);
@@ -131,13 +135,13 @@
             this.gbxDatos.TabStop = false;
             this.gbxDatos.Text = "Datos";
             // 
-            // comboBox4
+            // cmbTiposCategoria
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(142, 145);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(163, 21);
-            this.comboBox4.TabIndex = 19;
+            this.cmbTiposCategoria.FormattingEnabled = true;
+            this.cmbTiposCategoria.Location = new System.Drawing.Point(142, 145);
+            this.cmbTiposCategoria.Name = "cmbTiposCategoria";
+            this.cmbTiposCategoria.Size = new System.Drawing.Size(163, 21);
+            this.cmbTiposCategoria.TabIndex = 19;
             // 
             // lblTipo
             // 
@@ -194,7 +198,7 @@
             // lblEstado
             // 
             this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(339, 134);
+            this.lblEstado.Location = new System.Drawing.Point(339, 120);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Size = new System.Drawing.Size(40, 13);
             this.lblEstado.TabIndex = 11;
@@ -225,6 +229,28 @@
             this.lblDescripcion.Size = new System.Drawing.Size(63, 13);
             this.lblDescripcion.TabIndex = 8;
             this.lblDescripcion.Text = "Descripcion";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(318, 148);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Aprobacion";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // cmbAprobacion
+            // 
+            this.cmbAprobacion.FormattingEnabled = true;
+            this.cmbAprobacion.Items.AddRange(new object[] {
+            "SI",
+            "NO"});
+            this.cmbAprobacion.Location = new System.Drawing.Point(402, 145);
+            this.cmbAprobacion.Name = "cmbAprobacion";
+            this.cmbAprobacion.Size = new System.Drawing.Size(69, 21);
+            this.cmbAprobacion.TabIndex = 22;
             // 
             // frmCategorias
             // 
@@ -261,6 +287,8 @@
         private System.Windows.Forms.ComboBox cmbAprobador;
         private System.Windows.Forms.Label lblAprobador;
         private System.Windows.Forms.Label lblTipo;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox cmbTiposCategoria;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbAprobacion;
     }
 }

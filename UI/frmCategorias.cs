@@ -83,6 +83,14 @@ namespace UI
                 dgvCategorias.Columns.Add(estadoCategoriaIdColumn);
 
 
+                // Columna tipoCategoria (string)
+                DataGridViewTextBoxColumn tipoCategoriaColumn = new DataGridViewTextBoxColumn();
+                tipoCategoriaColumn.DataPropertyName = "nombreTipoCategoria";
+                tipoCategoriaColumn.HeaderText = "Tipo";
+                dgvCategorias.Columns.Add(tipoCategoriaColumn);
+
+
+
                 //// Columna creador_id (uniqueidentifier)
                 //DataGridViewTextBoxColumn creadorIdColumn = new DataGridViewTextBoxColumn();
                 //creadorIdColumn.DataPropertyName = "CreadorId";
@@ -144,6 +152,7 @@ namespace UI
             
             CargarCategorias();
             cargarAprobador();
+            cargarTiposCategoria();
 
         }
 
@@ -217,6 +226,9 @@ namespace UI
                     idAprobador = categoria.UsuarioAprobador.Id; // Asignar el Id si no es null
                 }
 
+                // Actualizar el estado de aprobación en el ComboBox
+                cmbAprobacion.Text = idAprobador.HasValue ? "SI" : "NO";
+
                 // Comparar con los usuarios cargados
                 if (idAprobador.HasValue)
                 {
@@ -234,8 +246,20 @@ namespace UI
                     // Si no hay un aprobador, desmarcar el ComboBox
                     cmbAprobador.SelectedIndex = -1; // Desmarcar el ComboBox
                 }
+
+                // Lógica para seleccionar el tipo de categoría
+                if (categoria.tipoCategoria.Id != null) // Asegúrate de que TipoId sea un valor válido
+                {
+                    cmbTiposCategoria.SelectedValue = categoria.tipoCategoria.Id; // Seleccionar el tipo en el ComboBox
+                }
+                else
+                {
+                    cmbTiposCategoria.SelectedIndex = -1; // Desmarcar si no hay un tipo válido
+                }
             }
         }
+
+
 
 
 
@@ -274,7 +298,25 @@ namespace UI
         }
 
 
+        private void cargarTiposCategoria()
+        {
+            TiposCategoriaBLL tiposCategoriaBLL = new TiposCategoriaBLL();
+            List<TipoCategoria> tiposCategorias = tiposCategoriaBLL.listarCategorias();
+
+            // Configurar el ComboBox
+            cmbTiposCategoria.DataSource = tiposCategorias; // Asignar la lista como fuente de datos
+            cmbTiposCategoria.DisplayMember = "Nombre"; // Propiedad para mostrar en el ComboBox
+            cmbTiposCategoria.ValueMember = "Id"; // Propiedad que se usará como valor (asegúrate de que sea el nombre correcto)
+            cmbTiposCategoria.SelectedIndex = -1; // Desmarcar selección inicial
+        }
+
+
         private void cmbAprobador_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
