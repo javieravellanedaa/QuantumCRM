@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractBLL.cs" />
+    <Compile Include="BandejaDeEntradaBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="DepartamentoBLL.cs" />
     <Compile Include="EstadosCategoriaBLL.cs" />
+    <Compile Include="GrupoTecnicoBLL.cs" />
     <Compile Include="IdiomaBLL.cs" />
     <Compile Include="PermisoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

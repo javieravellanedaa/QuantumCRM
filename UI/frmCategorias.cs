@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
+using BE.PN;
 using BLL;
 
 namespace UI
@@ -17,13 +18,14 @@ namespace UI
         
         private CategoriaBLL categoriaBLL;
         private UsuarioBLL usuarioBLL;
+        private GrupoTecnicoBLL grupoTecnicoBLL;
 
         public frmCategorias()
         {
             InitializeComponent();
             categoriaBLL = new CategoriaBLL();
             usuarioBLL = new UsuarioBLL();
-         
+            grupoTecnicoBLL = new GrupoTecnicoBLL();
 
 
 
@@ -154,6 +156,9 @@ namespace UI
             cargarAprobador();
             cargarTiposCategoria();
             CargarDepartamentos();
+            CargarGruposTecnicos();
+
+
 
         }
 
@@ -161,6 +166,19 @@ namespace UI
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void CargarGruposTecnicos()
+
+        {
+            GrupoTecnicoBLL grupoTecnicoBLL = new GrupoTecnicoBLL();
+            List<GrupoTecnico> grupoTecnicos = grupoTecnicoBLL.ListarGruposTecnicos();
+
+            cmbGruposTecnicos.DataSource = grupoTecnicos;
+            cmbGruposTecnicos.DisplayMember = "Nombre";
+            cmbGruposTecnicos.ValueMember = "GrupoId";
+            cmbGruposTecnicos.SelectedIndex = -1;
+
         }
         private void CargarDepartamentos()
         {

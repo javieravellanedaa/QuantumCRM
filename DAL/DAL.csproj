@@ -47,6 +47,7 @@
     <Compile Include="DepartamentoDAL.cs" />
     <Compile Include="EstadosCategoriaDAL.cs" />
     <Compile Include="EtiquetaDAL.cs" />
+    <Compile Include="GrupoTecnicoDAL.cs" />
     <Compile Include="IdiomaDAL.cs" />
     <Compile Include="MP_PERMISO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

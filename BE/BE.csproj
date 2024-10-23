@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PN\BandejaDeTicket.cs" />
     <Compile Include="PN\Comentario.cs" />
     <Compile Include="Departamento.cs" />
     <Compile Include="PN\Categoria.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Composite\Patente.cs" />
     <Compile Include="PN\EstadosCategoria.cs" />
     <Compile Include="PN\EstadoTicket.cs" />
+    <Compile Include="PN\GrupoTecnico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tecnico.cs" />
     <Compile Include="PN\Ticket.cs" />

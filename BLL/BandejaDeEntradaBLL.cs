@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE
+namespace BLL
 {
-    public class Tecnico:Usuario
+    internal class BandejaDeEntradaBLL
     {
-        public int TecnicoId { get; set; }  // ID único del técnico
     }
 }
