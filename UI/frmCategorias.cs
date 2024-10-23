@@ -296,6 +296,11 @@ namespace UI
                 {
                     cmbDepartamento.SelectedIndex = -1; // Desmarcar si no hay un departamento
                 }
+                if (categoria.GroupId != null)
+                {
+                    cmbGruposTecnicos.SelectedValue = categoria.GroupId;
+
+                }
             }
         }
 
