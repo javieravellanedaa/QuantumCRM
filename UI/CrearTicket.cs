@@ -9,21 +9,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BLL;
+using SERVICIOS;
 
 namespace UI
 {
     public partial class CrearTicket : Form
     {
-        CategoriaBLL categoriaBLL = new CategoriaBLL(); 
+        CategoriaBLL categoriaBLL = new CategoriaBLL();
+        BLL.UsuarioBLL _bllUsuarios;
+        private NotificadorTicket _notificador; // Nueva instancia de observador de tickets
+
         public CrearTicket()
         {
             InitializeComponent();
-        }
+            _bllUsuarios = new BLL.UsuarioBLL();
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
+            // Instanciar el observador para tickets
+            _notificador = new NotificadorTicket();
 
+            // Suscribir al observador de eventos al evento "TicketCreated"
+            SingletonSesion.Instancia.SuscribirEvento("TicketCreated", _notificador);
         }
 
         private void CrearTicket_Load(object sender, EventArgs e)
@@ -47,10 +52,23 @@ namespace UI
                 cmbCategorias.Items.Clear();
                 cmbCategorias.Text = "No hay categorías disponibles";
             }
-
-
         }
 
+        // Método para crear un nuevo ticket
+        private void btnCrearTicket_Click(object sender, EventArgs e)
+        {
+            // Lógica para crear un ticket
+            var nuevoTicket = new Ticket
+            {
+                // Aquí puedes asignar propiedades del ticket como título, descripción, categoría, etc.
+            };
+
+            // Notificar a los observadores sobre el nuevo ticket
+            SingletonSesion.Instancia.NotifyEvent("TicketCreated", nuevoTicket);
+
+            // Mensaje de confirmación (opcional)
+            MessageBox.Show("Ticket creado exitosamente.");
+        }
 
         private void cmbCategorias_SelectedIndexChanged(object sender, EventArgs e)
         {

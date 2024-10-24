@@ -22,3 +22,9 @@ C:\UAI\UAI - Ingeniería de Soft\SEGUNDA_ENTREGA_VERSION_ESTABLE\EntregaFinal\IN
 C:\UAI\UAI - Ingeniería de Soft\SEGUNDA_ENTREGA_VERSION_ESTABLE\EntregaFinal\INTERFACES\obj\Debug\INTERFACES.csproj.CoreCompileInputs.cache
 C:\UAI\UAI - Ingeniería de Soft\SEGUNDA_ENTREGA_VERSION_ESTABLE\EntregaFinal\INTERFACES\obj\Debug\INTERFACES.dll
 C:\UAI\UAI - Ingeniería de Soft\SEGUNDA_ENTREGA_VERSION_ESTABLE\EntregaFinal\INTERFACES\obj\Debug\INTERFACES.pdb
+D:\Javier\QuantumCRM\INTERFACES\bin\Debug\INTERFACES.dll
+D:\Javier\QuantumCRM\INTERFACES\bin\Debug\INTERFACES.pdb
+D:\Javier\QuantumCRM\INTERFACES\obj\Debug\INTERFACES.csproj.AssemblyReference.cache
+D:\Javier\QuantumCRM\INTERFACES\obj\Debug\INTERFACES.csproj.CoreCompileInputs.cache
+D:\Javier\QuantumCRM\INTERFACES\obj\Debug\INTERFACES.dll
+D:\Javier\QuantumCRM\INTERFACES\obj\Debug\INTERFACES.pdb

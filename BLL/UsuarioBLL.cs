@@ -21,7 +21,7 @@ namespace BLL
 
         public LoginResult Login(string email, string password)
         {
-                // revisar este if
+               
             if (SingletonSesion.Instancia.IsLogged())
             {
                 throw new Exception("Ya hay una sesión iniciada");

@@ -44,6 +44,7 @@
     <Compile Include="Encriptador.cs" />
     <Compile Include="LoginException.cs" />
     <Compile Include="LoginResult.cs" />
+    <Compile Include="NotificadorTicket.cs" />
     <Compile Include="Sesion.cs" />
     <Compile Include="SingletonSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +58,9 @@
       <Project>{909ca60b-e14e-4e24-a424-15b806082157}</Project>
       <Name>INTERFACES</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EventManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

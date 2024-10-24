@@ -46,7 +46,7 @@ namespace DAL
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Idioma (id, name) VALUES (@id, @name)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Idiomas (id, name) VALUES (@id, @name)", conn);
                 cmd.Parameters.AddWithValue("@id", Guid.NewGuid());
                 cmd.Parameters.AddWithValue("@name", nombre);
 

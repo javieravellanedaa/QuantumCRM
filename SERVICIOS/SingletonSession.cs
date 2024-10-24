@@ -9,6 +9,7 @@ namespace SERVICIOS
 {
     public class SingletonSesion
     {
+        // aca fijo mi metodo estatico
         private static Sesion _instancia;
         private static Object _lock = new object();
 
