@@ -20,7 +20,6 @@ namespace DAL
             this.dataContext.Remove(entity);
         }
 
-        //// ver si lo puedo borrar preguntarle a facu
         //public IList<T> GetAll()
         //{
         //    return dataContext;

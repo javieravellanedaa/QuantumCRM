@@ -1,6 +1,7 @@
 ﻿using BE;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -8,104 +9,88 @@ namespace DAL
 {
     public class CategoriaDAL
     {
-        private string _connectionString = @"Integrated Security=SSPI;Data Source=.\SQLEXPRESS;Initial Catalog=CRM";
+        private Acceso _acceso = new Acceso();
 
         // Agregar una nueva categoría con campos asociados
-        public void AgregarCategoria(Categoria categoria, List<int> idsCampos)
+        public void AgregarCategoria(Categoria categoria)
         {
-            // Instanciar EstadosCategoriaDAL para listar los estados
-          
-            TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
-            List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
-            EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
-            List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
-          
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
-                conn.Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        // Insertar la nueva categoría y obtener el Id generado
-                        SqlCommand cmd = new SqlCommand("INSERT INTO Categoria (Nombre, Estado) VALUES (@Nombre, @Estado); SELECT SCOPE_IDENTITY();", conn, transaction);
-                        cmd.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                _acceso.CrearParametro("@Nombre", categoria.Nombre),
+                _acceso.CrearParametro("@GroupId", categoria.GroupId),
+                _acceso.CrearParametro("@TipoId", categoria.tipoCategoria.Id),
+                _acceso.CrearParametro("@EstadoCategoriaId", categoria.Estado.EstadoCategoriaId),
+                _acceso.CrearParametro("@FechaCreacion", categoria.FechaCreacion),
+                _acceso.CrearParametro("@CreadorId", categoria.CreadorId.ToString()),
+                _acceso.CrearParametro("@Descripcion", categoria.Descripcion),
+                _acceso.CrearParametro("@AprobadorRequerido", categoria.AprobadorRequerido),
+                _acceso.CrearParametro("@UsuarioAprobador", categoria.UsuarioAprobador.Id.ToString()),
+                _acceso.CrearParametro("@DepartamentoId", categoria.Departamento.Id)
+            };
 
-                        // Aquí seleccionas el estado por algún criterio, por ejemplo el primer estado en la lista o uno específico
-                        EstadosCategoria estadoSeleccionado = estadosCategorias.Find(e => e.EstadoCategoriaId == categoria.Estado.EstadoCategoriaId);
-
-                        // Asignar el ID del estado seleccionado a la categoría
-                        cmd.Parameters.AddWithValue("@Estado", estadoSeleccionado.EstadoCategoriaId);
-                        categoria.CategoriaId = Convert.ToInt32(cmd.ExecuteScalar());
-
-                        transaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
-                }
+            try
+            {
+                _acceso.Abrir();
+                _acceso.ComenzarTransaccion();
+                categoria.CategoriaId = Convert.ToInt32(_acceso.EscribirEscalar("sp_AgregarCategoria", parametros));
+                _acceso.ConfirmarTransaccion();
+            }
+            catch (Exception)
+            {
+                _acceso.CancelarTransaccion();
+                throw;
+            }
+            finally
+            {
+                _acceso.Cerrar();
             }
         }
 
         // Actualizar una categoría existente
         public void ActualizarCategoria(Categoria categoria)
         {
-            // Instanciar EstadosCategoriaDAL para listar los estados
-            TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
-            List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
-            EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
-            List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
-                conn.Open();
-                string sql = "UPDATE Categoria SET Nombre = @Nombre, Estado = @Estado WHERE Id = @Id";
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Id", categoria.CategoriaId);
-                    cmd.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                _acceso.CrearParametro("@Id", categoria.CategoriaId),
+                _acceso.CrearParametro("@Nombre", categoria.Nombre),
+                _acceso.CrearParametro("@GroupId", categoria.GroupId),
+                _acceso.CrearParametro("@TipoId", categoria.tipoCategoria.Id),
+                _acceso.CrearParametro("@EstadoCategoriaId", categoria.Estado.EstadoCategoriaId),
+                _acceso.CrearParametro("@FechaCreacion", categoria.FechaCreacion),
+                _acceso.CrearParametro("@CreadorId", categoria.CreadorId.ToString()),
+                _acceso.CrearParametro("@Descripcion", categoria.Descripcion),
+                _acceso.CrearParametro("@AprobadorRequerido", categoria.AprobadorRequerido),
+                _acceso.CrearParametro("@UsuarioAprobador", categoria.UsuarioAprobador.Id.ToString()),
+                _acceso.CrearParametro("@DepartamentoId", categoria.Departamento.Id)
+            };
 
-                    // Aquí seleccionas el estado por algún criterio, por ejemplo el ID del estado
-                    EstadosCategoria estadoSeleccionado = estadosCategorias.Find(e => e.EstadoCategoriaId == categoria.Estado.EstadoCategoriaId);
-
-                    // Asignar el ID del estado seleccionado a la categoría
-                    cmd.Parameters.AddWithValue("@Estado", estadoSeleccionado.EstadoCategoriaId);
-                    cmd.ExecuteNonQuery();
-                }
+            try
+            {
+                _acceso.Abrir();
+                _acceso.Escribir("sp_ActualizarCategoria", parametros);
+            }
+            finally
+            {
+                _acceso.Cerrar();
             }
         }
 
-        // Eliminar una categoría y sus asociaciones con campos
+        // Eliminar una categoría
         public void EliminarCategoria(int categoriaId)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
-                conn.Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        // Eliminar asociaciones en la tabla puente
-                        SqlCommand cmd = new SqlCommand("DELETE FROM CategoriaCampo WHERE CategoriaId = @CategoriaId", conn, transaction);
-                        cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
-                        cmd.ExecuteNonQuery();
+                _acceso.CrearParametro("@Id", categoriaId)
+            };
 
-                        // Eliminar la categoría
-                        cmd = new SqlCommand("DELETE FROM Categoria WHERE Id = @Id", conn, transaction);
-                        cmd.Parameters.AddWithValue("@Id", categoriaId);
-                        cmd.ExecuteNonQuery();
-
-                        transaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
-                }
+            try
+            {
+                _acceso.Abrir();
+                _acceso.Escribir("sp_EliminarCategoria", parametros);
+            }
+            finally
+            {
+                _acceso.Cerrar();
             }
         }
 
@@ -113,179 +98,95 @@ namespace DAL
         public Categoria ObtenerCategoriaPorId(int categoriaId)
         {
             Categoria categoria = null;
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
-                conn.Open();
+                _acceso.CrearParametro("@Id", categoriaId)
+            };
 
-                // Consulta SQL para hacer JOIN con la tabla de estados y obtener el nombre del estado
-                string sql = @"SELECT c.categoria_id AS Id, c.nombre AS Nombre, e.nombre AS EstadoNombre
-                               FROM categorias c
-                               JOIN estados_categoria e ON c.estado_categoria_id = e.estado_categoria_id
-                               WHERE c.categoria_id = @Id";
-
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerCategoriaPorId", parametros))
                 {
-                    cmd.Parameters.AddWithValue("@Id", categoriaId);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    if (reader.Read())
                     {
-                        if (reader.Read())
+                        categoria = new Categoria
                         {
-                            categoria = new Categoria
+                            CategoriaId = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                            Estado = new EstadosCategoria
                             {
-                                CategoriaId = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
-                                // Se asigna el nombre del estado en el objeto EstadosCategoria
-                                Estado = new EstadosCategoria
-                                {
-                                    Nombre = reader.GetString(reader.GetOrdinal("EstadoNombre"))
-                                }
-                            };
-                        }
+                                Nombre = reader.GetString(reader.GetOrdinal("EstadoNombre"))
+                            }
+                        };
                     }
                 }
+            }
+            finally
+            {
+                _acceso.Cerrar();
             }
 
             return categoria;
         }
-        // Listar todas las categorías con sus estados
 
+        // Listar todas las categorías con sus estados
         public List<Categoria> ListarCategorias()
         {
             List<Categoria> categorias = new List<Categoria>();
 
-            // Paso 1: Obtener todas las categorías con JOIN en la tabla usuarios
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            try
             {
-                conn.Open();
-
-                string sql = @"
-        SELECT 
-            c.categoria_id, 
-            c.nombre AS categoria_nombre, 
-            c.descripcion, 
-            c.estado_categoria_id, 
-            c.tipo_id, 
-            c.group_id, 
-            c.fecha_creacion, 
-            c.creador_id, 
-            c.aprobador_requerido, 
-            c.usuario_aprobador, 
-            c.departamento_id,
-            u.usuario_id, 
-            u.email, 
-            u.password, 
-            u.nombre AS usuario_nombre, 
-            u.apellido, 
-            u.nombre_usuario, 
-            u.legajo, 
-            u.fecha_alta, 
-            u.ultimo_inicio_sesion
-        FROM categorias c
-        LEFT JOIN usuarios u ON c.usuario_aprobador = u.usuario_id";
-
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarCategorias"))
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        var categoria = new Categoria
                         {
-                            // Mapeo de la categoría
-                            var categoria = new Categoria
+                            CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("categoria_nombre")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
+                            Estado = new EstadosCategoria
                             {
-                                CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
-                                Nombre = reader.GetString(reader.GetOrdinal("categoria_nombre")),
-                                Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
-                                Estado = new EstadosCategoria
-                                {
-                                    EstadoCategoriaId = reader.GetInt32(reader.GetOrdinal("estado_categoria_id"))
-                                },
-                                tipoCategoria = new TipoCategoria
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("tipo_id"))
-                                },
-                                Departamento = new Departamento
-                                {
-                                    Id = reader.IsDBNull(reader.GetOrdinal("departamento_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("departamento_id"))
-                                },
+                                EstadoCategoriaId = reader.GetInt32(reader.GetOrdinal("estado_categoria_id"))
+                            },
+                            tipoCategoria = new TipoCategoria
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("tipo_id"))
+                            },
+                            Departamento = new Departamento
+                            {
+                                Id = reader.IsDBNull(reader.GetOrdinal("departamento_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("departamento_id"))
+                            },
+                            GroupId = reader.IsDBNull(reader.GetOrdinal("group_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("group_id")),
+                            FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+                            CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("creador_id")),
+                            AprobadorRequerido = reader.IsDBNull(reader.GetOrdinal("aprobador_requerido")) ? false : reader.GetBoolean(reader.GetOrdinal("aprobador_requerido")),
+                            UsuarioAprobador = new Usuario
+                            {
+                                Id = reader.IsDBNull(reader.GetOrdinal("usuario_aprobador")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("usuario_aprobador")),
+                                Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString(reader.GetOrdinal("email")),
+                                Password = reader.IsDBNull(reader.GetOrdinal("password")) ? null : reader.GetString(reader.GetOrdinal("password")),
+                                Nombre = reader.IsDBNull(reader.GetOrdinal("usuario_nombre")) ? null : reader.GetString(reader.GetOrdinal("usuario_nombre")),
+                                Apellido = reader.IsDBNull(reader.GetOrdinal("apellido")) ? null : reader.GetString(reader.GetOrdinal("apellido")),
+                                NombreUsuario = reader.IsDBNull(reader.GetOrdinal("nombre_usuario")) ? null : reader.GetString(reader.GetOrdinal("nombre_usuario")),
+                                Legajo = reader.IsDBNull(reader.GetOrdinal("legajo")) ? 0 : reader.GetInt32(reader.GetOrdinal("legajo")),
+                                FechaAlta = reader.IsDBNull(reader.GetOrdinal("fecha_alta")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
+                                UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion"))
+                            }
+                        };
 
-                               
-                                GroupId = reader.IsDBNull(reader.GetOrdinal("group_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("group_id")),
-                                FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
-                                CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("creador_id")),
-                                AprobadorRequerido = reader.IsDBNull(reader.GetOrdinal("aprobador_requerido")) ? false : reader.GetBoolean(reader.GetOrdinal("aprobador_requerido")),
-
-                                // Mapeo del Usuario Aprobador
-                                UsuarioAprobador = new Usuario
-                                {
-                                    Id = reader.IsDBNull(reader.GetOrdinal("usuario_aprobador")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("usuario_aprobador")),
-                                    Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString(reader.GetOrdinal("email")),
-                                    Password = reader.IsDBNull(reader.GetOrdinal("password")) ? null : reader.GetString(reader.GetOrdinal("password")),
-                                    Nombre = reader.IsDBNull(reader.GetOrdinal("usuario_nombre")) ? null : reader.GetString(reader.GetOrdinal("usuario_nombre")),
-                                    Apellido = reader.IsDBNull(reader.GetOrdinal("apellido")) ? null : reader.GetString(reader.GetOrdinal("apellido")),
-                                    NombreUsuario = reader.IsDBNull(reader.GetOrdinal("nombre_usuario")) ? null : reader.GetString(reader.GetOrdinal("nombre_usuario")),
-                                    Legajo = reader.IsDBNull(reader.GetOrdinal("legajo")) ? 0 : reader.GetInt32(reader.GetOrdinal("legajo")),
-                                    FechaAlta = reader.IsDBNull(reader.GetOrdinal("fecha_alta")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
-                                    UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion"))
-                                }
-                            };
-
-                            categorias.Add(categoria);
-                        }
+                        categorias.Add(categoria);
                     }
                 }
             }
-
-            // Paso 2: Obtener todos los estados de categorías a través del método en DAL
-            EstadosCategoriaDAL estadosCategoriaDAL = new EstadosCategoriaDAL();
-            List<EstadosCategoria> estadosCategorias = estadosCategoriaDAL.ListarEstadosCategoria();
-
-            DepartamentosDAL departamentosDAL = new DepartamentosDAL();
-            List<Departamento> departamentos = departamentosDAL.ListarDepartamentos(); // Obtener lista de departamentos
-
-            // Obtener todos los tipos de categorías
-            TiposCategoriaDAL tiposCategoriaDAL = new TiposCategoriaDAL();
-            List<TipoCategoria> tiposCategorias = tiposCategoriaDAL.ListarTiposDeCategorias();
-
-            // Paso 3: Hacer un "JOIN" en memoria para asignar el objeto EstadosCategoria y Departamento a cada Categoría
-            foreach (var categoria in categorias)
+            finally
             {
-                // Buscar el estado correspondiente en la lista de estados
-                var estadoCorrespondiente = estadosCategorias
-                    .FirstOrDefault(e => e.EstadoCategoriaId == categoria.Estado.EstadoCategoriaId);
-
-                // Asignar el estado encontrado a la categoría
-                if (estadoCorrespondiente != null)
-                {
-                    categoria.Estado = estadoCorrespondiente;
-                }
-
-                // Buscar el tipo correspondiente en la lista de tipos
-                var tipoCorrespondiente = tiposCategorias
-                    .FirstOrDefault(t => t.Id == categoria.tipoCategoria.Id);
-
-                // Asignar el tipo encontrado a la categoría
-                if (tipoCorrespondiente != null)
-                {
-                    categoria.tipoCategoria = tipoCorrespondiente; // Asegúrate de que la clase Categoria tenga una propiedad Tipo
-                }
-
-                // Buscar el departamento correspondiente en la lista de departamentos
-                var departamentoCorrespondiente = departamentos
-                    .FirstOrDefault(d => d.Id == categoria.Departamento.Id); // Asegúrate de que la propiedad esté bien definida
-
-                // Asignar el departamento encontrado a la categoría
-                if (departamentoCorrespondiente != null)
-                {
-                    categoria.Departamento = departamentoCorrespondiente; // Asignar el objeto Departamento
-                }
+                _acceso.Cerrar();
             }
-
 
             return categorias;
         }
-
-
     }
 }

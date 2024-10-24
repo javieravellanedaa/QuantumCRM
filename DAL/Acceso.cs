@@ -188,6 +188,21 @@ namespace DAL
             parametro.DbType = DbType.Single;
             return parametro;
         }
+        public SqlParameter CrearParametro(string nombre, DateTime valor)
+        {
+            SqlParameter parametro = new SqlParameter(nombre, valor);
+            parametro.DbType = DbType.DateTime;
+            return parametro;
+        }
+        public SqlParameter CrearParametro(string nombre, bool valor)
+        {
+            SqlParameter parametro = new SqlParameter(nombre, valor);
+            parametro.DbType = DbType.Boolean;
+            return parametro;
+        }
+
+
+
 
         public SqlParameter CrearParametro(string nombre, long valor)
         {

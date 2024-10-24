@@ -15,14 +15,14 @@ namespace BLL
         }
 
         // Agregar una nueva categoría con campos asociados
-        public void AgregarCategoria(Categoria categoria, List<int> idsCampos)
+        public void AgregarCategoria(Categoria categoria)
         {
             if (categoria == null )
                 throw new ArgumentException("La categoría o departamento no pueden ser nulos.");
             if (string.IsNullOrEmpty(categoria.Nombre))
                 throw new ArgumentException("El nombre de la categoría no puede estar vacío.");
 
-            categoriaDAL.AgregarCategoria(categoria, idsCampos);
+            categoriaDAL.AgregarCategoria(categoria);
         }
 
         // Actualizar una categoría existente
