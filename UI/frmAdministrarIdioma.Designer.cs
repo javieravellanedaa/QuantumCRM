@@ -178,6 +178,7 @@
             this.lstIdiomas.Name = "lstIdiomas";
             this.lstIdiomas.Size = new System.Drawing.Size(332, 368);
             this.lstIdiomas.TabIndex = 1;
+            this.lstIdiomas.SelectedIndexChanged += new System.EventHandler(this.lstIdiomas_SelectedIndexChanged);
             // 
             // btnCerrar
             // 

@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BE;
 using INTERFACES;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace DAL
 {
     public class IdiomaDAL : AbstractDAL<BE.Idioma>
     {
-        private string _connectionString;
+        private readonly Acceso acceso;
 
         public IdiomaDAL()
         {
-            // usar clase acceso!!!
-            _connectionString = "Integrated Security=SSPI;Data Source=.\\SQLEXPRESS;Initial Catalog=CRM";
+            acceso = new Acceso();
         }
 
+        // Método para obtener todos los idiomas usando un SP
         public IList<Idioma> ObtenerIdiomas()
         {
             List<Idioma> idiomas = new List<Idioma>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+
+            try
             {
-                SqlCommand cmd = new SqlCommand("SELECT idioma_id, nombre FROM Idiomas ORDER BY idioma_id ASC", conn);
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                acceso.Abrir();
+                using (SqlDataReader reader = acceso.EjecutarLectura("SP_ObtenerIdiomas"))
                 {
                     while (reader.Read())
                     {
@@ -39,23 +37,33 @@ namespace DAL
                     }
                 }
             }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
             return idiomas;
         }
 
+        // Método para agregar un nuevo idioma usando un SP
         public bool AgregarIdioma(string nombre)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parameters = new List<SqlParameter>
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Idiomas (id, name) VALUES (@id, @name)", conn);
-                cmd.Parameters.AddWithValue("@id", Guid.NewGuid());
-                cmd.Parameters.AddWithValue("@name", nombre);
+                acceso.CrearParametro("@IdiomaId", Guid.NewGuid().ToString()),
+                acceso.CrearParametro("@Nombre", nombre)
+            };
 
-                conn.Open();
-                int rowsAffected = cmd.ExecuteNonQuery();
-
+            try
+            {
+                acceso.Abrir();
+                int rowsAffected = acceso.Escribir("SP_InsertarIdioma", parameters);
                 return rowsAffected > 0;
+            }
+            finally
+            {
+                acceso.Cerrar();
             }
         }
     }
 }
-

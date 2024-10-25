@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BE;
 using INTERFACES;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace DAL
 {
     public class TraduccionDAL : AbstractDAL<BE.Traduccion>
     {
-        private string _connectionString;
+        private readonly Acceso acceso;
 
         public TraduccionDAL()
         {
-            // USAR LA CLASE ACCESO
-            _connectionString = "Integrated Security=SSPI;Data Source=.\\SQLEXPRESS;Initial Catalog=CRM";
+            acceso = new Acceso();
         }
 
-
+        // Método para obtener traducciones de un idioma específico usando la clase Acceso y un SP
         public IDictionary<string, ITraduccion> ObtenerTraducciones(IIdioma idioma)
         {
             if (idioma == null)
@@ -28,19 +25,23 @@ namespace DAL
             }
 
             IDictionary<string, ITraduccion> traducciones = new Dictionary<string, ITraduccion>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+
+            List<SqlParameter> parameters = new List<SqlParameter>
             {
-                SqlCommand cmd = new SqlCommand("SELECT t.traduccion_id, t.idioma_id, t.etiqueta_id, t.texto, e.nombre AS etiqueta FROM traducciones t INNER JOIN Etiquetas e ON t.etiqueta_id = e.etiqueta_id WHERE t.idioma_id = @IdiomaId", conn);
-                cmd.Parameters.AddWithValue("@IdiomaId", idioma.Id);
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                acceso.CrearParametro("@IdiomaId", idioma.Id.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                using (SqlDataReader reader = acceso.EjecutarLectura("SP_ObtenerTraducciones", parameters))
                 {
                     while (reader.Read())
                     {
                         var etiquetaNombre = reader.GetString(reader.GetOrdinal("etiqueta"));
                         traducciones.Add(etiquetaNombre, new Traduccion
                         {
-                            Id = reader.GetGuid(reader.GetOrdinal("idioma_id")),
+                            Id = reader.GetGuid(reader.GetOrdinal("traduccion_id")),
                             Texto = reader.GetString(reader.GetOrdinal("texto")),
                             Etiqueta = new Etiqueta
                             {
@@ -51,32 +52,28 @@ namespace DAL
                     }
                 }
             }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
             return traducciones;
         }
 
-
+        // Método para obtener todas las traducciones de un idioma usando un SP
         public List<Traduccion> ObtenerTraduccionesPorIdioma(Guid idiomaId)
         {
             List<Traduccion> traducciones = new List<Traduccion>();
 
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parameters = new List<SqlParameter>
             {
-                string query = @"
-                           SELECT 
-                           e.etiqueta_id as EtiquetaId,
-                           e.nombre as EtiquetaNombre,
-                           ISNULL(t.idioma_id, NEWID()) as TraduccionId,
-                           t.idioma_id as IdiomaId,
-                           t.texto as Texto
-                           FROM Etiquetas e
-                           LEFT JOIN Traducciones t ON e.etiqueta_id = t.etiqueta_id AND t.idioma_id = @idioma_id
-                           ORDER BY e.nombre ASC";
+                acceso.CrearParametro("@IdiomaId", idiomaId.ToString())
+            };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idioma_id", idiomaId);
-
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+            try
+            {
+                acceso.Abrir();
+                using (SqlDataReader reader = acceso.EjecutarLectura("SP_ObtenerTraduccionesPorIdioma", parameters))
                 {
                     while (reader.Read())
                     {
@@ -92,48 +89,51 @@ namespace DAL
                     }
                 }
             }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
             return traducciones;
         }
 
-
+        // Método para guardar una traducción usando la clase Acceso
         public void GuardarTraduccion(Traduccion traduccion)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parameters = new List<SqlParameter>
             {
-                conn.Open();
-                string query;
+                acceso.CrearParametro("@TraduccionId", traduccion.Id.ToString()),
+                acceso.CrearParametro("@IdiomaId", traduccion.IdiomaId.ToString()),
+                acceso.CrearParametro("@EtiquetaId", traduccion.EtiquetaId.ToString()),
+                acceso.CrearParametro("@Texto", traduccion.Texto ?? string.Empty)
+            };
 
-                // Verificar si la traducción ya existe
-                SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM Traduccion WHERE id = @id", conn);
-                checkCmd.Parameters.AddWithValue("@id", traduccion.Id);
-                int count = (int)checkCmd.ExecuteScalar();
+            // Verificar si la traducción ya existe
+            List<SqlParameter> checkParameters = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@TraduccionId", traduccion.Id.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                int count = Convert.ToInt32(acceso.EscribirEscalar("SELECT COUNT(*) FROM traducciones WHERE traduccion_id = @TraduccionId", checkParameters));
 
                 if (count > 0)
                 {
-                    // Actualizar la traducción existente
-                    query = @"
-                    UPDATE Traduccion
-                    SET texto = @texto
-                    WHERE id = @id";
+                    // Actualizar traducción existente
+                    acceso.Escribir("SP_ActualizarTraduccion", parameters);
                 }
                 else
                 {
-                    // Insertar una nueva traducción
-                    query = @"
-                    INSERT INTO Traduccion (id, idioma_id, etiqueta_id, texto)
-                    VALUES (@id, @idioma_id, @etiqueta_id, @texto)";
+                    // Insertar nueva traducción
+                    acceso.Escribir("SP_InsertarTraduccion", parameters);
                 }
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", traduccion.Id);
-                cmd.Parameters.AddWithValue("@idioma_id", traduccion.IdiomaId);
-                cmd.Parameters.AddWithValue("@etiqueta_id", traduccion.EtiquetaId);
-                cmd.Parameters.AddWithValue("@texto", (object)traduccion.Texto ?? DBNull.Value);
-
-                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                acceso.Cerrar();
             }
         }
-
-
     }
 }

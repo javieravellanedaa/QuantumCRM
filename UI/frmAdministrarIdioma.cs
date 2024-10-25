@@ -24,6 +24,7 @@ namespace UI
             _idiomaBLL = idiomaBLL;
             _traduccionBLL = new TraduccionBLL();
             CargarIdiomas();
+            ActualizarLista();
         }
 
         private void CargarIdiomas()
@@ -129,6 +130,11 @@ namespace UI
                 var idioma = (IIdioma)cmbIdioma.SelectedItem;
                 CargarTraducciones(idioma.Id);
             }
+        }
+
+        private void lstIdiomas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
