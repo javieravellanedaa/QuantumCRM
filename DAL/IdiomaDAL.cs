@@ -16,7 +16,7 @@ namespace DAL
             acceso = new Acceso();
         }
 
-        // Método para obtener todos los idiomas usando un SP
+
         public IList<Idioma> ObtenerIdiomas()
         {
             List<Idioma> idiomas = new List<Idioma>();
@@ -36,16 +36,16 @@ namespace DAL
                         idiomas.Add(idioma);
                     }
                 }
-            }
+            }           
             finally
             {
-                acceso.Cerrar();
+                acceso.Cerrar(); // ELI MARICA
             }
 
-            return idiomas;
+            return idiomas;                                         
         }
 
-        // Método para agregar un nuevo idioma usando un SP
+
         public bool AgregarIdioma(string nombre)
         {
             List<SqlParameter> parameters = new List<SqlParameter>
