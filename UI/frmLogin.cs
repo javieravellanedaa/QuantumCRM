@@ -10,42 +10,42 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BLL;
-using SERVICIOS;
 
 namespace UI
 {
-
     public partial class frmLogin : Form
     {
         UsuarioBLL _usuarioBLL;
-
         public frmLogin()
         {
             InitializeComponent();
             _usuarioBLL = new UsuarioBLL();
-
         }
 
+        private void bunifuGradientPanel1_Paint(object sender, PaintEventArgs e)
+        {
 
-
-
-
+        }
+        private bool ValidarMail(string email)
+        {
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, emailPattern);
+        }
         private bool ValidarCampos()
         {
-            if (string.IsNullOrWhiteSpace(texEmail.Text))
+            if (string.IsNullOrWhiteSpace(txtMail.Text))
             {
                 MessageBox.Show("El campo de correo electrónico no puede estar vacío.");
                 return false;
             }
 
-            if (!ValidarMail(texEmail.Text))
+            if (!ValidarMail(txtMail.Text))
             {
                 MessageBox.Show("Ingrese un correo electrónico válido.");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(textPassword.Text))
+            if (string.IsNullOrWhiteSpace(txtConstraseña.Text))
             {
                 MessageBox.Show("El campo de contraseña no puede estar vacío.");
                 return false;
@@ -54,51 +54,21 @@ namespace UI
             return true;
         }
 
-        private bool ValidarMail(string email)
-        {
-            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-            return Regex.IsMatch(email, emailPattern);
-        }
-
-        private void frmLogin_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            
-
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnAcceder_Click(object sender, EventArgs e)
+        private void pictureBox6_Click(object sender, EventArgs e)
         {
             if (ValidarCampos())
             {
                 try
                 {
-                    var res = _usuarioBLL.Login(this.texEmail.Text, this.textPassword.Text);
-                   
-                   frmPpal frm = (frmPpal)this.MdiParent;
-                    frm.ValidarForm();
+                    var res = _usuarioBLL.Login(this.txtMail.Text, this.txtConstraseña.Text);
 
-                    this.Close();
+                    frmPpal frm = new frmPpal();
+                    frm.ValidarForm();
+                    frm.Show(); // Abrimos el formulario principal
+                    this.Hide(); // Ocultamos el formulario actual
+            
+
+                    
                 }
                 catch (LoginException error)
                 {
@@ -127,9 +97,10 @@ namespace UI
 
         }
 
-        private void btnSalir_Click(object sender, EventArgs e)
+        private void pictureBox7_Click(object sender, EventArgs e)
         {
             this.Close();
         }
     }
+    
 }

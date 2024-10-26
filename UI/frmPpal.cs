@@ -236,10 +236,10 @@ namespace UI
         {
             frmLogin frm = new frmLogin();
             frm.MdiParent = this;
-            int x = (this.ClientSize.Width - frm.Width) / 2;
-            int y = (this.ClientSize.Height - frm.Height) / 2;
-            frm.StartPosition = FormStartPosition.Manual;
-            frm.Location = new Point(x, y);
+            //int x = (this.ClientSize.Width - frm.Width) / 2;
+            //int y = (this.ClientSize.Height - frm.Height) / 2;
+            //frm.StartPosition = FormStartPosition.Manual;
+            //frm.Location = new Point(x, y);
             frm.Show();
         }
 
