@@ -52,6 +52,7 @@
     <Compile Include="IdiomaDAL.cs" />
     <Compile Include="MP_PERMISO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TecnicoDAL.cs" />
     <Compile Include="TicketDAL.cs" />
     <Compile Include="TiposCategoriaDAL.cs" />
     <Compile Include="TraduccionDAL.cs" />

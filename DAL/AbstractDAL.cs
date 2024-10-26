@@ -20,10 +20,7 @@ namespace DAL
             this.dataContext.Remove(entity);
         }
 
-        //public IList<T> GetAll()
-        //{
-        //    return dataContext;
-        //}
+
 
         public T GetById(Guid id)
         {

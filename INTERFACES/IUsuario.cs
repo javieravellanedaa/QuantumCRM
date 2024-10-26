@@ -16,7 +16,7 @@ namespace INTERFACES
             string Apellido { get; set; }
             IIdioma Idioma { get; set; }
 
-            //IList<IPermiso> Permisos { get; }
+            
 
 
         }

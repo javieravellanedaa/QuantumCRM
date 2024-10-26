@@ -34,7 +34,7 @@ namespace DAL
                         Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? null : reader.GetString(reader.GetOrdinal("Descripcion")), // Lee la descripción
                         TecnicoLider = new Tecnico
                         {
-                            TecnicoId = reader.IsDBNull(reader.GetOrdinal("id_tecnico_lider")) ? 0 : reader.GetInt32(reader.GetOrdinal("id_tecnico_lider")), // Mapea el ID del técnico líder
+                             TecnicoId= reader.IsDBNull(reader.GetOrdinal("id_tecnico_lider")) ? 0 : reader.GetInt32(reader.GetOrdinal("id_tecnico_lider")), // Mapea el ID del técnico líder
                             // Puedes agregar otras propiedades aquí si las necesitas
                         }
                     };
