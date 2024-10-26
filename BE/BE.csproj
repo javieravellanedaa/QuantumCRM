@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cliente.cs" />
+    <Compile Include="ClienteTecnico.cs" />
     <Compile Include="PN\BandejaDeTicket.cs" />
     <Compile Include="PN\Comentario.cs" />
     <Compile Include="Departamento.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Tecnico.cs" />
     <Compile Include="PN\Ticket.cs" />
     <Compile Include="PN\TipoCategoria.cs" />
+    <Compile Include="TipoCliente.cs" />
     <Compile Include="Traduccion.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>
