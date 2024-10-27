@@ -39,9 +39,15 @@
     <Reference Include="Bunifu_UI_v1.52">
       <HintPath>..\dll\Bunifu_UI_v1.52.dll</HintPath>
     </Reference>
+    <Reference Include="FontAwesome.Sharp, Version=6.6.0.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.Sharp.6.6.0\lib\net48\FontAwesome.Sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +57,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmAdministrarIdioma.cs">
@@ -95,6 +102,12 @@
     <Compile Include="CrearTicket.Designer.cs">
       <DependentUpon>CrearTicket.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPpalNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPpalNew.Designer.cs">
+      <DependentUpon>frmPpalNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +137,9 @@
     <EmbeddedResource Include="CrearTicket.resx">
       <DependentUpon>CrearTicket.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPpalNew.resx">
+      <DependentUpon>frmPpalNew.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmUsuarios.resx">
       <DependentUpon>frmUsuarios.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,6 +148,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

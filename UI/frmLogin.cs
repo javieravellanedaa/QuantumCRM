@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,8 +23,17 @@ namespace UI
             _usuarioBLL = new UsuarioBLL();
         }
 
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hwnd, int wmsg, int wparam, int lparam);
+
+
         private void bunifuGradientPanel1_Paint(object sender, PaintEventArgs e)
         {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
+
 
         }
         private bool ValidarMail(string email)
@@ -62,8 +72,9 @@ namespace UI
                 {
                     var res = _usuarioBLL.Login(this.txtMail.Text, this.txtConstraseña.Text);
 
-                    frmPpal frm = new frmPpal();
-                    frm.ValidarForm();
+                    //frmPpal frm = new frmPpal();
+                    frmPpalNew frm = new frmPpalNew();
+                    //frm.ValidarForm();
                     frm.Show(); // Abrimos el formulario principal
                     this.Hide(); // Ocultamos el formulario actual
             
@@ -100,6 +111,18 @@ namespace UI
         private void pictureBox7_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void bunifuGradientPanel1_Click(object sender, EventArgs e)
+        {
+        
+
+        }
+
+        private void bunifuGradientPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
     }
     

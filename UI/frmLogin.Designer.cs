@@ -89,7 +89,9 @@
             this.bunifuGradientPanel1.Quality = 10;
             this.bunifuGradientPanel1.Size = new System.Drawing.Size(441, 624);
             this.bunifuGradientPanel1.TabIndex = 0;
+            this.bunifuGradientPanel1.Click += new System.EventHandler(this.bunifuGradientPanel1_Click);
             this.bunifuGradientPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.bunifuGradientPanel1_Paint);
+            this.bunifuGradientPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.bunifuGradientPanel1_MouseDown);
             // 
             // pictureBox7
             // 
@@ -153,10 +155,10 @@
             this.alphaBlendTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.alphaBlendTextBox3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.alphaBlendTextBox3.ForeColor = System.Drawing.Color.White;
-            this.alphaBlendTextBox3.Location = new System.Drawing.Point(153, 130);
+            this.alphaBlendTextBox3.Location = new System.Drawing.Point(182, 144);
             this.alphaBlendTextBox3.Multiline = true;
             this.alphaBlendTextBox3.Name = "alphaBlendTextBox3";
-            this.alphaBlendTextBox3.Size = new System.Drawing.Size(141, 27);
+            this.alphaBlendTextBox3.Size = new System.Drawing.Size(78, 27);
             this.alphaBlendTextBox3.TabIndex = 7;
             this.alphaBlendTextBox3.Text = "LOG IN";
             // 
@@ -242,14 +244,14 @@
             this.alphaBlendTextBox1.TabIndex = 1;
             this.alphaBlendTextBox1.Text = "Mail";
             // 
-            // frmLoginGradient
+            // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(441, 624);
             this.Controls.Add(this.bunifuGradientPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmLoginGradient";
+            this.Name = "frmLogin";
             this.Text = "Login";
             this.bunifuGradientPanel1.ResumeLayout(false);
             this.bunifuGradientPanel1.PerformLayout();
