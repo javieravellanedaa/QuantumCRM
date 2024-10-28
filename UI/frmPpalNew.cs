@@ -134,7 +134,9 @@ namespace UI
 
         private void frmPpalNew_Load(object sender, EventArgs e)
         {
+            
             formSize = this.ClientSize;
+            dropDownMenu1.IsMainMenu = true;
         }
 
         private void PanelTitleBar_Paint(object sender, PaintEventArgs e)
@@ -251,6 +253,11 @@ namespace UI
         private void btnMenu_Click(object sender, EventArgs e)
         {
             ColapseMenu();
+        }
+
+        private void iconBtnGeneral_Click(object sender, EventArgs e)
+        {
+            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width,0);
         }
     }
 }
