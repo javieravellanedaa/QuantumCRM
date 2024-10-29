@@ -199,6 +199,7 @@
             this.alphaBlendTextBox2.Location = new System.Drawing.Point(100, 316);
             this.alphaBlendTextBox2.Multiline = true;
             this.alphaBlendTextBox2.Name = "alphaBlendTextBox2";
+            this.alphaBlendTextBox2.ReadOnly = true;
             this.alphaBlendTextBox2.Size = new System.Drawing.Size(131, 27);
             this.alphaBlendTextBox2.TabIndex = 4;
             this.alphaBlendTextBox2.Text = "Contraseña";
@@ -240,6 +241,7 @@
             this.alphaBlendTextBox1.Location = new System.Drawing.Point(100, 223);
             this.alphaBlendTextBox1.Multiline = true;
             this.alphaBlendTextBox1.Name = "alphaBlendTextBox1";
+            this.alphaBlendTextBox1.ReadOnly = true;
             this.alphaBlendTextBox1.Size = new System.Drawing.Size(51, 27);
             this.alphaBlendTextBox1.TabIndex = 1;
             this.alphaBlendTextBox1.Text = "Mail";

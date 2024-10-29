@@ -107,6 +107,18 @@
     <Compile Include="CrearTicket.Designer.cs">
       <DependentUpon>CrearTicket.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPpalCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPpalCliente.Designer.cs">
+      <DependentUpon>frmPpalCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPpalTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPpalTecnico.Designer.cs">
+      <DependentUpon>frmPpalTecnico.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPpalNew.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +153,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CrearTicket.resx">
       <DependentUpon>CrearTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPpalCliente.resx">
+      <DependentUpon>frmPpalCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPpalTecnico.resx">
+      <DependentUpon>frmPpalTecnico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPpalNew.resx">
       <DependentUpon>frmPpalNew.cs</DependentUpon>
