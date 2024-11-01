@@ -8,20 +8,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using INTERFACES;
+using SERVICIOS;
 
 namespace UI
 {
-    public partial class frmPpalNew : Form
+    public partial class frmPpalAdmin : Form
     {
+        BLL.UsuarioBLL _bllUsuarios;
+        private IUsuario _usuario;
         private int borderSize = 2;
         private Size formSize;
-        public frmPpalNew()
+
+      
+        public frmPpalAdmin()
         {
             InitializeComponent();
+            if (SingletonSesion.Instancia.IsLogged())
+            {
+                _usuario = SingletonSesion.Instancia.Usuario;
+                lblApellidoNombre.Text = (_usuario.Apellido.ToString() + "," + _usuario.Nombre.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Sesión no iniciada");
+            }
             ColapseMenu();
             this.Padding = new Padding(borderSize);
             this.BackColor = Color.FromArgb(96, 116, 239); // border color
-         
+            _bllUsuarios = new BLL.UsuarioBLL();
+            cargarListaDeRoles();
         }
         // Drag Form 
 
@@ -35,6 +51,17 @@ namespace UI
             ReleaseCapture();
             SendMessage(this.Handle, 0x112, 0xf012, 0);
 
+
+        }
+        private void cargarListaDeRoles()
+        {
+            if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+            {
+                foreach (var item in SingletonSesion.Instancia.Usuario.NombreDeLosRoles)
+                {
+                   dropdownRoles.AddItem(item);
+                }
+            }
 
         }
 
@@ -258,6 +285,16 @@ namespace UI
         private void iconBtnGeneral_Click(object sender, EventArgs e)
         {
             dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width,0);
+        }
+
+        private void iconBtnDepartamentos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblApellidoNombre_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

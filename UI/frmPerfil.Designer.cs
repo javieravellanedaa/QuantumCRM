@@ -112,6 +112,7 @@
             this.Controls.Add(this.btnCerrar);
             this.Name = "frmPerfil";
             this.Text = "frmPerfil";
+            this.Load += new System.EventHandler(this.frmPerfil_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BE;
 using DAL;
 using INTERFACES;
+using System.Xml;
 
 
 namespace BLL
@@ -37,6 +38,16 @@ namespace BLL
             foreach (var item in permisos)
             {
                 user.Permisos.Add(item);
+            }
+
+            List<Rol> roles = _crud.GetRoles(user);
+            foreach (var item in roles)
+            {
+                user.Roles = new List<Rol>();
+                user.Roles.Add(item);
+                user.NombreDeLosRoles = new List<string>();
+
+                user.NombreDeLosRoles.Add(item.Nombre);
             }
 
             SingletonSesion.Instancia.Login(user);

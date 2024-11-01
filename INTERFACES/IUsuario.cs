@@ -16,10 +16,18 @@ namespace INTERFACES
             string Apellido { get; set; }
             IIdioma Idioma { get; set; }
 
-            
+
+             string NombreUsuario { get; set; }
+             int Legajo { get; set; }
+             DateTime FechaAlta { get; set; }
+             DateTime UltimoInicioSesion { get; set; }
+
+             List<string> NombreDeLosRoles { get; set; }
 
 
-        }
+
+
+    }
     
 
 }

@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace UI
@@ -64,6 +65,8 @@ namespace UI
             return true;
         }
 
+
+
         private void pictureBox6_Click(object sender, EventArgs e)
         {
             if (ValidarCampos())
@@ -73,9 +76,37 @@ namespace UI
                     var res = _usuarioBLL.Login(this.txtMail.Text, this.txtConstraseña.Text);
 
                     //frmPpal frm = new frmPpal();
-                    frmPpalNew frm = new frmPpalNew();
+                    if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                    {
+                        if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Administrador"))
+                        {
+                            frmPpalAdmin frm = new frmPpalAdmin();
+                            frm.Show();
+                        }
+                        else if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Cliente"))
+                        {
+                            frmPpalCliente frm = new frmPpalCliente();
+                            frm.Show();
+                        }
+                        else if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Tecnico"))
+                        {
+                            frmPpalTecnico frm = new frmPpalTecnico();
+                            frm.Show();
+                        }
+
+                    }
+                    else if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.NombreDeLosRoles == null)
+                    {
+                        MessageBox.Show("No tiene ningún rol asociado, contáctese con el administrador");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo iniciar sesión");
+                        this.Close();
+                    }
                     //frm.ValidarForm();
-                    frm.Show(); // Abrimos el formulario principal
+                    // Abrimos el formulario principal
                     this.Hide(); // Ocultamos el formulario actual
             
 
@@ -102,8 +133,12 @@ namespace UI
                 }
 
 
+                if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                        {
+                    MessageBox.Show("Login exitoso");
 
-                MessageBox.Show("Login exitoso");
+                         }
+                
             }
 
         }

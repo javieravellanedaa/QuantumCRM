@@ -35,6 +35,12 @@ namespace BE
         public DateTime FechaAlta { get; set; }
         public DateTime UltimoInicioSesion { get; set; }
 
+        
+        public List<Rol> Roles { get; set; }
+        public List<string> NombreDeLosRoles { get ; set; }
+
+        
+
         public override string ToString()
         {
             return NombreUsuario;

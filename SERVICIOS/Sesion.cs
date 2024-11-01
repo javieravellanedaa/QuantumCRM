@@ -13,6 +13,7 @@ namespace SERVICIOS
         // Idioma actual del usuario
         private IIdioma _idioma;
 
+
         // Lista de observadores para cambios de idioma
         private static readonly IList<IIdiomaObserver> _idiomaObservers = new List<IIdiomaObserver>();
 
