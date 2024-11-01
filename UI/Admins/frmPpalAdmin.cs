@@ -312,7 +312,8 @@ namespace UI
         {
             if (formulario is frmPerfil perfilForm)
             {
-                perfilForm.FormularioCerrado += FormularioSecundarioCerrado;
+                _eventManagerService.Subscribe("FormularioCerrado", this);
+                perfilForm.EventManagerService = _eventManagerService;
             }
             PanelDesktop.Controls.Clear();
             formulario.TopLevel = false;

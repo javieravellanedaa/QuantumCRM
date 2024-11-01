@@ -14,8 +14,9 @@ namespace UI
 {
     public partial class frmPerfil : Form
     {
-        public event EventHandler FormularioCerrado;
+       
         private IUsuario _usuario;
+        public EventManagerService EventManagerService { get; set; }
         public frmPerfil()
         {
             InitializeComponent();
@@ -44,7 +45,7 @@ namespace UI
         }
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            FormularioCerrado?.Invoke(this, EventArgs.Empty);
+            EventManagerService?.Notify("FormularioCerrado", this);
             this.Close();
         }
 
