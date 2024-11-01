@@ -18,7 +18,7 @@ namespace SERVICIOS
         private static readonly IList<IIdiomaObserver> _idiomaObservers = new List<IIdiomaObserver>();
 
         // Instancia de EventManager para gestionar eventos genéricos
-        private static readonly EventManager _eventManager = new EventManager();
+        private static readonly EventManagerService _eventManager = new EventManagerService();
 
         // Propiedad para obtener el idioma actual
         public IIdioma Idioma => _idioma;

@@ -13,21 +13,24 @@ using SERVICIOS;
 
 namespace UI
 {
-    public partial class frmPpalAdmin : Form
+    public partial class frmPpalAdmin : Form, IEventListener
     {
+
         BLL.UsuarioBLL _bllUsuarios;
         private IUsuario _usuario;
         private int borderSize = 2;
         private Size formSize;
+        private readonly EventManagerService _eventManagerService = new EventManagerService();
 
-      
+
+
         public frmPpalAdmin()
         {
             InitializeComponent();
             if (SingletonSesion.Instancia.IsLogged())
             {
                 _usuario = SingletonSesion.Instancia.Usuario;
-                lblApellidoNombre.Text = (_usuario.Apellido.ToString() + "," + _usuario.Nombre.ToString());
+                icbApellidoNombre.Text = (_usuario.Apellido.ToString() + "," + _usuario.Nombre.ToString());
             }
             else
             {
@@ -37,7 +40,7 @@ namespace UI
             this.Padding = new Padding(borderSize);
             this.BackColor = Color.FromArgb(96, 116, 239); // border color
             _bllUsuarios = new BLL.UsuarioBLL();
-            cargarListaDeRoles();
+           
         }
         // Drag Form 
 
@@ -53,17 +56,8 @@ namespace UI
 
 
         }
-        private void cargarListaDeRoles()
-        {
-            if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
-            {
-                foreach (var item in SingletonSesion.Instancia.Usuario.NombreDeLosRoles)
-                {
-                   dropdownRoles.AddItem(item);
-                }
-            }
 
-        }
+
 
         //Overridden methods
         protected override void WndProc(ref Message m)
@@ -161,7 +155,7 @@ namespace UI
 
         private void frmPpalNew_Load(object sender, EventArgs e)
         {
-            
+
             formSize = this.ClientSize;
             dropDownMenu1.IsMainMenu = true;
         }
@@ -176,17 +170,17 @@ namespace UI
             ReleaseCapture();
             SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
-       
+
         private void PanelTitleBar_Resize(object sender, EventArgs e)
         {
-           
+
         }
         private void AdjustForm()
         {
             switch (this.WindowState)
             {
                 case FormWindowState.Maximized:
-                    this.Padding = new Padding(8,8,8,0);
+                    this.Padding = new Padding(8, 8, 8, 0);
                     break;
                 case FormWindowState.Normal:
                     if (this.Padding.Top != borderSize)
@@ -208,9 +202,9 @@ namespace UI
         private void btnMaximaze_Click(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Normal)
-                
+
                 this.WindowState = FormWindowState.Maximized;
-                
+
             else
             {
                 this.WindowState = FormWindowState.Normal;
@@ -250,10 +244,10 @@ namespace UI
             {
                 PanelMenu.Width = 100;
                 pictureBox1.Visible = false;
-                btnMenu.Dock =DockStyle.Top;
-                foreach(Button menuButton in PanelMenu.Controls.OfType<Button>())
+                btnMenu.Dock = DockStyle.Top;
+                foreach (Button menuButton in PanelMenu.Controls.OfType<Button>())
                 {
-                    menuButton.Text = "";  
+                    menuButton.Text = "";
                     menuButton.ImageAlign = ContentAlignment.MiddleCenter;
                     menuButton.Padding = new Padding(0);
 
@@ -262,17 +256,17 @@ namespace UI
             }
             else
             {
-                
-                    PanelMenu.Width = 230;
-                    pictureBox1.Visible = true;
-                    btnMenu.Dock = DockStyle.None;
-                    foreach (Button menuButton in PanelMenu.Controls.OfType<Button>())
-                    {
-                        menuButton.Text = "   "+ menuButton.Tag.ToString();
-                        menuButton.ImageAlign = ContentAlignment.MiddleCenter;
-                        menuButton.Padding = new Padding(10,0,0,0);
 
-                    }
+                PanelMenu.Width = 230;
+                pictureBox1.Visible = true;
+                btnMenu.Dock = DockStyle.None;
+                foreach (Button menuButton in PanelMenu.Controls.OfType<Button>())
+                {
+                    menuButton.Text = "   " + menuButton.Tag.ToString();
+                    menuButton.ImageAlign = ContentAlignment.MiddleCenter;
+                    menuButton.Padding = new Padding(10, 0, 0, 0);
+
+                }
 
             }
         }
@@ -284,7 +278,7 @@ namespace UI
 
         private void iconBtnGeneral_Click(object sender, EventArgs e)
         {
-            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width,0);
+            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
         }
 
         private void iconBtnDepartamentos_Click(object sender, EventArgs e)
@@ -296,5 +290,96 @@ namespace UI
         {
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            dropDownMenu2.Show(pictureBox1, 0, pictureBox1.Height);
+
+
+        }
+        private void FormularioSecundarioCerrado(object sender, EventArgs e)
+        {
+            // Cambia el label cuando el formulario secundario se cierra
+            lblTitulo.Text = "Seleccione una opción";
+        }
+
+        private void CargarFormularioEnPanel(Form formulario)
+        {
+            if (formulario is frmPerfil perfilForm)
+            {
+                perfilForm.FormularioCerrado += FormularioSecundarioCerrado;
+            }
+            PanelDesktop.Controls.Clear();
+            formulario.TopLevel = false;
+            
+            PanelDesktop.Controls.Add(formulario);
+            formulario.Dock = DockStyle.Fill;
+            lblTitulo.Text = formulario.Text;
+
+            formulario.Show();
+        }
+
+        private void datosPersonalesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPerfil frmPerfil = new frmPerfil();
+            CargarFormularioEnPanel(frmPerfil);
+            if (frmPerfil.IsDisposed)
+            {
+                lblTitulo.Text = "Seleccione una opcion";
+            }
+ 
+
+        }
+
+        private void cambiarRolToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            // Verificar si ya existen elementos hijos, para evitar duplicados
+            if (cambiarRolToolStripMenuItem.DropDownItems.Count == 0)
+            {
+                // Verificar si hay roles en la lista y crear hijos dinámicamente
+                if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                {
+                    foreach (var item in SingletonSesion.Instancia.Usuario.NombreDeLosRoles)
+                    {
+                        // Crear un nuevo ToolStripMenuItem para cada rol
+                        ToolStripMenuItem rolMenuItem = new ToolStripMenuItem(item);
+
+                        // Agregar el nuevo ToolStripMenuItem como hijo del ToolStripMenuItem padre
+                        cambiarRolToolStripMenuItem.DropDownItems.Add(rolMenuItem);
+
+                        // Agregar un evento de clic a cada item hijo
+                        rolMenuItem.Click += (s, args) =>
+                        {
+                            // Verificar si el rol seleccionado empieza con "Administrador"
+                            if (item.StartsWith("Administrador"))
+                            {
+                                MessageBox.Show($"Usted ya se encuentra en el rol {item}");
+                            }
+                            else
+                            {
+                                // Lógica para cambiar de rol si es diferente al actual
+                                MessageBox.Show($"Rol seleccionado: {item}");
+                                // Cambiar al nuevo rol
+                                
+                            }
+                        };
+                    }
+                }
+            }
+        }
+
+        public void Update(string eventType, object data)
+        {
+            if (eventType == "FormularioCerrado")
+            {
+                lblTitulo.Text = "Seleccione una opción";
+            }
+        }
     }
+
 }

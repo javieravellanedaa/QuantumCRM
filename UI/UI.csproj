@@ -83,10 +83,10 @@
     <Compile Include="frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPerfil.cs">
+    <Compile Include="System\frmPerfil.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPerfil.Designer.cs">
+    <Compile Include="System\frmPerfil.Designer.cs">
       <DependentUpon>frmPerfil.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPpal.cs">
@@ -142,7 +142,7 @@
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPerfil.resx">
+    <EmbeddedResource Include="System\frmPerfil.resx">
       <DependentUpon>frmPerfil.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPpal.resx">
@@ -226,5 +226,6 @@
   <ItemGroup>
     <None Include="Resources\avatarAdmin.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

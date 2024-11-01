@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SERVICIOS
 {
-    public class EventManager
+    public class EventManagerService
     {
 
 		private readonly IDictionary<string, IList<IEventListener>> _listeners = new Dictionary<string, IList<IEventListener>>();
