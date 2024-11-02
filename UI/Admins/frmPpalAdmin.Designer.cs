@@ -565,35 +565,36 @@
             this.dropDownMenu2.MenuItemTextColor = System.Drawing.Color.Empty;
             this.dropDownMenu2.Name = "dropDownMenu2";
             this.dropDownMenu2.PrimaryColor = System.Drawing.Color.Empty;
-            this.dropDownMenu2.Size = new System.Drawing.Size(160, 70);
+            this.dropDownMenu2.Size = new System.Drawing.Size(181, 92);
             // 
             // miPerfilToolStripMenuItem
             // 
             this.miPerfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.datosPersonalesToolStripMenuItem});
             this.miPerfilToolStripMenuItem.Name = "miPerfilToolStripMenuItem";
-            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.miPerfilToolStripMenuItem.Text = "Mi Perfil";
             // 
             // datosPersonalesToolStripMenuItem
             // 
             this.datosPersonalesToolStripMenuItem.Name = "datosPersonalesToolStripMenuItem";
-            this.datosPersonalesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.datosPersonalesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.datosPersonalesToolStripMenuItem.Text = "Datos personales";
             this.datosPersonalesToolStripMenuItem.Click += new System.EventHandler(this.datosPersonalesToolStripMenuItem_Click);
             // 
             // cambiarRolToolStripMenuItem
             // 
             this.cambiarRolToolStripMenuItem.Name = "cambiarRolToolStripMenuItem";
-            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cambiarRolToolStripMenuItem.Text = "Cambiar Rol";
             this.cambiarRolToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarRolToolStripMenuItem_DropDownOpening);
             // 
             // cambiarIdiomaToolStripMenuItem
             // 
             this.cambiarIdiomaToolStripMenuItem.Name = "cambiarIdiomaToolStripMenuItem";
-            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
+            this.cambiarIdiomaToolStripMenuItem.Click += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_Click);
             // 
             // frmPpalAdmin
             // 

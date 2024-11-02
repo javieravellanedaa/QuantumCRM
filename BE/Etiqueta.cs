@@ -10,5 +10,7 @@ namespace BE
     public class Etiqueta : Entity, IEtiqueta
     {
         public string Nombre { get; set; }
+        public string Form { get; set; }    
+        public string Texto { get; set; }
     }
 }

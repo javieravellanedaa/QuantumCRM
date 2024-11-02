@@ -14,7 +14,7 @@ using SERVICIOS;
 
 namespace UI
 {
-    public partial class frmPpal : Form, IIdiomaObserver
+    public partial class frmPpal : Form
     {
         BLL.UsuarioBLL _bllUsuarios;
         IdiomaBLL _idiomaBLL;
@@ -28,7 +28,7 @@ namespace UI
             _idiomaBLL.IdiomaAgregado += CargarIdiomas;
 
             AsignarEtiquetasMenu();
-            SingletonSesion.Instancia.SuscribirObservador(this);
+            
 
             var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
             SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);

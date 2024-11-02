@@ -15,10 +15,9 @@ namespace SERVICIOS
 
 
         // Lista de observadores para cambios de idioma
-        private static readonly IList<IIdiomaObserver> _idiomaObservers = new List<IIdiomaObserver>();
-
-        // Instancia de EventManager para gestionar eventos genéricos
         private static readonly EventManagerService _eventManager = new EventManagerService();
+
+
 
         // Propiedad para obtener el idioma actual
         public IIdioma Idioma => _idioma;
@@ -26,24 +25,6 @@ namespace SERVICIOS
         // Propiedad para obtener el usuario actual
         public IUsuario Usuario => _user;
 
-        // Métodos para gestionar observadores de idioma
-        public void SuscribirObservador(IIdiomaObserver observer)
-        {
-            _idiomaObservers.Add(observer);
-        }
-
-        public void DesuscribirObservador(IIdiomaObserver observer)
-        {
-            _idiomaObservers.Remove(observer);
-        }
-
-        private void NotificarCambioIdioma(IIdioma idioma)
-        {
-            foreach (var observer in _idiomaObservers)
-            {
-                observer.UpdateLanguage(idioma);
-            }
-        }
 
         // Métodos para gestionar eventos genéricos
         public void SuscribirEvento(string eventType, IEventListener listener)
@@ -66,8 +47,19 @@ namespace SERVICIOS
         {
             _user = usuario;
             // Notificar a los observadores de idioma al iniciar sesión
-            NotificarCambioIdioma(usuario.Idioma);
+            NotifyEvent("CambioIdioma", usuario.Idioma);
         }
+        public void CambiarIdioma(IIdioma idioma)
+        {
+            _idioma = idioma;
+            if (_user != null)
+            {
+                _user.Idioma = idioma;
+            }
+            // Notificar a los observadores del cambio de idioma
+            NotifyEvent("CambioIdioma", idioma);
+        }
+
 
         // Lógica para cerrar sesión
         public void Logout()
@@ -81,17 +73,6 @@ namespace SERVICIOS
             return _user != null;
         }
 
-        // Lógica para cambiar el idioma
-        public void CambiarIdioma(IIdioma idioma)
-        {
-            _idioma = idioma;
-            if (_user != null)
-            {
-                _user.Idioma = idioma;
-            }
-            // Notificar a los observadores del cambio de idioma
-            NotificarCambioIdioma(idioma);
-        }
 
         // Lógica para verificar roles y permisos
         private bool IsInRoleRecursivo(BE.Composite.Componente p, int id_permiso, bool valid)

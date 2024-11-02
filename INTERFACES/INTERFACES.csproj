@@ -45,7 +45,6 @@
     <Compile Include="IEtiqueta.cs" />
     <Compile Include="IEventListener.cs" />
     <Compile Include="IIdioma.cs" />
-    <Compile Include="IIdiomaObserver.cs" />
     <Compile Include="IPermiso.cs" />
     <Compile Include="ITraduccion.cs" />
     <Compile Include="IUsuario.cs" />

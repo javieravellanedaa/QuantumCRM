@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using INTERFACES;
 using DAL;
 using BE;
@@ -17,6 +18,7 @@ namespace BLL
             _idiomaBLL = new IdiomaBLL();
         }
 
+        // Método para obtener traducciones
         public IDictionary<string, ITraduccion> ObtenerTraducciones(IIdioma idioma = null)
         {
             if (idioma == null)
@@ -44,5 +46,18 @@ namespace BLL
             _traduccionDAL.GuardarTraduccion(traduccion);
         }
 
+        // Método para recopilar etiquetas de un formulario
+
+
+        // Método para agregar etiquetas en bulk a la base de datos
+        public void AgregarEtiquetasBulk(List<Etiqueta> etiquetas)
+        {
+            if (etiquetas == null || etiquetas.Count == 0)
+            {
+                throw new ArgumentException("La lista de etiquetas no puede estar vacía.");
+            }
+
+            _traduccionDAL.AgregarEtiquetasBulk(etiquetas);
+        }
     }
 }

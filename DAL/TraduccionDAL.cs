@@ -16,6 +16,69 @@ namespace DAL
             acceso = new Acceso();
         }
 
+        public void AgregarEtiquetasBulk(List<Etiqueta> etiquetas)
+        {
+            var table = new DataTable();
+            table.Columns.Add("etiqueta_id", typeof(Guid));
+            table.Columns.Add("nombre", typeof(string));
+            table.Columns.Add("form", typeof(string));
+            table.Columns.Add("texto", typeof(string));
+
+            foreach (var etiqueta in etiquetas)
+            {
+                // Crear parámetros para la validación
+                List<SqlParameter> parameters = new List<SqlParameter>
+        {
+            acceso.CrearParametro("@Nombre", etiqueta.Nombre),
+            acceso.CrearParametro("@Form", etiqueta.Form),
+            acceso.CrearParametro("@Texto", etiqueta.Texto)
+        };
+
+                bool existe = false;
+
+                try
+                {
+                    acceso.Abrir();
+                    using (SqlDataReader reader = acceso.EjecutarLectura("SP_ValidarEtiquetaExistente", parameters))
+                    {
+                        if (reader.Read())
+                        {
+                            existe = reader.GetInt32(0) == 1; // Comprobar si el SP devolvió 1
+                        }
+                    }
+                }
+                finally
+                {
+                    acceso.Cerrar();
+                }
+
+                if (!existe)
+                {
+                    // Si no existe, agregar al DataTable
+                    table.Rows.Add(etiqueta.Id, etiqueta.Nombre, etiqueta.Form, etiqueta.Texto);
+                }
+            }
+
+            if (table.Rows.Count > 0)
+            {
+                try
+                {
+                    acceso.Abrir();
+                    using (var bulkCopy = new SqlBulkCopy(acceso.ObtenerConexion(), SqlBulkCopyOptions.Default, null))
+                    {
+                        bulkCopy.DestinationTableName = "etiquetas";
+                        bulkCopy.WriteToServer(table);
+                    }
+                }
+                finally
+                {
+                    acceso.Cerrar();
+                }
+            }
+        }
+
+
+
         // Método para obtener traducciones de un idioma específico usando la clase Acceso y un SP
         public IDictionary<string, ITraduccion> ObtenerTraducciones(IIdioma idioma)
         {

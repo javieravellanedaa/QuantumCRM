@@ -17,6 +17,12 @@ namespace DAL
 
         }
 
+        public SqlConnection ObtenerConexion()
+        {
+
+            return conexion;
+        }   
+
         public void Abrir()
         {
             string cns = @"Integrated Security=SSPI;Data Source=.\SQLEXPRESS;Initial Catalog=CRM";
