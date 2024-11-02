@@ -30,7 +30,7 @@ namespace UI
             if (SingletonSesion.Instancia.IsLogged())
             {
                 _usuario = SingletonSesion.Instancia.Usuario;
-                icbApellidoNombre.Text = (_usuario.Apellido.ToString() + "," + _usuario.Nombre.ToString());
+                icbApellidoNombre.Text = _usuario.NombreUsuario;
             }
             else
             {
@@ -313,7 +313,7 @@ namespace UI
             if (formulario is frmPerfil perfilForm)
             {
                 _eventManagerService.Subscribe("FormularioCerrado", this);
-                perfilForm.EventManagerService = _eventManagerService;
+               
             }
             PanelDesktop.Controls.Clear();
             formulario.TopLevel = false;
