@@ -28,7 +28,7 @@ namespace BLL
                 throw new Exception("Ya hay una sesión iniciada");
             }
 
-            var user = ((DAL.UsuarioDAL)_crud).Login(email, password);
+            Usuario user = ((DAL.UsuarioDAL)_crud).Login(email, password);
 
             if (user == null) throw new LoginException(LoginResult.InvalidUsername);
 
@@ -43,11 +43,12 @@ namespace BLL
             List<Rol> roles = _crud.GetRoles(user);
             foreach (var item in roles)
             {
-                user.Roles = new List<Rol>();
-                user.Roles.Add(item);
-                user.NombreDeLosRoles = new List<string>();
 
+                user.Roles.Add(item);
                 user.NombreDeLosRoles.Add(item.Nombre);
+                
+               
+                //user.NombreDeLosRoles.Add(item.Nombre);
             }
 
             SingletonSesion.Instancia.Login(user);

@@ -380,7 +380,7 @@ namespace UI
                         rolMenuItem.Click += (s, args) =>
                         {
                             // Verificar si el rol seleccionado empieza con "Administrador"
-                            if (item.StartsWith("Administrador"))
+                            if (item.StartsWith("Cliente"))
                             {
                                 MessageBox.Show($"Usted ya se encuentra en el rol {item}");
                             }
@@ -388,7 +388,20 @@ namespace UI
                             {
                                 // Lógica para cambiar de rol si es diferente al actual
                                 MessageBox.Show($"Rol seleccionado: {item}");
-                                // Cambiar al nuevo rol
+                                if (item.StartsWith("Administrador"))
+                                {
+                                    this.Close();
+                                    frmPpalAdmin frm = new frmPpalAdmin();
+
+                                    frm.Show();
+
+                                }
+                                else if (item.StartsWith("Tecnico"))
+                                {
+                                    this.Close();
+                                    frmPpalTecnico frm = new frmPpalTecnico();
+                                    frm.Show();
+                                }
 
                             }
                         };
@@ -396,52 +409,7 @@ namespace UI
                 }
             }
         }
-        //private void CargarIdiomas()
-        //{
-        //    var idiomas = _idiomaBLL.ObtenerIdiomas();
 
-
-        //    foreach (var idioma in idiomas)
-        //    {
-        //        var menuItem = new ToolStripMenuItem(idioma.Nombre);
-        //        menuItem.Tag = idioma;
-        //        cambiarIdiomaToolStripMenuItem.DropDownItems.Add(menuItem);
-        //    }
-
-        //    var idiomaEspañol = idiomas.FirstOrDefault(i => i.Nombre.Equals("Español", StringComparison.OrdinalIgnoreCase));
-        //    if (idiomaEspañol != null)
-        //    {
-        //        Traducir(idiomaEspañol);
-        //        SingletonSesion.Instancia.CambiarIdioma(idiomaEspañol);
-        //    }
-        //}
-        //public void Traducir(IIdioma idioma = null)
-
-        //{
-        //    var traduccionBLL = new TraduccionBLL();
-        //    var idiomaBLL = new IdiomaBLL();
-
-        //    var traducciones = new BLL.TraduccionBLL().ObtenerTraducciones(idioma);
-        //    // Obtener las traducciones del idioma por defecto (español)
-        //    var idiomaDefault = idiomaBLL.ObtenerIdiomaPorNombre("Español");
-        //    var traduccionesDefault = traduccionBLL.ObtenerTraducciones(idiomaDefault);
-        //    foreach (var key in traducciones.Keys.ToList())
-        //    {
-        //        if (string.IsNullOrWhiteSpace(traducciones[key].Texto))
-        //        {
-        //            if (traduccionesDefault.ContainsKey(key))
-        //            {
-        //                traducciones[key].Texto = traduccionesDefault[key].Texto;
-        //            }
-        //        }
-        //    }
-        //    foreach (ToolStripMenuItem menuItem in menuStrip1.Items)
-        //    {
-        //        TraducirMenuItem(menuItem, traducciones);
-        //    }
-
-        //    this.toolStripStatusLabel1.Text = traducciones.ContainsKey("menu.usuario") ? traducciones["menu.usuario"].Texto : "Usuario";
-        //}
 
         public void Update(string eventType, object data)
         {

@@ -11,6 +11,8 @@ namespace BE
         public Usuario()
         {
             _permisos = new List<Componente>();
+            Roles = new List<Rol>();
+            NombreDeLosRoles = new List<string>();
         }
 
         List<Componente> _permisos;

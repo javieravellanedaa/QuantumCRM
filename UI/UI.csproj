@@ -226,6 +226,11 @@
   <ItemGroup>
     <None Include="Resources\avatarAdmin.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\avatarCliente.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\avatarTecnico.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
