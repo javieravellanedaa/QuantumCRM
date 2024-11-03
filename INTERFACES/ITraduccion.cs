@@ -10,5 +10,6 @@ namespace INTERFACES
     {
         IEtiqueta Etiqueta { get; set; }
         string Texto { get; set; }
+        string Formulario { get; set; }
     }
 }

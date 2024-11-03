@@ -14,6 +14,7 @@ namespace BE
         public Guid IdiomaId { get; set; }
         public Guid EtiquetaId { get; set; }
         public string EtiquetaNombre { get; set; }
+        public string Formulario { get; set; }
     }
 
 

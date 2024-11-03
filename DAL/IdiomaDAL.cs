@@ -39,7 +39,7 @@ namespace DAL
             }           
             finally
             {
-                acceso.Cerrar(); // ELI MARICA
+                acceso.Cerrar(); 
             }
 
             return idiomas;                                         

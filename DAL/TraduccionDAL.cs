@@ -102,14 +102,18 @@ namespace DAL
                     while (reader.Read())
                     {
                         var etiquetaNombre = reader.GetString(reader.GetOrdinal("etiqueta"));
-                        traducciones.Add(etiquetaNombre, new Traduccion
+                        var etiquetaForm = reader.GetString(reader.GetOrdinal("formulario"));
+                        var etiqueta = etiquetaForm + "." + etiquetaNombre;
+                        traducciones.Add(etiqueta, new Traduccion
                         {
                             Id = reader.GetGuid(reader.GetOrdinal("traduccion_id")),
                             Texto = reader.GetString(reader.GetOrdinal("texto")),
                             Etiqueta = new Etiqueta
                             {
                                 Id = reader.GetGuid(reader.GetOrdinal("etiqueta_id")),
-                                Nombre = etiquetaNombre
+                                Nombre = etiquetaNombre,
+                                Form = reader.GetString(reader.GetOrdinal("formulario"))
+                               
                             }
                         });
                     }

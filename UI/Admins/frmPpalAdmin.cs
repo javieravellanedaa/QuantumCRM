@@ -13,6 +13,7 @@ using SERVICIOS;
 using BLL;
 using BE;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
+using UI.Design;
 
 namespace UI
 {
@@ -20,7 +21,8 @@ namespace UI
     {
 
         BLL.UsuarioBLL _bllUsuarios;
-        IdiomaBLL _idiomaBLL;
+        BLL.IdiomaBLL _idiomaBLL;
+        BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
         private IUsuario _usuario;
         private int borderSize = 2;
         private Size formSize;
@@ -43,8 +45,8 @@ namespace UI
                 _usuario = SingletonSesion.Instancia.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
                 SingletonSesion.Instancia.SuscribirEvento("CambiarIdioma", this);
-                var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
-                SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);
+                //var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
+                //SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);
                
 
             }
@@ -525,6 +527,127 @@ namespace UI
         }
 
 
+        public void TraducirFormulario(Form formulario, IIdioma idiomaSeleccionado)
+        {
+            // Obtener el diccionario de traducciones en el idioma seleccionado
+           
+            IDictionary<string, ITraduccion> traducciones = _traduccionBLL.ObtenerTraducciones(idiomaSeleccionado);
+
+            // Método recursivo para aplicar traducción a cada control
+            void AplicarTraduccion(Control control)
+            {
+                // Crear la clave en formato "formulario.control"
+                string clave = $"{formulario.Name}.{control.Name}";
+
+                // Buscar la traducción para el control actual
+                if (traducciones.ContainsKey(clave))
+                {
+                    control.Text = traducciones[clave].Texto; // Asignar el texto traducido
+                }
+
+                // Recorre controles hijos para aplicar traducción
+                foreach (Control childControl in control.Controls)
+                {
+                    AplicarTraduccion(childControl);
+                }
+            }
+
+            // Aplicar traducción a cada control en el formulario
+            foreach (Control control in formulario.Controls)
+            {
+                AplicarTraduccion(control);
+            }
+        }
+
+        public void TraducirDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName, IDictionary<string, ITraduccion> traducciones)
+        {
+            // Método recursivo para traducir cada elemento del menú
+            void AplicarTraduccionMenuItem(ToolStripMenuItem menuItem)
+            {
+                // Crear la clave en formato "formulario.menuItem"
+                string clave = $"{formName}.{menuItem.Name}";
+
+                // Buscar la traducción para el menú actual
+                if (traducciones.ContainsKey(clave))
+                {
+                    menuItem.Text = traducciones[clave].Texto; // Asignar el texto traducido
+                }
+
+                // Recorrer submenús, si existen
+                foreach (ToolStripItem subItem in menuItem.DropDownItems)
+                {
+                    if (subItem is ToolStripMenuItem subMenuItem)
+                    {
+                        AplicarTraduccionMenuItem(subMenuItem); // Llamada recursiva para submenús
+                    }
+                }
+            }
+
+            // Recorremos todos los elementos del DropDownMenu
+            foreach (ToolStripItem item in dropDownMenu.Items)
+            {
+                if (item is ToolStripMenuItem menuItem)
+                {
+                    AplicarTraduccionMenuItem(menuItem);
+                }
+            }
+        }
+
+
+        // Función para cargar los idiomas disponibles en el ToolStripMenu
+        private void CargarIdiomas()
+        {
+            _idiomaBLL = new IdiomaBLL();
+            // Obtener la lista de idiomas desde la capa de negocios
+            IList<Idioma> idiomas = _idiomaBLL.ObtenerIdiomas();
+
+            // Limpiar los elementos existentes para evitar duplicados
+            cambiarIdiomaToolStripMenuItem.DropDownItems.Clear();
+
+            // Verificar si hay idiomas disponibles
+            if (idiomas != null && idiomas.Count > 0)
+            {
+                foreach (var idioma in idiomas)
+                {
+                    // Crear un nuevo ToolStripMenuItem para cada idioma
+                    ToolStripMenuItem idiomaMenuItem = new ToolStripMenuItem(idioma.Nombre)
+                    {
+                        Text = idioma.Nombre
+                    };
+
+                    // Agregar el nuevo ToolStripMenuItem como hijo del ToolStripMenuItem principal
+                    cambiarIdiomaToolStripMenuItem.DropDownItems.Add(idiomaMenuItem);
+
+                    // Agregar un evento de clic a cada item de idioma
+                    idiomaMenuItem.Click += (s, args) =>
+                    {
+                        // Verificar si el idioma seleccionado es el mismo que el actual
+                        if (SingletonSesion.Instancia.Usuario.Idioma.Nombre == idioma.Nombre)
+                        {
+                            MessageBox.Show($"Ya se encuentra en el idioma {idioma.Nombre}");
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Idioma seleccionado: {idioma.Nombre}");
+                            // Lógica para cambiar el idioma de la aplicación
+                            TraducirFormulario(this,idioma);
+                            TraducirDropDownMenu(dropDownMenu1, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+                            TraducirDropDownMenu(dropDownMenu2, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+
+                        }
+                    };
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay idiomas disponibles para seleccionar.");
+            }
+        }
+
+        private void cambiarIdiomaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            CargarIdiomas();
+        }
     }
 
 
