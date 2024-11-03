@@ -31,17 +31,17 @@
             this.components = new System.ComponentModel.Container();
             this.PanelMenu = new System.Windows.Forms.Panel();
             this.iconBtnDesloguear = new FontAwesome.Sharp.IconButton();
-            this.iconBtnIdioma = new FontAwesome.Sharp.IconButton();
             this.iconBtnConfiguracion = new FontAwesome.Sharp.IconButton();
             this.iconBtnAdministracion = new FontAwesome.Sharp.IconButton();
             this.iconBtnDepartamentos = new FontAwesome.Sharp.IconButton();
             this.iconBtnTickets = new FontAwesome.Sharp.IconButton();
             this.iconBtnGeneral = new FontAwesome.Sharp.IconButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.icbApellidoNombre = new FontAwesome.Sharp.IconButton();
             this.btnMenu = new FontAwesome.Sharp.IconButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelTitleBar = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblTitulo = new System.Windows.Forms.Label();
             this.btnMinimize = new FontAwesome.Sharp.IconButton();
             this.btnMaximaze = new FontAwesome.Sharp.IconButton();
             this.btnExit = new FontAwesome.Sharp.IconButton();
@@ -69,18 +69,23 @@
             this.ddToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.eeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eeeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dropDownMenu2 = new UI.Design.DropDownMenu(this.components);
+            this.miPerfilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.datosPersonalesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cambiarRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cambiarIdiomaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PanelTitleBar.SuspendLayout();
             this.dropDownMenu1.SuspendLayout();
+            this.dropDownMenu2.SuspendLayout();
             this.SuspendLayout();
             // 
             // PanelMenu
             // 
             this.PanelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(87)))), ((int)(((byte)(192)))));
             this.PanelMenu.Controls.Add(this.iconBtnDesloguear);
-            this.PanelMenu.Controls.Add(this.iconBtnIdioma);
             this.PanelMenu.Controls.Add(this.iconBtnConfiguracion);
             this.PanelMenu.Controls.Add(this.iconBtnAdministracion);
             this.PanelMenu.Controls.Add(this.iconBtnDepartamentos);
@@ -90,7 +95,7 @@
             this.PanelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.PanelMenu.Location = new System.Drawing.Point(0, 0);
             this.PanelMenu.Name = "PanelMenu";
-            this.PanelMenu.Size = new System.Drawing.Size(230, 450);
+            this.PanelMenu.Size = new System.Drawing.Size(230, 532);
             this.PanelMenu.TabIndex = 0;
             // 
             // iconBtnDesloguear
@@ -105,7 +110,7 @@
             this.iconBtnDesloguear.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnDesloguear.IconSize = 30;
             this.iconBtnDesloguear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 404);
+            this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 486);
             this.iconBtnDesloguear.Name = "iconBtnDesloguear";
             this.iconBtnDesloguear.Padding = new System.Windows.Forms.Padding(10, 0, 0, 15);
             this.iconBtnDesloguear.Size = new System.Drawing.Size(230, 46);
@@ -115,29 +120,6 @@
             this.iconBtnDesloguear.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnDesloguear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.iconBtnDesloguear.UseVisualStyleBackColor = true;
-            // 
-            // iconBtnIdioma
-            // 
-            this.iconBtnIdioma.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnIdioma.FlatAppearance.BorderSize = 0;
-            this.iconBtnIdioma.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnIdioma.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnIdioma.ForeColor = System.Drawing.Color.White;
-            this.iconBtnIdioma.IconChar = FontAwesome.Sharp.IconChar.Zhihu;
-            this.iconBtnIdioma.IconColor = System.Drawing.Color.White;
-            this.iconBtnIdioma.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnIdioma.IconSize = 30;
-            this.iconBtnIdioma.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnIdioma.Location = new System.Drawing.Point(0, 336);
-            this.iconBtnIdioma.Name = "iconBtnIdioma";
-            this.iconBtnIdioma.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnIdioma.Size = new System.Drawing.Size(230, 48);
-            this.iconBtnIdioma.TabIndex = 6;
-            this.iconBtnIdioma.Tag = "Idioma";
-            this.iconBtnIdioma.Text = "Idioma";
-            this.iconBtnIdioma.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnIdioma.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnIdioma.UseVisualStyleBackColor = true;
             // 
             // iconBtnConfiguracion
             // 
@@ -192,7 +174,7 @@
             this.iconBtnDepartamentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.iconBtnDepartamentos.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.iconBtnDepartamentos.ForeColor = System.Drawing.Color.White;
-            this.iconBtnDepartamentos.IconChar = FontAwesome.Sharp.IconChar.HomeUser;
+            this.iconBtnDepartamentos.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
             this.iconBtnDepartamentos.IconColor = System.Drawing.Color.White;
             this.iconBtnDepartamentos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnDepartamentos.IconSize = 30;
@@ -203,10 +185,11 @@
             this.iconBtnDepartamentos.Size = new System.Drawing.Size(230, 48);
             this.iconBtnDepartamentos.TabIndex = 3;
             this.iconBtnDepartamentos.Tag = "Departamentos";
-            this.iconBtnDepartamentos.Text = "Departamentos";
+            this.iconBtnDepartamentos.Text = "Dashboard";
             this.iconBtnDepartamentos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnDepartamentos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.iconBtnDepartamentos.UseVisualStyleBackColor = true;
+            this.iconBtnDepartamentos.Click += new System.EventHandler(this.iconBtnDepartamentos_Click);
             // 
             // iconBtnTickets
             // 
@@ -238,7 +221,7 @@
             this.iconBtnGeneral.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.iconBtnGeneral.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.iconBtnGeneral.ForeColor = System.Drawing.Color.White;
-            this.iconBtnGeneral.IconChar = FontAwesome.Sharp.IconChar.ChartLine;
+            this.iconBtnGeneral.IconChar = FontAwesome.Sharp.IconChar.Key;
             this.iconBtnGeneral.IconColor = System.Drawing.Color.White;
             this.iconBtnGeneral.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnGeneral.IconSize = 30;
@@ -257,6 +240,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.icbApellidoNombre);
             this.panel1.Controls.Add(this.btnMenu);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -264,6 +248,22 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 96);
             this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // icbApellidoNombre
+            // 
+            this.icbApellidoNombre.FlatAppearance.BorderSize = 0;
+            this.icbApellidoNombre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.icbApellidoNombre.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.icbApellidoNombre.ForeColor = System.Drawing.Color.White;
+            this.icbApellidoNombre.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.icbApellidoNombre.IconColor = System.Drawing.Color.Transparent;
+            this.icbApellidoNombre.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.icbApellidoNombre.Location = new System.Drawing.Point(102, 6);
+            this.icbApellidoNombre.Name = "icbApellidoNombre";
+            this.icbApellidoNombre.Size = new System.Drawing.Size(62, 23);
+            this.icbApellidoNombre.TabIndex = 4;
+            this.icbApellidoNombre.UseVisualStyleBackColor = true;
             // 
             // btnMenu
             // 
@@ -273,27 +273,28 @@
             this.btnMenu.IconColor = System.Drawing.Color.White;
             this.btnMenu.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMenu.IconSize = 30;
-            this.btnMenu.Location = new System.Drawing.Point(176, 3);
+            this.btnMenu.Location = new System.Drawing.Point(190, 6);
             this.btnMenu.Name = "btnMenu";
-            this.btnMenu.Size = new System.Drawing.Size(54, 45);
+            this.btnMenu.Size = new System.Drawing.Size(40, 29);
             this.btnMenu.TabIndex = 1;
             this.btnMenu.UseVisualStyleBackColor = true;
             this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::UI.Properties.Resources.Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 0);
+            this.pictureBox1.Image = global::UI.Properties.Resources.avatarAdmin;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(167, 48);
+            this.pictureBox1.Size = new System.Drawing.Size(57, 35);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PanelTitleBar
             // 
             this.PanelTitleBar.BackColor = System.Drawing.Color.White;
-            this.PanelTitleBar.Controls.Add(this.label1);
+            this.PanelTitleBar.Controls.Add(this.lblTitulo);
             this.PanelTitleBar.Controls.Add(this.btnMinimize);
             this.PanelTitleBar.Controls.Add(this.btnMaximaze);
             this.PanelTitleBar.Controls.Add(this.btnExit);
@@ -302,23 +303,23 @@
             this.PanelTitleBar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.PanelTitleBar.Location = new System.Drawing.Point(230, 0);
             this.PanelTitleBar.Name = "PanelTitleBar";
-            this.PanelTitleBar.Size = new System.Drawing.Size(570, 60);
+            this.PanelTitleBar.Size = new System.Drawing.Size(647, 60);
             this.PanelTitleBar.TabIndex = 1;
             this.PanelTitleBar.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTitleBar_Paint);
             this.PanelTitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelTitleBar_MouseDown);
             this.PanelTitleBar.Resize += new System.EventHandler(this.PanelTitleBar_Resize);
             // 
-            // label1
+            // lblTitulo
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft YaHei Light", 27.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(52, 6);
-            this.label1.Margin = new System.Windows.Forms.Padding(3);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.label1.Size = new System.Drawing.Size(245, 51);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "DASHBOARD";
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei Light", 27.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(52, 6);
+            this.lblTitulo.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.lblTitulo.Size = new System.Drawing.Size(245, 51);
+            this.lblTitulo.TabIndex = 4;
+            this.lblTitulo.Text = "DASHBOARD";
             // 
             // btnMinimize
             // 
@@ -330,7 +331,7 @@
             this.btnMinimize.IconColor = System.Drawing.Color.White;
             this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMinimize.IconSize = 20;
-            this.btnMinimize.Location = new System.Drawing.Point(441, 0);
+            this.btnMinimize.Location = new System.Drawing.Point(518, 0);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(40, 25);
             this.btnMinimize.TabIndex = 3;
@@ -347,7 +348,7 @@
             this.btnMaximaze.IconColor = System.Drawing.Color.White;
             this.btnMaximaze.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMaximaze.IconSize = 20;
-            this.btnMaximaze.Location = new System.Drawing.Point(479, 0);
+            this.btnMaximaze.Location = new System.Drawing.Point(556, 0);
             this.btnMaximaze.Name = "btnMaximaze";
             this.btnMaximaze.Size = new System.Drawing.Size(47, 25);
             this.btnMaximaze.TabIndex = 0;
@@ -364,7 +365,7 @@
             this.btnExit.IconColor = System.Drawing.Color.White;
             this.btnExit.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExit.IconSize = 20;
-            this.btnExit.Location = new System.Drawing.Point(525, 0);
+            this.btnExit.Location = new System.Drawing.Point(602, 0);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(45, 25);
             this.btnExit.TabIndex = 2;
@@ -377,7 +378,7 @@
             this.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelDesktop.Location = new System.Drawing.Point(230, 60);
             this.PanelDesktop.Name = "PanelDesktop";
-            this.PanelDesktop.Size = new System.Drawing.Size(570, 390);
+            this.PanelDesktop.Size = new System.Drawing.Size(647, 472);
             this.PanelDesktop.TabIndex = 2;
             this.PanelDesktop.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelDesktop_Paint);
             // 
@@ -414,13 +415,13 @@
             this.aaaaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aaaaToolStripMenuItem1});
             this.aaaaToolStripMenuItem.Name = "aaaaToolStripMenuItem";
-            this.aaaaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aaaaToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.aaaaToolStripMenuItem.Text = "aaaa";
             // 
             // aaaaToolStripMenuItem1
             // 
             this.aaaaToolStripMenuItem1.Name = "aaaaToolStripMenuItem1";
-            this.aaaaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.aaaaToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
             this.aaaaToolStripMenuItem1.Text = "aaaa";
             // 
             // bbbToolStripMenuItem
@@ -436,7 +437,7 @@
             this.bbbbbToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bbbbToolStripMenuItem});
             this.bbbbbToolStripMenuItem.Name = "bbbbbToolStripMenuItem";
-            this.bbbbbToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bbbbbToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.bbbbbToolStripMenuItem.Text = "bbbbb";
             // 
             // bbbbToolStripMenuItem
@@ -444,13 +445,13 @@
             this.bbbbToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bbbToolStripMenuItem1});
             this.bbbbToolStripMenuItem.Name = "bbbbToolStripMenuItem";
-            this.bbbbToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bbbbToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.bbbbToolStripMenuItem.Text = "bbbb";
             // 
             // bbbToolStripMenuItem1
             // 
             this.bbbToolStripMenuItem1.Name = "bbbToolStripMenuItem1";
-            this.bbbToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.bbbToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
             this.bbbToolStripMenuItem1.Text = "bbb";
             // 
             // ccccToolStripMenuItem
@@ -470,37 +471,37 @@
             this.ccToolStripMenuItem,
             this.cccToolStripMenuItem});
             this.ccccToolStripMenuItem1.Name = "ccccToolStripMenuItem1";
-            this.ccccToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.ccccToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
             this.ccccToolStripMenuItem1.Text = "cccc";
             // 
             // ccToolStripMenuItem
             // 
             this.ccToolStripMenuItem.Name = "ccToolStripMenuItem";
-            this.ccToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ccToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.ccToolStripMenuItem.Text = "cc";
             // 
             // cccToolStripMenuItem
             // 
             this.cccToolStripMenuItem.Name = "cccToolStripMenuItem";
-            this.cccToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cccToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.cccToolStripMenuItem.Text = "ccc";
             // 
             // cccToolStripMenuItem1
             // 
             this.cccToolStripMenuItem1.Name = "cccToolStripMenuItem1";
-            this.cccToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.cccToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
             this.cccToolStripMenuItem1.Text = "ccc";
             // 
             // ccccToolStripMenuItem2
             // 
             this.ccccToolStripMenuItem2.Name = "ccccToolStripMenuItem2";
-            this.ccccToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.ccccToolStripMenuItem2.Size = new System.Drawing.Size(98, 22);
             this.ccccToolStripMenuItem2.Text = "cccc";
             // 
             // cToolStripMenuItem
             // 
             this.cToolStripMenuItem.Name = "cToolStripMenuItem";
-            this.cToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.cToolStripMenuItem.Text = "c";
             // 
             // dddToolStripMenuItem
@@ -518,25 +519,25 @@
             this.ddToolStripMenuItem1,
             this.ddToolStripMenuItem2});
             this.dddToolStripMenuItem1.Name = "dddToolStripMenuItem1";
-            this.dddToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.dddToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
             this.dddToolStripMenuItem1.Text = "ddd";
             // 
             // ddToolStripMenuItem
             // 
             this.ddToolStripMenuItem.Name = "ddToolStripMenuItem";
-            this.ddToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ddToolStripMenuItem.Size = new System.Drawing.Size(88, 22);
             this.ddToolStripMenuItem.Text = "dd";
             // 
             // ddToolStripMenuItem1
             // 
             this.ddToolStripMenuItem1.Name = "ddToolStripMenuItem1";
-            this.ddToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.ddToolStripMenuItem1.Size = new System.Drawing.Size(88, 22);
             this.ddToolStripMenuItem1.Text = "dd";
             // 
             // ddToolStripMenuItem2
             // 
             this.ddToolStripMenuItem2.Name = "ddToolStripMenuItem2";
-            this.ddToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.ddToolStripMenuItem2.Size = new System.Drawing.Size(88, 22);
             this.ddToolStripMenuItem2.Text = "dd";
             // 
             // eeeToolStripMenuItem
@@ -550,18 +551,62 @@
             // eeeToolStripMenuItem1
             // 
             this.eeeToolStripMenuItem1.Name = "eeeToolStripMenuItem1";
-            this.eeeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.eeeToolStripMenuItem1.Size = new System.Drawing.Size(92, 22);
             this.eeeToolStripMenuItem1.Text = "eee";
             // 
-            // frmPpalNew
+            // dropDownMenu2
+            // 
+            this.dropDownMenu2.IsMainMenu = false;
+            this.dropDownMenu2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miPerfilToolStripMenuItem,
+            this.cambiarRolToolStripMenuItem,
+            this.cambiarIdiomaToolStripMenuItem});
+            this.dropDownMenu2.MenuItemHeight = 25;
+            this.dropDownMenu2.MenuItemTextColor = System.Drawing.Color.Empty;
+            this.dropDownMenu2.Name = "dropDownMenu2";
+            this.dropDownMenu2.PrimaryColor = System.Drawing.Color.Empty;
+            this.dropDownMenu2.Size = new System.Drawing.Size(181, 92);
+            // 
+            // miPerfilToolStripMenuItem
+            // 
+            this.miPerfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.datosPersonalesToolStripMenuItem});
+            this.miPerfilToolStripMenuItem.Name = "miPerfilToolStripMenuItem";
+            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.miPerfilToolStripMenuItem.Text = "Mi Perfil";
+            // 
+            // datosPersonalesToolStripMenuItem
+            // 
+            this.datosPersonalesToolStripMenuItem.Name = "datosPersonalesToolStripMenuItem";
+            this.datosPersonalesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.datosPersonalesToolStripMenuItem.Text = "Datos personales";
+            this.datosPersonalesToolStripMenuItem.Click += new System.EventHandler(this.datosPersonalesToolStripMenuItem_Click);
+            // 
+            // cambiarRolToolStripMenuItem
+            // 
+            this.cambiarRolToolStripMenuItem.Name = "cambiarRolToolStripMenuItem";
+            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cambiarRolToolStripMenuItem.Text = "Cambiar Rol";
+            this.cambiarRolToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarRolToolStripMenuItem_DropDownOpening);
+            // 
+            // cambiarIdiomaToolStripMenuItem
+            // 
+            this.cambiarIdiomaToolStripMenuItem.Name = "cambiarIdiomaToolStripMenuItem";
+            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
+            this.cambiarIdiomaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_DropDownOpening);
+            
+            this.cambiarIdiomaToolStripMenuItem.Click += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_Click);
+            // 
+            // frmPpalCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(877, 532);
             this.Controls.Add(this.PanelDesktop);
             this.Controls.Add(this.PanelTitleBar);
             this.Controls.Add(this.PanelMenu);
-            this.Name = "frmPpalNew";
+            this.Name = "frmPpalCliente";
             this.Text = "frmPpalNew";
             this.Load += new System.EventHandler(this.frmPpalNew_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPpalNew_MouseDown);
@@ -572,6 +617,7 @@
             this.PanelTitleBar.ResumeLayout(false);
             this.PanelTitleBar.PerformLayout();
             this.dropDownMenu1.ResumeLayout(false);
+            this.dropDownMenu2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -587,7 +633,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private FontAwesome.Sharp.IconButton iconBtnGeneral;
         private FontAwesome.Sharp.IconButton iconBtnDesloguear;
-        private FontAwesome.Sharp.IconButton iconBtnIdioma;
         private FontAwesome.Sharp.IconButton iconBtnConfiguracion;
         private FontAwesome.Sharp.IconButton iconBtnAdministracion;
         private FontAwesome.Sharp.IconButton iconBtnDepartamentos;
@@ -595,7 +640,7 @@
         private FontAwesome.Sharp.IconButton btnExit;
         private FontAwesome.Sharp.IconButton btnMaximaze;
         private FontAwesome.Sharp.IconButton btnMinimize;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitulo;
         private Design.DropDownMenu dropDownMenu1;
         private System.Windows.Forms.ToolStripMenuItem aaaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aaaaToolStripMenuItem;
@@ -618,5 +663,11 @@
         private System.Windows.Forms.ToolStripMenuItem ddToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem eeeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eeeToolStripMenuItem1;
+        private FontAwesome.Sharp.IconButton icbApellidoNombre;
+        private Design.DropDownMenu dropDownMenu2;
+        private System.Windows.Forms.ToolStripMenuItem miPerfilToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem datosPersonalesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cambiarRolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cambiarIdiomaToolStripMenuItem;
     }
 }

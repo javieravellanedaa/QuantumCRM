@@ -8,20 +8,60 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using INTERFACES;
+using SERVICIOS;
+using BLL;
+using BE;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
+using UI.Design;
 
 namespace UI
 {
-    public partial class frmPpalTecnico : Form
+    public partial class frmPpalTecnico: Form, IEventListener
     {
+
+        BLL.UsuarioBLL _bllUsuarios;
+        BLL.IdiomaBLL _idiomaBLL;
+        BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
+        private IUsuario _usuario;
         private int borderSize = 2;
         private Size formSize;
+        private readonly EventManagerService _eventManagerService = new EventManagerService();
+
+
+
+
+        public List<Etiqueta> etiquetas = new List<Etiqueta>();
         public frmPpalTecnico()
         {
+
             InitializeComponent();
+            if (SingletonSesion.Instancia.IsLogged())
+            {
+                etiquetas.AddRange(RecopilarEtiquetas(this));
+                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu1, this.Name));
+                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu2, this.Name));
+
+                _usuario = SingletonSesion.Instancia.Usuario;
+                icbApellidoNombre.Text = _usuario.NombreUsuario;
+                SingletonSesion.Instancia.SuscribirEvento("CambiarIdioma", this);
+                //var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
+                //SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);
+               
+
+            }
+            else
+            {
+                MessageBox.Show("Sesión no iniciada");
+            }
             ColapseMenu();
             this.Padding = new Padding(borderSize);
             this.BackColor = Color.FromArgb(96, 116, 239); // border color
-         
+            _bllUsuarios = new BLL.UsuarioBLL();
+            BLL.TraduccionBLL _bllTraduccion = new BLL.TraduccionBLL();
+            _bllTraduccion.AgregarEtiquetasBulk(etiquetas);
+
+
         }
         // Drag Form 
 
@@ -37,6 +77,8 @@ namespace UI
 
 
         }
+
+
 
         //Overridden methods
         protected override void WndProc(ref Message m)
@@ -134,9 +176,11 @@ namespace UI
 
         private void frmPpalNew_Load(object sender, EventArgs e)
         {
-            
+
             formSize = this.ClientSize;
             dropDownMenu1.IsMainMenu = true;
+            dropDownMenu2.IsMainMenu = true;
+
         }
 
         private void PanelTitleBar_Paint(object sender, PaintEventArgs e)
@@ -149,17 +193,17 @@ namespace UI
             ReleaseCapture();
             SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
-       
+
         private void PanelTitleBar_Resize(object sender, EventArgs e)
         {
-           
+
         }
         private void AdjustForm()
         {
             switch (this.WindowState)
             {
                 case FormWindowState.Maximized:
-                    this.Padding = new Padding(8,8,8,0);
+                    this.Padding = new Padding(8, 8, 8, 0);
                     break;
                 case FormWindowState.Normal:
                     if (this.Padding.Top != borderSize)
@@ -181,9 +225,9 @@ namespace UI
         private void btnMaximaze_Click(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Normal)
-                
+
                 this.WindowState = FormWindowState.Maximized;
-                
+
             else
             {
                 this.WindowState = FormWindowState.Normal;
@@ -223,10 +267,10 @@ namespace UI
             {
                 PanelMenu.Width = 100;
                 pictureBox1.Visible = false;
-                btnMenu.Dock =DockStyle.Top;
-                foreach(Button menuButton in PanelMenu.Controls.OfType<Button>())
+                btnMenu.Dock = DockStyle.Top;
+                foreach (Button menuButton in PanelMenu.Controls.OfType<Button>())
                 {
-                    menuButton.Text = "";  
+                    menuButton.Text = "";
                     menuButton.ImageAlign = ContentAlignment.MiddleCenter;
                     menuButton.Padding = new Padding(0);
 
@@ -235,17 +279,17 @@ namespace UI
             }
             else
             {
-                
-                    PanelMenu.Width = 230;
-                    pictureBox1.Visible = true;
-                    btnMenu.Dock = DockStyle.None;
-                    foreach (Button menuButton in PanelMenu.Controls.OfType<Button>())
-                    {
-                        menuButton.Text = "   "+ menuButton.Tag.ToString();
-                        menuButton.ImageAlign = ContentAlignment.MiddleCenter;
-                        menuButton.Padding = new Padding(10,0,0,0);
 
-                    }
+                PanelMenu.Width = 230;
+                pictureBox1.Visible = true;
+                btnMenu.Dock = DockStyle.None;
+                foreach (Button menuButton in PanelMenu.Controls.OfType<Button>())
+                {
+                    menuButton.Text = "   " + menuButton.Tag.ToString();
+                    menuButton.ImageAlign = ContentAlignment.MiddleCenter;
+                    menuButton.Padding = new Padding(10, 0, 0, 0);
+
+                }
 
             }
         }
@@ -257,7 +301,355 @@ namespace UI
 
         private void iconBtnGeneral_Click(object sender, EventArgs e)
         {
-            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width,0);
+            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
+        }
+
+        private void iconBtnDepartamentos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblApellidoNombre_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            dropDownMenu2.Show(pictureBox1, 0, pictureBox1.Height);
+
+
+        }
+        private void FormularioSecundarioCerrado(object sender, EventArgs e)
+        {
+            // Cambia el label cuando el formulario secundario se cierra
+            lblTitulo.Text = "Seleccione una opción";
+        }
+
+        private void CargarFormularioEnPanel(Form formulario)
+        {
+            if (formulario is frmPerfil perfilForm)
+            {
+                _eventManagerService.Subscribe("FormularioCerrado", this);
+
+            }
+            PanelDesktop.Controls.Clear();
+            formulario.TopLevel = false;
+
+            PanelDesktop.Controls.Add(formulario);
+            formulario.Dock = DockStyle.Fill;
+            lblTitulo.Text = formulario.Text;
+
+            formulario.Show();
+        }
+
+        private void datosPersonalesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPerfil frmPerfil = new frmPerfil();
+            CargarFormularioEnPanel(frmPerfil);
+            if (frmPerfil.IsDisposed)
+            {
+                lblTitulo.Text = "Seleccione una opcion";
+            }
+
+
+        }
+
+        private void cambiarRolToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            // Verificar si ya existen elementos hijos, para evitar duplicados
+            if (cambiarRolToolStripMenuItem.DropDownItems.Count == 0)
+            {
+                // Verificar si hay roles en la lista y crear hijos dinámicamente
+                if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                {
+                    foreach (var item in SingletonSesion.Instancia.Usuario.NombreDeLosRoles)
+                    {
+                        // Crear un nuevo ToolStripMenuItem para cada rol
+                        ToolStripMenuItem rolMenuItem = new ToolStripMenuItem(item);
+
+                        // Agregar el nuevo ToolStripMenuItem como hijo del ToolStripMenuItem padre
+                        cambiarRolToolStripMenuItem.DropDownItems.Add(rolMenuItem);
+
+                        // Agregar un evento de clic a cada item hijo
+                        rolMenuItem.Click += (s, args) =>
+                        {
+                            // Verificar si el rol seleccionado empieza con "Administrador"
+                            if (item.StartsWith("Administrador"))
+                            {
+                                MessageBox.Show($"Usted ya se encuentra en el rol {item}");
+                            }
+                            else
+                            {
+                                // Lógica para cambiar de rol si es diferente al actual
+                                MessageBox.Show($"Rol seleccionado: {item}");
+                                // Cambiar al nuevo rol
+
+                            }
+                        };
+                    }
+                }
+            }
+        }
+        //private void CargarIdiomas()
+        //{
+        //    var idiomas = _idiomaBLL.ObtenerIdiomas();
+
+
+        //    foreach (var idioma in idiomas)
+        //    {
+        //        var menuItem = new ToolStripMenuItem(idioma.Nombre);
+        //        menuItem.Tag = idioma;
+        //        cambiarIdiomaToolStripMenuItem.DropDownItems.Add(menuItem);
+        //    }
+
+        //    var idiomaEspañol = idiomas.FirstOrDefault(i => i.Nombre.Equals("Español", StringComparison.OrdinalIgnoreCase));
+        //    if (idiomaEspañol != null)
+        //    {
+        //        Traducir(idiomaEspañol);
+        //        SingletonSesion.Instancia.CambiarIdioma(idiomaEspañol);
+        //    }
+        //}
+        //public void Traducir(IIdioma idioma = null)
+
+        //{
+        //    var traduccionBLL = new TraduccionBLL();
+        //    var idiomaBLL = new IdiomaBLL();
+
+        //    var traducciones = new BLL.TraduccionBLL().ObtenerTraducciones(idioma);
+        //    // Obtener las traducciones del idioma por defecto (español)
+        //    var idiomaDefault = idiomaBLL.ObtenerIdiomaPorNombre("Español");
+        //    var traduccionesDefault = traduccionBLL.ObtenerTraducciones(idiomaDefault);
+        //    foreach (var key in traducciones.Keys.ToList())
+        //    {
+        //        if (string.IsNullOrWhiteSpace(traducciones[key].Texto))
+        //        {
+        //            if (traduccionesDefault.ContainsKey(key))
+        //            {
+        //                traducciones[key].Texto = traduccionesDefault[key].Texto;
+        //            }
+        //        }
+        //    }
+        //    foreach (ToolStripMenuItem menuItem in menuStrip1.Items)
+        //    {
+        //        TraducirMenuItem(menuItem, traducciones);
+        //    }
+
+        //    this.toolStripStatusLabel1.Text = traducciones.ContainsKey("menu.usuario") ? traducciones["menu.usuario"].Texto : "Usuario";
+        //}
+
+        public void Update(string eventType, object data)
+        {
+            if (eventType == "FormularioCerrado")
+            {
+                lblTitulo.Text = "Seleccione una opción";
+            }
+        }
+
+        private void cambiarIdiomaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        public List<Etiqueta> RecopilarEtiquetas(Form formulario)
+        {
+            var etiquetas = new List<Etiqueta>();
+
+            void AgregarEtiquetas(Control control)
+            {
+                if (control.Text.Length > 0)
+                {
+                    etiquetas.Add(new Etiqueta
+                    {
+                        Id = Guid.NewGuid(),
+                        Nombre = control.Name,
+                        Form = formulario.Name,
+                        Texto = control.Text // Texto visible al usuario
+                    });
+                }
+
+                // Recorre controles hijos
+                foreach (Control childControl in control.Controls)
+                {
+                    AgregarEtiquetas(childControl);
+                }
+            }
+
+            // Inicia la recopilación de controles desde el formulario
+            foreach (Control control in formulario.Controls)
+            {
+                AgregarEtiquetas(control);
+            }
+
+            return etiquetas;
+        }
+        private List<Etiqueta> ObtenerEtiquetasDeDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName)
+        {
+            var etiquetas = new List<Etiqueta>();
+
+            void AgregarEtiquetasDeMenu(ToolStripMenuItem menuItem)
+            {
+                // Agregar una nueva Etiqueta para el menú actual
+                etiquetas.Add(new Etiqueta
+                {
+                    Id = Guid.NewGuid(),
+                    Nombre = menuItem.Name,
+                    Form = formName,
+                    Texto = menuItem.Text // Texto visible al usuario
+                });
+
+                // Recorrer submenús, si existen
+                foreach (ToolStripItem subItem in menuItem.DropDownItems)
+                {
+                    if (subItem is ToolStripMenuItem subMenuItem)
+                    {
+                        AgregarEtiquetasDeMenu(subMenuItem); // Llamada recursiva para submenús
+                    }
+                }
+            }
+
+            // Recorremos todos los elementos del DropDownMenu
+            foreach (ToolStripItem item in dropDownMenu.Items)
+            {
+                if (item is ToolStripMenuItem menuItem)
+                {
+                    AgregarEtiquetasDeMenu(menuItem);
+                }
+            }
+
+            return etiquetas;
+        }
+
+
+        public void TraducirFormulario(Form formulario, IIdioma idiomaSeleccionado)
+        {
+            // Obtener el diccionario de traducciones en el idioma seleccionado
+           
+            IDictionary<string, ITraduccion> traducciones = _traduccionBLL.ObtenerTraducciones(idiomaSeleccionado);
+
+            // Método recursivo para aplicar traducción a cada control
+            void AplicarTraduccion(Control control)
+            {
+                // Crear la clave en formato "formulario.control"
+                string clave = $"{formulario.Name}.{control.Name}";
+
+                // Buscar la traducción para el control actual
+                if (traducciones.ContainsKey(clave))
+                {
+                    control.Text = traducciones[clave].Texto; // Asignar el texto traducido
+                }
+
+                // Recorre controles hijos para aplicar traducción
+                foreach (Control childControl in control.Controls)
+                {
+                    AplicarTraduccion(childControl);
+                }
+            }
+
+            // Aplicar traducción a cada control en el formulario
+            foreach (Control control in formulario.Controls)
+            {
+                AplicarTraduccion(control);
+            }
+        }
+
+        public void TraducirDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName, IDictionary<string, ITraduccion> traducciones)
+        {
+            // Método recursivo para traducir cada elemento del menú
+            void AplicarTraduccionMenuItem(ToolStripMenuItem menuItem)
+            {
+                // Crear la clave en formato "formulario.menuItem"
+                string clave = $"{formName}.{menuItem.Name}";
+
+                // Buscar la traducción para el menú actual
+                if (traducciones.ContainsKey(clave))
+                {
+                    menuItem.Text = traducciones[clave].Texto; // Asignar el texto traducido
+                }
+
+                // Recorrer submenús, si existen
+                foreach (ToolStripItem subItem in menuItem.DropDownItems)
+                {
+                    if (subItem is ToolStripMenuItem subMenuItem)
+                    {
+                        AplicarTraduccionMenuItem(subMenuItem); // Llamada recursiva para submenús
+                    }
+                }
+            }
+
+            // Recorremos todos los elementos del DropDownMenu
+            foreach (ToolStripItem item in dropDownMenu.Items)
+            {
+                if (item is ToolStripMenuItem menuItem)
+                {
+                    AplicarTraduccionMenuItem(menuItem);
+                }
+            }
+        }
+
+
+        // Función para cargar los idiomas disponibles en el ToolStripMenu
+        private void CargarIdiomas()
+        {
+            _idiomaBLL = new IdiomaBLL();
+            // Obtener la lista de idiomas desde la capa de negocios
+            IList<Idioma> idiomas = _idiomaBLL.ObtenerIdiomas();
+
+            // Limpiar los elementos existentes para evitar duplicados
+            cambiarIdiomaToolStripMenuItem.DropDownItems.Clear();
+
+            // Verificar si hay idiomas disponibles
+            if (idiomas != null && idiomas.Count > 0)
+            {
+                foreach (var idioma in idiomas)
+                {
+                    // Crear un nuevo ToolStripMenuItem para cada idioma
+                    ToolStripMenuItem idiomaMenuItem = new ToolStripMenuItem(idioma.Nombre)
+                    {
+                        Text = idioma.Nombre
+                    };
+
+                    // Agregar el nuevo ToolStripMenuItem como hijo del ToolStripMenuItem principal
+                    cambiarIdiomaToolStripMenuItem.DropDownItems.Add(idiomaMenuItem);
+
+                    // Agregar un evento de clic a cada item de idioma
+                    idiomaMenuItem.Click += (s, args) =>
+                    {
+                        // Verificar si el idioma seleccionado es el mismo que el actual
+                        if (SingletonSesion.Instancia.Usuario.Idioma.Nombre == idioma.Nombre)
+                        {
+                            MessageBox.Show($"Ya se encuentra en el idioma {idioma.Nombre}");
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Idioma seleccionado: {idioma.Nombre}");
+                            // Lógica para cambiar el idioma de la aplicación
+                            TraducirFormulario(this,idioma);
+                            TraducirDropDownMenu(dropDownMenu1, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+                            TraducirDropDownMenu(dropDownMenu2, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+
+                        }
+                    };
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay idiomas disponibles para seleccionar.");
+            }
+        }
+
+        private void cambiarIdiomaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            CargarIdiomas();
         }
     }
+
+
 }
+

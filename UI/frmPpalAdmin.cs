@@ -17,7 +17,7 @@ using UI.Design;
 
 namespace UI
 {
-    public partial class frmPpalCliente: Form, IEventListener
+    public partial class frmPpalCliente : Form, IEventListener
     {
 
         BLL.UsuarioBLL _bllUsuarios;

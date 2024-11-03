@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    partial class frmPpalTecnico
+    partial class frmPpalCliente
     {
         /// <summary>
         /// Required designer variable.
@@ -598,7 +598,7 @@
             
             this.cambiarIdiomaToolStripMenuItem.Click += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_Click);
             // 
-            // frmPpalTecnico
+            // frmPpalAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -606,7 +606,7 @@
             this.Controls.Add(this.PanelDesktop);
             this.Controls.Add(this.PanelTitleBar);
             this.Controls.Add(this.PanelMenu);
-            this.Name = "frmPpalTecnico";
+            this.Name = "frmPpalAdmin";
             this.Text = "frmPpalNew";
             this.Load += new System.EventHandler(this.frmPpalNew_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPpalNew_MouseDown);
