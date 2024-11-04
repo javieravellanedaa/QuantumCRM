@@ -8,6 +8,6 @@ namespace INTERFACES
 {
     public interface IEntity
     {
-        Guid Id { get; }
+        Guid Id { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace INTERFACES
             string Nombre { get; set; }
             string Apellido { get; set; }
             IIdioma Idioma { get; set; }
+            
+            Guid Id { get; set; }
 
 
              string NombreUsuario { get; set; }
@@ -25,7 +27,7 @@ namespace INTERFACES
              List<string> NombreDeLosRoles { get; set; }
 
 
-
+            int UltimoRolId { get; set; }
 
     }
     

@@ -23,6 +23,8 @@ namespace UI
         BLL.UsuarioBLL _bllUsuarios;
         BLL.IdiomaBLL _idiomaBLL;
         BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
+        BLL.SesionBLL _sesionBLL = new SesionBLL();
+
         private IUsuario _usuario;
         private int borderSize = 2;
         private Size formSize;
@@ -34,7 +36,7 @@ namespace UI
         public List<Etiqueta> etiquetas = new List<Etiqueta>();
         public frmPpalCliente()
         {
-
+            SingletonSesion.Instancia.Usuario.UltimoRolId = 3;
             InitializeComponent();
             if (SingletonSesion.Instancia.IsLogged())
             {
@@ -44,10 +46,14 @@ namespace UI
 
                 _usuario = SingletonSesion.Instancia.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
-                SingletonSesion.Instancia.SuscribirEvento("CambiarIdioma", this);
+                //SingletonSesion.Instancia.SuscribirEvento("CambiarIdioma", this);
                 //var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
                 //SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);
-               
+
+                _eventManagerService.Subscribe("Cerrarsesion", _sesionBLL);
+                _eventManagerService.Subscribe("Iniciarsesion", _sesionBLL);
+
+                _eventManagerService.Notify("Iniciarsesion", SingletonSesion.Instancia);
 
             }
             else
@@ -309,10 +315,6 @@ namespace UI
 
         }
 
-        private void lblApellidoNombre_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -525,6 +527,7 @@ namespace UI
             {
                 AplicarTraduccion(control);
             }
+            SingletonSesion.Instancia.Usuario.Idioma = idiomaSeleccionado;
         }
 
         public void TraducirDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName, IDictionary<string, ITraduccion> traducciones)
@@ -615,6 +618,22 @@ namespace UI
         private void cambiarIdiomaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             CargarIdiomas();
+        }
+
+        private void iconBtnDesloguear_Click(object sender, EventArgs e)
+        {
+            // Mostrar el MessageBox con opciones Sí y No
+            var result = MessageBox.Show("¿Está seguro de que quiere cerrar la sesión?", "Confirmación de Cierre de Sesión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Verificar si el usuario seleccionó Sí
+            if (result == DialogResult.Yes)
+            {
+                // Notificar el cierre de sesión
+                _eventManagerService.Notify("Cerrarsesion", SingletonSesion.Instancia);
+
+                // Cerrar la aplicación
+                Application.Exit();
+            }
         }
     }
 

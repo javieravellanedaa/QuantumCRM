@@ -28,7 +28,7 @@ namespace UI
             _notificador = new NotificadorTicket();
 
             // Suscribir al observador de eventos al evento "TicketCreated"
-            SingletonSesion.Instancia.SuscribirEvento("TicketCreated", _notificador);
+            //SingletonSesion.Instancia.SuscribirEvento("TicketCreated", _notificador);
         }
 
         private void CrearTicket_Load(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace UI
             };
 
             // Notificar a los observadores sobre el nuevo ticket
-            SingletonSesion.Instancia.NotifyEvent("TicketCreated", nuevoTicket);
+            //SingletonSesion.Instancia.NotifyEvent("TicketCreated", nuevoTicket);
 
             // Mensaje de confirmación (opcional)
             MessageBox.Show("Ticket creado exitosamente.");

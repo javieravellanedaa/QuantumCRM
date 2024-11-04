@@ -5,7 +5,7 @@ using INTERFACES;
 
 namespace SERVICIOS
 {
-    public class Sesion
+    public class Sesion:Entity
     {
         // Usuario autenticado
         private BE.Usuario _user { get; set; }
@@ -15,8 +15,6 @@ namespace SERVICIOS
 
 
         // Lista de observadores para cambios de idioma
-        private static readonly EventManagerService _eventManager = new EventManagerService();
-
 
 
         // Propiedad para obtener el idioma actual
@@ -26,28 +24,14 @@ namespace SERVICIOS
         public IUsuario Usuario => _user;
 
 
-        // Métodos para gestionar eventos genéricos
-        public void SuscribirEvento(string eventType, IEventListener listener)
-        {
-            _eventManager.Subscribe(eventType, listener);
-        }
-
-        public void DesuscribirEvento(string eventType, IEventListener listener)
-        {
-            _eventManager.Unsubscribe(eventType, listener);
-        }
-
-        public void NotifyEvent(string eventType, object data)
-        {
-            _eventManager.Notify(eventType, data);
-        }
+   
 
         // Lógica para iniciar sesión
         public void Login(BE.Usuario usuario)
         {
             _user = usuario;
             // Notificar a los observadores de idioma al iniciar sesión
-            NotifyEvent("CambioIdioma", usuario.Idioma);
+          
         }
         public void CambiarIdioma(IIdioma idioma)
         {
@@ -57,13 +41,14 @@ namespace SERVICIOS
                 _user.Idioma = idioma;
             }
             // Notificar a los observadores del cambio de idioma
-            NotifyEvent("CambioIdioma", idioma);
+        
         }
 
 
         // Lógica para cerrar sesión
         public void Logout()
         {
+         
             _user = null;
         }
 

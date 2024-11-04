@@ -120,6 +120,7 @@
             this.iconBtnDesloguear.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnDesloguear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.iconBtnDesloguear.UseVisualStyleBackColor = true;
+            this.iconBtnDesloguear.Click += new System.EventHandler(this.iconBtnDesloguear_Click);
             // 
             // iconBtnConfiguracion
             // 
@@ -305,7 +306,7 @@
             this.PanelTitleBar.Name = "PanelTitleBar";
             this.PanelTitleBar.Size = new System.Drawing.Size(647, 60);
             this.PanelTitleBar.TabIndex = 1;
-            this.PanelTitleBar.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTitleBar_Paint);
+          
             this.PanelTitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelTitleBar_MouseDown);
             this.PanelTitleBar.Resize += new System.EventHandler(this.PanelTitleBar_Resize);
             // 
@@ -380,7 +381,7 @@
             this.PanelDesktop.Name = "PanelDesktop";
             this.PanelDesktop.Size = new System.Drawing.Size(647, 472);
             this.PanelDesktop.TabIndex = 2;
-            this.PanelDesktop.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelDesktop_Paint);
+            
             // 
             // notifyIcon1
             // 

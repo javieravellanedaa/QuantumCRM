@@ -18,10 +18,12 @@ namespace UI
     public partial class frmLogin : Form
     {
         UsuarioBLL _usuarioBLL;
+        SesionBLL _sesionBLL;
         public frmLogin()
         {
             InitializeComponent();
             _usuarioBLL = new UsuarioBLL();
+            _sesionBLL = new SesionBLL();   
         }
 
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -74,28 +76,63 @@ namespace UI
                 try
                 {
                     var res = _usuarioBLL.Login(this.txtMail.Text, this.txtConstraseña.Text);
-
+                    
                     //frmPpal frm = new frmPpal();
-                    if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                    if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.UltimoRolId>-1)
                     {
-                        if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Administrador"))
+                        if (SingletonSesion.Instancia.Usuario.UltimoRolId==1)
                         {
                             frmPpalAdmin frm = new frmPpalAdmin();
                             frm.Show();
+                        }
+                        else if (SingletonSesion.Instancia.Usuario.UltimoRolId == 3)
+                        {
+                            frmPpalCliente frm = new frmPpalCliente();
+                            frm.Show();
+                        }
+                        else if (SingletonSesion.Instancia.Usuario.UltimoRolId == 2)
+                        {
+                            frmPpalTecnico frm = new frmPpalTecnico();
+                            frm.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No tiene un rol asignado");
+                            this.Close();
+                        }
+
+                    }
+                    else if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.UltimoRolId == -1)
+                    {
+                        if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Administrador") )
+                        {
+                            frmPpalAdmin frm = new frmPpalAdmin();
+                            frm.Show();
+                            this.Hide();
+                            return;
+                           
                         }
                         else if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Cliente"))
                         {
                             frmPpalCliente frm = new frmPpalCliente();
                             frm.Show();
+                            this.Hide();
+                            return;
                         }
                         else if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Tecnico"))
                         {
                             frmPpalTecnico frm = new frmPpalTecnico();
+                            this.Hide();
                             frm.Show();
+                            
                         }
 
                     }
-                    else if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.NombreDeLosRoles == null)
+
+
+
+
+                    else if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Count() <=0)
                     {
                         MessageBox.Show("No tiene ningún rol asociado, contáctese con el administrador");
                         this.Close();
@@ -133,11 +170,7 @@ namespace UI
                 }
 
 
-                if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
-                        {
-                    MessageBox.Show("Login exitoso");
-
-                         }
+       
                 
             }
 

@@ -50,6 +50,9 @@ namespace BLL
                
                 //user.NombreDeLosRoles.Add(item.Nombre);
             }
+            user.UltimoRolId = _crud.ObtenerUltimoRol(user); 
+
+            user.Idioma = _crud.ObtenerIdioma(user); 
 
             SingletonSesion.Instancia.Login(user);
 

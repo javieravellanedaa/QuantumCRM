@@ -23,6 +23,8 @@ namespace UI
         BLL.UsuarioBLL _bllUsuarios;
         BLL.IdiomaBLL _idiomaBLL;
         BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
+        BLL.SesionBLL _sesionBLL = new SesionBLL(); 
+
         private IUsuario _usuario;
         private int borderSize = 2;
         private Size formSize;
@@ -34,7 +36,7 @@ namespace UI
         public List<Etiqueta> etiquetas = new List<Etiqueta>();
         public frmPpalAdmin()
         {
-
+            SingletonSesion.Instancia.Usuario.UltimoRolId = 1;
             InitializeComponent();
             if (SingletonSesion.Instancia.IsLogged())
             {
@@ -44,10 +46,15 @@ namespace UI
 
                 _usuario = SingletonSesion.Instancia.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
-                SingletonSesion.Instancia.SuscribirEvento("CambiarIdioma", this);
+              
                 //var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
                 //SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);
+
+                _eventManagerService.Subscribe("Cerrarsesion", _sesionBLL);
+                _eventManagerService.Subscribe("Iniciarsesion", _sesionBLL);
                
+                _eventManagerService.Notify("Iniciarsesion", SingletonSesion.Instancia);
+
 
             }
             else
@@ -237,7 +244,7 @@ namespace UI
         private void btnExit_Click(object sender, EventArgs e)
         {
             // Guardar el timestamp del último registro antes de salir
-            GuardarUltimoRegistro();
+            
 
             // Confirmar la salida con un mensaje
             DialogResult result = MessageBox.Show(
@@ -250,16 +257,15 @@ namespace UI
             // Si el usuario confirma, cerrar la aplicación
             if (result == DialogResult.Yes)
             {
+                _eventManagerService.Notify("Cerrarsesion", SingletonSesion.Instancia);
+
+                // Cerrar la aplicación
+           
                 Application.Exit();
             }
         }
 
-        // Método para guardar el último registro
-        private void GuardarUltimoRegistro()
-        {
-            // Lógica para guardar el timestamp del último registro
-            // Ejemplo: últimoRegistro = DateTime.Now;
-        }
+
         private void ColapseMenu()
         {
 
@@ -525,6 +531,9 @@ namespace UI
             {
                 AplicarTraduccion(control);
             }
+
+            SingletonSesion.Instancia.Usuario.Idioma = idiomaSeleccionado;
+            
         }
 
         public void TraducirDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName, IDictionary<string, ITraduccion> traducciones)
@@ -616,6 +625,23 @@ namespace UI
         {
             CargarIdiomas();
         }
+
+        private void iconBtnDesloguear_Click(object sender, EventArgs e)
+        {
+            // Mostrar el MessageBox con opciones Sí y No
+            var result = MessageBox.Show("¿Está seguro de que quiere cerrar la sesión?", "Confirmación de Cierre de Sesión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Verificar si el usuario seleccionó Sí
+            if (result == DialogResult.Yes)
+            {
+                // Notificar el cierre de sesión
+                _eventManagerService.Notify("Cerrarsesion", SingletonSesion.Instancia);
+
+                // Cerrar la aplicación
+                Application.Exit();
+            }
+        }
+
     }
 
 

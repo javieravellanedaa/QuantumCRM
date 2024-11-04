@@ -40,8 +40,7 @@ namespace BE
         
         public List<Rol> Roles { get; set; }
         public List<string> NombreDeLosRoles { get ; set; }
-
-        
+        public int UltimoRolId { get; set; }
 
         public override string ToString()
         {

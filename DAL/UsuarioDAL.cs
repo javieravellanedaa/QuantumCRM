@@ -177,6 +177,69 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+        public int ObtenerUltimoRol(Usuario usuario)
+        {
+            int rolId = -1; // Valor predeterminado en caso de que no se encuentre el rol
+            List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@UsuarioID", usuario.Id.ToString()),
+                };
+
+            try
+            {
+                acceso.Abrir();
+
+                // Ejecutar el procedimiento almacenado y obtener el resultado como DataTable
+                DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
+
+                if (resultado.Rows.Count > 0)
+                {
+                    // Capturar el valor de ultimo_rol_id desde la primera fila
+                    rolId = Convert.ToInt32(resultado.Rows[0]["ultimo_rol_id"]);
+                }
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
+            return rolId;
+        }
+
+        public IIdioma ObtenerIdioma(Usuario usuario)
+        {
+
+            // Valor predeterminado en caso de que no se encuentre el rol
+            List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@UsuarioID", usuario.Id.ToString()),
+                };
+
+            try
+            {
+                acceso.Abrir();
+
+                // Ejecutar el procedimiento almacenado y obtener el resultado como DataTable
+                DataTable resultado = acceso.Leer("sp_ObtenerIdiomaDeSesion", parametros);
+
+                if (resultado.Rows.Count > 0)
+                {
+
+                    usuario.Idioma.Id = Guid.Parse(resultado.Rows[0]["idioma_id"].ToString());
+                    usuario.Idioma.Nombre = resultado.Rows[0]["idioma_nombre"].ToString();
+                }
+
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
+            
+            return usuario.Idioma;
+        
+
+        }
 
         public List<Usuario> ListarUsuariosConTodosLosAtributos()
         {

@@ -120,6 +120,7 @@
             this.iconBtnDesloguear.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnDesloguear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.iconBtnDesloguear.UseVisualStyleBackColor = true;
+            this.iconBtnDesloguear.Click += new System.EventHandler(this.iconBtnDesloguear_Click);
             // 
             // iconBtnConfiguracion
             // 
@@ -248,7 +249,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 96);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            
             // 
             // icbApellidoNombre
             // 
