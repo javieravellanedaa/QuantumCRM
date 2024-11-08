@@ -41,8 +41,8 @@ namespace UI
             if (SingletonSesion.Instancia.IsLogged())
             {
                 etiquetas.AddRange(RecopilarEtiquetas(this));
-                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu1, this.Name));
-                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu2, this.Name));
+                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(drdwGeneral, this.Name));
+                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(drdwPerfil, this.Name));
 
                 _usuario = SingletonSesion.Instancia.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
@@ -185,8 +185,12 @@ namespace UI
         {
 
             formSize = this.ClientSize;
-            dropDownMenu1.IsMainMenu = true;
-            dropDownMenu2.IsMainMenu = true;
+            drdwGeneral.IsMainMenu = true;
+            drdwPerfil.IsMainMenu = true;
+            drdwConfiguracion.IsMainMenu = true;
+            drdwAdministracion.IsMainMenu = true;
+            drdwTickets.IsMainMenu = true;
+
 
         }
 
@@ -307,7 +311,7 @@ namespace UI
 
         private void iconBtnGeneral_Click(object sender, EventArgs e)
         {
-            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
+            drdwGeneral.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
         }
 
         private void iconBtnDepartamentos_Click(object sender, EventArgs e)
@@ -327,7 +331,7 @@ namespace UI
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            dropDownMenu2.Show(pictureBox1, 0, pictureBox1.Height);
+            drdwPerfil.Show(pictureBox1, 0, pictureBox1.Height);
 
 
         }
@@ -608,8 +612,8 @@ namespace UI
                             MessageBox.Show($"Idioma seleccionado: {idioma.Nombre}");
                             // Lógica para cambiar el idioma de la aplicación
                             TraducirFormulario(this,idioma);
-                            TraducirDropDownMenu(dropDownMenu1, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
-                            TraducirDropDownMenu(dropDownMenu2, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+                            TraducirDropDownMenu(drdwGeneral, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+                            TraducirDropDownMenu(drdwPerfil, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
 
                         }
                     };
@@ -642,6 +646,41 @@ namespace UI
             }
         }
 
+        private void aaaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void iconBtnConfiguracion_Click(object sender, EventArgs e)
+        {
+            drdwConfiguracion.Show(iconBtnConfiguracion, iconBtnConfiguracion.Width, 0);
+        }
+
+        private void iconBtnAdministracion_Click(object sender, EventArgs e)
+        {
+            drdwAdministracion.Show(iconBtnAdministracion, iconBtnAdministracion.Width, 0);
+        }
+
+        private void iconBtnTickets_Click(object sender, EventArgs e)
+        {
+            drdwTickets.Show(iconBtnTickets,iconBtnTickets.Width, 0);
+        }
+
+        private void nuevoToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            Form frnNuevoIdima = new frmNuevoIdioma();
+       
+            CargarFormularioEnPanel(frnNuevoIdima);
+            if (frnNuevoIdima.IsDisposed)
+            {
+                lblTitulo.Text = "Seleccione una opcion";
+            }
+        }
     }
 
 
