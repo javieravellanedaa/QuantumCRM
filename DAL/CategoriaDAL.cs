@@ -94,6 +94,44 @@ namespace DAL
             }
         }
 
+        public Prioridad ObtenerPrioridad(Categoria categoria)
+        {
+            Prioridad prioridad = null;
+
+            // Crear el parámetro con el Id de la categoría
+            List<SqlParameter> parametros = new List<SqlParameter>
+    {
+        _acceso.CrearParametro("@CategoriaId", categoria.CategoriaId)
+    };
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_obtenerPrioridad", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        // Crear y asignar los valores de la prioridad
+                        prioridad = new Prioridad
+                        {
+                            Prioridad_id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion"))
+                        };
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+
+            return prioridad;
+        }
+
+
+
+
         // Obtener una categoría por su Id
         public Categoria ObtenerCategoriaPorId(int categoriaId)
         {

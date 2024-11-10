@@ -23,7 +23,7 @@ namespace BLL
         public LoginResult Login(string email, string password)
         {
                
-            if (SingletonSesion.Instancia.IsLogged())
+            if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
                 throw new Exception("Ya hay una sesión iniciada");
             }
@@ -54,7 +54,7 @@ namespace BLL
 
             user.Idioma = _crud.ObtenerIdioma(user); 
 
-            SingletonSesion.Instancia.Login(user);
+            SingletonSesion.Instancia.Sesion.Login(user);
 
 
             new MP_PERMISO ().FillUserComponents(user); // dudoso
@@ -63,12 +63,12 @@ namespace BLL
 
         public void Logout()
         {
-            if (!SingletonSesion.Instancia.IsLogged())
+            if (!SingletonSesion.Instancia.Sesion.IsLogged())
             {
                 throw new Exception("No hay sesión iniciada");
             }
 
-            SingletonSesion.Instancia.Logout();
+            SingletonSesion.Instancia.Sesion.Logout();
         }
 
 

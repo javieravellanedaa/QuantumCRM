@@ -36,15 +36,15 @@ namespace UI
         public List<Etiqueta> etiquetas = new List<Etiqueta>();
         public frmPpalCliente()
         {
-            SingletonSesion.Instancia.Usuario.UltimoRolId = 3;
+            SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId = 3;
             InitializeComponent();
-            if (SingletonSesion.Instancia.IsLogged())
+            if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
                 etiquetas.AddRange(RecopilarEtiquetas(this));
                 etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu1, this.Name));
                 etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu2, this.Name));
 
-                _usuario = SingletonSesion.Instancia.Usuario;
+                _usuario = SingletonSesion.Instancia.Sesion.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
                 //SingletonSesion.Instancia.SuscribirEvento("CambiarIdioma", this);
                 //var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
@@ -335,7 +335,7 @@ namespace UI
 
         private void CargarFormularioEnPanel(Form formulario)
         {
-            if (formulario is frmPerfil perfilForm)
+            if (formulario is frmPerfil perfilForm || formulario is frmNuevoIdioma)
             {
                 _eventManagerService.Subscribe("FormularioCerrado", this);
 
@@ -352,7 +352,7 @@ namespace UI
 
         private void datosPersonalesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPerfil frmPerfil = new frmPerfil();
+            frmPerfil frmPerfil = new frmPerfil(_eventManagerService);
             CargarFormularioEnPanel(frmPerfil);
             if (frmPerfil.IsDisposed)
             {
@@ -368,9 +368,9 @@ namespace UI
             if (cambiarRolToolStripMenuItem.DropDownItems.Count == 0)
             {
                 // Verificar si hay roles en la lista y crear hijos dinámicamente
-                if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles != null)
                 {
-                    foreach (var item in SingletonSesion.Instancia.Usuario.NombreDeLosRoles)
+                    foreach (var item in SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles)
                     {
                         // Crear un nuevo ToolStripMenuItem para cada rol
                         ToolStripMenuItem rolMenuItem = new ToolStripMenuItem(item);
@@ -527,7 +527,7 @@ namespace UI
             {
                 AplicarTraduccion(control);
             }
-            SingletonSesion.Instancia.Usuario.Idioma = idiomaSeleccionado;
+            SingletonSesion.Instancia.Sesion.Usuario.Idioma = idiomaSeleccionado;
         }
 
         public void TraducirDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName, IDictionary<string, ITraduccion> traducciones)
@@ -593,7 +593,7 @@ namespace UI
                     idiomaMenuItem.Click += (s, args) =>
                     {
                         // Verificar si el idioma seleccionado es el mismo que el actual
-                        if (SingletonSesion.Instancia.Usuario.Idioma.Nombre == idioma.Nombre)
+                        if (SingletonSesion.Instancia.Sesion.Usuario.Idioma.Nombre == idioma.Nombre)
                         {
                             MessageBox.Show($"Ya se encuentra en el idioma {idioma.Nombre}");
                         }

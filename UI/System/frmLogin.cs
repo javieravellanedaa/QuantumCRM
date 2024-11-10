@@ -78,19 +78,19 @@ namespace UI
                     var res = _usuarioBLL.Login(this.txtMail.Text, this.txtConstraseña.Text);
                     
                     //frmPpal frm = new frmPpal();
-                    if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.UltimoRolId>-1)
+                    if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId>-1)
                     {
-                        if (SingletonSesion.Instancia.Usuario.UltimoRolId==1)
+                        if (SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId==1)
                         {
                             frmPpalAdmin frm = new frmPpalAdmin();
                             frm.Show();
                         }
-                        else if (SingletonSesion.Instancia.Usuario.UltimoRolId == 3)
+                        else if (SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId == 3)
                         {
                             frmPpalCliente frm = new frmPpalCliente();
                             frm.Show();
                         }
-                        else if (SingletonSesion.Instancia.Usuario.UltimoRolId == 2)
+                        else if (SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId == 2)
                         {
                             frmPpalTecnico frm = new frmPpalTecnico();
                             frm.Show();
@@ -102,9 +102,9 @@ namespace UI
                         }
 
                     }
-                    else if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.UltimoRolId == -1)
+                    else if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId == -1)
                     {
-                        if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Administrador") )
+                        if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Contains("Administrador") )
                         {
                             frmPpalAdmin frm = new frmPpalAdmin();
                             frm.Show();
@@ -112,14 +112,14 @@ namespace UI
                             return;
                            
                         }
-                        else if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Cliente"))
+                        else if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Contains("Cliente"))
                         {
                             frmPpalCliente frm = new frmPpalCliente();
                             frm.Show();
                             this.Hide();
                             return;
                         }
-                        else if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Contains("Tecnico"))
+                        else if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Contains("Tecnico"))
                         {
                             frmPpalTecnico frm = new frmPpalTecnico();
                             this.Hide();
@@ -132,7 +132,7 @@ namespace UI
 
 
 
-                    else if (SingletonSesion.Instancia.IsLogged() && SingletonSesion.Instancia.Usuario.NombreDeLosRoles.Count() <=0)
+                    else if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Count() <=0)
                     {
                         MessageBox.Show("No tiene ningún rol asociado, contáctese con el administrador");
                         this.Close();
@@ -156,16 +156,16 @@ namespace UI
                         case LoginResult.InvalidUsername:
                             MessageBox.Show("Usuario incorrecto");
                             return;
-                            break;
+                             
                         case LoginResult.InvalidPassword:
                             MessageBox.Show("Password Incorrecto");
                             return;
-                            break;
+                            
 
                         default:
                             MessageBox.Show("Error desconocido");
                             return;
-                            break;
+                           
                     }
                 }
 

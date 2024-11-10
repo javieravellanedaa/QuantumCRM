@@ -30,9 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             this.PanelMenu = new System.Windows.Forms.Panel();
+            this.iconBtnDesloguear = new FontAwesome.Sharp.IconButton();
+            this.iconBtnConfiguracion = new FontAwesome.Sharp.IconButton();
+            this.iconBtnAdministracion = new FontAwesome.Sharp.IconButton();
+            this.iconBtnDepartamentos = new FontAwesome.Sharp.IconButton();
+            this.iconBtnTickets = new FontAwesome.Sharp.IconButton();
+            this.iconBtnGeneral = new FontAwesome.Sharp.IconButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.icbApellidoNombre = new FontAwesome.Sharp.IconButton();
+            this.btnMenu = new FontAwesome.Sharp.IconButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelTitleBar = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
+            this.btnMinimize = new FontAwesome.Sharp.IconButton();
+            this.btnMaximaze = new FontAwesome.Sharp.IconButton();
+            this.btnExit = new FontAwesome.Sharp.IconButton();
             this.PanelDesktop = new System.Windows.Forms.Panel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.drdwGeneral = new UI.Design.DropDownMenu(this.components);
@@ -115,32 +127,20 @@
             this.borrarToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.drdwConfiguracion = new UI.Design.DropDownMenu(this.components);
             this.inventarioToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnMinimize = new FontAwesome.Sharp.IconButton();
-            this.btnMaximaze = new FontAwesome.Sharp.IconButton();
-            this.btnExit = new FontAwesome.Sharp.IconButton();
-            this.iconBtnDesloguear = new FontAwesome.Sharp.IconButton();
-            this.iconBtnConfiguracion = new FontAwesome.Sharp.IconButton();
-            this.iconBtnAdministracion = new FontAwesome.Sharp.IconButton();
-            this.iconBtnDepartamentos = new FontAwesome.Sharp.IconButton();
-            this.iconBtnTickets = new FontAwesome.Sharp.IconButton();
-            this.iconBtnGeneral = new FontAwesome.Sharp.IconButton();
-            this.icbApellidoNombre = new FontAwesome.Sharp.IconButton();
-            this.btnMenu = new FontAwesome.Sharp.IconButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PanelTitleBar.SuspendLayout();
             this.drdwGeneral.SuspendLayout();
             this.drdwPerfil.SuspendLayout();
             this.drdwTickets.SuspendLayout();
             this.drdwAdministracion.SuspendLayout();
             this.drdwConfiguracion.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelMenu
@@ -159,6 +159,149 @@
             this.PanelMenu.Size = new System.Drawing.Size(230, 532);
             this.PanelMenu.TabIndex = 0;
             // 
+            // iconBtnDesloguear
+            // 
+            this.iconBtnDesloguear.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.iconBtnDesloguear.FlatAppearance.BorderSize = 0;
+            this.iconBtnDesloguear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnDesloguear.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnDesloguear.ForeColor = System.Drawing.Color.White;
+            this.iconBtnDesloguear.IconChar = FontAwesome.Sharp.IconChar.SignOut;
+            this.iconBtnDesloguear.IconColor = System.Drawing.Color.White;
+            this.iconBtnDesloguear.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnDesloguear.IconSize = 30;
+            this.iconBtnDesloguear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 486);
+            this.iconBtnDesloguear.Name = "iconBtnDesloguear";
+            this.iconBtnDesloguear.Padding = new System.Windows.Forms.Padding(10, 0, 0, 15);
+            this.iconBtnDesloguear.Size = new System.Drawing.Size(230, 46);
+            this.iconBtnDesloguear.TabIndex = 7;
+            this.iconBtnDesloguear.Tag = "Desloguear";
+            this.iconBtnDesloguear.Text = "Desloguear";
+            this.iconBtnDesloguear.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnDesloguear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnDesloguear.UseVisualStyleBackColor = true;
+            this.iconBtnDesloguear.Click += new System.EventHandler(this.iconBtnDesloguear_Click);
+            // 
+            // iconBtnConfiguracion
+            // 
+            this.iconBtnConfiguracion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iconBtnConfiguracion.FlatAppearance.BorderSize = 0;
+            this.iconBtnConfiguracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnConfiguracion.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnConfiguracion.ForeColor = System.Drawing.Color.White;
+            this.iconBtnConfiguracion.IconChar = FontAwesome.Sharp.IconChar.Wrench;
+            this.iconBtnConfiguracion.IconColor = System.Drawing.Color.White;
+            this.iconBtnConfiguracion.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnConfiguracion.IconSize = 30;
+            this.iconBtnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnConfiguracion.Location = new System.Drawing.Point(0, 288);
+            this.iconBtnConfiguracion.Name = "iconBtnConfiguracion";
+            this.iconBtnConfiguracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.iconBtnConfiguracion.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnConfiguracion.TabIndex = 5;
+            this.iconBtnConfiguracion.Tag = "Configuracion";
+            this.iconBtnConfiguracion.Text = "Configuracion";
+            this.iconBtnConfiguracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnConfiguracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnConfiguracion.UseVisualStyleBackColor = true;
+            this.iconBtnConfiguracion.Click += new System.EventHandler(this.iconBtnConfiguracion_Click);
+            // 
+            // iconBtnAdministracion
+            // 
+            this.iconBtnAdministracion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iconBtnAdministracion.FlatAppearance.BorderSize = 0;
+            this.iconBtnAdministracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnAdministracion.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnAdministracion.ForeColor = System.Drawing.Color.White;
+            this.iconBtnAdministracion.IconChar = FontAwesome.Sharp.IconChar.IdCard;
+            this.iconBtnAdministracion.IconColor = System.Drawing.Color.White;
+            this.iconBtnAdministracion.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnAdministracion.IconSize = 30;
+            this.iconBtnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnAdministracion.Location = new System.Drawing.Point(0, 240);
+            this.iconBtnAdministracion.Name = "iconBtnAdministracion";
+            this.iconBtnAdministracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.iconBtnAdministracion.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnAdministracion.TabIndex = 4;
+            this.iconBtnAdministracion.Tag = "Administracion";
+            this.iconBtnAdministracion.Text = "Administracion";
+            this.iconBtnAdministracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnAdministracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnAdministracion.UseVisualStyleBackColor = true;
+            this.iconBtnAdministracion.Click += new System.EventHandler(this.iconBtnAdministracion_Click);
+            // 
+            // iconBtnDepartamentos
+            // 
+            this.iconBtnDepartamentos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iconBtnDepartamentos.FlatAppearance.BorderSize = 0;
+            this.iconBtnDepartamentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnDepartamentos.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnDepartamentos.ForeColor = System.Drawing.Color.White;
+            this.iconBtnDepartamentos.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
+            this.iconBtnDepartamentos.IconColor = System.Drawing.Color.White;
+            this.iconBtnDepartamentos.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnDepartamentos.IconSize = 30;
+            this.iconBtnDepartamentos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnDepartamentos.Location = new System.Drawing.Point(0, 192);
+            this.iconBtnDepartamentos.Name = "iconBtnDepartamentos";
+            this.iconBtnDepartamentos.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.iconBtnDepartamentos.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnDepartamentos.TabIndex = 3;
+            this.iconBtnDepartamentos.Tag = "Dashboard";
+            this.iconBtnDepartamentos.Text = "Dashboard";
+            this.iconBtnDepartamentos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnDepartamentos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnDepartamentos.UseVisualStyleBackColor = true;
+            // 
+            // iconBtnTickets
+            // 
+            this.iconBtnTickets.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iconBtnTickets.FlatAppearance.BorderSize = 0;
+            this.iconBtnTickets.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnTickets.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnTickets.ForeColor = System.Drawing.Color.White;
+            this.iconBtnTickets.IconChar = FontAwesome.Sharp.IconChar.Tarp;
+            this.iconBtnTickets.IconColor = System.Drawing.Color.White;
+            this.iconBtnTickets.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnTickets.IconSize = 30;
+            this.iconBtnTickets.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnTickets.Location = new System.Drawing.Point(0, 144);
+            this.iconBtnTickets.Name = "iconBtnTickets";
+            this.iconBtnTickets.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.iconBtnTickets.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnTickets.TabIndex = 2;
+            this.iconBtnTickets.Tag = "Tickets";
+            this.iconBtnTickets.Text = "Tickets";
+            this.iconBtnTickets.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnTickets.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnTickets.UseVisualStyleBackColor = true;
+            this.iconBtnTickets.Click += new System.EventHandler(this.iconBtnTickets_Click);
+            // 
+            // iconBtnGeneral
+            // 
+            this.iconBtnGeneral.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iconBtnGeneral.FlatAppearance.BorderSize = 0;
+            this.iconBtnGeneral.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconBtnGeneral.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iconBtnGeneral.ForeColor = System.Drawing.Color.White;
+            this.iconBtnGeneral.IconChar = FontAwesome.Sharp.IconChar.Key;
+            this.iconBtnGeneral.IconColor = System.Drawing.Color.White;
+            this.iconBtnGeneral.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconBtnGeneral.IconSize = 30;
+            this.iconBtnGeneral.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnGeneral.Location = new System.Drawing.Point(0, 96);
+            this.iconBtnGeneral.Name = "iconBtnGeneral";
+            this.iconBtnGeneral.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.iconBtnGeneral.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnGeneral.TabIndex = 1;
+            this.iconBtnGeneral.Tag = "General";
+            this.iconBtnGeneral.Text = "General";
+            this.iconBtnGeneral.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconBtnGeneral.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconBtnGeneral.UseVisualStyleBackColor = true;
+            this.iconBtnGeneral.Click += new System.EventHandler(this.iconBtnGeneral_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.icbApellidoNombre);
@@ -169,7 +312,48 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 96);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+           
+            // 
+            // icbApellidoNombre
+            // 
+            this.icbApellidoNombre.FlatAppearance.BorderSize = 0;
+            this.icbApellidoNombre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.icbApellidoNombre.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.icbApellidoNombre.ForeColor = System.Drawing.Color.White;
+            this.icbApellidoNombre.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.icbApellidoNombre.IconColor = System.Drawing.Color.Transparent;
+            this.icbApellidoNombre.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.icbApellidoNombre.Location = new System.Drawing.Point(102, 6);
+            this.icbApellidoNombre.Name = "icbApellidoNombre";
+            this.icbApellidoNombre.Size = new System.Drawing.Size(62, 23);
+            this.icbApellidoNombre.TabIndex = 4;
+            this.icbApellidoNombre.UseVisualStyleBackColor = true;
+            // 
+            // btnMenu
+            // 
+            this.btnMenu.FlatAppearance.BorderSize = 0;
+            this.btnMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMenu.IconChar = FontAwesome.Sharp.IconChar.Navicon;
+            this.btnMenu.IconColor = System.Drawing.Color.White;
+            this.btnMenu.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnMenu.IconSize = 30;
+            this.btnMenu.Location = new System.Drawing.Point(190, 6);
+            this.btnMenu.Name = "btnMenu";
+            this.btnMenu.Size = new System.Drawing.Size(40, 29);
+            this.btnMenu.TabIndex = 1;
+            this.btnMenu.UseVisualStyleBackColor = true;
+            this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::UI.Properties.Resources.avatarAdmin;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(57, 35);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PanelTitleBar
             // 
@@ -200,6 +384,57 @@
             this.lblTitulo.Size = new System.Drawing.Size(245, 51);
             this.lblTitulo.TabIndex = 4;
             this.lblTitulo.Text = "DASHBOARD";
+            // 
+            // btnMinimize
+            // 
+            this.btnMinimize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(185)))), ((int)(((byte)(218)))));
+            this.btnMinimize.FlatAppearance.BorderSize = 0;
+            this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimize.IconChar = FontAwesome.Sharp.IconChar.Minus;
+            this.btnMinimize.IconColor = System.Drawing.Color.White;
+            this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnMinimize.IconSize = 20;
+            this.btnMinimize.Location = new System.Drawing.Point(518, 0);
+            this.btnMinimize.Name = "btnMinimize";
+            this.btnMinimize.Size = new System.Drawing.Size(40, 25);
+            this.btnMinimize.TabIndex = 3;
+            this.btnMinimize.UseVisualStyleBackColor = false;
+            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
+            // 
+            // btnMaximaze
+            // 
+            this.btnMaximaze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMaximaze.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(255)))));
+            this.btnMaximaze.FlatAppearance.BorderSize = 0;
+            this.btnMaximaze.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMaximaze.IconChar = FontAwesome.Sharp.IconChar.ExternalLinkAlt;
+            this.btnMaximaze.IconColor = System.Drawing.Color.White;
+            this.btnMaximaze.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnMaximaze.IconSize = 20;
+            this.btnMaximaze.Location = new System.Drawing.Point(556, 0);
+            this.btnMaximaze.Name = "btnMaximaze";
+            this.btnMaximaze.Size = new System.Drawing.Size(47, 25);
+            this.btnMaximaze.TabIndex = 0;
+            this.btnMaximaze.UseVisualStyleBackColor = false;
+            this.btnMaximaze.Click += new System.EventHandler(this.btnMaximaze_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(94)))), ((int)(((byte)(131)))));
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.IconChar = FontAwesome.Sharp.IconChar.X;
+            this.btnExit.IconColor = System.Drawing.Color.White;
+            this.btnExit.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnExit.IconSize = 20;
+            this.btnExit.Location = new System.Drawing.Point(602, 0);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(45, 25);
+            this.btnExit.TabIndex = 2;
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // PanelDesktop
             // 
@@ -237,7 +472,7 @@
             this.aaaToolStripMenuItem.Name = "aaaToolStripMenuItem";
             this.aaaToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.aaaToolStripMenuItem.Text = "Idioma";
-            this.aaaToolStripMenuItem.Click += new System.EventHandler(this.aaaToolStripMenuItem_Click);
+          
             // 
             // aaaaToolStripMenuItem
             // 
@@ -333,7 +568,7 @@
             this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
             this.cambiarIdiomaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_DropDownOpening);
-            this.cambiarIdiomaToolStripMenuItem.Click += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_Click);
+            
             // 
             // drdwTickets
             // 
@@ -346,26 +581,27 @@
             this.drdwTickets.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwTickets.Name = "drdwTickets";
             this.drdwTickets.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwTickets.Size = new System.Drawing.Size(173, 70);
+            this.drdwTickets.Size = new System.Drawing.Size(181, 92);
             // 
             // misTicketsToolStripMenuItem
             // 
             this.misTicketsToolStripMenuItem.Name = "misTicketsToolStripMenuItem";
-            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.misTicketsToolStripMenuItem.Text = "Mis tickets";
             // 
             // nuevoTicketToolStripMenuItem
             // 
             this.nuevoTicketToolStripMenuItem.Name = "nuevoTicketToolStripMenuItem";
-            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nuevoTicketToolStripMenuItem.Text = "Nuevo ticket";
+            this.nuevoTicketToolStripMenuItem.Click += new System.EventHandler(this.nuevoTicketToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Asignar aprobador";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+        
             // 
             // drdwAdministracion
             // 
@@ -811,21 +1047,15 @@
             this.drdwConfiguracion.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwConfiguracion.Name = "drdwConfiguracion";
             this.drdwConfiguracion.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwConfiguracion.Size = new System.Drawing.Size(181, 70);
+            this.drdwConfiguracion.Size = new System.Drawing.Size(127, 48);
             // 
             // inventarioToolStripMenuItem1
             // 
             this.inventarioToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionarToolStripMenuItem});
             this.inventarioToolStripMenuItem1.Name = "inventarioToolStripMenuItem1";
-            this.inventarioToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.inventarioToolStripMenuItem1.Size = new System.Drawing.Size(126, 22);
             this.inventarioToolStripMenuItem1.Text = "Idioma";
-            // 
-            // acercaDeToolStripMenuItem
-            // 
-            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.acercaDeToolStripMenuItem.Text = "Acerca de";
             // 
             // gestionarToolStripMenuItem
             // 
@@ -834,263 +1064,33 @@
             this.modificarToolStripMenuItem5,
             this.borrarToolStripMenuItem5});
             this.gestionarToolStripMenuItem.Name = "gestionarToolStripMenuItem";
-            this.gestionarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gestionarToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.gestionarToolStripMenuItem.Text = "Gestionar";
             // 
             // nuevoToolStripMenuItem5
             // 
             this.nuevoToolStripMenuItem5.Name = "nuevoToolStripMenuItem5";
-            this.nuevoToolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
+            this.nuevoToolStripMenuItem5.Size = new System.Drawing.Size(125, 22);
             this.nuevoToolStripMenuItem5.Text = "Nuevo";
             this.nuevoToolStripMenuItem5.Click += new System.EventHandler(this.nuevoToolStripMenuItem5_Click);
             // 
             // modificarToolStripMenuItem5
             // 
             this.modificarToolStripMenuItem5.Name = "modificarToolStripMenuItem5";
-            this.modificarToolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
+            this.modificarToolStripMenuItem5.Size = new System.Drawing.Size(125, 22);
             this.modificarToolStripMenuItem5.Text = "Modificar";
             // 
             // borrarToolStripMenuItem5
             // 
             this.borrarToolStripMenuItem5.Name = "borrarToolStripMenuItem5";
-            this.borrarToolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
+            this.borrarToolStripMenuItem5.Size = new System.Drawing.Size(125, 22);
             this.borrarToolStripMenuItem5.Text = "Borrar";
             // 
-            // btnMinimize
+            // acercaDeToolStripMenuItem
             // 
-            this.btnMinimize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(185)))), ((int)(((byte)(218)))));
-            this.btnMinimize.FlatAppearance.BorderSize = 0;
-            this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMinimize.IconChar = FontAwesome.Sharp.IconChar.Minus;
-            this.btnMinimize.IconColor = System.Drawing.Color.White;
-            this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnMinimize.IconSize = 20;
-            this.btnMinimize.Location = new System.Drawing.Point(518, 0);
-            this.btnMinimize.Name = "btnMinimize";
-            this.btnMinimize.Size = new System.Drawing.Size(40, 25);
-            this.btnMinimize.TabIndex = 3;
-            this.btnMinimize.UseVisualStyleBackColor = false;
-            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
-            // 
-            // btnMaximaze
-            // 
-            this.btnMaximaze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMaximaze.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(255)))));
-            this.btnMaximaze.FlatAppearance.BorderSize = 0;
-            this.btnMaximaze.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMaximaze.IconChar = FontAwesome.Sharp.IconChar.ExternalLinkAlt;
-            this.btnMaximaze.IconColor = System.Drawing.Color.White;
-            this.btnMaximaze.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnMaximaze.IconSize = 20;
-            this.btnMaximaze.Location = new System.Drawing.Point(556, 0);
-            this.btnMaximaze.Name = "btnMaximaze";
-            this.btnMaximaze.Size = new System.Drawing.Size(47, 25);
-            this.btnMaximaze.TabIndex = 0;
-            this.btnMaximaze.UseVisualStyleBackColor = false;
-            this.btnMaximaze.Click += new System.EventHandler(this.btnMaximaze_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(94)))), ((int)(((byte)(131)))));
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.IconChar = FontAwesome.Sharp.IconChar.X;
-            this.btnExit.IconColor = System.Drawing.Color.White;
-            this.btnExit.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnExit.IconSize = 20;
-            this.btnExit.Location = new System.Drawing.Point(602, 0);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(45, 25);
-            this.btnExit.TabIndex = 2;
-            this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // iconBtnDesloguear
-            // 
-            this.iconBtnDesloguear.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.iconBtnDesloguear.FlatAppearance.BorderSize = 0;
-            this.iconBtnDesloguear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnDesloguear.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnDesloguear.ForeColor = System.Drawing.Color.White;
-            this.iconBtnDesloguear.IconChar = FontAwesome.Sharp.IconChar.SignOut;
-            this.iconBtnDesloguear.IconColor = System.Drawing.Color.White;
-            this.iconBtnDesloguear.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnDesloguear.IconSize = 30;
-            this.iconBtnDesloguear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 486);
-            this.iconBtnDesloguear.Name = "iconBtnDesloguear";
-            this.iconBtnDesloguear.Padding = new System.Windows.Forms.Padding(10, 0, 0, 15);
-            this.iconBtnDesloguear.Size = new System.Drawing.Size(230, 46);
-            this.iconBtnDesloguear.TabIndex = 7;
-            this.iconBtnDesloguear.Tag = "Desloguear";
-            this.iconBtnDesloguear.Text = "Desloguear";
-            this.iconBtnDesloguear.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDesloguear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnDesloguear.UseVisualStyleBackColor = true;
-            this.iconBtnDesloguear.Click += new System.EventHandler(this.iconBtnDesloguear_Click);
-            // 
-            // iconBtnConfiguracion
-            // 
-            this.iconBtnConfiguracion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnConfiguracion.FlatAppearance.BorderSize = 0;
-            this.iconBtnConfiguracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnConfiguracion.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnConfiguracion.ForeColor = System.Drawing.Color.White;
-            this.iconBtnConfiguracion.IconChar = FontAwesome.Sharp.IconChar.Wrench;
-            this.iconBtnConfiguracion.IconColor = System.Drawing.Color.White;
-            this.iconBtnConfiguracion.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnConfiguracion.IconSize = 30;
-            this.iconBtnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnConfiguracion.Location = new System.Drawing.Point(0, 288);
-            this.iconBtnConfiguracion.Name = "iconBtnConfiguracion";
-            this.iconBtnConfiguracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnConfiguracion.Size = new System.Drawing.Size(230, 48);
-            this.iconBtnConfiguracion.TabIndex = 5;
-            this.iconBtnConfiguracion.Tag = "Configuracion";
-            this.iconBtnConfiguracion.Text = "Configuracion";
-            this.iconBtnConfiguracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnConfiguracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnConfiguracion.UseVisualStyleBackColor = true;
-            this.iconBtnConfiguracion.Click += new System.EventHandler(this.iconBtnConfiguracion_Click);
-            // 
-            // iconBtnAdministracion
-            // 
-            this.iconBtnAdministracion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnAdministracion.FlatAppearance.BorderSize = 0;
-            this.iconBtnAdministracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnAdministracion.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnAdministracion.ForeColor = System.Drawing.Color.White;
-            this.iconBtnAdministracion.IconChar = FontAwesome.Sharp.IconChar.IdCard;
-            this.iconBtnAdministracion.IconColor = System.Drawing.Color.White;
-            this.iconBtnAdministracion.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnAdministracion.IconSize = 30;
-            this.iconBtnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnAdministracion.Location = new System.Drawing.Point(0, 240);
-            this.iconBtnAdministracion.Name = "iconBtnAdministracion";
-            this.iconBtnAdministracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnAdministracion.Size = new System.Drawing.Size(230, 48);
-            this.iconBtnAdministracion.TabIndex = 4;
-            this.iconBtnAdministracion.Tag = "Administracion";
-            this.iconBtnAdministracion.Text = "Administracion";
-            this.iconBtnAdministracion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnAdministracion.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnAdministracion.UseVisualStyleBackColor = true;
-            this.iconBtnAdministracion.Click += new System.EventHandler(this.iconBtnAdministracion_Click);
-            // 
-            // iconBtnDepartamentos
-            // 
-            this.iconBtnDepartamentos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnDepartamentos.FlatAppearance.BorderSize = 0;
-            this.iconBtnDepartamentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnDepartamentos.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnDepartamentos.ForeColor = System.Drawing.Color.White;
-            this.iconBtnDepartamentos.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
-            this.iconBtnDepartamentos.IconColor = System.Drawing.Color.White;
-            this.iconBtnDepartamentos.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnDepartamentos.IconSize = 30;
-            this.iconBtnDepartamentos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDepartamentos.Location = new System.Drawing.Point(0, 192);
-            this.iconBtnDepartamentos.Name = "iconBtnDepartamentos";
-            this.iconBtnDepartamentos.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnDepartamentos.Size = new System.Drawing.Size(230, 48);
-            this.iconBtnDepartamentos.TabIndex = 3;
-            this.iconBtnDepartamentos.Tag = "Departamentos";
-            this.iconBtnDepartamentos.Text = "Dashboard";
-            this.iconBtnDepartamentos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDepartamentos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnDepartamentos.UseVisualStyleBackColor = true;
-            this.iconBtnDepartamentos.Click += new System.EventHandler(this.iconBtnDepartamentos_Click);
-            // 
-            // iconBtnTickets
-            // 
-            this.iconBtnTickets.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnTickets.FlatAppearance.BorderSize = 0;
-            this.iconBtnTickets.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnTickets.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnTickets.ForeColor = System.Drawing.Color.White;
-            this.iconBtnTickets.IconChar = FontAwesome.Sharp.IconChar.Tarp;
-            this.iconBtnTickets.IconColor = System.Drawing.Color.White;
-            this.iconBtnTickets.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnTickets.IconSize = 30;
-            this.iconBtnTickets.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnTickets.Location = new System.Drawing.Point(0, 144);
-            this.iconBtnTickets.Name = "iconBtnTickets";
-            this.iconBtnTickets.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnTickets.Size = new System.Drawing.Size(230, 48);
-            this.iconBtnTickets.TabIndex = 2;
-            this.iconBtnTickets.Tag = "Tickets";
-            this.iconBtnTickets.Text = "Tickets";
-            this.iconBtnTickets.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnTickets.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnTickets.UseVisualStyleBackColor = true;
-            this.iconBtnTickets.Click += new System.EventHandler(this.iconBtnTickets_Click);
-            // 
-            // iconBtnGeneral
-            // 
-            this.iconBtnGeneral.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iconBtnGeneral.FlatAppearance.BorderSize = 0;
-            this.iconBtnGeneral.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconBtnGeneral.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.iconBtnGeneral.ForeColor = System.Drawing.Color.White;
-            this.iconBtnGeneral.IconChar = FontAwesome.Sharp.IconChar.Key;
-            this.iconBtnGeneral.IconColor = System.Drawing.Color.White;
-            this.iconBtnGeneral.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconBtnGeneral.IconSize = 30;
-            this.iconBtnGeneral.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnGeneral.Location = new System.Drawing.Point(0, 96);
-            this.iconBtnGeneral.Name = "iconBtnGeneral";
-            this.iconBtnGeneral.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnGeneral.Size = new System.Drawing.Size(230, 48);
-            this.iconBtnGeneral.TabIndex = 1;
-            this.iconBtnGeneral.Tag = "General";
-            this.iconBtnGeneral.Text = "General";
-            this.iconBtnGeneral.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnGeneral.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconBtnGeneral.UseVisualStyleBackColor = true;
-            this.iconBtnGeneral.Click += new System.EventHandler(this.iconBtnGeneral_Click);
-            // 
-            // icbApellidoNombre
-            // 
-            this.icbApellidoNombre.FlatAppearance.BorderSize = 0;
-            this.icbApellidoNombre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.icbApellidoNombre.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.icbApellidoNombre.ForeColor = System.Drawing.Color.White;
-            this.icbApellidoNombre.IconChar = FontAwesome.Sharp.IconChar.None;
-            this.icbApellidoNombre.IconColor = System.Drawing.Color.Transparent;
-            this.icbApellidoNombre.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.icbApellidoNombre.Location = new System.Drawing.Point(102, 6);
-            this.icbApellidoNombre.Name = "icbApellidoNombre";
-            this.icbApellidoNombre.Size = new System.Drawing.Size(62, 23);
-            this.icbApellidoNombre.TabIndex = 4;
-            this.icbApellidoNombre.UseVisualStyleBackColor = true;
-            // 
-            // btnMenu
-            // 
-            this.btnMenu.FlatAppearance.BorderSize = 0;
-            this.btnMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMenu.IconChar = FontAwesome.Sharp.IconChar.Navicon;
-            this.btnMenu.IconColor = System.Drawing.Color.White;
-            this.btnMenu.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnMenu.IconSize = 30;
-            this.btnMenu.Location = new System.Drawing.Point(190, 6);
-            this.btnMenu.Name = "btnMenu";
-            this.btnMenu.Size = new System.Drawing.Size(40, 29);
-            this.btnMenu.TabIndex = 1;
-            this.btnMenu.UseVisualStyleBackColor = true;
-            this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::UI.Properties.Resources.avatarAdmin;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(57, 35);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.acercaDeToolStripMenuItem.Text = "Acerca de";
             // 
             // frmPpalAdmin
             // 
@@ -1107,6 +1107,7 @@
             this.Resize += new System.EventHandler(this.frmPpalNew_Resize);
             this.PanelMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.PanelTitleBar.ResumeLayout(false);
             this.PanelTitleBar.PerformLayout();
             this.drdwGeneral.ResumeLayout(false);
@@ -1114,7 +1115,6 @@
             this.drdwTickets.ResumeLayout(false);
             this.drdwAdministracion.ResumeLayout(false);
             this.drdwConfiguracion.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

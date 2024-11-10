@@ -31,9 +31,9 @@ namespace UI
             
 
             var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
-            SingletonSesion.Instancia.CambiarIdioma(idiomaDefault);
+            SingletonSesion.Instancia.Sesion.CambiarIdioma(idiomaDefault);
 
-            Traducir(SingletonSesion.Instancia.Idioma);
+            Traducir(SingletonSesion.Instancia.Sesion.Idioma);
 
             CargarIdiomas();
 
@@ -153,12 +153,12 @@ namespace UI
 
         public void ValidarForm()
         {
-            this.iniciarSesiónToolStripMenuItem.Enabled = !SingletonSesion.Instancia.IsLogged();
-            this.cerrarSesiónToolStripMenuItem.Enabled = SingletonSesion.Instancia.IsLogged();
+            this.iniciarSesiónToolStripMenuItem.Enabled = !SingletonSesion.Instancia.Sesion.IsLogged();
+            this.cerrarSesiónToolStripMenuItem.Enabled = SingletonSesion.Instancia.Sesion.IsLogged();
             //this.menuEmpleados.Enabled = SingletonSesion.Instancia.IsLogged();
-            this.menuGestores.Enabled = SingletonSesion.Instancia.IsLogged();
+            this.menuGestores.Enabled = SingletonSesion.Instancia.Sesion.IsLogged();
             //this.menuNovedades.Enabled = SingletonSesion.Instancia.IsLogged();
-            this.verPerfilMenuItem.Enabled = SingletonSesion.Instancia.IsLogged();
+            this.verPerfilMenuItem.Enabled = SingletonSesion.Instancia.Sesion.IsLogged();
 
             // Desactivar menús principales
             this.menuEmpleados.Enabled = true;
@@ -188,9 +188,9 @@ namespace UI
             // Si hay más menús o submenús, sigue el mismo patrón
 
 
-            if (SingletonSesion.Instancia.IsLogged())
+            if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
-                this.toolStripLabelLoginUser.Text = SingletonSesion.Instancia.Usuario.Email;
+                this.toolStripLabelLoginUser.Text = SingletonSesion.Instancia.Sesion.Usuario.Email;
             }
             else
             {
@@ -264,7 +264,7 @@ namespace UI
             if (idiomaEspañol != null)
             {
                 Traducir(idiomaEspañol);
-                SingletonSesion.Instancia.CambiarIdioma(idiomaEspañol);
+                SingletonSesion.Instancia.Sesion.CambiarIdioma(idiomaEspañol);
             }
         }
 
@@ -329,16 +329,16 @@ namespace UI
             frmUsuarios.Show();
         }
 
-        private void verPerfilMenuItem_Click(object sender, EventArgs e)
-        {
-            frmPerfil frm = new frmPerfil();
-            frm.MdiParent = this;
-            int x = (this.ClientSize.Width - frm.Width) / 2;
-            int y = (this.ClientSize.Height - frm.Height) / 2;
-            frm.StartPosition = FormStartPosition.Manual;
-            frm.Location = new Point(x, y);
-            frm.Show();
-        }
+        //private void verPerfilMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    frmPerfil frm = new frmPerfil(_eventManagerService);
+        //    frm.MdiParent = this;
+        //    int x = (this.ClientSize.Width - frm.Width) / 2;
+        //    int y = (this.ClientSize.Height - frm.Height) / 2;
+        //    frm.StartPosition = FormStartPosition.Manual;
+        //    frm.Location = new Point(x, y);
+        //    frm.Show();
+        //}
 
         private void cambiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -367,7 +367,7 @@ namespace UI
                 if (idioma != null)
                 {
                     Traducir(idioma);
-                    SingletonSesion.Instancia.CambiarIdioma(idioma);
+                    SingletonSesion.Instancia.Sesion.CambiarIdioma(idioma);
                 }
             }
         }
@@ -387,7 +387,8 @@ namespace UI
 
         private void crearPedidoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CrearTicket frmTicke = new CrearTicket();
+            EventManagerService eventManagerService = new EventManagerService();
+            frmCrearTicket frmTicke = new frmCrearTicket(eventManagerService);
             frmTicke.MdiParent = this;
             frmTicke.FormBorderStyle = FormBorderStyle.None; // Sin bordes
             frmTicke.Dock = DockStyle.Fill; // Ajustar al formulario padre

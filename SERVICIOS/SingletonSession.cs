@@ -9,23 +9,28 @@ namespace SERVICIOS
 {
     public class SingletonSesion
     {
-        // aca fijo mi metodo estatico
-        private static Sesion _instancia;
-        private static Object _lock = new object();
+        private static SingletonSesion _instancia;
+        private static readonly object _lock = new object();
+        private Sesion _sesion;
 
-        public static Sesion Instancia
+        private SingletonSesion()
+        {
+            _sesion = new Sesion();
+        }
+
+        public static SingletonSesion Instancia
         {
             get
             {
                 lock (_lock)
                 {
                     if (_instancia == null)
-                        _instancia = new Sesion();
+                        _instancia = new SingletonSesion();
                 }
-
                 return _instancia;
             }
         }
 
+        public Sesion Sesion => _sesion;
     }
 }

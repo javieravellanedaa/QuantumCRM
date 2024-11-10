@@ -36,15 +36,15 @@ namespace UI
         public List<Etiqueta> etiquetas = new List<Etiqueta>();
         public frmPpalAdmin()
         {
-            SingletonSesion.Instancia.Usuario.UltimoRolId = 1;
+            SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId = 1;
             InitializeComponent();
-            if (SingletonSesion.Instancia.IsLogged())
+            if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
                 etiquetas.AddRange(RecopilarEtiquetas(this));
                 etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(drdwGeneral, this.Name));
                 etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(drdwPerfil, this.Name));
 
-                _usuario = SingletonSesion.Instancia.Usuario;
+                _usuario = SingletonSesion.Instancia.Sesion.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
               
                 //var idiomaDefault = new BLL.IdiomaBLL().ObtenerIdiomaDefault();
@@ -190,6 +190,7 @@ namespace UI
             drdwConfiguracion.IsMainMenu = true;
             drdwAdministracion.IsMainMenu = true;
             drdwTickets.IsMainMenu = true;
+            _eventManagerService.Subscribe("FormularioCerrado", this);
 
 
         }
@@ -314,20 +315,7 @@ namespace UI
             drdwGeneral.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
         }
 
-        private void iconBtnDepartamentos_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblApellidoNombre_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+ 
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -335,7 +323,7 @@ namespace UI
 
 
         }
-        private void FormularioSecundarioCerrado(object sender, EventArgs e)
+        private void FormularioSecundarioCerrado()
         {
             // Cambia el label cuando el formulario secundario se cierra
             lblTitulo.Text = "Seleccione una opción";
@@ -343,11 +331,7 @@ namespace UI
 
         private void CargarFormularioEnPanel(Form formulario)
         {
-            if (formulario is frmPerfil perfilForm)
-            {
-                _eventManagerService.Subscribe("FormularioCerrado", this);
-
-            }
+           
             PanelDesktop.Controls.Clear();
             formulario.TopLevel = false;
 
@@ -358,13 +342,16 @@ namespace UI
             formulario.Show();
         }
 
+  
+
+
         private void datosPersonalesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPerfil frmPerfil = new frmPerfil();
+            frmPerfil frmPerfil = new frmPerfil(_eventManagerService);
             CargarFormularioEnPanel(frmPerfil);
             if (frmPerfil.IsDisposed)
             {
-                lblTitulo.Text = "Seleccione una opcion";
+                FormularioSecundarioCerrado();
             }
 
 
@@ -376,9 +363,9 @@ namespace UI
             if (cambiarRolToolStripMenuItem.DropDownItems.Count == 0)
             {
                 // Verificar si hay roles en la lista y crear hijos dinámicamente
-                if (SingletonSesion.Instancia.Usuario.NombreDeLosRoles != null)
+                if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles != null)
                 {
-                    foreach (var item in SingletonSesion.Instancia.Usuario.NombreDeLosRoles)
+                    foreach (var item in SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles)
                     {
                         // Crear un nuevo ToolStripMenuItem para cada rol
                         ToolStripMenuItem rolMenuItem = new ToolStripMenuItem(item);
@@ -425,13 +412,8 @@ namespace UI
         {
             if (eventType == "FormularioCerrado")
             {
-                lblTitulo.Text = "Seleccione una opción";
+                FormularioSecundarioCerrado();
             }
-        }
-
-        private void cambiarIdiomaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
 
@@ -536,7 +518,7 @@ namespace UI
                 AplicarTraduccion(control);
             }
 
-            SingletonSesion.Instancia.Usuario.Idioma = idiomaSeleccionado;
+            SingletonSesion.Instancia.Sesion.Usuario.Idioma = idiomaSeleccionado;
             
         }
 
@@ -575,7 +557,7 @@ namespace UI
         }
 
 
-        // Función para cargar los idiomas disponibles en el ToolStripMenu
+   
         private void CargarIdiomas()
         {
             _idiomaBLL = new IdiomaBLL();
@@ -603,7 +585,7 @@ namespace UI
                     idiomaMenuItem.Click += (s, args) =>
                     {
                         // Verificar si el idioma seleccionado es el mismo que el actual
-                        if (SingletonSesion.Instancia.Usuario.Idioma.Nombre == idioma.Nombre)
+                        if (SingletonSesion.Instancia.Sesion.Usuario.Idioma.Nombre == idioma.Nombre)
                         {
                             MessageBox.Show($"Ya se encuentra en el idioma {idioma.Nombre}");
                         }
@@ -646,15 +628,7 @@ namespace UI
             }
         }
 
-        private void aaaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void iconBtnConfiguracion_Click(object sender, EventArgs e)
         {
@@ -673,12 +647,23 @@ namespace UI
 
         private void nuevoToolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            Form frnNuevoIdima = new frmNuevoIdioma();
+            Form frnNuevoIdima = new frmNuevoIdioma(_eventManagerService);
        
             CargarFormularioEnPanel(frnNuevoIdima);
             if (frnNuevoIdima.IsDisposed)
             {
-                lblTitulo.Text = "Seleccione una opcion";
+                FormularioSecundarioCerrado();
+            }
+        }
+
+        private void nuevoTicketToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
+            Form frmCrearTicket = new frmCrearTicket(_eventManagerService);
+            CargarFormularioEnPanel(frmCrearTicket);
+             if (frmCrearTicket.IsDisposed)
+            {
+                FormularioSecundarioCerrado();
             }
         }
     }

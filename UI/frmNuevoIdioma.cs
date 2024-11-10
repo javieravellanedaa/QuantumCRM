@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SERVICIOS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,12 @@ namespace UI
 {
     public partial class frmNuevoIdioma : Form
     {
-        public frmNuevoIdioma()
+        private readonly EventManagerService _eventManagerService;
+        public frmNuevoIdioma (EventManagerService eventManagerService)
         {
             InitializeComponent();
+             _eventManagerService = eventManagerService;
+           
             this.FormBorderStyle = FormBorderStyle.None;
             this.BackColor = Color.FromArgb(96, 116, 239); // mismo color que frmPpalAdmin
         }

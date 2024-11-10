@@ -24,7 +24,7 @@ namespace UI
            
             
             // Obtiene el usuario desde la sesión global
-            BE.Usuario usuarioActual = SingletonSesion.Instancia.Usuario as BE.Usuario;
+            BE.Usuario usuarioActual = SingletonSesion.Instancia.Sesion.Usuario as BE.Usuario;
             if (usuarioActual != null)
             {
                 

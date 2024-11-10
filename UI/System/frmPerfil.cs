@@ -16,13 +16,13 @@ namespace UI
     {
        
         private IUsuario _usuario;
-        public EventManagerService EventManagerService { get; set; }
-        public frmPerfil()
+        private readonly EventManagerService _eventManagerService;
+        public frmPerfil(EventManagerService eventManagerService)
         {
             InitializeComponent();
-            if (SingletonSesion.Instancia.IsLogged())
+            if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
-                _usuario = SingletonSesion.Instancia.Usuario;
+                _usuario = SingletonSesion.Instancia.Sesion.Usuario;
                 txtApellido.Text = _usuario.Apellido;
                 txtNombre.Text = _usuario.Nombre;
                 txtCorreo.Text = _usuario.Email;
@@ -31,7 +31,8 @@ namespace UI
                 txtIdiomaPreferido.Text = _usuario.Idioma.Nombre;
                 txtUsuario.Text = _usuario.NombreUsuario;
                 txtFechaAlta.Text = _usuario.FechaAlta.ToString();
-                
+                _eventManagerService = eventManagerService;
+
             }
             else
             {
@@ -45,7 +46,7 @@ namespace UI
         }
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            EventManagerService?.Notify("FormularioCerrado", this);
+            _eventManagerService?.Notify("FormularioCerrado", this);
             this.Close();
         }
 

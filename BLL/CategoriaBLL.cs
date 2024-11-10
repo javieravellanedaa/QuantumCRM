@@ -36,6 +36,14 @@ namespace BLL
             categoriaDAL.ActualizarCategoria(categoria);
         }
 
+        public Prioridad Obtener_prioridad(Categoria categoria)
+
+        {
+            
+           Prioridad prioridad = categoriaDAL.ObtenerPrioridad(categoria);
+            return prioridad;
+        }
+
       
 
         // Eliminar una categoría y sus asociaciones con campos

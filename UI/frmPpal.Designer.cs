@@ -99,7 +99,7 @@
             this.verPerfilMenuItem.Name = "verPerfilMenuItem";
             this.verPerfilMenuItem.Size = new System.Drawing.Size(143, 22);
             this.verPerfilMenuItem.Text = "Ver Perfil";
-            this.verPerfilMenuItem.Click += new System.EventHandler(this.verPerfilMenuItem_Click);
+            //this.verPerfilMenuItem.Click += new System.EventHandler(this.verPerfilMenuItem_Click);
             // 
             // iniciarSesiónToolStripMenuItem
             // 

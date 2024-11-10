@@ -108,7 +108,7 @@ namespace UI
             var idiomaSeleccionado = (IIdioma)cmbIdioma.SelectedItem;
 
             // Notificar a los observadores
-            SingletonSesion.Instancia.CambiarIdioma(idiomaSeleccionado);
+            SingletonSesion.Instancia.Sesion.CambiarIdioma(idiomaSeleccionado);
 
             MessageBox.Show("Traducciones guardadas correctamente.");
         }

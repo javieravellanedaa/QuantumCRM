@@ -15,7 +15,7 @@ namespace BLL
         }
 
         // Método para guardar un ticket en la base de datos.
-        public void GuardarTicket(Ticket ticket)
+        public void CrearTicket(Ticket ticket)
         {
             if (ticket == null)
             {
@@ -35,15 +35,16 @@ namespace BLL
                 throw new ArgumentException("El ID del ticket no puede ser vacío.");
             }
 
+            return null;
             // Devuelve el ticket obtenido de la base de datos.
-            return ticketDAL.ObtenerTicketPorId(id);
+         //   return ticketDAL.ObtenerTicketPorId(id);
         }
 
-        // Método para listar todos los tickets existentes.
-        public List<Ticket> ListarTodosLosTickets()
-        {
-            return ticketDAL.ListarTodosLosTickets();
-        }
+        //// Método para listar todos los tickets existentes.
+        //public void List<Ticket> ListarTodosLosTickets()
+        //{
+        ////    return ticketDAL.ListarTodosLosTickets();
+        //}
 
         // Método para actualizar un ticket existente.
         public void ActualizarTicket(Ticket ticket)
@@ -56,7 +57,7 @@ namespace BLL
          
 
             // Actualiza el ticket usando TicketDAL.
-            ticketDAL.ActualizarTicket(ticket);
+           // ticketDAL.ActualizarTicket(ticket);
         }
 
         // Método para eliminar un ticket usando su ID.
@@ -68,7 +69,7 @@ namespace BLL
             }
 
             // Elimina el ticket usando TicketDAL.
-            ticketDAL.EliminarTicket(id);
+          //  ticketDAL.EliminarTicket(id);
         }
     }
 }

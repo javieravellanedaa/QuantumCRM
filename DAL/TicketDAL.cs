@@ -7,157 +7,140 @@ namespace DAL
 {
     public class TicketDAL
     {
-        private string _connectionString = @"Integrated Security=SSPI;Data Source=.\SQLEXPRESS;Initial Catalog=CRM";
+        private Acceso _acceso = new Acceso();
 
+        // Método para guardar un ticket
         public void GuardarTicket(Ticket ticket)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
-                conn.Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        SqlCommand cmd = new SqlCommand("INSERT INTO Ticket (Id, UsuarioId, CategoriaId, Tipo) VALUES (@Id, @UsuarioId, @CategoriaId, @Tipo)", conn, transaction);
-                        cmd.Parameters.AddWithValue("@Id", ticket.Id);
-                        cmd.Parameters.AddWithValue("@UsuarioId", ticket.UsuarioCreador.Id);
-                        cmd.Parameters.AddWithValue("@CategoriaId", ticket.Categoria.CategoriaId);
-                        cmd.Parameters.AddWithValue("@Tipo", ticket.Tipo);
-                        cmd.ExecuteNonQuery();
+                _acceso.CrearParametro("@TicketId", ticket.TicketId.ToString()),
+                _acceso.CrearParametro("@Asunto", ticket.Asunto),
+                _acceso.CrearParametro("@Descripcion", ticket.Descripcion),
+                _acceso.CrearParametro("@CategoriaId", ticket.CategoriaId),
+                _acceso.CrearParametro("@EstadoId", ticket.EstadoId),
+                _acceso.CrearParametro("@FechaCreacion", ticket.FechaCreacion),
+                _acceso.CrearParametro("@FechaUltimaModif", ticket.FechaUltimaModif),
+                _acceso.CrearParametro("@PrioridadId", ticket.PrioridadId),  // Se asume que PrioridadId es el identificador
+                _acceso.CrearParametro("@TecnicoId", ticket.TecnicoId),
+                _acceso.CrearParametro("@UsuarioCreadorId", ticket.UsuarioCreadorId.ToString())
+            };
 
-                       
-
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw ex;
-                    }
-                }
+            try
+            {
+                _acceso.Abrir();
+                _acceso.ComenzarTransaccion();
+                _acceso.Escribir("sp_GuardarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_GuardarTicket
+                _acceso.ConfirmarTransaccion();
+            }
+            catch (Exception)
+            {
+                _acceso.CancelarTransaccion();
+                throw;
+            }
+            finally
+            {
+                _acceso.Cerrar();
             }
         }
 
-        public Ticket ObtenerTicketPorId(Guid id)
-        {
-            Ticket ticket = null;
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                string sql = "SELECT t.Id, t.UsuarioId, t.CategoriaId, t.Tipo FROM Ticket t WHERE t.Id = @Id";
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            ticket = new Ticket
-                            {
-                                Id = (Guid)reader["Id"],
-                                UsuarioCreador = new Usuario { Id = (Guid)reader["UsuarioId"] },
-                                Categoria = new Categoria { CategoriaId = (int)reader["CategoriaId"] },
-                                Tipo = reader["Tipo"].ToString(),
-                                
-                            };
-                        }
-                    }
-                }
-            }
-            return ticket;
-        }
+        //// Método para obtener un ticket por su Id
+        //public Ticket ObtenerTicketPorId(Guid ticketId)
+        //{
+        //    Ticket ticket = null;
+        //    List<SqlParameter> parametros = new List<SqlParameter>
+        //    {
+        //        _acceso.CrearParametro("@TicketId", ticketId)
+        //    };
 
-        public List<Ticket> ListarTodosLosTickets()
-        {
-            List<Ticket> tickets = new List<Ticket>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                string sql = "SELECT t.Id, t.UsuarioId, t.CategoriaId, t.Tipo, u.Nombre as UsuarioNombre, c.Nombre as CategoriaNombre FROM Ticket t JOIN Usuario u ON t.UsuarioId = u.Id JOIN Categoria c ON t.CategoriaId = c.Id";
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var ticket = new Ticket
-                            {
-                                Id = (Guid)reader["Id"],
-                                UsuarioCreador = new Usuario { Id = (Guid)reader["UsuarioId"], Nombre = reader["UsuarioNombre"].ToString() },
-                                Categoria = new Categoria { CategoriaId = (int)reader["CategoriaId"], Nombre = reader["CategoriaNombre"].ToString() },
-                                Tipo = reader["Tipo"].ToString(),
-                              
-                            };
-                            tickets.Add(ticket);
-                        }
-                    }
-                }
-            }
-            return tickets;
-        }
+        //    try
+        //    {
+        //        _acceso.Abrir();
+        //        using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerTicketPorId", parametros))
+        //        {
+        //            if (reader.Read())
+        //            {
+        //                ticket = new Ticket
+        //                {
+        //                    TicketId = reader.GetGuid(reader.GetOrdinal("ticket_id")),
+        //                    Asunto = reader.GetString(reader.GetOrdinal("asunto")),
+        //                    Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
+        //                    CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
+        //                    EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
+        //                    FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+        //                    FechaUltimaModif = reader.GetDateTime(reader.GetOrdinal("fecha_ultima_modif")),
+        //                    PrioridadId = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+        //                    TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id")),
+        //                    UsuarioCreadorId = reader.GetGuid(reader.GetOrdinal("usuario_creador_id"))
+        //                };
+        //            }
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        _acceso.Cerrar();
+        //    }
 
-        public void ActualizarTicket(Ticket ticket)
-        {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        SqlCommand cmd = new SqlCommand("UPDATE Ticket SET UsuarioId = @UsuarioId, CategoriaId = @CategoriaId, Tipo = @Tipo WHERE Id = @Id", conn, transaction);
-                        cmd.Parameters.AddWithValue("@Id", ticket.Id);
-                        cmd.Parameters.AddWithValue("@UsuarioId", ticket.UsuarioCreador.Id);
-                        cmd.Parameters.AddWithValue("@CategoriaId", ticket.Categoria.CategoriaId);
-                        cmd.Parameters.AddWithValue("@Tipo", ticket.Tipo);
-                        cmd.ExecuteNonQuery();
+        //    return ticket;
+        //}
 
-                        cmd = new SqlCommand("DELETE FROM TicketCampo WHERE TicketId = @TicketId", conn, transaction);
-                        cmd.Parameters.AddWithValue("@TicketId", ticket.Id);
-                        cmd.ExecuteNonQuery();
+        //// Método para actualizar un ticket existente
+        //public void ActualizarTicket(Ticket ticket)
+        //{
+        //    List<SqlParameter> parametros = new List<SqlParameter>
+        //    {
+        //        _acceso.CrearParametro("@TicketId", ticket.TicketId),
+        //        _acceso.CrearParametro("@Asunto", ticket.Asunto),
+        //        _acceso.CrearParametro("@Descripcion", ticket.Descripcion),
+        //        _acceso.CrearParametro("@CategoriaId", ticket.CategoriaId),
+        //        _acceso.CrearParametro("@EstadoId", ticket.EstadoId),
+        //        _acceso.CrearParametro("@FechaUltimaModif", ticket.FechaUltimaModif),
+        //        _acceso.CrearParametro("@PrioridadId", ticket.PrioridadId),
+        //        _acceso.CrearParametro("@TecnicoId", ticket.TecnicoId)
+        //    };
 
-                   
+        //    try
+        //    {
+        //        _acceso.Abrir();
+        //        _acceso.ComenzarTransaccion();
+        //        _acceso.Escribir("sp_ActualizarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_ActualizarTicket
+        //        _acceso.ConfirmarTransaccion();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        _acceso.CancelarTransaccion();
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        _acceso.Cerrar();
+        //    }
+        //}
 
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw ex;
-                    }
-                }
-            }
-        }
+        //// Método para eliminar un ticket por su Id
+        //public void EliminarTicket(Guid ticketId)
+        //{
+        //    List<SqlParameter> parametros = new List<SqlParameter>
+        //    {
+        //        _acceso.CrearParametro("@TicketId", ticketId)
+        //    };
 
-        public void EliminarTicket(Guid id)
-        {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        SqlCommand cmd = new SqlCommand("DELETE FROM TicketCampo WHERE TicketId = @TicketId", conn, transaction);
-                        cmd.Parameters.AddWithValue("@TicketId", id);
-                        cmd.ExecuteNonQuery();
-
-                        cmd = new SqlCommand("DELETE FROM Ticket WHERE Id = @Id", conn, transaction);
-                        cmd.Parameters.AddWithValue("@Id", id);
-                        cmd.ExecuteNonQuery();
-
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw ex;
-                    }
-                }
-            }
-        }
-
-
-        
+        //    try
+        //    {
+        //        _acceso.Abrir();
+        //        _acceso.ComenzarTransaccion();
+        //        _acceso.Escribir("sp_EliminarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_EliminarTicket
+        //        _acceso.ConfirmarTransaccion();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        _acceso.CancelarTransaccion();
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        _acceso.Cerrar();
+        //    }
+        //}
     }
 }

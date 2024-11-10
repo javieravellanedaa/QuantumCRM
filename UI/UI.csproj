@@ -66,6 +66,12 @@
     <Compile Include="frmNuevoIdioma.Designer.cs">
       <DependentUpon>frmNuevoIdioma.cs</DependentUpon>
     </Compile>
+    <Compile Include="System\frmPreviewTicket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\frmPreviewTicket.Designer.cs">
+      <DependentUpon>frmPreviewTicket.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tecnicos\frmPpalTecnico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,11 +125,11 @@
     <Compile Include="Admins\frmGestorPermiso.Designer.cs">
       <DependentUpon>frmGestorPermiso.cs</DependentUpon>
     </Compile>
-    <Compile Include="CrearTicket.cs">
+    <Compile Include="System\frmCrearTicket.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CrearTicket.Designer.cs">
-      <DependentUpon>CrearTicket.cs</DependentUpon>
+    <Compile Include="System\frmCrearTicket.Designer.cs">
+      <DependentUpon>frmCrearTicket.cs</DependentUpon>
     </Compile>
     <Compile Include="Admins\frmPpalAdmin.cs">
       <SubType>Form</SubType>
@@ -148,6 +154,9 @@
     <EmbeddedResource Include="frmNuevoIdioma.resx">
       <DependentUpon>frmNuevoIdioma.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="System\frmPreviewTicket.resx">
+      <DependentUpon>frmPreviewTicket.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tecnicos\frmPpalTecnico.resx">
       <DependentUpon>frmPpalTecnico.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,8 +175,8 @@
     <EmbeddedResource Include="Admins\frmGestorPermiso.resx">
       <DependentUpon>frmGestorPermiso.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CrearTicket.resx">
-      <DependentUpon>CrearTicket.cs</DependentUpon>
+    <EmbeddedResource Include="System\frmCrearTicket.resx">
+      <DependentUpon>frmCrearTicket.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admins\frmPpalAdmin.resx">
       <DependentUpon>frmPpalAdmin.cs</DependentUpon>

@@ -1,5 +1,5 @@
--- Listar tablas, columnas, tipos de dato y relaciones en la base de datos CRM excluyendo tablas propias del sistema
-
+-- Listar tablas, columnas, tipos de dato zy relaciones en la base de datos CRM excluyendo tablas propias del sistema
+USE CRM;
 WITH Columnas AS (
     SELECT
         t.TABLE_NAME,
@@ -35,18 +35,18 @@ Relaciones AS (
 SELECT
     col.TABLE_NAME,
     col.COLUMN_NAME,
-    col.DATA_TYPE,
-    col.CHARACTER_MAXIMUM_LENGTH,
-    col.NUMERIC_PRECISION,
-    col.NUMERIC_SCALE,
-    rel.Relacion,
-    rel.Tabla_Origen,
-    rel.Columna_Origen,
-    rel.Tabla_Destino,
-    rel.Columna_Destino
+    col.DATA_TYPE
+    --col.CHARACTER_MAXIMUM_LENGTH,
+    --col.NUMERIC_PRECISION,
+    --col.NUMERIC_SCALE,
+    --rel.Relacion,
+    --rel.Tabla_Origen,
+    --rel.Columna_Origen,
+    --rel.Tabla_Destino,
+    --rel.Columna_Destino
 FROM
     Columnas col
     LEFT JOIN Relaciones rel ON col.TABLE_NAME = rel.Tabla_Origen AND col.COLUMN_NAME = rel.Columna_Origen
-	where col.TABLE_NAME in ('usuarios','roles','idiomas')
+	--where col.TABLE_NAME in ('idiomas','sesion')
 ORDER BY
     col.TABLE_NAME, col.COLUMN_NAME;

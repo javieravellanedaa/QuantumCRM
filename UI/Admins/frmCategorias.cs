@@ -278,7 +278,7 @@ namespace UI
                 }
 
                 // Lógica para seleccionar el tipo de categoría
-                if (categoria.tipoCategoria.Id != null) // Asegúrate de que TipoId sea un valor válido
+                if (categoria.tipoCategoria.Id >0) // Asegúrate de que TipoId sea un valor válido
                 {
                     cmbTiposCategoria.SelectedValue = categoria.tipoCategoria.Id; // Seleccionar el tipo en el ComboBox
                 }
@@ -296,7 +296,7 @@ namespace UI
                 {
                     cmbDepartamento.SelectedIndex = -1; // Desmarcar si no hay un departamento
                 }
-                if (categoria.GroupId != null)
+                if (categoria.GroupId > 0)
                 {
                     cmbGruposTecnicos.SelectedValue = categoria.GroupId;
 

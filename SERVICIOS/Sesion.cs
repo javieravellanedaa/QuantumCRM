@@ -21,15 +21,34 @@ namespace SERVICIOS
         public IIdioma Idioma => _idioma;
 
         // Propiedad para obtener el usuario actual
-        public IUsuario Usuario => _user;
+        public Usuario Usuario => _user;
 
+        public Cliente ObtenerCliente()
+        {
+            BE.Cliente cliente = new Cliente();
+            cliente.Nombre = _user.Nombre;
+            cliente.NombreDeLosRoles = _user.NombreDeLosRoles;
+            cliente.Roles = _user.Roles;
+           
+            return cliente;
+        }
 
-   
+        public Tecnico ObtenerTecnico()
+        {
+            return _user as Tecnico;
+        }
+
+        public Administrador ObtenerAdministrador()
+        {
+            return _user as Administrador;
+        }
+
 
         // Lógica para iniciar sesión
         public void Login(BE.Usuario usuario)
         {
             _user = usuario;
+
             // Notificar a los observadores de idioma al iniciar sesión
           
         }
