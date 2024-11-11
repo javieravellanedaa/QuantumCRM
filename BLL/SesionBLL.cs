@@ -3,24 +3,25 @@ using INTERFACES;
 using SERVICIOS;
 using System;
 
+
 namespace BLL
 {
     public class SesionBLL : IEventListener
     {
         private SesionDAL SesionDAL = new SesionDAL();
-        public Sesion Sesion;
+        public SingletonSesion sesionData;
 
         public void Update(string eventType, object data)
         {
-            if (data is SERVICIOS.Sesion sesionData)
+            if (data is SERVICIOS.SingletonSesion sesionData)
             {
                 if (eventType == "Cerrarsesion")
                 {
                     // Lógica para guardar los datos del usuario cuando se cierra la sesión
-                    sesionData.Usuario.UltimoInicioSesion = DateTime.Now;
+                    sesionData.Sesion.Usuario.UltimoInicioSesion = DateTime.Now;
                    
                     SesionDAL.FinalizarSesion(sesionData);
-                    SesionDAL.ActualizarUsuario(sesionData.Usuario);
+                    SesionDAL.ActualizarUsuario(sesionData.Sesion.Usuario);
                 }
                 else if (eventType == "Iniciarsesion")
                 {

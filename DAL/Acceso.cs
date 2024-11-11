@@ -209,6 +209,15 @@ namespace DAL
         }
 
 
+        public SqlParameter CrearParametro(string nombre, DateTime? valor)
+        {
+            SqlParameter parametro = new SqlParameter(nombre, valor.HasValue ? (object)valor.Value : DBNull.Value);
+            parametro.DbType = DbType.DateTime;
+            return parametro;
+        }
+
+
+
 
 
         public SqlParameter CrearParametro(string nombre, long valor)

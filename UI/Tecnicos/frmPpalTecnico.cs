@@ -24,7 +24,7 @@ namespace UI
         BLL.IdiomaBLL _idiomaBLL;
         BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
         BLL.SesionBLL _sesionBLL = new SesionBLL();
-        private IUsuario _usuario;
+        private Usuario _usuario;
         private int borderSize = 2;
         private Size formSize;
         private readonly EventManagerService _eventManagerService = new EventManagerService();

@@ -32,6 +32,8 @@ namespace BLL
 
             if (user == null) throw new LoginException(LoginResult.InvalidUsername);
 
+ 
+
             // buscar los permisos del usuario en la dal 
 
             List<Patente> permisos = _crud.GetPermisos(user);
@@ -50,10 +52,15 @@ namespace BLL
                
                 //user.NombreDeLosRoles.Add(item.Nombre);
             }
-            user.UltimoRolId = _crud.ObtenerUltimoRol(user); 
+            user.UltimoRolId = _crud.ObtenerUltimoRol(user);
 
-            user.Idioma = _crud.ObtenerIdioma(user); 
+            //user.Idioma = _crud.ObtenerIdioma(user); 
+            if (user.Roles.Count == 0)
+            {
 
+                throw new LoginException(LoginResult.NoRolesAssigned);
+
+            }
             SingletonSesion.Instancia.Sesion.Login(user);
 
 

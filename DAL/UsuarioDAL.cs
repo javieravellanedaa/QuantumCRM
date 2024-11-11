@@ -278,24 +278,25 @@ namespace DAL
                 IIdioma idioma = new Idioma
                 {
                     Id = Guid.Parse(reader["idioma_id"].ToString()),
-                    Nombre = reader["nombre_idima"].ToString()
+                    Nombre = reader["nombre_idioma"].ToString()
                 };
 
-                return new Usuario
-                {
-                    Id = Guid.Parse(reader["usuario_id"].ToString()),
-                    Email = reader["email"].ToString(),
-                    Password = reader["password"].ToString(),
-                    Nombre = reader["nombre"].ToString(),
-                    Apellido = reader["apellido"].ToString(),
-                    NombreUsuario = reader["nombre_usuario"].ToString(),
-                    Legajo= int.Parse(reader["legajo"].ToString()),
-                    FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString()),
-                    UltimoInicioSesion = DateTime.Parse(reader["ultimo_inicio_sesion"].ToString()),
-                    
-                    
-                    Idioma = idioma,
-                };
+            return new Usuario
+            {
+                Id = Guid.Parse(reader["usuario_id"].ToString()),
+                Email = reader["email"].ToString(),
+                Password = reader["password"].ToString(),
+                Nombre = reader["nombre"].ToString(),
+                Apellido = reader["apellido"].ToString(),
+                NombreUsuario = reader["nombre_usuario"].ToString(),
+                Legajo = int.Parse(reader["legajo"].ToString()),
+                FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString()),
+                UltimoInicioSesion = DateTime.Now,//reader["ultimo_inicio_sesion"] != DBNull.Value? DateTime.Parse(reader["ultimo_inicio_sesion"].ToString()): (DateTime?)null,
+
+
+
+                Idioma = idioma,
+            };
 
             
            

@@ -130,8 +130,7 @@ namespace UI
                     }
 
 
-
-
+                
                     else if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Count() <=0)
                     {
                         MessageBox.Show("No tiene ningún rol asociado, contáctese con el administrador");
@@ -160,7 +159,9 @@ namespace UI
                         case LoginResult.InvalidPassword:
                             MessageBox.Show("Password Incorrecto");
                             return;
-                            
+                        case LoginResult.NoRolesAssigned:
+                            MessageBox.Show("No tiene roles asignados");
+                            return;
 
                         default:
                             MessageBox.Show("Error desconocido");

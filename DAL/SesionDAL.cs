@@ -20,15 +20,16 @@ namespace DAL
         }
 
         // Método para registrar una nueva sesión
-        public void RegistrarSesion(Sesion sesion)
+        public void RegistrarSesion(SingletonSesion sesion
+            )
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                _acceso.CrearParametro("@SessionID",sesion.Id.ToString()),
-                _acceso.CrearParametro("@UsuarioID", sesion.Usuario.Id.ToString()),
-                _acceso.CrearParametro("@FechaInicio", sesion.Usuario.UltimoInicioSesion),
-                _acceso.CrearParametro("@UltimoIdioma", sesion.Usuario.Idioma.Id.ToString()),
-                _acceso.CrearParametro("@UltimoRolID", sesion.Usuario.UltimoRolId.ToString()),
+                _acceso.CrearParametro("@SessionID",sesion.Sesion.Id.ToString()),
+                _acceso.CrearParametro("@UsuarioID", sesion.Sesion.Usuario.Id.ToString()),
+                _acceso.CrearParametro("@FechaInicio", sesion.Sesion.Usuario.UltimoInicioSesion),
+                _acceso.CrearParametro("@UltimoIdioma", sesion.Sesion.Usuario.Idioma.Id.ToString()),
+                _acceso.CrearParametro("@UltimoRolID", sesion.Sesion.Usuario.UltimoRolId.ToString()),
                 _acceso.CrearParametro("@Estado", true) // Estado de inicio
                
             };
@@ -45,14 +46,14 @@ namespace DAL
         }
 
         // Método para finalizar una sesión
-        public void FinalizarSesion(Sesion sesion)
+        public void FinalizarSesion(SingletonSesion sesion)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                _acceso.CrearParametro("@SessionID",sesion.Id.ToString() ),
+                _acceso.CrearParametro("@SessionID",sesion.Sesion.Id.ToString() ),
                 _acceso.CrearParametro("@FechaFin", DateTime.Now),
                 _acceso.CrearParametro("@Estado", false), // Estado de finalización,
-                _acceso.CrearParametro("@UltimmoRolID", sesion.Usuario.UltimoRolId.ToString())  
+                _acceso.CrearParametro("@UltimmoRolID", sesion.Sesion.Usuario.UltimoRolId.ToString())  
             };
 
             try
@@ -67,7 +68,7 @@ namespace DAL
         }
 
         // Método para actualizar el último inicio de sesión en la tabla de usuarios
-        public void ActualizarUsuario(IUsuario usuario)
+        public void ActualizarUsuario(Usuario usuario)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {

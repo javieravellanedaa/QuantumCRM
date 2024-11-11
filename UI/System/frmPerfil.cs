@@ -1,5 +1,6 @@
 ﻿using INTERFACES;
 using SERVICIOS;
+using BE;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace UI
     public partial class frmPerfil : Form
     {
        
-        private IUsuario _usuario;
+        private Usuario _usuario;
         private readonly EventManagerService _eventManagerService;
         public frmPerfil(EventManagerService eventManagerService)
         {

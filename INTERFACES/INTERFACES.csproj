@@ -47,7 +47,6 @@
     <Compile Include="IIdioma.cs" />
     <Compile Include="IPermiso.cs" />
     <Compile Include="ITraduccion.cs" />
-    <Compile Include="IUsuario.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

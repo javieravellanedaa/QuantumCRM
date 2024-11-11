@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BE
 {
-    public class Usuario : Entity, IUsuario
+    public class Usuario : Entity
     {
         public Usuario()
         {
@@ -35,13 +35,14 @@ namespace BE
         public string NombreUsuario { get; set; }
         public int Legajo { get; set; }
         public DateTime FechaAlta { get; set; }
-        public DateTime UltimoInicioSesion { get; set; }
+        public DateTime? UltimoInicioSesion { get; set; }
 
-        
+
+
         public List<Rol> Roles { get; set; }
         public List<string> NombreDeLosRoles { get ; set; }
         public int UltimoRolId { get; set; }
-
+  
         public override string ToString()
         {
             return NombreUsuario;

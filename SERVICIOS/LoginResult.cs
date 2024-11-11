@@ -10,6 +10,7 @@ namespace SERVICIOS
     {
         InvalidUsername,
         InvalidPassword,
-        ValidUser
+        ValidUser,
+        NoRolesAssigned
     }
 }
