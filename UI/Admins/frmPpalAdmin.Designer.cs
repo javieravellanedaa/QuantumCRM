@@ -312,7 +312,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 96);
             this.panel1.TabIndex = 0;
-           
             // 
             // icbApellidoNombre
             // 
@@ -472,7 +471,6 @@
             this.aaaToolStripMenuItem.Name = "aaaToolStripMenuItem";
             this.aaaToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.aaaToolStripMenuItem.Text = "Idioma";
-          
             // 
             // aaaaToolStripMenuItem
             // 
@@ -538,14 +536,14 @@
             this.drdwPerfil.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwPerfil.Name = "dropDownMenu2";
             this.drdwPerfil.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwPerfil.Size = new System.Drawing.Size(160, 70);
+            this.drdwPerfil.Size = new System.Drawing.Size(181, 92);
             // 
             // miPerfilToolStripMenuItem
             // 
             this.miPerfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.datosPersonalesToolStripMenuItem});
             this.miPerfilToolStripMenuItem.Name = "miPerfilToolStripMenuItem";
-            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.miPerfilToolStripMenuItem.Text = "Mi Perfil";
             // 
             // datosPersonalesToolStripMenuItem
@@ -558,17 +556,16 @@
             // cambiarRolToolStripMenuItem
             // 
             this.cambiarRolToolStripMenuItem.Name = "cambiarRolToolStripMenuItem";
-            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cambiarRolToolStripMenuItem.Text = "Cambiar Rol";
             this.cambiarRolToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarRolToolStripMenuItem_DropDownOpening);
             // 
             // cambiarIdiomaToolStripMenuItem
             // 
             this.cambiarIdiomaToolStripMenuItem.Name = "cambiarIdiomaToolStripMenuItem";
-            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
             this.cambiarIdiomaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_DropDownOpening);
-            
             // 
             // drdwTickets
             // 
@@ -581,27 +578,26 @@
             this.drdwTickets.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwTickets.Name = "drdwTickets";
             this.drdwTickets.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwTickets.Size = new System.Drawing.Size(181, 92);
+            this.drdwTickets.Size = new System.Drawing.Size(173, 70);
             // 
             // misTicketsToolStripMenuItem
             // 
             this.misTicketsToolStripMenuItem.Name = "misTicketsToolStripMenuItem";
-            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.misTicketsToolStripMenuItem.Text = "Mis tickets";
             // 
             // nuevoTicketToolStripMenuItem
             // 
             this.nuevoTicketToolStripMenuItem.Name = "nuevoTicketToolStripMenuItem";
-            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.nuevoTicketToolStripMenuItem.Text = "Nuevo ticket";
             this.nuevoTicketToolStripMenuItem.Click += new System.EventHandler(this.nuevoTicketToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
             this.toolStripMenuItem2.Text = "Asignar aprobador";
-        
             // 
             // drdwAdministracion
             // 

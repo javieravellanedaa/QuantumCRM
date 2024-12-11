@@ -368,45 +368,50 @@ namespace UI
             if (cambiarRolToolStripMenuItem.DropDownItems.Count == 0)
             {
                 // Verificar si hay roles en la lista y crear hijos dinámicamente
-                if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles != null)
+                if (SingletonSesion.Instancia.Sesion.Usuario.Roles.Count > 0)
                 {
-                    foreach (var item in SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles)
+                    // Verificar si hay roles en la lista y crear hijos dinámicamente
+                    if (SingletonSesion.Instancia.Sesion.Usuario.Roles.Count > 0)
                     {
-                        // Crear un nuevo ToolStripMenuItem para cada rol
-                        ToolStripMenuItem rolMenuItem = new ToolStripMenuItem(item);
-
-                        // Agregar el nuevo ToolStripMenuItem como hijo del ToolStripMenuItem padre
-                        cambiarRolToolStripMenuItem.DropDownItems.Add(rolMenuItem);
-
-                        // Agregar un evento de clic a cada item hijo
-                        rolMenuItem.Click += (s, args) =>
+                        foreach (var item in SingletonSesion.Instancia?.Sesion?.Usuario?.Roles ?? new List<BE.Rol>())
                         {
-                            // Verificar si el rol seleccionado empieza con "Administrador"
-                            if (item.StartsWith("Cliente"))
-                            {
-                                MessageBox.Show($"Usted ya se encuentra en el rol {item}");
-                            }
-                            else
-                            {
-                                // Lógica para cambiar de rol si es diferente al actual
-                                MessageBox.Show($"Rol seleccionado: {item}");
-                                if (item.StartsWith("Administrador"))
-                                {
-                                    this.Close();
-                                    frmPpalAdmin frm = new frmPpalAdmin();
+                            // Crear un nuevo ToolStripMenuItem para cada rol
+                            ToolStripMenuItem rolMenuItem = new ToolStripMenuItem(item.Nombre);
 
-                                    frm.Show();
+                            // Agregar el nuevo ToolStripMenuItem como hijo del ToolStripMenuItem padre
+                            cambiarRolToolStripMenuItem.DropDownItems.Add(rolMenuItem);
+
+                            // Agregar un evento de clic a cada item hijo
+                            rolMenuItem.Click += (s, args) =>
+                            {
+                                // Verificar si el rol seleccionado empieza con "Administrador"
+                                if (item.Nombre.StartsWith("Cliente"))
+                                {
+                                    MessageBox.Show($"Usted ya se encuentra en el rol {item.Nombre}");
+                                }
+                                else
+                                {
+                                    // Lógica para cambiar de rol si es diferente al actual
+                                    MessageBox.Show($"Rol seleccionado: {item.Nombre}");
+                                    if (item.Nombre.StartsWith("Administrador"))
+                                    {
+
+                                        frmPpalAdmin frm = new frmPpalAdmin();
+                                        this.Close();
+                                        frm.Show();
+
+                                    }
+                                    else if (item.Nombre.StartsWith("Tecnico"))
+                                    {
+                                        
+                                        frmPpalTecnico frm = new frmPpalTecnico();
+                                        this.Close();
+                                        frm.Show();
+                                    }
 
                                 }
-                                else if (item.StartsWith("Tecnico"))
-                                {
-                                    this.Close();
-                                    frmPpalTecnico frm = new frmPpalTecnico();
-                                    frm.Show();
-                                }
-
-                            }
-                        };
+                            };
+                        }
                     }
                 }
             }

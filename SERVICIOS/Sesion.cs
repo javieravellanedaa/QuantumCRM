@@ -23,7 +23,7 @@ namespace SERVICIOS
         // Propiedad para obtener el usuario actual
         public Usuario Usuario => _user;
 
-        public Cliente ObtenerCliente()
+        public Cliente ObtenerCliente() 
         {
             BE.Cliente cliente = new Cliente();
             cliente.Nombre = _user.Nombre;
@@ -36,7 +36,7 @@ namespace SERVICIOS
         public Tecnico ObtenerTecnico()
         {
             return _user as Tecnico;
-        }
+        } 
 
         public Administrador ObtenerAdministrador()
         {

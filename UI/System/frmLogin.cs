@@ -104,7 +104,7 @@ namespace UI
                     }
                     else if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId == -1)
                     {
-                        if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Contains("Administrador") )
+                        if (SingletonSesion.Instancia?.Sesion?.Usuario?.Roles?.Any(r => r.Nombre == "Administrador") == true)
                         {
                             frmPpalAdmin frm = new frmPpalAdmin();
                             frm.Show();
@@ -112,14 +112,14 @@ namespace UI
                             return;
                            
                         }
-                        else if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Contains("Cliente"))
+                        else if(SingletonSesion.Instancia?.Sesion?.Usuario?.Roles?.Any(r => r.Nombre == "Cliente") == true)
                         {
                             frmPpalCliente frm = new frmPpalCliente();
                             frm.Show();
                             this.Hide();
                             return;
                         }
-                        else if (SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Contains("Tecnico"))
+                        else if (SingletonSesion.Instancia?.Sesion?.Usuario?.Roles?.Any(r => r.Nombre == "Tecnico") == true)
                         {
                             frmPpalTecnico frm = new frmPpalTecnico();
                             this.Hide();
@@ -131,7 +131,7 @@ namespace UI
 
 
                 
-                    else if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.NombreDeLosRoles.Count() <=0)
+                    else if (SingletonSesion.Instancia.Sesion.IsLogged() && SingletonSesion.Instancia.Sesion.Usuario.Roles.Count()>0)
                     {
                         MessageBox.Show("No tiene ningún rol asociado, contáctese con el administrador");
                         this.Close();

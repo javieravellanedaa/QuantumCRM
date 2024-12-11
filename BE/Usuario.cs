@@ -1,7 +1,6 @@
 ﻿using BE.Composite;
 using INTERFACES;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace BE
@@ -10,19 +9,13 @@ namespace BE
     {
         public Usuario()
         {
-            _permisos = new List<Componente>();
+            Permisos = new List<Componente>();
             Roles = new List<Rol>();
             NombreDeLosRoles = new List<string>();
         }
 
-        List<Componente> _permisos;
-        public List<Componente> Permisos
-        {
-            get
-            {
-                return _permisos;
-            }
-        }
+        // Propiedad pública para los permisos
+        public List<Componente> Permisos { get; set; }
 
         // Atributos originales
         public string Email { get; set; }
@@ -37,12 +30,10 @@ namespace BE
         public DateTime FechaAlta { get; set; }
         public DateTime? UltimoInicioSesion { get; set; }
 
-
-
         public List<Rol> Roles { get; set; }
-        public List<string> NombreDeLosRoles { get ; set; }
+        public List<string> NombreDeLosRoles { get; set; }
         public int UltimoRolId { get; set; }
-  
+
         public override string ToString()
         {
             return NombreUsuario;

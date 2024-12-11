@@ -22,51 +22,27 @@ namespace BLL
 
         public LoginResult Login(string email, string password)
         {
-               
             if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
                 throw new Exception("Ya hay una sesión iniciada");
             }
 
-            Usuario user = ((DAL.UsuarioDAL)_crud).Login(email, password);
+            // Autenticar al usuario y obtener su ID
+            Usuario usuario = ((DAL.UsuarioDAL)_crud).Login(email, password);
 
-            if (user == null) throw new LoginException(LoginResult.InvalidUsername);
+            if (usuario.Id == Guid.Empty) throw new LoginException(LoginResult.InvalidUsername);
 
  
 
-            // buscar los permisos del usuario en la dal 
-
-            List<Patente> permisos = _crud.GetPermisos(user);
-            foreach (var item in permisos)
+            if (usuario.Roles.Count == 0)
             {
-                user.Permisos.Add(item);
-            }
-
-            List<Rol> roles = _crud.GetRoles(user);
-            foreach (var item in roles)
-            {
-
-                user.Roles.Add(item);
-                user.NombreDeLosRoles.Add(item.Nombre);
-                
-               
-                //user.NombreDeLosRoles.Add(item.Nombre);
-            }
-            user.UltimoRolId = _crud.ObtenerUltimoRol(user);
-
-            //user.Idioma = _crud.ObtenerIdioma(user); 
-            if (user.Roles.Count == 0)
-            {
-
                 throw new LoginException(LoginResult.NoRolesAssigned);
-
             }
-            SingletonSesion.Instancia.Sesion.Login(user);
 
+            SingletonSesion.Instancia.Sesion.Login(usuario);
 
-            new MP_PERMISO ().FillUserComponents(user); // dudoso
             return LoginResult.ValidUser;
-        } //revisar metodo dudoso
+        }
 
         public void Logout()
         {
@@ -81,7 +57,7 @@ namespace BLL
 
         public List<Usuario> GetAll()
         {
-            return _crud.GetAll(); // aca cambie a _crud en vez de usuarios
+            return _crud.GetAll(); 
         }
 
         public void GuardarPermisos(Usuario u)

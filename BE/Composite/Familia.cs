@@ -1,16 +1,13 @@
 ﻿using BE;
 using BE.Composite;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BE
 {
     public class Familia : Componente
     {
         private IList<Componente> _hijos;
+
         public Familia()
         {
             _hijos = new List<Componente>();
@@ -20,19 +17,18 @@ namespace BE
         {
             get
             {
-                return _hijos.ToArray();
+                return _hijos; // Devuelve la lista directamente, sin convertir a arreglo
             }
-
         }
 
         public override void VaciarHijos()
         {
-            _hijos = new List<Componente>();
+            _hijos.Clear(); // Limpia la lista sin crear una nueva instancia
         }
+
         public override void AgregarHijo(Componente c)
         {
             _hijos.Add(c);
         }
     }
 }
-

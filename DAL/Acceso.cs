@@ -99,7 +99,7 @@ namespace DAL
             cmd.CommandType = CommandType.StoredProcedure;
             return cmd;
         }
-
+        // revisar esta función que no devuelve nada
         public DataTable Leer(string nombre, List<SqlParameter> pars = null)
         {
 
@@ -112,7 +112,7 @@ namespace DAL
                 da.Dispose();
             }
 
-            return tabla;
+            return tabla; // aca viene vacía la tabla revisar
         }
 
         public SqlDataReader EjecutarLectura(string nombre, List<SqlParameter> pars = null)

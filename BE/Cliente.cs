@@ -8,7 +8,7 @@ namespace BE
 {
     public class Cliente : Usuario
     {
-        public int ClienteId { get; set; } // ID único para el cliente
+        public int ClienteId { get; set; } 
 
         private int departamentoId;
         public int DepartamentoId
@@ -24,8 +24,8 @@ namespace BE
             set { departamento = value; }
         }
 
-        private DateTime fechaRegistro;
-        public DateTime FechaRegistro
+        private DateTime? fechaRegistro;
+        public DateTime? FechaRegistro
         {
             get { return fechaRegistro; }
             set { fechaRegistro = value; }
@@ -90,8 +90,8 @@ namespace BE
             set { empresa = value; }
         }
 
-        private DateTime fechaUltimaInteraccion;
-        public DateTime FechaUltimaInteraccion
+        private DateTime? fechaUltimaInteraccion;
+        public DateTime? FechaUltimaInteraccion
         {
             get { return fechaUltimaInteraccion; }
             set { fechaUltimaInteraccion = value; }

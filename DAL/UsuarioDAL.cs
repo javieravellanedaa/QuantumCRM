@@ -1,10 +1,12 @@
 ﻿using BE;
+using BE.Composite;
 using INTERFACES;
 using SERVICIOS;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace DAL
 {
@@ -68,11 +70,10 @@ namespace DAL
 
         public Usuario Login(string email, string password)
         {
-            
             var parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Email", email),
-                acceso.CrearParametro("@Password", Encriptador.Hash(password))
+                    acceso.CrearParametro("@Email", email),
+                    acceso.CrearParametro("@Password", Encriptador.Hash(password))
             };
 
             try
@@ -80,16 +81,118 @@ namespace DAL
                 acceso.Abrir();
                 using (var reader = acceso.EjecutarLectura("sp_LoginUsuario", parametros))
                 {
+                    
                     if (reader.Read())
-                    {
-                         Usuario usuario = MapearUsuario(reader);
-                        ////usuario.Permisos = GetPermisos(usuario);
-                        //usuario.Roles = GetRoles(usuario);
-                        //usuario.NombreDeLosRoles = new List<string>();
+                        {
+         
+                        Guid usuarioId = Guid.Parse(reader["usuario_id"].ToString());
+                        int rolId =  ObtenerUltimoRol(usuarioId);
+                        Usuario usuario = UsuarioFactory.CrearUsuario(rolId);
+                        usuario.Id = usuarioId;
+                        usuario.Email = reader["email"].ToString();
+                        usuario.Password = reader["password"].ToString(); 
+                        usuario.Nombre = reader["nombre"].ToString();
+                        usuario.Apellido = reader["apellido"].ToString();
+                        usuario.NombreUsuario = reader["nombre_usuario"].ToString();
+                        usuario.Legajo = int.Parse(reader["legajo"].ToString());
+                        usuario.FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString());
+                        usuario.UltimoInicioSesion = DateTime.Now;
+                        usuario.Permisos.AddRange(GetPermisos(usuario));
+                        usuario.Roles = GetRoles(usuario);
+                        usuario.UltimoRolId = rolId;
+                        usuario.Idioma = ObtenerIdioma(usuario);
+
+
+
+
+
+                        // Instanciación y carga de atributos específicos según el rol
+
+                        switch (rolId)
+                        {
+                            case 1: // Administrador
+                                usuario = CargarAtributosAdministrador((Administrador)usuario, usuarioId);
+                                break;
+                            case 2: // Técnico
+                                //usuario = CargarAtributosTecnico((Tecnico)usuario, usuarioId);
+                                break;
+                            case 3: // Cliente
+                                usuario = CargarAtributosCliente((Cliente)usuario, usuarioId);
+                                break;
+                            default:
+                                throw new Exception("Rol no reconocido");
+                        }
+
+
 
 
                         return usuario;
+                    }
+                }
+                acceso.Cerrar();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al intentar iniciar sesión", ex);
+            }
+ 
 
+
+            return null;
+        }
+
+        private Administrador CargarAtributosAdministrador(Administrador administrador, Guid usuarioId)
+        {
+            var parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@AdministradorID", usuarioId.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosAdministrador", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        administrador.Estado = reader["estado"] != DBNull.Value && (bool)reader["estado"];
+                        administrador.FechaCreacion = reader["fecha_creacion"] != DBNull.Value ? DateTime.Parse(reader["fecha_creacion"].ToString()) : (DateTime?)null;
+                    }
+                }
+            }
+            finally
+            { 
+                acceso.Cerrar();
+            }
+
+            return administrador;
+        }
+        private Cliente CargarAtributosCliente(Cliente usuario, Guid usuarioId)
+        {
+            var parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@usuario_id", usuarioId.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosCliente", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        usuario.ClienteId = reader["cliente_id"] != DBNull.Value ? (int)reader["cliente_id"] : 0;
+                        usuario.DepartamentoId = reader["departamento_id"] != DBNull.Value ? (int)reader["departamento_id"] : 0;
+                        usuario.Direccion = reader["direccion"] != DBNull.Value ? reader["direccion"].ToString() : null;
+                        usuario.EmailContacto = reader["email_contacto"] != DBNull.Value ? reader["email_contacto"].ToString() : null;
+                        usuario.Empresa = reader["empresa"] != DBNull.Value ? reader["empresa"].ToString() : null;
+                        usuario.EsInterno = reader["es_interno"] != DBNull.Value && (bool)reader["es_interno"];
+                        usuario.EstadoClienteId = reader["estado_cliente_id"] != DBNull.Value ? (int)reader["estado_cliente_id"] : 0;
+                        usuario.FechaRegistro = reader["fecha_registro"] != DBNull.Value ? DateTime.Parse(reader["fecha_registro"].ToString()) : (DateTime?)null;
+                        usuario.FechaUltimaInteraccion = reader["fecha_ultima_interaccion"] != DBNull.Value ? DateTime.Parse(reader["fecha_ultima_interaccion"].ToString()) : (DateTime?)null;
+                        usuario.PreferenciaContacto = reader["preferencia_contacto"] != DBNull.Value ? reader["preferencia_contacto"].ToString() : null;
+                        usuario.Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : null;
+                        usuario.TipoClienteId = reader["tipo_cliente_id"] != DBNull.Value ? (int)reader["tipo_cliente_id"] : 0;
                     }
                 }
             }
@@ -98,10 +201,7 @@ namespace DAL
                 acceso.Cerrar();
             }
 
-            //usuario._permisos = GetPermisos(usuario);
-            return null;
-            //usuario.NombreDeLosRoles = new List<string>();
-
+            return usuario;
         }
 
 
@@ -177,19 +277,19 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
-        public int ObtenerUltimoRol(Usuario usuario)
+        public int ObtenerUltimoRol(Guid usuarioId)
         {
             int rolId = -1; // Valor predeterminado en caso de que no se encuentre el rol
             List<SqlParameter> parametros = new List<SqlParameter>
                 {
-                    acceso.CrearParametro("@UsuarioID", usuario.Id.ToString()),
+                    acceso.CrearParametro("@UsuarioID", usuarioId.ToString()),
                 };
 
             try
             {
                 acceso.Abrir();
 
-                // Ejecutar el procedimiento almacenado y obtener el resultado como DataTable
+                //aca no esta devolviendo nada
                 DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
 
                 if (resultado.Rows.Count > 0)
@@ -224,7 +324,8 @@ namespace DAL
 
                 if (resultado.Rows.Count > 0)
                 {
-
+                    Idioma idioma = new Idioma();
+                    usuario.Idioma = idioma;
                     usuario.Idioma.Id = Guid.Parse(resultado.Rows[0]["idioma_id"].ToString());
                     usuario.Idioma.Nombre = resultado.Rows[0]["idioma_nombre"].ToString();
                 }
