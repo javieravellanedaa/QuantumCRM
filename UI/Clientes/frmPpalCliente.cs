@@ -14,6 +14,7 @@ using BLL;
 using BE;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using UI.Design;
+using UI.Clientes;
 
 namespace UI
 {
@@ -41,8 +42,8 @@ namespace UI
             if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
                 etiquetas.AddRange(RecopilarEtiquetas(this));
-                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu1, this.Name));
-                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dropDownMenu2, this.Name));
+                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dwnGeneral, this.Name));
+                etiquetas.AddRange(ObtenerEtiquetasDeDropDownMenu(dwnIcono, this.Name));
 
                 _usuario = SingletonSesion.Instancia.Sesion.Usuario;
                 icbApellidoNombre.Text = _usuario.NombreUsuario;
@@ -184,8 +185,10 @@ namespace UI
         {
 
             formSize = this.ClientSize;
-            dropDownMenu1.IsMainMenu = true;
-            dropDownMenu2.IsMainMenu = true;
+            dwnGeneral.IsMainMenu = true;
+            dwnIcono.IsMainMenu = true;
+            dwnTickets.IsMainMenu = true;
+            _eventManagerService.Subscribe("FormularioCerrado", this);
 
         }
 
@@ -307,7 +310,7 @@ namespace UI
 
         private void iconBtnGeneral_Click(object sender, EventArgs e)
         {
-            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
+            dwnGeneral.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
         }
 
         private void iconBtnDepartamentos_Click(object sender, EventArgs e)
@@ -323,7 +326,7 @@ namespace UI
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            dropDownMenu2.Show(pictureBox1, 0, pictureBox1.Height);
+            dwnIcono.Show(pictureBox1, 0, pictureBox1.Height);
 
 
         }
@@ -607,8 +610,8 @@ namespace UI
                             MessageBox.Show($"Idioma seleccionado: {idioma.Nombre}");
                             // Lógica para cambiar el idioma de la aplicación
                             TraducirFormulario(this,idioma);
-                            TraducirDropDownMenu(dropDownMenu1, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
-                            TraducirDropDownMenu(dropDownMenu2, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+                            TraducirDropDownMenu(dwnGeneral, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
+                            TraducirDropDownMenu(dwnIcono, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
 
                         }
                     };
@@ -638,6 +641,36 @@ namespace UI
 
                 // Cerrar la aplicación
                 Application.Exit();
+            }
+        }
+
+        private void iconBtnTickets_Click(object sender, EventArgs e)
+        {
+            dwnTickets.Show(iconBtnGeneral, iconBtnGeneral.Width, 60);
+        }
+        private void FormularioSecundarioCerrado()
+        {
+            // Cambia el label cuando el formulario secundario se cierra
+            lblTitulo.Text = "Seleccione una opción";
+        }
+
+        private void miPerfilToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmPerfilCliente frmPerfil = new frmPerfilCliente(_eventManagerService);
+            CargarFormularioEnPanel(frmPerfil);
+            if (frmPerfil.IsDisposed)
+            {
+                FormularioSecundarioCerrado();
+            }
+        }
+
+        private void nuevoTicketToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCrearTicket frmCrearTicket = new frmCrearTicket(_eventManagerService);
+            CargarFormularioEnPanel(frmCrearTicket);
+            if (frmCrearTicket.IsDisposed)
+            {
+                FormularioSecundarioCerrado();
             }
         }
     }

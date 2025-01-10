@@ -59,7 +59,7 @@
             this.groupBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(700, 481);
+            this.groupBox1.Size = new System.Drawing.Size(700, 543);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             // 
@@ -153,7 +153,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlText;
-            this.ClientSize = new System.Drawing.Size(700, 481);
+            this.ClientSize = new System.Drawing.Size(700, 543);
             this.Controls.Add(this.groupBox1);
             this.Name = "frmCrearTicket";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;

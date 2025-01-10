@@ -170,9 +170,9 @@ namespace DAL
         private Cliente CargarAtributosCliente(Cliente usuario, Guid usuarioId)
         {
             var parametros = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@usuario_id", usuarioId.ToString())
-            };
+    {
+        acceso.CrearParametro("@usuario_id", usuarioId.ToString())
+    };
 
             try
             {
@@ -193,6 +193,13 @@ namespace DAL
                         usuario.PreferenciaContacto = reader["preferencia_contacto"] != DBNull.Value ? reader["preferencia_contacto"].ToString() : null;
                         usuario.Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : null;
                         usuario.TipoClienteId = reader["tipo_cliente_id"] != DBNull.Value ? (int)reader["tipo_cliente_id"] : 0;
+
+                        // Aquí cargamos el departamento completo
+                        if (usuario.DepartamentoId > 0)
+                        {
+                            DepartamentosDAL deptDal = new DepartamentosDAL();
+                            usuario.Departamento = deptDal.ObtenerDepartamentoPorId(usuario.DepartamentoId);
+                        }
                     }
                 }
             }
@@ -203,6 +210,7 @@ namespace DAL
 
             return usuario;
         }
+
 
 
         public void GuardarPermisos(Usuario usuario)

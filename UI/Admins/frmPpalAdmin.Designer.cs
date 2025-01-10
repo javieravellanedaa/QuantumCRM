@@ -64,8 +64,8 @@
             this.cambiarIdiomaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drdwTickets = new UI.Design.DropDownMenu(this.components);
             this.misTicketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuevoTicketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarTicketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drdwAdministracion = new UI.Design.DropDownMenu(this.components);
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -536,14 +536,14 @@
             this.drdwPerfil.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwPerfil.Name = "dropDownMenu2";
             this.drdwPerfil.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwPerfil.Size = new System.Drawing.Size(181, 92);
+            this.drdwPerfil.Size = new System.Drawing.Size(160, 70);
             // 
             // miPerfilToolStripMenuItem
             // 
             this.miPerfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.datosPersonalesToolStripMenuItem});
             this.miPerfilToolStripMenuItem.Name = "miPerfilToolStripMenuItem";
-            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.miPerfilToolStripMenuItem.Text = "Mi Perfil";
             // 
             // datosPersonalesToolStripMenuItem
@@ -556,14 +556,14 @@
             // cambiarRolToolStripMenuItem
             // 
             this.cambiarRolToolStripMenuItem.Name = "cambiarRolToolStripMenuItem";
-            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.cambiarRolToolStripMenuItem.Text = "Cambiar Rol";
             this.cambiarRolToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarRolToolStripMenuItem_DropDownOpening);
             // 
             // cambiarIdiomaToolStripMenuItem
             // 
             this.cambiarIdiomaToolStripMenuItem.Name = "cambiarIdiomaToolStripMenuItem";
-            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
             this.cambiarIdiomaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_DropDownOpening);
             // 
@@ -572,32 +572,31 @@
             this.drdwTickets.IsMainMenu = false;
             this.drdwTickets.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.misTicketsToolStripMenuItem,
-            this.nuevoTicketToolStripMenuItem,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.buscarTicketToolStripMenuItem});
             this.drdwTickets.MenuItemHeight = 25;
             this.drdwTickets.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwTickets.Name = "drdwTickets";
             this.drdwTickets.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwTickets.Size = new System.Drawing.Size(173, 70);
+            this.drdwTickets.Size = new System.Drawing.Size(181, 92);
             // 
             // misTicketsToolStripMenuItem
             // 
             this.misTicketsToolStripMenuItem.Name = "misTicketsToolStripMenuItem";
-            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.misTicketsToolStripMenuItem.Text = "Mis tickets";
-            // 
-            // nuevoTicketToolStripMenuItem
-            // 
-            this.nuevoTicketToolStripMenuItem.Name = "nuevoTicketToolStripMenuItem";
-            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.nuevoTicketToolStripMenuItem.Text = "Nuevo ticket";
-            this.nuevoTicketToolStripMenuItem.Click += new System.EventHandler(this.nuevoTicketToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Asignar aprobador";
+            // 
+            // buscarTicketToolStripMenuItem
+            // 
+            this.buscarTicketToolStripMenuItem.Name = "buscarTicketToolStripMenuItem";
+            this.buscarTicketToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.buscarTicketToolStripMenuItem.Text = "Buscar Ticket";
             // 
             // drdwAdministracion
             // 
@@ -1152,7 +1151,6 @@
         private System.Windows.Forms.ToolStripMenuItem borrarElementosToolStripMenuItem;
         private Design.DropDownMenu drdwTickets;
         private System.Windows.Forms.ToolStripMenuItem misTicketsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nuevoTicketToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private Design.DropDownMenu drdwAdministracion;
         private System.Windows.Forms.ToolStripMenuItem usuarioToolStripMenuItem;
@@ -1220,5 +1218,6 @@
         private System.Windows.Forms.ToolStripMenuItem nuevoToolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem borrarToolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem buscarTicketToolStripMenuItem;
     }
 }

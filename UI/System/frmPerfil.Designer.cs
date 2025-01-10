@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtCorreo = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -46,6 +47,7 @@
             this.txtIdiomaPreferido = new System.Windows.Forms.TextBox();
             this.lblFechaDeAlta = new System.Windows.Forms.Label();
             this.txtFechaAlta = new System.Windows.Forms.TextBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -210,6 +212,12 @@
             this.txtFechaAlta.Size = new System.Drawing.Size(215, 20);
             this.txtFechaAlta.TabIndex = 15;
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // frmPerfil
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,7 +243,6 @@
             this.Controls.Add(this.btnCerrar);
             this.Name = "frmPerfil";
             this.Text = "Datos Personales";
-         
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -262,5 +269,6 @@
         private System.Windows.Forms.TextBox txtIdiomaPreferido;
         private System.Windows.Forms.Label lblFechaDeAlta;
         private System.Windows.Forms.TextBox txtFechaAlta;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

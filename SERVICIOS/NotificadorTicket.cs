@@ -14,7 +14,7 @@ namespace SERVICIOS
             if (eventType == "TicketCreated")
             {
                 // Código para manejar la creación de un ticket
-                Console.WriteLine("Se ha creado un nuevo ticket.");
+                Console.WriteLine("Se ha creado un nuevo ticket : aca va alguna notificacion.");
                 // Aquí podrías enviar un correo, mostrar un mensaje o realizar cualquier acción.
             }
         }

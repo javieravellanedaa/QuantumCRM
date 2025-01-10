@@ -384,7 +384,7 @@ namespace UI
                             else
                             {
                                 // Lógica para cambiar de rol si es diferente al actual
-                                MessageBox.Show($"Rol seleccionado: {item}");
+                                MessageBox.Show($"Rol seleccionado: {item.Nombre}");
                                 if (item.Nombre.StartsWith("Cliente"))
                                 {
                                     this.Close();
@@ -659,12 +659,7 @@ namespace UI
         private void nuevoTicketToolStripMenuItem_Click(object sender, EventArgs e)
         {
            
-            Form frmCrearTicket = new frmCrearTicket(_eventManagerService);
-            CargarFormularioEnPanel(frmCrearTicket);
-             if (frmCrearTicket.IsDisposed)
-            {
-                FormularioSecundarioCerrado();
-            }
+    
         }
     }
 

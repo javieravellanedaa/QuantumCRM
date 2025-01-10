@@ -32,8 +32,8 @@ namespace UI
             _notificador = new NotificadorTicket();
             // mismo color que frmPpalAdmin
             _eventManagerService = eventManagerService;
-            // Suscribir al observador de eventos al evento "TicketCreated"
-            //SingletonSesion.Instancia.SuscribirEvento("TicketCreated", _notificador);
+
+            _eventManagerService.Subscribe("TicketCreated", _notificador);
         }
 
         private void CrearTicket_Load(object sender, EventArgs e)
@@ -59,21 +59,6 @@ namespace UI
             }
         }
 
-        // Método para crear un nuevo ticket
-        private void btnCrearTicket_Click(object sender, EventArgs e)
-        {
-            // Lógica para crear un ticket
-            var nuevoTicket = new Ticket
-            {
-                // Aquí puedes asignar propiedades del ticket como título, descripción, categoría, etc.
-            };
-
-            // Notificar a los observadores sobre el nuevo ticket
-            //SingletonSesion.Instancia.NotifyEvent("TicketCreated", nuevoTicket);
-
-            // Mensaje de confirmación (opcional)
-            MessageBox.Show("Ticket creado exitosamente.");
-        }
 
         private void cmbCategorias_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -122,6 +107,7 @@ namespace UI
                         );
                         txtAsunto.ReadOnly = false;
                         txtDescripcion.ReadOnly = false;
+                        btnGuardar.Visible = true;
                         btnGuardar.Enabled = true;
                     }
 
@@ -141,8 +127,8 @@ namespace UI
             else
             {
                 Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
-                
-                BE.Cliente cliente = SingletonSesion.Instancia.Sesion.ObtenerCliente();
+
+                //BE.Cliente cliente = SingletonSesion.Instancia.Sesion.Usuario;
                 Ticket ticket = new Ticket
                 {
                    
@@ -152,21 +138,21 @@ namespace UI
                     CategoriaId = categoria.CategoriaId,
                     Categoria = categoria,
                     UsuarioCreadorId = SingletonSesion.Instancia.Sesion.Usuario.Id,
-                    UsuarioCreador = cliente,
+                    UsuarioCreador = (Cliente)SingletonSesion.Instancia.Sesion.Usuario,
                     FechaCreacion = DateTime.Now,
                     FechaUltimaModif = DateTime.Now,
-                    EstadoId = 1, // Método para obtener el ID del estado inicial, por ejemplo, "Abierto"
+                    EstadoId = 1,
                     Prioridad = categoriaBLL.Obtener_prioridad(categoria),
                     PrioridadId = categoriaBLL.Obtener_prioridad(categoria).Prioridad_id,
-                    TecnicoId = 0, // Asignación inicial si no hay técnico asignado, actualízalo según tus necesidades
+                    TecnicoId = 0, 
                     Comentarios = new List<Comentario>()
                 };
 
              
 
                     // Llamada a la capa BLL para guardar el ticket
-                    TicketBLL ticketBLL = new TicketBLL();
-                ticketBLL.CrearTicket(ticket);
+                //    TicketBLL ticketBLL = new TicketBLL();
+                //ticketBLL.CrearTicket(ticket);
                 if (categoria.AprobadorRequerido)
                 {
                     MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.NombreUsuarioAprobador);

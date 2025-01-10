@@ -48,8 +48,8 @@
             this.cmbPrioridad = new System.Windows.Forms.ComboBox();
             this.lblAprobador = new System.Windows.Forms.Label();
             this.lblCategoria = new System.Windows.Forms.Label();
-            this.txtCategoria = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
+            this.cmbCategorias = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblTicketId
@@ -108,6 +108,7 @@
             this.txtUsuarioCreador.Name = "txtUsuarioCreador";
             this.txtUsuarioCreador.Size = new System.Drawing.Size(100, 20);
             this.txtUsuarioCreador.TabIndex = 2;
+            this.txtUsuarioCreador.TextChanged += new System.EventHandler(this.txtUsuarioCreador_TextChanged);
             // 
             // txtDepartamentoDestino
             // 
@@ -216,13 +217,6 @@
             this.lblCategoria.TabIndex = 1;
             this.lblCategoria.Text = "Categoria";
             // 
-            // txtCategoria
-            // 
-            this.txtCategoria.Location = new System.Drawing.Point(130, 185);
-            this.txtCategoria.Name = "txtCategoria";
-            this.txtCategoria.Size = new System.Drawing.Size(438, 20);
-            this.txtCategoria.TabIndex = 2;
-            // 
             // btnAceptar
             // 
             this.btnAceptar.Location = new System.Drawing.Point(437, 550);
@@ -232,18 +226,26 @@
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
             // 
+            // cmbCategorias
+            // 
+            this.cmbCategorias.FormattingEnabled = true;
+            this.cmbCategorias.Location = new System.Drawing.Point(130, 180);
+            this.cmbCategorias.Name = "cmbCategorias";
+            this.cmbCategorias.Size = new System.Drawing.Size(424, 21);
+            this.cmbCategorias.TabIndex = 18;
+            // 
             // frmPreviewTicket
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(606, 585);
+            this.Controls.Add(this.cmbCategorias);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.cmbPrioridad);
             this.Controls.Add(this.cmbEstado);
             this.Controls.Add(this.txtFechaDeCreacion);
             this.Controls.Add(this.txtDepartamentoDestino);
             this.Controls.Add(this.txtDescripcion);
-            this.Controls.Add(this.txtCategoria);
             this.Controls.Add(this.txtAsunto);
             this.Controls.Add(this.txtDepartamentoOrigen);
             this.Controls.Add(this.lblFechaDeCreacion);
@@ -289,7 +291,7 @@
         private System.Windows.Forms.ComboBox cmbPrioridad;
         private System.Windows.Forms.Label lblAprobador;
         private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.TextBox txtCategoria;
         private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.ComboBox cmbCategorias;
     }
 }
