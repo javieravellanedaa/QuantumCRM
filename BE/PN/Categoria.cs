@@ -6,6 +6,13 @@ namespace BE
 {
     public class Categoria
     {
+
+
+        public Categoria()
+        {
+
+        }
+
         public int CategoriaId { get; set; } 
         public string Nombre { get; set; } 
         public int GroupId { get; set; }
@@ -15,20 +22,6 @@ namespace BE
 
         public string Descripcion { get; set; }
         public TipoCategoria tipoCategoria { get; set; }
-        public string nombreTipoCategoria
-        {
-            get
-            {
-                if (tipoCategoria != null)
-                {
-                    return tipoCategoria.Nombre;
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-        }
 
 
 
@@ -106,9 +99,6 @@ namespace BE
 
 
 
-        public Categoria()
-        {
-        }
 
         private EstadosCategoria estado;
         public EstadosCategoria Estado
