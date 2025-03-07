@@ -12,6 +12,7 @@ namespace BE
     {
         public Entity()
         {
+            // esto esta mal No debería crearse un ID cada vez que se crea un objeto debería traerlo desde la DAL
             Id = Guid.NewGuid();
         }
         public Guid Id { get; set; }

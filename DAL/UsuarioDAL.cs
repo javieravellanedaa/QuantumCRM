@@ -87,8 +87,8 @@ namespace DAL
          
                         Guid usuarioId = Guid.Parse(reader["usuario_id"].ToString());
                         int rolId =  ObtenerUltimoRol(usuarioId);
-                        Usuario usuario = UsuarioFactory.CrearUsuario(rolId);
-                        usuario.Id = usuarioId;
+                        Usuario usuario = UsuarioFactory.CrearUsuario(rolId); // aca pasarle el GUID para que se cree con ese ID
+                        usuario.Id = usuarioId; // por que si aca le paso el ID 
                         usuario.Email = reader["email"].ToString();
                         usuario.Password = reader["password"].ToString(); 
                         usuario.Nombre = reader["nombre"].ToString();
@@ -287,7 +287,7 @@ namespace DAL
         }
         public int ObtenerUltimoRol(Guid usuarioId)
         {
-            int rolId = -1; // Valor predeterminado en caso de que no se encuentre el rol
+            int rolId = 3; // Valor predeterminado en caso de que no se encuentre el rol
             List<SqlParameter> parametros = new List<SqlParameter>
                 {
                     acceso.CrearParametro("@UsuarioID", usuarioId.ToString()),
@@ -297,7 +297,7 @@ namespace DAL
             {
                 acceso.Abrir();
 
-                //aca no esta devolviendo nada
+                //la tabla sesion esta vacia
                 DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
 
                 if (resultado.Rows.Count > 0)

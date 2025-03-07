@@ -20,17 +20,13 @@ namespace DAL
         }
 
         // Método para registrar una nueva sesión
-        public void RegistrarSesion(SingletonSesion sesion
-            )
+        public void RegistrarSesion(SingletonSesion sesion)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 _acceso.CrearParametro("@SessionID",sesion.Sesion.Id.ToString()),
                 _acceso.CrearParametro("@UsuarioID", sesion.Sesion.Usuario.Id.ToString()),
-                _acceso.CrearParametro("@FechaInicio", sesion.Sesion.Usuario.UltimoInicioSesion),
-                _acceso.CrearParametro("@UltimoIdioma", sesion.Sesion.Usuario.Idioma.Id.ToString()),
-                _acceso.CrearParametro("@UltimoRolID", sesion.Sesion.Usuario.UltimoRolId.ToString()),
-                _acceso.CrearParametro("@Estado", true) // Estado de inicio
+
                
             };
 
