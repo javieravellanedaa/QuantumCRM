@@ -51,6 +51,9 @@ namespace UI
             this.Close();
         }
 
+        private void frmAltaUsuario_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

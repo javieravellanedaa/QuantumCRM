@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BLL;
+using BLL;          
 using INTERFACES;
 using BE;
 using SERVICIOS;
+using System.Threading;
 
 namespace UI
 {
@@ -18,13 +19,17 @@ namespace UI
     {
         private IdiomaBLL _idiomaBLL;
         private TraduccionBLL _traduccionBLL;
-        public frmAdministrarIdioma(IdiomaBLL idiomaBLL)
+        private readonly EventManagerService _eventManagerService;
+        public frmAdministrarIdioma(IdiomaBLL idiomaBLL, EventManagerService eventManagerService)
         {
             InitializeComponent();
             _idiomaBLL = idiomaBLL;
             _traduccionBLL = new TraduccionBLL();
             CargarIdiomas();
             ActualizarLista();
+            _eventManagerService = eventManagerService;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.BackColor = Color.FromArgb(96, 116, 239);
         }
 
         private void CargarIdiomas()
@@ -45,18 +50,44 @@ namespace UI
         private void CargarTraducciones(Guid idiomaId)
         {
             var traducciones = _traduccionBLL.ObtenerTraduccionesPorIdioma(idiomaId);
-            MessageBox.Show($"Se han encontrado {traducciones.Count} traducciones para el idioma seleccionado.");
+            int contador = 0;
+            for (int i = 0; i < traducciones.Count; i++)
+            {
+                if (traducciones[i].Texto == "")
+                {
+                    //      traducciones[i].Texto = traducciones[i].TextoOriginal;  
+
+                    //   }
+                    //  else
+                    //  {
+
+                    throw new Exception("No se han encontrado traducciones para el idioma seleccionado. No se puede guardar");
+                }
+
+                else
+                {
+                    traducciones[i].Texto = traducciones[i].Texto;
+                    contador += 1;
+                    _traduccionBLL.GuardarTraduccion(traducciones[i]);
+                }
+                    
+                //}
+            }
+            MessageBox.Show($"Se han encontrado {contador} traducciones para el idioma seleccionado.");
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = traducciones;
+
 
             // Configurar DataGridView
             dataGridView1.Columns["Id"].Visible = false;
             dataGridView1.Columns["IdiomaId"].Visible = false;
             dataGridView1.Columns["EtiquetaId"].Visible = false;
             dataGridView1.Columns["Etiqueta"].Visible = false; // Oculta la columna Etiqueta
-
+            
             dataGridView1.Columns["EtiquetaNombre"].HeaderText = "Nombre de Etiqueta";
+            dataGridView1.Columns["TextoOriginal"].HeaderText = "Texto Original";
             dataGridView1.Columns["Texto"].HeaderText = "Traducción";
+            dataGridView1.Columns["Formulario"].HeaderText = "Formulario";
         }
         private void ActualizarLista()
         {
@@ -129,6 +160,7 @@ namespace UI
             {
                 var idioma = (IIdioma)cmbIdioma.SelectedItem;
                 CargarTraducciones(idioma.Id);
+
             }
         }
 

@@ -150,7 +150,10 @@ namespace DAL
                             IdiomaId = idiomaId,
                             EtiquetaId = reader.GetGuid(reader.GetOrdinal("EtiquetaId")),
                             Texto = reader.IsDBNull(reader.GetOrdinal("Texto")) ? string.Empty : reader.GetString(reader.GetOrdinal("Texto")),
-                            EtiquetaNombre = reader.GetString(reader.GetOrdinal("EtiquetaNombre"))
+                            EtiquetaNombre = reader.GetString(reader.GetOrdinal("EtiquetaNombre")),
+                            Formulario = reader.GetString(reader.GetOrdinal("form")),
+                            TextoOriginal = reader.GetString(reader.GetOrdinal("texto_original"))
+
                         };
                         traducciones.Add(traduccion);
                     }

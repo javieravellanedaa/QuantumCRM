@@ -54,59 +54,66 @@
             // txtCorreo
             // 
             this.txtCorreo.Enabled = false;
-            this.txtCorreo.Location = new System.Drawing.Point(368, 166);
+            this.txtCorreo.Location = new System.Drawing.Point(491, 204);
+            this.txtCorreo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(215, 20);
+            this.txtCorreo.Size = new System.Drawing.Size(285, 22);
             this.txtCorreo.TabIndex = 13;
             // 
             // txtApellido
             // 
             this.txtApellido.Enabled = false;
-            this.txtApellido.Location = new System.Drawing.Point(368, 131);
+            this.txtApellido.Location = new System.Drawing.Point(491, 161);
+            this.txtApellido.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(215, 20);
+            this.txtApellido.Size = new System.Drawing.Size(285, 22);
             this.txtApellido.TabIndex = 12;
             // 
             // txtNombre
             // 
             this.txtNombre.Enabled = false;
-            this.txtNombre.Location = new System.Drawing.Point(136, 128);
+            this.txtNombre.Location = new System.Drawing.Point(181, 158);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(104, 20);
+            this.txtNombre.Size = new System.Drawing.Size(137, 22);
             this.txtNombre.TabIndex = 11;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(254, 169);
+            this.label3.Location = new System.Drawing.Point(339, 208);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.Size = new System.Drawing.Size(117, 16);
             this.label3.TabIndex = 10;
             this.label3.Text = "Correo electrónico";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(303, 134);
+            this.label2.Location = new System.Drawing.Point(404, 165);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.Size = new System.Drawing.Size(57, 16);
             this.label2.TabIndex = 9;
             this.label2.Text = "Apellido";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 131);
+            this.label1.Location = new System.Drawing.Point(32, 161);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(56, 16);
             this.label1.TabIndex = 8;
             this.label1.Text = "Nombre";
             // 
             // btnCerrar
             // 
-            this.btnCerrar.Location = new System.Drawing.Point(224, 318);
+            this.btnCerrar.Location = new System.Drawing.Point(299, 391);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(75, 23);
+            this.btnCerrar.Size = new System.Drawing.Size(100, 28);
             this.btnCerrar.TabIndex = 7;
             this.btnCerrar.Text = "Aceptar";
             this.btnCerrar.UseVisualStyleBackColor = true;
@@ -115,55 +122,61 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(24, 166);
+            this.lblUsuario.Location = new System.Drawing.Point(32, 204);
+            this.lblUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblUsuario.Size = new System.Drawing.Size(43, 13);
+            this.lblUsuario.Size = new System.Drawing.Size(54, 16);
             this.lblUsuario.TabIndex = 8;
             this.lblUsuario.Text = "Usuario";
             // 
             // txtUsuario
             // 
             this.txtUsuario.Enabled = false;
-            this.txtUsuario.Location = new System.Drawing.Point(136, 163);
+            this.txtUsuario.Location = new System.Drawing.Point(181, 201);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(104, 20);
+            this.txtUsuario.Size = new System.Drawing.Size(137, 22);
             this.txtUsuario.TabIndex = 11;
             // 
             // lblLegajo
             // 
             this.lblLegajo.AutoSize = true;
-            this.lblLegajo.Location = new System.Drawing.Point(24, 207);
+            this.lblLegajo.Location = new System.Drawing.Point(32, 255);
+            this.lblLegajo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLegajo.Name = "lblLegajo";
             this.lblLegajo.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblLegajo.Size = new System.Drawing.Size(39, 13);
+            this.lblLegajo.Size = new System.Drawing.Size(49, 16);
             this.lblLegajo.TabIndex = 8;
             this.lblLegajo.Text = "Legajo";
             // 
             // txtLegajo
             // 
             this.txtLegajo.Enabled = false;
-            this.txtLegajo.Location = new System.Drawing.Point(136, 207);
+            this.txtLegajo.Location = new System.Drawing.Point(181, 255);
+            this.txtLegajo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtLegajo.Name = "txtLegajo";
-            this.txtLegajo.Size = new System.Drawing.Size(104, 20);
+            this.txtLegajo.Size = new System.Drawing.Size(137, 22);
             this.txtLegajo.TabIndex = 11;
             // 
             // lblUltimoInicioSesion
             // 
             this.lblUltimoInicioSesion.AutoSize = true;
-            this.lblUltimoInicioSesion.Location = new System.Drawing.Point(254, 207);
+            this.lblUltimoInicioSesion.Location = new System.Drawing.Point(339, 255);
+            this.lblUltimoInicioSesion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUltimoInicioSesion.Name = "lblUltimoInicioSesion";
             this.lblUltimoInicioSesion.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblUltimoInicioSesion.Size = new System.Drawing.Size(111, 13);
+            this.lblUltimoInicioSesion.Size = new System.Drawing.Size(141, 16);
             this.lblUltimoInicioSesion.TabIndex = 8;
             this.lblUltimoInicioSesion.Text = "Ultimo inicio de sesion";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::UI.Properties.Resources.avatarAdmin;
-            this.pictureBox1.Location = new System.Drawing.Point(186, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(248, 15);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(225, 88);
+            this.pictureBox1.Size = new System.Drawing.Size(300, 108);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 14;
             this.pictureBox1.TabStop = false;
@@ -171,45 +184,50 @@
             // txtUltimoInicioSesion
             // 
             this.txtUltimoInicioSesion.Enabled = false;
-            this.txtUltimoInicioSesion.Location = new System.Drawing.Point(368, 204);
+            this.txtUltimoInicioSesion.Location = new System.Drawing.Point(491, 251);
+            this.txtUltimoInicioSesion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtUltimoInicioSesion.Name = "txtUltimoInicioSesion";
-            this.txtUltimoInicioSesion.Size = new System.Drawing.Size(215, 20);
+            this.txtUltimoInicioSesion.Size = new System.Drawing.Size(285, 22);
             this.txtUltimoInicioSesion.TabIndex = 15;
             // 
             // lblIdioma
             // 
             this.lblIdioma.AutoSize = true;
-            this.lblIdioma.Location = new System.Drawing.Point(24, 254);
+            this.lblIdioma.Location = new System.Drawing.Point(32, 313);
+            this.lblIdioma.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIdioma.Name = "lblIdioma";
             this.lblIdioma.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblIdioma.Size = new System.Drawing.Size(38, 13);
+            this.lblIdioma.Size = new System.Drawing.Size(48, 16);
             this.lblIdioma.TabIndex = 8;
             this.lblIdioma.Text = "Idioma";
             // 
             // txtIdiomaPreferido
             // 
             this.txtIdiomaPreferido.Enabled = false;
-            this.txtIdiomaPreferido.Location = new System.Drawing.Point(136, 254);
+            this.txtIdiomaPreferido.Location = new System.Drawing.Point(181, 313);
+            this.txtIdiomaPreferido.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtIdiomaPreferido.Name = "txtIdiomaPreferido";
-            this.txtIdiomaPreferido.Size = new System.Drawing.Size(104, 20);
+            this.txtIdiomaPreferido.Size = new System.Drawing.Size(137, 22);
             this.txtIdiomaPreferido.TabIndex = 11;
             // 
             // lblFechaDeAlta
             // 
             this.lblFechaDeAlta.AutoSize = true;
-            this.lblFechaDeAlta.Location = new System.Drawing.Point(275, 254);
+            this.lblFechaDeAlta.Location = new System.Drawing.Point(367, 313);
+            this.lblFechaDeAlta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFechaDeAlta.Name = "lblFechaDeAlta";
             this.lblFechaDeAlta.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblFechaDeAlta.Size = new System.Drawing.Size(72, 13);
+            this.lblFechaDeAlta.Size = new System.Drawing.Size(89, 16);
             this.lblFechaDeAlta.TabIndex = 8;
             this.lblFechaDeAlta.Text = "Fecha de alta";
             // 
             // txtFechaAlta
             // 
             this.txtFechaAlta.Enabled = false;
-            this.txtFechaAlta.Location = new System.Drawing.Point(368, 251);
+            this.txtFechaAlta.Location = new System.Drawing.Point(491, 309);
+            this.txtFechaAlta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtFechaAlta.Name = "txtFechaAlta";
-            this.txtFechaAlta.Size = new System.Drawing.Size(215, 20);
+            this.txtFechaAlta.Size = new System.Drawing.Size(285, 22);
             this.txtFechaAlta.TabIndex = 15;
             // 
             // imageList1
@@ -218,11 +236,11 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // frmPerfil
+            // frmAltaUsuario
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(606, 369);
+            this.ClientSize = new System.Drawing.Size(808, 454);
             this.Controls.Add(this.txtFechaAlta);
             this.Controls.Add(this.txtUltimoInicioSesion);
             this.Controls.Add(this.pictureBox1);
@@ -241,8 +259,10 @@
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCerrar);
-            this.Name = "frmPerfil";
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "frmAltaUsuario";
             this.Text = "Datos Personales";
+            this.Load += new System.EventHandler(this.frmAltaUsuario_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

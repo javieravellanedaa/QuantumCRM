@@ -23,7 +23,7 @@ namespace BE
 
         public override void AgregarHijo(Componente c)
         {
-
+            throw new InvalidOperationException("No se puede agregar hijos a un permiso simple.");
         }
 
         

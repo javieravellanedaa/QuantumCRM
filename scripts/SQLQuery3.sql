@@ -47,6 +47,6 @@ SELECT
 FROM
     Columnas col
     LEFT JOIN Relaciones rel ON col.TABLE_NAME = rel.Tabla_Origen AND col.COLUMN_NAME = rel.Columna_Origen
-	where col.TABLE_NAME like 'clientes'
+	where col.TABLE_NAME in ('sesion')
 ORDER BY
     col.TABLE_NAME, col.COLUMN_NAME;

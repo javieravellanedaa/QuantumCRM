@@ -145,7 +145,7 @@ namespace DAL
         {
             var parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@AdministradorID", usuarioId.ToString())
+                acceso.CrearParametro("@usuario_id", usuarioId.ToString())
             };
 
             try

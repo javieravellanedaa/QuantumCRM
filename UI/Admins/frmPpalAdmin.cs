@@ -21,7 +21,7 @@ namespace UI
     {
 
         BLL.UsuarioBLL _bllUsuarios;
-        BLL.IdiomaBLL _idiomaBLL;
+        BLL.IdiomaBLL _idiomaBLL = new IdiomaBLL();
         BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
         BLL.SesionBLL _sesionBLL = new SesionBLL(); 
 
@@ -660,6 +660,21 @@ namespace UI
         {
            
     
+        }
+
+        private void gestionarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void modificarToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            Form frmAdministrarIdioma = new frmAdministrarIdioma(_idiomaBLL,_eventManagerService);
+            CargarFormularioEnPanel(frmAdministrarIdioma);
+            if (frmAdministrarIdioma.IsDisposed)
+            {
+                FormularioSecundarioCerrado();
+            }
         }
     }
 

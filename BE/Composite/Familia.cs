@@ -8,11 +8,6 @@ namespace BE
     {
         private IList<Componente> _hijos;
 
-        public Familia()
-        {
-            _hijos = new List<Componente>();
-        }
-
         public override IList<Componente> Hijos
         {
             get
@@ -20,6 +15,12 @@ namespace BE
                 return _hijos; // Devuelve la lista directamente, sin convertir a arreglo
             }
         }
+
+        public Familia()
+        {
+            _hijos = new List<Componente>(); 
+        }
+
 
         public override void VaciarHijos()
         {
