@@ -645,16 +645,7 @@ namespace UI
             drdwTickets.Show(iconBtnTickets,iconBtnTickets.Width, 0);
         }
 
-        private void nuevoToolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            Form frnNuevoIdima = new frmNuevoIdioma(_eventManagerService);
-       
-            CargarFormularioEnPanel(frnNuevoIdima);
-            if (frnNuevoIdima.IsDisposed)
-            {
-                FormularioSecundarioCerrado();
-            }
-        }
+
 
         private void nuevoTicketToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -667,15 +658,42 @@ namespace UI
 
         }
 
-        private void modificarToolStripMenuItem5_Click(object sender, EventArgs e)
+
+
+
+        private void AbrirFrmAdministrarIdiomaEnTab(int tabIndex)
         {
-            Form frmAdministrarIdioma = new frmAdministrarIdioma(_idiomaBLL,_eventManagerService);
-            CargarFormularioEnPanel(frmAdministrarIdioma);
-            if (frmAdministrarIdioma.IsDisposed)
-            {
-                FormularioSecundarioCerrado();
-            }
+            var frm = new frmAdministrarIdioma(_idiomaBLL, _eventManagerService);
+
+            // Llamamos un método del frmAdministrarIdioma para forzar la pestaña:
+            frm.SeleccionarTab(tabIndex);
+
+            CargarFormularioEnPanel(frm);
         }
+
+
+        private void traduccionesToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            // Abre frmAdministrarIdioma y selecciona pestaña 0
+            AbrirFrmAdministrarIdiomaEnTab(0);
+        }
+
+        private void idiomasActivosToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            AbrirFrmAdministrarIdiomaEnTab(1);
+        }
+
+        private void idiomasInactivosToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            AbrirFrmAdministrarIdiomaEnTab(2);
+        }
+
+        private void borrarIdiomasToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            AbrirFrmAdministrarIdiomaEnTab(3);
+        }
+
+
     }
 
 

@@ -130,32 +130,46 @@ namespace DAL
         // Método para obtener todas las traducciones de un idioma usando un SP
         public List<Traduccion> ObtenerTraduccionesPorIdioma(Guid idiomaId)
         {
-            List<Traduccion> traducciones = new List<Traduccion>();
-
-            List<SqlParameter> parameters = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@IdiomaId", idiomaId.ToString())
-            };
+            List<Traduccion> lista = new List<Traduccion>();
 
             try
             {
                 acceso.Abrir();
-                using (SqlDataReader reader = acceso.EjecutarLectura("SP_ObtenerTraduccionesPorIdioma", parameters))
+
+                // Se asume que 'EscribirLectura' ejecuta un SP y retorna SqlDataReader
+                List<SqlParameter> parametros = new List<SqlParameter>
+        {
+            acceso.CrearParametro("@idioma_id", idiomaId.ToString())
+        };
+
+                using (var reader = acceso.EjecutarLectura("SP_ObtenerTraduccionesPorIdioma", parametros))
                 {
                     while (reader.Read())
                     {
-                        Traduccion traduccion = new Traduccion
-                        {
-                            Id = reader.GetGuid(reader.GetOrdinal("TraduccionId")),
-                            IdiomaId = idiomaId,
-                            EtiquetaId = reader.GetGuid(reader.GetOrdinal("EtiquetaId")),
-                            Texto = reader.IsDBNull(reader.GetOrdinal("Texto")) ? string.Empty : reader.GetString(reader.GetOrdinal("Texto")),
-                            EtiquetaNombre = reader.GetString(reader.GetOrdinal("EtiquetaNombre")),
-                            Formulario = reader.GetString(reader.GetOrdinal("form")),
-                            TextoOriginal = reader.GetString(reader.GetOrdinal("texto_original"))
+                        // Manejar DBnull => string.Empty o Guid.Empty
+                        var traduccionId = reader["traduccion_id"] == DBNull.Value
+                                           ? Guid.Empty
+                                           : (Guid)reader["traduccion_id"];
 
+                        var textoTraduccion = reader["TextoTraduccion"] == DBNull.Value
+                                              ? ""
+                                              : (string)reader["TextoTraduccion"];
+
+                        var etiquetaId = (Guid)reader["etiqueta_id"];
+
+                        // Construir
+                        var obj = new Traduccion
+                        {
+                            Id = traduccionId,
+                            IdiomaId = idiomaId,
+                            EtiquetaId = etiquetaId,
+                            Texto = textoTraduccion,
+                            EtiquetaNombre = reader["EtiquetaNombre"].ToString(),
+                            Formulario = reader["Formulario"].ToString(),
+                            TextoOriginal = reader["TextoOriginal"].ToString()
                         };
-                        traducciones.Add(traduccion);
+
+                        lista.Add(obj);
                     }
                 }
             }
@@ -164,21 +178,23 @@ namespace DAL
                 acceso.Cerrar();
             }
 
-            return traducciones;
+            return lista;
         }
+
 
         // Método para guardar una traducción usando la clase Acceso
         public void GuardarTraduccion(Traduccion traduccion)
         {
+            // Parámetros para SP_InsertarTraduccion o SP_ActualizarTraduccion
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 acceso.CrearParametro("@TraduccionId", traduccion.Id.ToString()),
-                acceso.CrearParametro("@IdiomaId", traduccion.IdiomaId.ToString()),
-                acceso.CrearParametro("@EtiquetaId", traduccion.EtiquetaId.ToString()),
-                acceso.CrearParametro("@Texto", traduccion.Texto ?? string.Empty)
+                acceso.CrearParametro("@IdiomaId",     traduccion.IdiomaId.ToString()),
+                acceso.CrearParametro("@EtiquetaId",   traduccion.EtiquetaId.ToString()),
+                acceso.CrearParametro("@Texto",        traduccion.Texto ?? string.Empty)
             };
 
-            // Verificar si la traducción ya existe
+            // Parámetro para SP_ExisteTraduccion
             List<SqlParameter> checkParameters = new List<SqlParameter>
             {
                 acceso.CrearParametro("@TraduccionId", traduccion.Id.ToString())
@@ -187,16 +203,21 @@ namespace DAL
             try
             {
                 acceso.Abrir();
-                int count = Convert.ToInt32(acceso.EscribirEscalar("SELECT COUNT(*) FROM traducciones WHERE traduccion_id = @TraduccionId", checkParameters));
 
+                // 1) Verificar si existe la traducción
+                int count = Convert.ToInt32(
+                    acceso.EscribirEscalar("SP_ExisteTraduccion", checkParameters)
+                );
+
+                // 2) Insertar o Actualizar
                 if (count > 0)
                 {
-                    // Actualizar traducción existente
+                    // Update
                     acceso.Escribir("SP_ActualizarTraduccion", parameters);
                 }
                 else
                 {
-                    // Insertar nueva traducción
+                    // Insert
                     acceso.Escribir("SP_InsertarTraduccion", parameters);
                 }
             }
@@ -205,5 +226,7 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+
     }
 }

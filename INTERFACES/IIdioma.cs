@@ -9,6 +9,6 @@ namespace INTERFACES
     public interface IIdioma : IEntity
     {
         string Nombre { get; set; }
-      
+        bool Activo { get; set; }  // <-- Agregar esta propiedad
     }
 }

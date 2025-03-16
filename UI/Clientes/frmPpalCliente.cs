@@ -338,7 +338,7 @@ namespace UI
 
         private void CargarFormularioEnPanel(Form formulario)
         {
-            if (formulario is frmPerfil perfilForm || formulario is frmNuevoIdioma)
+            if (formulario is frmPerfil perfilForm /*|| formulario is frmNuevoIdioma*/)
             {
                 _eventManagerService.Subscribe("FormularioCerrado", this);
 

@@ -126,12 +126,13 @@
             this.modificarToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.drdwConfiguracion = new UI.Design.DropDownMenu(this.components);
-            this.inventarioToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.IdiomaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuevoToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.traduccionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.idiomasActivosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.idiomasInactivosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.borrarIdiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -1057,58 +1058,67 @@
             this.drdwConfiguracion.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.drdwConfiguracion.IsMainMenu = false;
             this.drdwConfiguracion.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.inventarioToolStripMenuItem1,
+            this.IdiomaToolStripMenuItem1,
             this.acercaDeToolStripMenuItem});
             this.drdwConfiguracion.MenuItemHeight = 25;
             this.drdwConfiguracion.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwConfiguracion.Name = "drdwConfiguracion";
             this.drdwConfiguracion.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwConfiguracion.Size = new System.Drawing.Size(211, 80);
+            this.drdwConfiguracion.Size = new System.Drawing.Size(181, 65);
             // 
-            // inventarioToolStripMenuItem1
+            // IdiomaToolStripMenuItem1
             // 
-            this.inventarioToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IdiomaToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionarToolStripMenuItem});
-            this.inventarioToolStripMenuItem1.Name = "inventarioToolStripMenuItem1";
-            this.inventarioToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
-            this.inventarioToolStripMenuItem1.Text = "Idioma";
+            this.IdiomaToolStripMenuItem1.Name = "IdiomaToolStripMenuItem1";
+            this.IdiomaToolStripMenuItem1.Size = new System.Drawing.Size(144, 24);
+            this.IdiomaToolStripMenuItem1.Text = "Idioma";
             // 
             // gestionarToolStripMenuItem
             // 
             this.gestionarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevoToolStripMenuItem5,
-            this.modificarToolStripMenuItem5,
-            this.borrarToolStripMenuItem5});
+            this.traduccionesToolStripMenuItem,
+            this.idiomasActivosToolStripMenuItem,
+            this.idiomasInactivosToolStripMenuItem,
+            this.borrarIdiomasToolStripMenuItem});
             this.gestionarToolStripMenuItem.Name = "gestionarToolStripMenuItem";
             this.gestionarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.gestionarToolStripMenuItem.Text = "Gestionar";
             this.gestionarToolStripMenuItem.Click += new System.EventHandler(this.gestionarToolStripMenuItem_Click);
-            // 
-            // nuevoToolStripMenuItem5
-            // 
-            this.nuevoToolStripMenuItem5.Name = "nuevoToolStripMenuItem5";
-            this.nuevoToolStripMenuItem5.Size = new System.Drawing.Size(224, 26);
-            this.nuevoToolStripMenuItem5.Text = "Nuevo";
-            this.nuevoToolStripMenuItem5.Click += new System.EventHandler(this.nuevoToolStripMenuItem5_Click);
-            // 
-            // modificarToolStripMenuItem5
-            // 
-            this.modificarToolStripMenuItem5.Name = "modificarToolStripMenuItem5";
-            this.modificarToolStripMenuItem5.Size = new System.Drawing.Size(224, 26);
-            this.modificarToolStripMenuItem5.Text = "Modificar";
-            this.modificarToolStripMenuItem5.Click += new System.EventHandler(this.modificarToolStripMenuItem5_Click);
-            // 
-            // borrarToolStripMenuItem5
-            // 
-            this.borrarToolStripMenuItem5.Name = "borrarToolStripMenuItem5";
-            this.borrarToolStripMenuItem5.Size = new System.Drawing.Size(224, 26);
-            this.borrarToolStripMenuItem5.Text = "Borrar";
             // 
             // acercaDeToolStripMenuItem
             // 
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
             this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.acercaDeToolStripMenuItem.Text = "Acerca de";
+            // 
+            // traduccionesToolStripMenuItem
+            // 
+            this.traduccionesToolStripMenuItem.Name = "traduccionesToolStripMenuItem";
+            this.traduccionesToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.traduccionesToolStripMenuItem.Text = "Traducciones";
+            this.traduccionesToolStripMenuItem.Click += new System.EventHandler(this.traduccionesToolStripMenuItem_Click_1);
+            // 
+            // idiomasActivosToolStripMenuItem
+            // 
+            this.idiomasActivosToolStripMenuItem.Name = "idiomasActivosToolStripMenuItem";
+            this.idiomasActivosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.idiomasActivosToolStripMenuItem.Text = "Idiomas Activos";
+            this.idiomasActivosToolStripMenuItem.Click += new System.EventHandler(this.idiomasActivosToolStripMenuItem_Click_1);
+            // 
+            // idiomasInactivosToolStripMenuItem
+            // 
+            this.idiomasInactivosToolStripMenuItem.Name = "idiomasInactivosToolStripMenuItem";
+            this.idiomasInactivosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.idiomasInactivosToolStripMenuItem.Text = "Idiomas Inactivos";
+            this.idiomasInactivosToolStripMenuItem.Click += new System.EventHandler(this.idiomasInactivosToolStripMenuItem_Click_1);
+            // 
+            // borrarIdiomasToolStripMenuItem
+            // 
+            this.borrarIdiomasToolStripMenuItem.Name = "borrarIdiomasToolStripMenuItem";
+            this.borrarIdiomasToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.borrarIdiomasToolStripMenuItem.Text = "Borrar Idiomas";
+            this.borrarIdiomasToolStripMenuItem.Click += new System.EventHandler(this.borrarIdiomasToolStripMenuItem_Click_1);
             // 
             // frmPpalAdmin
             // 
@@ -1236,12 +1246,13 @@
         private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem borrarToolStripMenuItem4;
         private Design.DropDownMenu drdwConfiguracion;
-        private System.Windows.Forms.ToolStripMenuItem inventarioToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem IdiomaToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gestionarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nuevoToolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem borrarToolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem buscarTicketToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem traduccionesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem idiomasActivosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem idiomasInactivosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem borrarIdiomasToolStripMenuItem;
     }
 }

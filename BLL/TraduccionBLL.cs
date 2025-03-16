@@ -33,13 +33,7 @@ namespace BLL
             return _traduccionDAL.ObtenerTraduccionesPorIdioma(idiomaId);
         }
 
-        public void GuardarTraducciones(List<Traduccion> traducciones)
-        {
-            foreach (var traduccion in traducciones)
-            {
-                _traduccionDAL.GuardarTraduccion(traduccion);
-            }
-        }
+
 
         public void GuardarTraduccion(Traduccion traduccion)
         {
