@@ -693,7 +693,14 @@ namespace UI
             AbrirFrmAdministrarIdiomaEnTab(3);
         }
 
+        private void permisosNEWToolStripMenuItem_Click(object sender, EventArgs e)
+        {           
+            var frm = new frmFamiliaPermisos( _eventManagerService);
 
+
+            CargarFormularioEnPanel(frm);
+
+        }
     }
 
 

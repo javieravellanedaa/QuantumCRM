@@ -11,10 +11,10 @@ namespace BLL
 {
     public class PermisoBLL
     {
-        MP_PERMISO _permisos;
+        PermisoDAL _permisos;
         public PermisoBLL()
         {
-            _permisos = new MP_PERMISO();
+            _permisos = new PermisoDAL();
         }
 
         public bool Existe(Componente c, int id)
@@ -36,6 +36,20 @@ namespace BLL
 
         }
 
+        public bool ExisteEnNivelActual(Componente c, int id)
+        {
+            if (c.Id == id) return true;
+
+            foreach (var hijo in c.Hijos)
+            {
+                if (hijo.Id == id)
+                    return true;
+            }
+
+            return false;
+        }
+
+
 
         public List<string> GetAllPermission()
         {
@@ -49,10 +63,17 @@ namespace BLL
         }
 
 
-        public void GuardarFamilia(Familia c)
+        public void GuardarFamilia(Familia familia)
         {
-            _permisos.GuardarFamilia(c);
-        } // validada OK
+            try
+            {
+                _permisos.GuardarFamilia(familia);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         public IList<Patente> GetAllPatentes()
         {
@@ -65,7 +86,7 @@ namespace BLL
 
         }
 
-        public IList<Familia> GetAllFamilias()
+        public List<Familia> GetAllFamilias()
         {
             return _permisos.GetAllFamilias();
         }

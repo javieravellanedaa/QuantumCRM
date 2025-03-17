@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE
+namespace BE.Composite
 {
     public class Patente: Componente
     {
-        
 
-        public override IList<Componente> Hijos
+
+        public override List<Componente> Hijos
         {
             get
             {
@@ -23,14 +23,17 @@ namespace BE
 
         public override void AgregarHijo(Componente c)
         {
-            throw new InvalidOperationException("No se puede agregar hijos a un permiso simple.");
+            throw new NotImplementedException();
         }
 
-        
+        public override void EliminarHijo(Componente c)
+        {
+            throw new NotImplementedException();
+        }
 
         public override void VaciarHijos()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

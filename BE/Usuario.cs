@@ -9,13 +9,17 @@ namespace BE
     {
         public Usuario()
         {
-            Permisos = new List<Componente>();
+            _permisos = new List<Componente>();
             Roles = new List<Rol>();
             NombreDeLosRoles = new List<string>();
         }
 
         // Propiedad pública para los permisos
-        public List<Componente> Permisos { get; set; }
+        private List<Componente> _permisos;
+        public List<Componente> Permisos
+        {
+            get { return _permisos; }
+        }
 
         // Atributos originales
         public string Email { get; set; }
@@ -33,7 +37,13 @@ namespace BE
         public List<Rol> Roles { get; set; }
         public List<string> NombreDeLosRoles { get; set; }
         public int UltimoRolId { get; set; }
+        public void AgregarComponente(Componente componente)
+        {
+            if (componente == null)
+                throw new ArgumentNullException(nameof(componente));
 
+            _permisos.Add(componente);
+        }
         public override string ToString()
         {
             return NombreUsuario;

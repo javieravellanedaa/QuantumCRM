@@ -97,7 +97,7 @@ namespace DAL
                         usuario.Legajo = int.Parse(reader["legajo"].ToString());
                         usuario.FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString());
                         usuario.UltimoInicioSesion = DateTime.Now;
-                        usuario.Permisos.AddRange(GetPermisos(usuario));
+                        //usuario.Permisos.AddRange(GetPermisos(usuario)); / aca tengo que evaluar como utilizar este metodo es decir si valido por rol o por permiso
                         usuario.Roles = GetRoles(usuario);
                         usuario.UltimoRolId = rolId;
                         usuario.Idioma = ObtenerIdioma(usuario);
@@ -241,19 +241,30 @@ namespace DAL
             }
         }
 
-        public List<Patente> GetPermisos(Usuario usuario)
+        public List<BE.Composite.Patente> GetPermisos(Usuario user)
         {
             var parametros = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@id_usuario", usuario.Id.ToString())
-            };
+    {
+        acceso.CrearParametro("@id_usuario", user.Id.ToString())
+    };
 
             try
             {
                 acceso.Abrir();
                 using (var reader = acceso.EjecutarLectura("sp_ObtenerPermisosUsuario", parametros))
                 {
-                    return MapearPermisos(reader);
+                    List<BE.Composite.Patente> permisos = new List<BE.Composite.Patente>();
+                    while (reader.Read())
+                    {
+                        BE.Composite.Patente permiso = new BE.Composite.Patente
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Permiso = reader.GetString(reader.GetOrdinal("permiso"))
+                        };
+                        permisos.Add(permiso);
+                    }
+                    return permisos;
                 }
             }
             finally
@@ -261,6 +272,9 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+
+
 
 
         public List<Rol> GetRoles(Usuario usuario)
@@ -439,7 +453,7 @@ namespace DAL
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("id")),
                     Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                    Permiso = reader.GetString(reader.GetOrdinal("descripcion"))
+                    Descripcion = reader.GetString(reader.GetOrdinal("descripcion"))
                 });
             }
             return permisos;
