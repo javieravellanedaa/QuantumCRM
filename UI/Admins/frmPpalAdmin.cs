@@ -189,7 +189,7 @@ namespace UI
             drdwPerfil.IsMainMenu = true;
             drdwConfiguracion.IsMainMenu = true;
             drdwAdministracion.IsMainMenu = true;
-            drdwTickets.IsMainMenu = true;
+            
             _eventManagerService.Subscribe("FormularioCerrado", this);
 
 
@@ -642,7 +642,7 @@ namespace UI
 
         private void iconBtnTickets_Click(object sender, EventArgs e)
         {
-            drdwTickets.Show(iconBtnTickets,iconBtnTickets.Width, 0);
+           
         }
 
 

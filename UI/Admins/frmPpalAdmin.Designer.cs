@@ -62,28 +62,11 @@
             this.datosPersonalesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cambiarRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cambiarIdiomaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.drdwTickets = new UI.Design.DropDownMenu(this.components);
-            this.misTicketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.buscarTicketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drdwAdministracion = new UI.Design.DropDownMenu(this.components);
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eliminarUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asignarClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.técnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asignarTécnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarTécnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarTécniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.administradorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asignarAdministradorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarAdministradorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarAdministradorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ticketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tipoDeTicketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,18 +88,6 @@
             this.borrarGrupoTecnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.permisosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuarioToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.clienteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tecnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuevoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.administradorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.nuevoToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.modificarToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.borrarToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.departamentoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,13 +105,15 @@
             this.idiomasInactivosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarIdiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asignarClienteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.asignarTecnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asignarAdministradorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PanelTitleBar.SuspendLayout();
             this.drdwGeneral.SuspendLayout();
             this.drdwPerfil.SuspendLayout();
-            this.drdwTickets.SuspendLayout();
             this.drdwAdministracion.SuspendLayout();
             this.drdwConfiguracion.SuspendLayout();
             this.SuspendLayout();
@@ -587,45 +560,12 @@
             this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
             this.cambiarIdiomaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_DropDownOpening);
             // 
-            // drdwTickets
-            // 
-            this.drdwTickets.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.drdwTickets.IsMainMenu = false;
-            this.drdwTickets.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.misTicketsToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.buscarTicketToolStripMenuItem});
-            this.drdwTickets.MenuItemHeight = 25;
-            this.drdwTickets.MenuItemTextColor = System.Drawing.Color.Empty;
-            this.drdwTickets.Name = "drdwTickets";
-            this.drdwTickets.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwTickets.Size = new System.Drawing.Size(204, 76);
-            // 
-            // misTicketsToolStripMenuItem
-            // 
-            this.misTicketsToolStripMenuItem.Name = "misTicketsToolStripMenuItem";
-            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
-            this.misTicketsToolStripMenuItem.Text = "Mis tickets";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(203, 24);
-            this.toolStripMenuItem2.Text = "Asignar aprobador";
-            // 
-            // buscarTicketToolStripMenuItem
-            // 
-            this.buscarTicketToolStripMenuItem.Name = "buscarTicketToolStripMenuItem";
-            this.buscarTicketToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
-            this.buscarTicketToolStripMenuItem.Text = "Buscar Ticket";
-            // 
             // drdwAdministracion
             // 
             this.drdwAdministracion.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.drdwAdministracion.IsMainMenu = false;
             this.drdwAdministracion.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.usuarioToolStripMenuItem,
-            this.rolesToolStripMenuItem,
             this.ticketsToolStripMenuItem,
             this.departamentoToolStripMenuItem,
             this.grupoTécnicoToolStripMenuItem,
@@ -635,7 +575,7 @@
             this.drdwAdministracion.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwAdministracion.Name = "drdwAdministracion";
             this.drdwAdministracion.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwAdministracion.Size = new System.Drawing.Size(180, 172);
+            this.drdwAdministracion.Size = new System.Drawing.Size(211, 176);
             // 
             // usuarioToolStripMenuItem
             // 
@@ -644,7 +584,7 @@
             this.modificarUsuarioToolStripMenuItem,
             this.eliminarUsuarioToolStripMenuItem});
             this.usuarioToolStripMenuItem.Name = "usuarioToolStripMenuItem";
-            this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.usuarioToolStripMenuItem.Text = "Usuario";
             // 
             // nuevoUsuarioToolStripMenuItem
@@ -665,100 +605,6 @@
             this.eliminarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.eliminarUsuarioToolStripMenuItem.Text = "Eliminar usuario";
             // 
-            // rolesToolStripMenuItem
-            // 
-            this.rolesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clienteToolStripMenuItem,
-            this.técnicoToolStripMenuItem,
-            this.administradorToolStripMenuItem});
-            this.rolesToolStripMenuItem.Name = "rolesToolStripMenuItem";
-            this.rolesToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
-            this.rolesToolStripMenuItem.Text = "Roles";
-            // 
-            // clienteToolStripMenuItem
-            // 
-            this.clienteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asignarClienteToolStripMenuItem,
-            this.modificarClienteToolStripMenuItem,
-            this.borrarClienteToolStripMenuItem});
-            this.clienteToolStripMenuItem.Name = "clienteToolStripMenuItem";
-            this.clienteToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
-            this.clienteToolStripMenuItem.Text = "Cliente";
-            // 
-            // asignarClienteToolStripMenuItem
-            // 
-            this.asignarClienteToolStripMenuItem.Name = "asignarClienteToolStripMenuItem";
-            this.asignarClienteToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
-            this.asignarClienteToolStripMenuItem.Text = "Asignar cliente";
-            // 
-            // modificarClienteToolStripMenuItem
-            // 
-            this.modificarClienteToolStripMenuItem.Name = "modificarClienteToolStripMenuItem";
-            this.modificarClienteToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
-            this.modificarClienteToolStripMenuItem.Text = "Modificar cliente";
-            // 
-            // borrarClienteToolStripMenuItem
-            // 
-            this.borrarClienteToolStripMenuItem.Name = "borrarClienteToolStripMenuItem";
-            this.borrarClienteToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
-            this.borrarClienteToolStripMenuItem.Text = "Borrar cliente";
-            // 
-            // técnicoToolStripMenuItem
-            // 
-            this.técnicoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asignarTécnicoToolStripMenuItem,
-            this.modificarTécnicoToolStripMenuItem,
-            this.borrarTécniToolStripMenuItem});
-            this.técnicoToolStripMenuItem.Name = "técnicoToolStripMenuItem";
-            this.técnicoToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
-            this.técnicoToolStripMenuItem.Text = "Técnico";
-            // 
-            // asignarTécnicoToolStripMenuItem
-            // 
-            this.asignarTécnicoToolStripMenuItem.Name = "asignarTécnicoToolStripMenuItem";
-            this.asignarTécnicoToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
-            this.asignarTécnicoToolStripMenuItem.Text = "Asignar técnico";
-            // 
-            // modificarTécnicoToolStripMenuItem
-            // 
-            this.modificarTécnicoToolStripMenuItem.Name = "modificarTécnicoToolStripMenuItem";
-            this.modificarTécnicoToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
-            this.modificarTécnicoToolStripMenuItem.Text = "Modificar técnico";
-            // 
-            // borrarTécniToolStripMenuItem
-            // 
-            this.borrarTécniToolStripMenuItem.Name = "borrarTécniToolStripMenuItem";
-            this.borrarTécniToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
-            this.borrarTécniToolStripMenuItem.Text = "Borrar técnico";
-            // 
-            // administradorToolStripMenuItem
-            // 
-            this.administradorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asignarAdministradorToolStripMenuItem,
-            this.modificarAdministradorToolStripMenuItem,
-            this.borrarAdministradorToolStripMenuItem});
-            this.administradorToolStripMenuItem.Name = "administradorToolStripMenuItem";
-            this.administradorToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
-            this.administradorToolStripMenuItem.Text = "Administrador";
-            // 
-            // asignarAdministradorToolStripMenuItem
-            // 
-            this.asignarAdministradorToolStripMenuItem.Name = "asignarAdministradorToolStripMenuItem";
-            this.asignarAdministradorToolStripMenuItem.Size = new System.Drawing.Size(253, 26);
-            this.asignarAdministradorToolStripMenuItem.Text = "Asignar administrador";
-            // 
-            // modificarAdministradorToolStripMenuItem
-            // 
-            this.modificarAdministradorToolStripMenuItem.Name = "modificarAdministradorToolStripMenuItem";
-            this.modificarAdministradorToolStripMenuItem.Size = new System.Drawing.Size(253, 26);
-            this.modificarAdministradorToolStripMenuItem.Text = "Modificar administrador";
-            // 
-            // borrarAdministradorToolStripMenuItem
-            // 
-            this.borrarAdministradorToolStripMenuItem.Name = "borrarAdministradorToolStripMenuItem";
-            this.borrarAdministradorToolStripMenuItem.Size = new System.Drawing.Size(253, 26);
-            this.borrarAdministradorToolStripMenuItem.Text = "Borrar administrador";
-            // 
             // ticketsToolStripMenuItem
             // 
             this.ticketsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -766,7 +612,7 @@
             this.categoriasToolStripMenuItem,
             this.estadoDeTicketsToolStripMenuItem});
             this.ticketsToolStripMenuItem.Name = "ticketsToolStripMenuItem";
-            this.ticketsToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.ticketsToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.ticketsToolStripMenuItem.Text = "Tickets";
             // 
             // tipoDeTicketsToolStripMenuItem
@@ -846,7 +692,7 @@
             this.modificarDepartamentoToolStripMenuItem,
             this.borrarDepartamentoToolStripMenuItem});
             this.departamentoToolStripMenuItem.Name = "departamentoToolStripMenuItem";
-            this.departamentoToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.departamentoToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.departamentoToolStripMenuItem.Text = "Departamento";
             // 
             // agregarDepartamentoToolStripMenuItem
@@ -874,7 +720,7 @@
             this.modificarGrupoTecnicoToolStripMenuItem,
             this.borrarGrupoTecnicoToolStripMenuItem});
             this.grupoTécnicoToolStripMenuItem.Name = "grupoTécnicoToolStripMenuItem";
-            this.grupoTécnicoToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.grupoTécnicoToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.grupoTécnicoToolStripMenuItem.Text = "Grupo técnico";
             // 
             // agregarGrupoTecnicoToolStripMenuItem
@@ -902,102 +748,18 @@
             this.departamentoToolStripMenuItem1,
             this.gruposTecnicoToolStripMenuItem});
             this.permisosToolStripMenuItem.Name = "permisosToolStripMenuItem";
-            this.permisosToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.permisosToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.permisosToolStripMenuItem.Text = "Permisos";
             // 
             // usuarioToolStripMenuItem1
             // 
             this.usuarioToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clienteToolStripMenuItem1,
-            this.tecnicoToolStripMenuItem,
-            this.administradorToolStripMenuItem1});
+            this.asignarClienteToolStripMenuItem1,
+            this.asignarTecnicoToolStripMenuItem,
+            this.asignarAdministradorToolStripMenuItem1});
             this.usuarioToolStripMenuItem1.Name = "usuarioToolStripMenuItem1";
-            this.usuarioToolStripMenuItem1.Size = new System.Drawing.Size(191, 26);
-            this.usuarioToolStripMenuItem1.Text = "Rol";
-            // 
-            // clienteToolStripMenuItem1
-            // 
-            this.clienteToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevoToolStripMenuItem,
-            this.modificarToolStripMenuItem,
-            this.borrarToolStripMenuItem});
-            this.clienteToolStripMenuItem1.Name = "clienteToolStripMenuItem1";
-            this.clienteToolStripMenuItem1.Size = new System.Drawing.Size(187, 26);
-            this.clienteToolStripMenuItem1.Text = "Cliente";
-            // 
-            // nuevoToolStripMenuItem
-            // 
-            this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
-            this.nuevoToolStripMenuItem.Text = "Nuevo";
-            // 
-            // modificarToolStripMenuItem
-            // 
-            this.modificarToolStripMenuItem.Name = "modificarToolStripMenuItem";
-            this.modificarToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
-            this.modificarToolStripMenuItem.Text = "Modificar";
-            // 
-            // borrarToolStripMenuItem
-            // 
-            this.borrarToolStripMenuItem.Name = "borrarToolStripMenuItem";
-            this.borrarToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
-            this.borrarToolStripMenuItem.Text = "Borrar";
-            // 
-            // tecnicoToolStripMenuItem
-            // 
-            this.tecnicoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevoToolStripMenuItem1,
-            this.modificarToolStripMenuItem1,
-            this.borrarToolStripMenuItem1});
-            this.tecnicoToolStripMenuItem.Name = "tecnicoToolStripMenuItem";
-            this.tecnicoToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
-            this.tecnicoToolStripMenuItem.Text = "Tecnico";
-            // 
-            // nuevoToolStripMenuItem1
-            // 
-            this.nuevoToolStripMenuItem1.Name = "nuevoToolStripMenuItem1";
-            this.nuevoToolStripMenuItem1.Size = new System.Drawing.Size(156, 26);
-            this.nuevoToolStripMenuItem1.Text = "Nuevo";
-            // 
-            // modificarToolStripMenuItem1
-            // 
-            this.modificarToolStripMenuItem1.Name = "modificarToolStripMenuItem1";
-            this.modificarToolStripMenuItem1.Size = new System.Drawing.Size(156, 26);
-            this.modificarToolStripMenuItem1.Text = "Modificar";
-            // 
-            // borrarToolStripMenuItem1
-            // 
-            this.borrarToolStripMenuItem1.Name = "borrarToolStripMenuItem1";
-            this.borrarToolStripMenuItem1.Size = new System.Drawing.Size(156, 26);
-            this.borrarToolStripMenuItem1.Text = "Borrar";
-            // 
-            // administradorToolStripMenuItem1
-            // 
-            this.administradorToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevoToolStripMenuItem2,
-            this.modificarToolStripMenuItem2,
-            this.borrarToolStripMenuItem2});
-            this.administradorToolStripMenuItem1.Name = "administradorToolStripMenuItem1";
-            this.administradorToolStripMenuItem1.Size = new System.Drawing.Size(187, 26);
-            this.administradorToolStripMenuItem1.Text = "Administrador";
-            // 
-            // nuevoToolStripMenuItem2
-            // 
-            this.nuevoToolStripMenuItem2.Name = "nuevoToolStripMenuItem2";
-            this.nuevoToolStripMenuItem2.Size = new System.Drawing.Size(156, 26);
-            this.nuevoToolStripMenuItem2.Text = "Nuevo";
-            // 
-            // modificarToolStripMenuItem2
-            // 
-            this.modificarToolStripMenuItem2.Name = "modificarToolStripMenuItem2";
-            this.modificarToolStripMenuItem2.Size = new System.Drawing.Size(156, 26);
-            this.modificarToolStripMenuItem2.Text = "Modificar";
-            // 
-            // borrarToolStripMenuItem2
-            // 
-            this.borrarToolStripMenuItem2.Name = "borrarToolStripMenuItem2";
-            this.borrarToolStripMenuItem2.Size = new System.Drawing.Size(156, 26);
-            this.borrarToolStripMenuItem2.Text = "Borrar";
+            this.usuarioToolStripMenuItem1.Size = new System.Drawing.Size(229, 26);
+            this.usuarioToolStripMenuItem1.Text = "Nivel Usuario";
             // 
             // departamentoToolStripMenuItem1
             // 
@@ -1006,8 +768,8 @@
             this.modificarToolStripMenuItem3,
             this.borrarToolStripMenuItem3});
             this.departamentoToolStripMenuItem1.Name = "departamentoToolStripMenuItem1";
-            this.departamentoToolStripMenuItem1.Size = new System.Drawing.Size(191, 26);
-            this.departamentoToolStripMenuItem1.Text = "Departamento";
+            this.departamentoToolStripMenuItem1.Size = new System.Drawing.Size(316, 26);
+            this.departamentoToolStripMenuItem1.Text = "Nivel Departamento [In progress]";
             // 
             // nuevoToolStripMenuItem3
             // 
@@ -1034,8 +796,8 @@
             this.modificarToolStripMenuItem4,
             this.borrarToolStripMenuItem4});
             this.gruposTecnicoToolStripMenuItem.Name = "gruposTecnicoToolStripMenuItem";
-            this.gruposTecnicoToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
-            this.gruposTecnicoToolStripMenuItem.Text = "Grupos tecnico";
+            this.gruposTecnicoToolStripMenuItem.Size = new System.Drawing.Size(316, 26);
+            this.gruposTecnicoToolStripMenuItem.Text = "Nivel Grupos tecnico [In progress]";
             // 
             // nuevoToolStripMenuItem4
             // 
@@ -1058,8 +820,8 @@
             // permisosNEWToolStripMenuItem
             // 
             this.permisosNEWToolStripMenuItem.Name = "permisosNEWToolStripMenuItem";
-            this.permisosNEWToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
-            this.permisosNEWToolStripMenuItem.Text = "Permisos[NEW]";
+            this.permisosNEWToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.permisosNEWToolStripMenuItem.Text = "Grupo de permisos";
             this.permisosNEWToolStripMenuItem.Click += new System.EventHandler(this.permisosNEWToolStripMenuItem_Click);
             // 
             // drdwConfiguracion
@@ -1073,14 +835,14 @@
             this.drdwConfiguracion.MenuItemTextColor = System.Drawing.Color.Empty;
             this.drdwConfiguracion.Name = "drdwConfiguracion";
             this.drdwConfiguracion.PrimaryColor = System.Drawing.Color.Empty;
-            this.drdwConfiguracion.Size = new System.Drawing.Size(211, 80);
+            this.drdwConfiguracion.Size = new System.Drawing.Size(145, 52);
             // 
             // IdiomaToolStripMenuItem1
             // 
             this.IdiomaToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestionarToolStripMenuItem});
             this.IdiomaToolStripMenuItem1.Name = "IdiomaToolStripMenuItem1";
-            this.IdiomaToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.IdiomaToolStripMenuItem1.Size = new System.Drawing.Size(144, 24);
             this.IdiomaToolStripMenuItem1.Text = "Idioma";
             // 
             // gestionarToolStripMenuItem
@@ -1126,8 +888,26 @@
             // acercaDeToolStripMenuItem
             // 
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(144, 24);
             this.acercaDeToolStripMenuItem.Text = "Acerca de";
+            // 
+            // asignarClienteToolStripMenuItem1
+            // 
+            this.asignarClienteToolStripMenuItem1.Name = "asignarClienteToolStripMenuItem1";
+            this.asignarClienteToolStripMenuItem1.Size = new System.Drawing.Size(241, 26);
+            this.asignarClienteToolStripMenuItem1.Text = "Asignar cliente";
+            // 
+            // asignarTecnicoToolStripMenuItem
+            // 
+            this.asignarTecnicoToolStripMenuItem.Name = "asignarTecnicoToolStripMenuItem";
+            this.asignarTecnicoToolStripMenuItem.Size = new System.Drawing.Size(241, 26);
+            this.asignarTecnicoToolStripMenuItem.Text = "Asignar tecnico";
+            // 
+            // asignarAdministradorToolStripMenuItem1
+            // 
+            this.asignarAdministradorToolStripMenuItem1.Name = "asignarAdministradorToolStripMenuItem1";
+            this.asignarAdministradorToolStripMenuItem1.Size = new System.Drawing.Size(241, 26);
+            this.asignarAdministradorToolStripMenuItem1.Text = "Asignar Administrador";
             // 
             // frmPpalAdmin
             // 
@@ -1150,7 +930,6 @@
             this.PanelTitleBar.PerformLayout();
             this.drdwGeneral.ResumeLayout(false);
             this.drdwPerfil.ResumeLayout(false);
-            this.drdwTickets.ResumeLayout(false);
             this.drdwAdministracion.ResumeLayout(false);
             this.drdwConfiguracion.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1192,27 +971,11 @@
         private System.Windows.Forms.ToolStripMenuItem cargarElementosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modificarElementosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem borrarElementosToolStripMenuItem;
-        private Design.DropDownMenu drdwTickets;
-        private System.Windows.Forms.ToolStripMenuItem misTicketsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private Design.DropDownMenu drdwAdministracion;
         private System.Windows.Forms.ToolStripMenuItem usuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevoUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modificarUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eliminarUsuarioToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rolesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clienteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asignarClienteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modificarClienteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem borrarClienteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem técnicoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asignarTécnicoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modificarTécnicoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem administradorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem borrarTécniToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asignarAdministradorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modificarAdministradorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem borrarAdministradorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ticketsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tipoDeTicketsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verToolStripMenuItem;
@@ -1234,18 +997,6 @@
         private System.Windows.Forms.ToolStripMenuItem borrarGrupoTecnicoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem permisosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuarioToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem clienteToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem nuevoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem borrarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tecnicoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nuevoToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem borrarToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem administradorToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem nuevoToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem borrarToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem departamentoToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem nuevoToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem3;
@@ -1258,11 +1009,13 @@
         private System.Windows.Forms.ToolStripMenuItem IdiomaToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gestionarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem buscarTicketToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem traduccionesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem idiomasActivosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem idiomasInactivosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem borrarIdiomasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem permisosNEWToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asignarClienteToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem asignarTecnicoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asignarAdministradorToolStripMenuItem1;
     }
 }

@@ -44,6 +44,7 @@
     <Compile Include="Administrador.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="ClienteTecnico.cs" />
+    <Compile Include="Composite\EnumPermisos.cs" />
     <Compile Include="PN\BandejaDeTicket.cs" />
     <Compile Include="PN\Comentario.cs" />
     <Compile Include="Departamento.cs" />

@@ -79,17 +79,12 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.treeConfigurarFamilia = new System.Windows.Forms.TreeView();
             this.cmdGuardarFamilia = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCerrar
@@ -98,7 +93,7 @@
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(2416, 10);
+            this.btnCerrar.Location = new System.Drawing.Point(2158, 10);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 30);
             this.btnCerrar.TabIndex = 1;
@@ -113,7 +108,7 @@
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(1546, 50);
+            this.panelHeader.Size = new System.Drawing.Size(1288, 50);
             this.panelHeader.TabIndex = 3;
             // 
             // lblTitle
@@ -135,7 +130,7 @@
             this.groupBox1.Controls.Add(this.btnEliminar);
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.groupBox1.Location = new System.Drawing.Point(16, 70);
+            this.groupBox1.Location = new System.Drawing.Point(89, 91);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(360, 454);
             this.groupBox1.TabIndex = 2;
@@ -209,7 +204,7 @@
             this.groupBox2.Controls.Add(this.eliminarFamiliaBtn);
             this.groupBox2.Controls.Add(this.cmdSeleccionar);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.groupBox2.Location = new System.Drawing.Point(794, 255);
+            this.groupBox2.Location = new System.Drawing.Point(867, 276);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(360, 266);
             this.groupBox2.TabIndex = 1;
@@ -281,7 +276,7 @@
             this.groupBox5.Controls.Add(this.txtNombreFamilia);
             this.groupBox5.Controls.Add(this.button4);
             this.groupBox5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.groupBox5.Location = new System.Drawing.Point(794, 70);
+            this.groupBox5.Location = new System.Drawing.Point(867, 91);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(360, 160);
             this.groupBox5.TabIndex = 6;
@@ -319,7 +314,7 @@
             this.groupBox3.Controls.Add(this.treeConfigurarFamilia);
             this.groupBox3.Controls.Add(this.cmdGuardarFamilia);
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.groupBox3.Location = new System.Drawing.Point(419, 70);
+            this.groupBox3.Location = new System.Drawing.Point(492, 91);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(360, 454);
             this.groupBox3.TabIndex = 0;
@@ -328,7 +323,7 @@
             // 
             // treeConfigurarFamilia
             // 
-            this.treeConfigurarFamilia.Location = new System.Drawing.Point(10, 25);
+            this.treeConfigurarFamilia.Location = new System.Drawing.Point(10, 29);
             this.treeConfigurarFamilia.Name = "treeConfigurarFamilia";
             this.treeConfigurarFamilia.Size = new System.Drawing.Size(335, 350);
             this.treeConfigurarFamilia.TabIndex = 0;
@@ -343,55 +338,14 @@
             this.cmdGuardarFamilia.Text = "Guardar";
             this.cmdGuardarFamilia.Click += new System.EventHandler(this.cmdGuardarFamilia_Click);
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.comboBox1);
-            this.groupBox6.Controls.Add(this.label1);
-            this.groupBox6.Controls.Add(this.button1);
-            this.groupBox6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.groupBox6.Location = new System.Drawing.Point(1174, 70);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(360, 160);
-            this.groupBox6.TabIndex = 6;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Borrar Familia";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nombre:";
-            // 
-            // button1
-            // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(10, 90);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(315, 42);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Borrar";
-            this.button1.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Location = new System.Drawing.Point(6, 50);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(335, 28);
-            this.comboBox1.TabIndex = 7;
-            // 
             // frmFamiliaPermisos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(116)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(1546, 608);
+            this.ClientSize = new System.Drawing.Size(1288, 608);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panelHeader);
@@ -411,17 +365,10 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
     }
 }
