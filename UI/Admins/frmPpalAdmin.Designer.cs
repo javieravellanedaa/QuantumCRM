@@ -88,6 +88,7 @@
             this.borrarGrupoTecnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.permisosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuarioToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.asignarClienteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.departamentoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,9 +106,6 @@
             this.idiomasInactivosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarIdiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asignarClienteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.asignarTecnicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asignarAdministradorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -590,19 +588,19 @@
             // nuevoUsuarioToolStripMenuItem
             // 
             this.nuevoUsuarioToolStripMenuItem.Name = "nuevoUsuarioToolStripMenuItem";
-            this.nuevoUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.nuevoUsuarioToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.nuevoUsuarioToolStripMenuItem.Text = "Nuevo usuario";
             // 
             // modificarUsuarioToolStripMenuItem
             // 
             this.modificarUsuarioToolStripMenuItem.Name = "modificarUsuarioToolStripMenuItem";
-            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.modificarUsuarioToolStripMenuItem.Text = "Modificar usuario";
             // 
             // eliminarUsuarioToolStripMenuItem
             // 
             this.eliminarUsuarioToolStripMenuItem.Name = "eliminarUsuarioToolStripMenuItem";
-            this.eliminarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.eliminarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.eliminarUsuarioToolStripMenuItem.Text = "Eliminar usuario";
             // 
             // ticketsToolStripMenuItem
@@ -620,7 +618,7 @@
             this.tipoDeTicketsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.verToolStripMenuItem});
             this.tipoDeTicketsToolStripMenuItem.Name = "tipoDeTicketsToolStripMenuItem";
-            this.tipoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.tipoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.tipoDeTicketsToolStripMenuItem.Text = "Tipo de tickets";
             // 
             // verToolStripMenuItem
@@ -638,7 +636,7 @@
             this.asignarDepartamentoToolStripMenuItem,
             this.asignarAprobadorToolStripMenuItem});
             this.categoriasToolStripMenuItem.Name = "categoriasToolStripMenuItem";
-            this.categoriasToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.categoriasToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.categoriasToolStripMenuItem.Text = "Categorias";
             // 
             // agregarCategoriaToolStripMenuItem
@@ -676,7 +674,7 @@
             this.estadoDeTicketsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.verToolStripMenuItem1});
             this.estadoDeTicketsToolStripMenuItem.Name = "estadoDeTicketsToolStripMenuItem";
-            this.estadoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.estadoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.estadoDeTicketsToolStripMenuItem.Text = "Estado de tickets";
             // 
             // verToolStripMenuItem1
@@ -754,12 +752,17 @@
             // usuarioToolStripMenuItem1
             // 
             this.usuarioToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asignarClienteToolStripMenuItem1,
-            this.asignarTecnicoToolStripMenuItem,
-            this.asignarAdministradorToolStripMenuItem1});
+            this.asignarClienteToolStripMenuItem1});
             this.usuarioToolStripMenuItem1.Name = "usuarioToolStripMenuItem1";
-            this.usuarioToolStripMenuItem1.Size = new System.Drawing.Size(229, 26);
+            this.usuarioToolStripMenuItem1.Size = new System.Drawing.Size(316, 26);
             this.usuarioToolStripMenuItem1.Text = "Nivel Usuario";
+            // 
+            // asignarClienteToolStripMenuItem1
+            // 
+            this.asignarClienteToolStripMenuItem1.Name = "asignarClienteToolStripMenuItem1";
+            this.asignarClienteToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.asignarClienteToolStripMenuItem1.Text = "Gestionar Permisos";
+            this.asignarClienteToolStripMenuItem1.Click += new System.EventHandler(this.asignarClienteToolStripMenuItem1_Click);
             // 
             // departamentoToolStripMenuItem1
             // 
@@ -891,24 +894,6 @@
             this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(144, 24);
             this.acercaDeToolStripMenuItem.Text = "Acerca de";
             // 
-            // asignarClienteToolStripMenuItem1
-            // 
-            this.asignarClienteToolStripMenuItem1.Name = "asignarClienteToolStripMenuItem1";
-            this.asignarClienteToolStripMenuItem1.Size = new System.Drawing.Size(241, 26);
-            this.asignarClienteToolStripMenuItem1.Text = "Asignar cliente";
-            // 
-            // asignarTecnicoToolStripMenuItem
-            // 
-            this.asignarTecnicoToolStripMenuItem.Name = "asignarTecnicoToolStripMenuItem";
-            this.asignarTecnicoToolStripMenuItem.Size = new System.Drawing.Size(241, 26);
-            this.asignarTecnicoToolStripMenuItem.Text = "Asignar tecnico";
-            // 
-            // asignarAdministradorToolStripMenuItem1
-            // 
-            this.asignarAdministradorToolStripMenuItem1.Name = "asignarAdministradorToolStripMenuItem1";
-            this.asignarAdministradorToolStripMenuItem1.Size = new System.Drawing.Size(241, 26);
-            this.asignarAdministradorToolStripMenuItem1.Text = "Asignar Administrador";
-            // 
             // frmPpalAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1015,7 +1000,5 @@
         private System.Windows.Forms.ToolStripMenuItem borrarIdiomasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem permisosNEWToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asignarClienteToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem asignarTecnicoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asignarAdministradorToolStripMenuItem1;
     }
 }

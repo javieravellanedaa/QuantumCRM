@@ -72,6 +72,12 @@
     <Compile Include="Admins\UsuariosABM\frmAltaUsuario.Designer.cs">
       <DependentUpon>frmAltaUsuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Admins\UsuariosPermisos\frmUsuarioPermisos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admins\UsuariosPermisos\frmUsuarioPermisos.Designer.cs">
+      <DependentUpon>frmUsuarioPermisos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clientes\frmPerfilCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admins\frmFamiliaPermisos.resx">
       <DependentUpon>frmFamiliaPermisos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admins\UsuariosPermisos\frmUsuarioPermisos.resx">
+      <DependentUpon>frmUsuarioPermisos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Clientes\frmPerfilCliente.resx">
       <DependentUpon>frmPerfilCliente.cs</DependentUpon>

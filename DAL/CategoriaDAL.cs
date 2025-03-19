@@ -195,7 +195,8 @@ namespace DAL
                             },
                             Departamento = new Departamento
                             {
-                                Id = reader.IsDBNull(reader.GetOrdinal("departamento_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("departamento_id"))
+                                Id = reader.IsDBNull(reader.GetOrdinal("departamento_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("departamento_id")),
+                                Nombre = reader.IsDBNull(reader.GetOrdinal("departamento_nombre")) ? null : reader.GetString(reader.GetOrdinal("departamento_nombre"))
                             },
                             GroupId = reader.IsDBNull(reader.GetOrdinal("group_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("group_id")),
                             FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),

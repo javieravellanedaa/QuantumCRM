@@ -14,6 +14,7 @@ using BLL;
 using BE;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using UI.Design;
+using UI.Admins.UsuariosPermisos;
 
 namespace UI
 {
@@ -700,6 +701,15 @@ namespace UI
 
             CargarFormularioEnPanel(frm);
 
+        }
+
+        private void asignarClienteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var frm = new frmUsuarioPermisos(_eventManagerService);
+
+
+            CargarFormularioEnPanel(frm);
+            
         }
     }
 

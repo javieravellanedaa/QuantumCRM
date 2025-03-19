@@ -28,17 +28,13 @@ namespace DAL
         {
             var parametros = new List<SqlParameter>
             {
-               
                 acceso.CrearParametro("@Email", entity.Email),
                 acceso.CrearParametro("@Password", Encriptador.Hash(entity.Password)),
                 acceso.CrearParametro("@Nombre", entity.Nombre),
                 acceso.CrearParametro("@Apellido", entity.Apellido),
-                acceso.CrearParametro("@nombre_usuario", entity.Nombre[0]+entity.Apellido[0]+"_"+entity.Legajo),
+                acceso.CrearParametro("@nombre_usuario", entity.Nombre[0] + entity.Apellido[0] + "_" + entity.Legajo),
                 acceso.CrearParametro("@fecha_alta", entity.FechaAlta),
-                acceso.CrearParametro("@idioma_id", entity.Idioma.Id.ToString()), // aca debe ir el idioma por defecto
-
-
-                
+                acceso.CrearParametro("@idioma_id", entity.Idioma.Id.ToString())
             };
 
             try
@@ -68,150 +64,272 @@ namespace DAL
             }
         }
 
-        public Usuario Login(string email, string password)
+        // Método público que administra la conexión y mapea cada registro a un Usuario.
+        public List<Usuario> ObtenerlistaDeUsuarios()
         {
-            var parametros = new List<SqlParameter>
-            {
-                    acceso.CrearParametro("@Email", email),
-                    acceso.CrearParametro("@Password", Encriptador.Hash(password))
-            };
+            List<Usuario> listaUsuarios = new List<Usuario>();
 
             try
             {
                 acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("sp_LoginUsuario", parametros))
+                using (var reader = acceso.EjecutarLectura("usuarios_listar"))
                 {
-                    
-                    if (reader.Read())
-                        {
-         
+                    while (reader.Read())
+                    {
                         Guid usuarioId = Guid.Parse(reader["usuario_id"].ToString());
-                        int rolId =  ObtenerUltimoRol(usuarioId);
-                        Usuario usuario = UsuarioFactory.CrearUsuario(rolId); // aca pasarle el GUID para que se cree con ese ID
-                        usuario.Id = usuarioId; // por que si aca le paso el ID 
+                        // Se llama a la versión interna que asume conexión abierta.
+                        
+                        int rolId = ObtenerUltimoRolInternal(usuarioId);
+
+                        Usuario usuario = UsuarioFactory.CrearUsuario(rolId);
+                        usuario.Id = usuarioId;
                         usuario.Email = reader["email"].ToString();
-                        usuario.Password = reader["password"].ToString(); 
+                        usuario.Password = reader["password"].ToString();
                         usuario.Nombre = reader["nombre"].ToString();
                         usuario.Apellido = reader["apellido"].ToString();
                         usuario.NombreUsuario = reader["nombre_usuario"].ToString();
                         usuario.Legajo = int.Parse(reader["legajo"].ToString());
                         usuario.FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString());
                         usuario.UltimoInicioSesion = DateTime.Now;
-                        //usuario.Permisos.AddRange(GetPermisos(usuario)); / aca tengo que evaluar como utilizar este metodo es decir si valido por rol o por permiso
-                        usuario.Roles = GetRoles(usuario);
-                        usuario.UltimoRolId = rolId;
-                        usuario.Idioma = ObtenerIdioma(usuario);
+                        usuario.Roles = GetRolesInternal(usuario);
 
-
-
-
-
-                        // Instanciación y carga de atributos específicos según el rol
-
-                        switch (rolId)
-                        {
-                            case 1: // Administrador
-                                usuario = CargarAtributosAdministrador((Administrador)usuario, usuarioId);
-                                break;
-                            case 2: // Técnico
-                                //usuario = CargarAtributosTecnico((Tecnico)usuario, usuarioId);
-                                break;
-                            case 3: // Cliente
-                                usuario = CargarAtributosCliente((Cliente)usuario, usuarioId);
-                                break;
-                            default:
-                                throw new Exception("Rol no reconocido");
-                        }
-
-
-
-
-                        return usuario;
+                        // Se podrían mapear permisos, roles o idioma usando las versiones internas.
+                        listaUsuarios.Add(usuario);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener la lista de usuarios", ex);
+            }
+            finally
+            {
                 acceso.Cerrar();
+            }
+
+            return listaUsuarios;
+        }
+
+        public Usuario Login(string email, string password)
+        {
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@Email", email),
+        acceso.CrearParametro("@Password", Encriptador.Hash(password))
+    };
+
+            Usuario usuario = null;
+            Guid usuarioId = Guid.Empty;
+            string emailDb = string.Empty;
+            string passwordDb = string.Empty;
+            string nombre = string.Empty;
+            string apellido = string.Empty;
+            string nombreUsuario = string.Empty;
+            int legajo = 0;
+            DateTime fechaAlta = DateTime.MinValue;
+
+            try
+            {
+                acceso.Abrir();
+                // Primero se ejecuta el sp_LoginUsuario y se leen los datos
+                using (var reader = acceso.EjecutarLectura("sp_LoginUsuario", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        usuarioId = Guid.Parse(reader["usuario_id"].ToString());
+                        emailDb = reader["email"].ToString();
+                        passwordDb = reader["password"].ToString();
+                        nombre = reader["nombre"].ToString();
+                        apellido = reader["apellido"].ToString();
+                        nombreUsuario = reader["nombre_usuario"].ToString();
+                        legajo = int.Parse(reader["legajo"].ToString());
+                        fechaAlta = DateTime.Parse(reader["fecha_alta"].ToString());
+                    }
+                    else
+                    {
+                        // No se encontró el usuario
+                        return null;
+                    }
+                } // Se cierra el DataReader aquí
+
+                // Ahora que no hay ningún DataReader abierto, se pueden ejecutar nuevos comandos.
+                int rolId = ObtenerUltimoRolInternal(usuarioId);
+                usuario = UsuarioFactory.CrearUsuario(rolId);
+                usuario.Id = usuarioId;
+                usuario.Email = emailDb;
+                usuario.Password = passwordDb;
+                usuario.Nombre = nombre;
+                usuario.Apellido = apellido;
+                usuario.NombreUsuario = nombreUsuario;
+                usuario.Legajo = legajo;
+                usuario.FechaAlta = fechaAlta;
+                usuario.UltimoInicioSesion = DateTime.Now;
+                usuario.Roles = GetRolesInternal(usuario);
+                usuario.UltimoRolId = rolId;
+                usuario.Idioma = ObtenerIdiomaInternal(usuario);
+
+                // Carga de atributos específicos según el rol
+                switch (rolId)
+                {
+                    case 1: // Administrador
+                        usuario = CargarAtributosAdministradorInternal((Administrador)usuario, usuarioId);
+                        break;
+                    case 2: // Técnico
+                            // usuario = CargarAtributosTecnicoInternal((Tecnico)usuario, usuarioId);
+                        break;
+                    case 3: // Cliente
+                        usuario = CargarAtributosClienteInternal((Cliente)usuario, usuarioId);
+                        break;
+                    default:
+                        throw new Exception("Rol no reconocido");
+                }
+
+                return usuario;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al intentar iniciar sesión", ex);
             }
- 
-
-
-            return null;
+            finally
+            {
+                acceso.Cerrar();
+            }
         }
 
-        private Administrador CargarAtributosAdministrador(Administrador administrador, Guid usuarioId)
+
+        #region Métodos Internos (asumen conexión abierta)
+
+        // Versiones internas: no abren ni cierran la conexión
+
+        private int ObtenerUltimoRolInternal(Guid usuarioId)
         {
-            var parametros = new List<SqlParameter>
+            int rolId = 3; // Valor predeterminado
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@UsuarioID", usuarioId.ToString())
+            };
+
+            DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
+            if (resultado.Rows.Count > 0)
+            {
+                rolId = Convert.ToInt32(resultado.Rows[0]["ultimo_rol_id"]);
+            }
+            return rolId;
+        }
+
+        private List<Rol> GetRolesInternal(Usuario usuario)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@UsuarioId", usuario.Id.ToString())
+            };
+
+            using (var reader = acceso.EjecutarLectura("sp_ObtenerRolesUsuario", parametros))
+            {
+                return MapearRoles(reader);
+            }
+        }
+
+        private IIdioma ObtenerIdiomaInternal(Usuario usuario)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@UsuarioID", usuario.Id.ToString())
+            };
+
+            DataTable resultado = acceso.Leer("sp_ObtenerIdiomaDeSesion", parametros);
+            if (resultado.Rows.Count > 0)
+            {
+                Idioma idioma = new Idioma
+                {
+                    Id = Guid.Parse(resultado.Rows[0]["idioma_id"].ToString()),
+                    Nombre = resultado.Rows[0]["idioma_nombre"].ToString()
+                };
+                usuario.Idioma = idioma;
+            }
+            return usuario.Idioma;
+        }
+
+        private Administrador CargarAtributosAdministradorInternal(Administrador administrador, Guid usuarioId)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
                 acceso.CrearParametro("@usuario_id", usuarioId.ToString())
             };
 
-            try
+            using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosAdministrador", parametros))
             {
-                acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosAdministrador", parametros))
+                if (reader.Read())
                 {
-                    if (reader.Read())
-                    {
-                        administrador.Estado = reader["estado"] != DBNull.Value && (bool)reader["estado"];
-                        administrador.FechaCreacion = reader["fecha_creacion"] != DBNull.Value ? DateTime.Parse(reader["fecha_creacion"].ToString()) : (DateTime?)null;
-                    }
+                    administrador.Estado = reader["estado"] != DBNull.Value && (bool)reader["estado"];
+                    administrador.FechaCreacion = reader["fecha_creacion"] != DBNull.Value ? DateTime.Parse(reader["fecha_creacion"].ToString()) : (DateTime?)null;
                 }
             }
-            finally
-            { 
-                acceso.Cerrar();
-            }
-
             return administrador;
         }
-        private Cliente CargarAtributosCliente(Cliente usuario, Guid usuarioId)
+
+        private Cliente CargarAtributosClienteInternal(Cliente usuario, Guid usuarioId)
         {
-            var parametros = new List<SqlParameter>
-    {
-        acceso.CrearParametro("@usuario_id", usuarioId.ToString())
-    };
-
-            try
+            List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosCliente", parametros))
-                {
-                    if (reader.Read())
-                    {
-                        usuario.ClienteId = reader["cliente_id"] != DBNull.Value ? (int)reader["cliente_id"] : 0;
-                        usuario.DepartamentoId = reader["departamento_id"] != DBNull.Value ? (int)reader["departamento_id"] : 0;
-                        usuario.Direccion = reader["direccion"] != DBNull.Value ? reader["direccion"].ToString() : null;
-                        usuario.EmailContacto = reader["email_contacto"] != DBNull.Value ? reader["email_contacto"].ToString() : null;
-                        usuario.Empresa = reader["empresa"] != DBNull.Value ? reader["empresa"].ToString() : null;
-                        usuario.EsInterno = reader["es_interno"] != DBNull.Value && (bool)reader["es_interno"];
-                        usuario.EstadoClienteId = reader["estado_cliente_id"] != DBNull.Value ? (int)reader["estado_cliente_id"] : 0;
-                        usuario.FechaRegistro = reader["fecha_registro"] != DBNull.Value ? DateTime.Parse(reader["fecha_registro"].ToString()) : (DateTime?)null;
-                        usuario.FechaUltimaInteraccion = reader["fecha_ultima_interaccion"] != DBNull.Value ? DateTime.Parse(reader["fecha_ultima_interaccion"].ToString()) : (DateTime?)null;
-                        usuario.PreferenciaContacto = reader["preferencia_contacto"] != DBNull.Value ? reader["preferencia_contacto"].ToString() : null;
-                        usuario.Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : null;
-                        usuario.TipoClienteId = reader["tipo_cliente_id"] != DBNull.Value ? (int)reader["tipo_cliente_id"] : 0;
+                acceso.CrearParametro("@usuario_id", usuarioId.ToString())
+            };
 
-                        // Aquí cargamos el departamento completo
-                        if (usuario.DepartamentoId > 0)
-                        {
-                            DepartamentosDAL deptDal = new DepartamentosDAL();
-                            usuario.Departamento = deptDal.ObtenerDepartamentoPorId(usuario.DepartamentoId);
-                        }
+            using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosCliente", parametros))
+            {
+                if (reader.Read())
+                {
+                    usuario.ClienteId = reader["cliente_id"] != DBNull.Value ? (int)reader["cliente_id"] : 0;
+                    usuario.DepartamentoId = reader["departamento_id"] != DBNull.Value ? (int)reader["departamento_id"] : 0;
+                    usuario.Direccion = reader["direccion"] != DBNull.Value ? reader["direccion"].ToString() : null;
+                    usuario.EmailContacto = reader["email_contacto"] != DBNull.Value ? reader["email_contacto"].ToString() : null;
+                    usuario.Empresa = reader["empresa"] != DBNull.Value ? reader["empresa"].ToString() : null;
+                    usuario.EsInterno = reader["es_interno"] != DBNull.Value && (bool)reader["es_interno"];
+                    usuario.EstadoClienteId = reader["estado_cliente_id"] != DBNull.Value ? (int)reader["estado_cliente_id"] : 0;
+                    usuario.FechaRegistro = reader["fecha_registro"] != DBNull.Value ? DateTime.Parse(reader["fecha_registro"].ToString()) : (DateTime?)null;
+                    usuario.FechaUltimaInteraccion = reader["fecha_ultima_interaccion"] != DBNull.Value ? DateTime.Parse(reader["fecha_ultima_interaccion"].ToString()) : (DateTime?)null;
+                    usuario.PreferenciaContacto = reader["preferencia_contacto"] != DBNull.Value ? reader["preferencia_contacto"].ToString() : null;
+                    usuario.Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : null;
+                    usuario.TipoClienteId = reader["tipo_cliente_id"] != DBNull.Value ? (int)reader["tipo_cliente_id"] : 0;
+
+                    if (usuario.DepartamentoId > 0)
+                    {
+                        DepartamentosDAL deptDal = new DepartamentosDAL();
+                        usuario.Departamento = deptDal.ObtenerDepartamentoPorId(usuario.DepartamentoId);
                     }
                 }
             }
-            finally
-            {
-                acceso.Cerrar();
-            }
-
             return usuario;
         }
 
+        // Para mapear permisos cuando ya se tiene la conexión abierta.
+        private List<Patente> GetPermisosInternal(Usuario user)
+        {
+            acceso.Abrir();
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@id_usuario", user.Id.ToString())
+            };
 
+            using (var reader = acceso.EjecutarLectura("sp_ObtenerPermisosUsuario", parametros))
+            {
+                List<Patente> permisos = new List<Patente>();
+                while (reader.Read())
+                {
+                    Patente permiso = new Patente
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("permiso_id")),
+                        Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                        //Permiso = reader.GetString(reader.GetOrdinal("descripcion"))
+                    };
+                    permisos.Add(permiso);
+                }
+                return permisos;
+            }
+        }
+
+        #endregion
 
         public void GuardarPermisos(Usuario usuario)
         {
@@ -223,16 +341,25 @@ namespace DAL
             try
             {
                 acceso.Abrir();
+                // Se elimina la configuración actual de permisos del usuario
                 acceso.Escribir("sp_EliminarPermisosUsuario", parametrosEliminar);
 
                 foreach (var permiso in usuario.Permisos)
                 {
                     var parametrosInsertar = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@id_usuario", usuario.Id.ToString()),
+                acceso.CrearParametro("@id_permiso", permiso.Id)
+            };
+
+                    // Se ejecuta siempre el SP para agregar el permiso al usuario
+                    acceso.Escribir("sp_agregar_permisos_usuario", parametrosInsertar);
+
+                    // Si el permiso es 1, 2 o 3, también se agrega en la tabla de roles del usuario
+                    if (permiso.Id == 1 || permiso.Id == 2 || permiso.Id == 3)
                     {
-                        acceso.CrearParametro("@id_usuario", usuario.Id.ToString()),
-                        acceso.CrearParametro("@id_permiso", permiso.Id)
-                    };
-                    acceso.Escribir("sp_InsertarPermisoUsuario", parametrosInsertar);
+                        acceso.Escribir("sp_agregar_rol_usuario", parametrosInsertar);
+                    }
                 }
             }
             finally
@@ -241,22 +368,23 @@ namespace DAL
             }
         }
 
-        public List<BE.Composite.Patente> GetPermisos(Usuario user)
+
+        public List<Patente> GetPermisos(Usuario user)
         {
             var parametros = new List<SqlParameter>
-    {
-        acceso.CrearParametro("@id_usuario", user.Id.ToString())
-    };
+            {
+                acceso.CrearParametro("@id_usuario", user.Id.ToString())
+            };
 
             try
             {
                 acceso.Abrir();
                 using (var reader = acceso.EjecutarLectura("sp_ObtenerPermisosUsuario", parametros))
                 {
-                    List<BE.Composite.Patente> permisos = new List<BE.Composite.Patente>();
+                    List<Patente> permisos = new List<Patente>();
                     while (reader.Read())
                     {
-                        BE.Composite.Patente permiso = new BE.Composite.Patente
+                        Patente permiso = new Patente
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("id")),
                             Nombre = reader.GetString(reader.GetOrdinal("nombre")),
@@ -273,24 +401,15 @@ namespace DAL
             }
         }
 
-
-
-
-
         public List<Rol> GetRoles(Usuario usuario)
         {
-            var parametros = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@UsuarioId", usuario.Id.ToString())
-            };
-
             try
             {
                 acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("sp_ObtenerRolesUsuario", parametros))
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerRolesUsuario",
+                    new List<SqlParameter> { acceso.CrearParametro("@UsuarioId", usuario.Id.ToString()) }))
                 {
-                    List<Rol> roles  = MapearRoles(reader);
-                    //usuario.Roles = roles;
+                    List<Rol> roles = MapearRoles(reader);
                     return roles;
                 }
             }
@@ -299,51 +418,42 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
         public int ObtenerUltimoRol(Guid usuarioId)
         {
-            int rolId = 3; // Valor predeterminado en caso de que no se encuentre el rol
-            List<SqlParameter> parametros = new List<SqlParameter>
-                {
-                    acceso.CrearParametro("@UsuarioID", usuarioId.ToString()),
-                };
-
             try
             {
                 acceso.Abrir();
+                List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@UsuarioID", usuarioId.ToString())
+                };
 
-                //la tabla sesion esta vacia
                 DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
-
+                int rolId = 3;
                 if (resultado.Rows.Count > 0)
                 {
-                    // Capturar el valor de ultimo_rol_id desde la primera fila
                     rolId = Convert.ToInt32(resultado.Rows[0]["ultimo_rol_id"]);
                 }
+                return rolId;
             }
             finally
             {
                 acceso.Cerrar();
             }
-
-            return rolId;
         }
 
         public IIdioma ObtenerIdioma(Usuario usuario)
         {
-
-            // Valor predeterminado en caso de que no se encuentre el rol
             List<SqlParameter> parametros = new List<SqlParameter>
-                {
-                    acceso.CrearParametro("@UsuarioID", usuario.Id.ToString()),
-                };
+            {
+                acceso.CrearParametro("@UsuarioID", usuario.Id.ToString())
+            };
 
             try
             {
                 acceso.Abrir();
-
-                // Ejecutar el procedimiento almacenado y obtener el resultado como DataTable
                 DataTable resultado = acceso.Leer("sp_ObtenerIdiomaDeSesion", parametros);
-
                 if (resultado.Rows.Count > 0)
                 {
                     Idioma idioma = new Idioma();
@@ -351,17 +461,13 @@ namespace DAL
                     usuario.Idioma.Id = Guid.Parse(resultado.Rows[0]["idioma_id"].ToString());
                     usuario.Idioma.Nombre = resultado.Rows[0]["idioma_nombre"].ToString();
                 }
-
             }
             finally
             {
                 acceso.Cerrar();
             }
 
-            
             return usuario.Idioma;
-        
-
         }
 
         public List<Usuario> ListarUsuariosConTodosLosAtributos()
@@ -371,6 +477,7 @@ namespace DAL
                 acceso.Abrir();
                 using (var reader = acceso.EjecutarLectura("sp_ListarUsuariosConAtributos"))
                 {
+                    
                     return MapearUsuarios(reader, incluirPermisos: true);
                 }
             }
@@ -380,15 +487,20 @@ namespace DAL
             }
         }
 
-        private List<Usuario> MapearUsuarios(SqlDataReader reader, bool incluirPermisos = false) 
+        private List<Usuario> MapearUsuarios(SqlDataReader reader, bool incluirPermisos = false)
         {
+            acceso.Abrir();
             var lista = new List<Usuario>();
+           
             while (reader.Read())
             {
+                
                 var usuario = MapearUsuario(reader);
                 if (incluirPermisos)
                 {
-                    usuario.Permisos.AddRange(GetPermisos(usuario));
+                    acceso.Cerrar();
+                    // Se utiliza la versión interna para evitar reabrir la conexión
+                    usuario.Permisos.AddRange(GetPermisosInternal(usuario));
                 }
                 lista.Add(usuario);
             }
@@ -397,12 +509,11 @@ namespace DAL
 
         private Usuario MapearUsuario(SqlDataReader reader)
         {
- 
-                IIdioma idioma = new Idioma
-                {
-                    Id = Guid.Parse(reader["idioma_id"].ToString()),
-                    Nombre = reader["nombre_idioma"].ToString()
-                };
+            IIdioma idioma = new Idioma
+            {
+                Id = Guid.Parse(reader["idioma_id"].ToString()),
+                Nombre = reader["nombre_idioma"].ToString()
+            };
 
             return new Usuario
             {
@@ -414,21 +525,36 @@ namespace DAL
                 NombreUsuario = reader["nombre_usuario"].ToString(),
                 Legajo = int.Parse(reader["legajo"].ToString()),
                 FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString()),
-                UltimoInicioSesion = DateTime.Now,//reader["ultimo_inicio_sesion"] != DBNull.Value? DateTime.Parse(reader["ultimo_inicio_sesion"].ToString()): (DateTime?)null,
+                UltimoInicioSesion = DateTime.Now,
+                Idioma = idioma
 
-
-
-                Idioma = idioma,
             };
-
-            
-           
-            
-
-
-          
-
         }
+        public List<Rol> ObtenerRolesPorUsuario(Guid usuarioId)
+        {
+            try
+            {
+                acceso.Abrir();
+                List<SqlParameter> parametros = new List<SqlParameter>
+        {
+            acceso.CrearParametro("@UsuarioId", usuarioId.ToString())
+        };
+
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerRolesUsuario", parametros))
+                {
+                    return MapearRoles(reader);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener roles por usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
         private List<Rol> MapearRoles(SqlDataReader reader)
         {
             var roles = new List<Rol>();
@@ -444,19 +570,6 @@ namespace DAL
             return roles;
         }
 
-        private List<Patente> MapearPermisos(SqlDataReader reader)
-        {
-            var permisos = new List<Patente>();
-            while (reader.Read())
-            {
-                permisos.Add(new Patente
-                {
-                    Id = reader.GetInt32(reader.GetOrdinal("id")),
-                    Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                    Descripcion = reader.GetString(reader.GetOrdinal("descripcion"))
-                });
-            }
-            return permisos;
-        }
+
     }
 }

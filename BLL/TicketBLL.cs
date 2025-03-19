@@ -57,7 +57,7 @@ namespace BLL
          
 
             // Actualiza el ticket usando TicketDAL.
-           // ticketDAL.ActualizarTicket(ticket);
+           ticketDAL.ActualizarTicket(ticket);
         }
 
         // Método para eliminar un ticket usando su ID.

@@ -116,69 +116,62 @@ namespace UI
                 }
             }
         }
-
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-
             if (string.IsNullOrWhiteSpace(txtDescripcion.Text) || string.IsNullOrWhiteSpace(txtAsunto.Text))
             {
                 MessageBox.Show("Debe completar todos los campos");
+                return;
+            }
+
+            // Se obtiene la categoría seleccionada
+            Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
+
+            // Se obtiene la prioridad asociada a la categoría (única llamada para evitar redundancia)
+            Prioridad prioridadObtenida = categoriaBLL.Obtener_prioridad(categoria);
+
+            // Se construye el objeto ticket con la información ingresada y los datos de la sesión
+            Ticket ticket = new Ticket
+            {
+                Asunto = txtAsunto.Text,
+                Descripcion = txtDescripcion.Text,
+                CategoriaId = categoria.CategoriaId,
+                Categoria = categoria,
+                UsuarioCreadorId = SingletonSesion.Instancia.Sesion.Usuario.Id,
+                UsuarioCreador = (Cliente)SingletonSesion.Instancia.Sesion.Usuario,
+                FechaCreacion = DateTime.Now,
+                FechaUltimaModif = DateTime.Now,
+                // Si la categoría requiere aprobación, el ticket se crea con estado 6; de lo contrario, con estado 2
+                EstadoId = categoria.AprobadorRequerido ? 6 : 2,
+                Prioridad = prioridadObtenida,
+                PrioridadId = prioridadObtenida.Prioridad_id,
+                TecnicoId = 0,
+                Comentarios = new List<Comentario>()
+            };
+
+            // Se guarda el ticket a través de la capa BLL
+            TicketBLL ticketBLL = new TicketBLL();
+            ticketBLL.CrearTicket(ticket);
+
+            // Se muestra un mensaje y se notifica el cierre según si se requiere aprobación
+            if (categoria.AprobadorRequerido)
+            {
+                MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.NombreUsuarioAprobador);
             }
             else
             {
-                Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
-
-                //BE.Cliente cliente = SingletonSesion.Instancia.Sesion.Usuario;
-                Ticket ticket = new Ticket
-                {
-                   
-                    
-                    Asunto = txtAsunto.Text,
-                    Descripcion = txtDescripcion.Text,
-                    CategoriaId = categoria.CategoriaId,
-                    Categoria = categoria,
-                    UsuarioCreadorId = SingletonSesion.Instancia.Sesion.Usuario.Id,
-                    UsuarioCreador = (Cliente)SingletonSesion.Instancia.Sesion.Usuario,
-                    FechaCreacion = DateTime.Now,
-                    FechaUltimaModif = DateTime.Now,
-                    EstadoId = 1,
-                    Prioridad = categoriaBLL.Obtener_prioridad(categoria),
-                    PrioridadId = categoriaBLL.Obtener_prioridad(categoria).Prioridad_id,
-                    TecnicoId = 0, 
-                    Comentarios = new List<Comentario>()
-                };
-
-             
-
-                    // Llamada a la capa BLL para guardar el ticket
-                //    TicketBLL ticketBLL = new TicketBLL();
-                //ticketBLL.CrearTicket(ticket);
-                if (categoria.AprobadorRequerido)
-                {
-                    MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.NombreUsuarioAprobador);
-                    _eventManagerService?.Notify("FormularioCerrado", this);
-                    this.Close();
-
-                    frmPreviewTicket frmPreviewTicket = new frmPreviewTicket(ticket);
-                    frmPreviewTicket.ShowDialog();
-                    
-
-                }
-                else
-
-                { 
-                    MessageBox.Show("Ticket creado con éxito");
-                    
-               _eventManagerService?.Notify("FormularioCerrado", this);
-                this.Close();
-                    frmPreviewTicket frmPreviewTicket = new frmPreviewTicket(ticket);
-                    frmPreviewTicket.ShowDialog();
-
-                }
-
+                MessageBox.Show("Ticket creado con éxito");
             }
+
+            // Se notifica el cierre del formulario y se cierra el mismo
+            _eventManagerService?.Notify("FormularioCerrado", this);
+            this.Close();
+
+            // Se muestra la vista previa del ticket
+            frmPreviewTicket frmPreviewTicket = new frmPreviewTicket(ticket);
+            frmPreviewTicket.ShowDialog();
         }
 
     }
 
-    }
+}

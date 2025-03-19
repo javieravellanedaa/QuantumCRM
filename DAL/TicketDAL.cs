@@ -44,103 +44,103 @@ namespace DAL
             }
         }
 
-        //// Método para obtener un ticket por su Id
-        //public Ticket ObtenerTicketPorId(Guid ticketId)
-        //{
-        //    Ticket ticket = null;
-        //    List<SqlParameter> parametros = new List<SqlParameter>
-        //    {
-        //        _acceso.CrearParametro("@TicketId", ticketId)
-        //    };
+        // Método para obtener un ticket por su Id
+        public Ticket ObtenerTicketPorId(Guid ticketId)
+        {
+            Ticket ticket = null;
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@TicketId", ticketId.ToString())
+            };
 
-        //    try
-        //    {
-        //        _acceso.Abrir();
-        //        using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerTicketPorId", parametros))
-        //        {
-        //            if (reader.Read())
-        //            {
-        //                ticket = new Ticket
-        //                {
-        //                    TicketId = reader.GetGuid(reader.GetOrdinal("ticket_id")),
-        //                    Asunto = reader.GetString(reader.GetOrdinal("asunto")),
-        //                    Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
-        //                    CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
-        //                    EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
-        //                    FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
-        //                    FechaUltimaModif = reader.GetDateTime(reader.GetOrdinal("fecha_ultima_modif")),
-        //                    PrioridadId = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
-        //                    TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id")),
-        //                    UsuarioCreadorId = reader.GetGuid(reader.GetOrdinal("usuario_creador_id"))
-        //                };
-        //            }
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        _acceso.Cerrar();
-        //    }
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerTicketPorId", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        ticket = new Ticket
+                        {
+                            TicketId = reader.GetGuid(reader.GetOrdinal("ticket_id")),
+                            Asunto = reader.GetString(reader.GetOrdinal("asunto")),
+                            Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
+                            CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
+                            EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
+                            FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+                            FechaUltimaModif = reader.GetDateTime(reader.GetOrdinal("fecha_ultima_modif")),
+                            PrioridadId = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id")),
+                            UsuarioCreadorId = reader.GetGuid(reader.GetOrdinal("usuario_creador_id"))
+                        };
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
 
-        //    return ticket;
-        //}
+            return ticket;
+        }
 
         //// Método para actualizar un ticket existente
-        //public void ActualizarTicket(Ticket ticket)
-        //{
-        //    List<SqlParameter> parametros = new List<SqlParameter>
-        //    {
-        //        _acceso.CrearParametro("@TicketId", ticket.TicketId),
-        //        _acceso.CrearParametro("@Asunto", ticket.Asunto),
-        //        _acceso.CrearParametro("@Descripcion", ticket.Descripcion),
-        //        _acceso.CrearParametro("@CategoriaId", ticket.CategoriaId),
-        //        _acceso.CrearParametro("@EstadoId", ticket.EstadoId),
-        //        _acceso.CrearParametro("@FechaUltimaModif", ticket.FechaUltimaModif),
-        //        _acceso.CrearParametro("@PrioridadId", ticket.PrioridadId),
-        //        _acceso.CrearParametro("@TecnicoId", ticket.TecnicoId)
-        //    };
+        public void ActualizarTicket(Ticket ticket)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@TicketId", ticket.TicketId.ToString()),
+                _acceso.CrearParametro("@Asunto", ticket.Asunto),
+                _acceso.CrearParametro("@Descripcion", ticket.Descripcion),
+                _acceso.CrearParametro("@CategoriaId", ticket.CategoriaId),
+                _acceso.CrearParametro("@EstadoId", ticket.EstadoId),
+                _acceso.CrearParametro("@FechaUltimaModif", ticket.FechaUltimaModif),
+                _acceso.CrearParametro("@PrioridadId", ticket.PrioridadId),
+                _acceso.CrearParametro("@TecnicoId", ticket.TecnicoId)
+            };
 
-        //    try
-        //    {
-        //        _acceso.Abrir();
-        //        _acceso.ComenzarTransaccion();
-        //        _acceso.Escribir("sp_ActualizarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_ActualizarTicket
-        //        _acceso.ConfirmarTransaccion();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        _acceso.CancelarTransaccion();
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        _acceso.Cerrar();
-        //    }
-        //}
+            try
+            {
+                _acceso.Abrir();
+                _acceso.ComenzarTransaccion();
+                _acceso.Escribir("sp_ActualizarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_ActualizarTicket
+                _acceso.ConfirmarTransaccion();
+            }
+            catch (Exception)
+            {
+                _acceso.CancelarTransaccion();
+                throw;
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+        }
 
-        //// Método para eliminar un ticket por su Id
-        //public void EliminarTicket(Guid ticketId)
-        //{
-        //    List<SqlParameter> parametros = new List<SqlParameter>
-        //    {
-        //        _acceso.CrearParametro("@TicketId", ticketId)
-        //    };
+        // Método para eliminar un ticket por su Id
+        public void EliminarTicket(Guid ticketId)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    _acceso.CrearParametro("@TicketId", ticketId.ToString())
+                };
 
-        //    try
-        //    {
-        //        _acceso.Abrir();
-        //        _acceso.ComenzarTransaccion();
-        //        _acceso.Escribir("sp_EliminarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_EliminarTicket
-        //        _acceso.ConfirmarTransaccion();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        _acceso.CancelarTransaccion();
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        _acceso.Cerrar();
-        //    }
-        //}
+            try
+            {
+                _acceso.Abrir();
+                _acceso.ComenzarTransaccion();
+                _acceso.Escribir("sp_EliminarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_EliminarTicket
+                _acceso.ConfirmarTransaccion();
+            }
+            catch (Exception)
+            {
+                _acceso.CancelarTransaccion();
+                throw;
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="PN\EstadosCategoria.cs" />
     <Compile Include="PN\EstadoTicket.cs" />
     <Compile Include="PN\GrupoTecnico.cs" />
+    <Compile Include="PN\Prioridad.cs" />
     <Compile Include="Prioridad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rol.cs" />
