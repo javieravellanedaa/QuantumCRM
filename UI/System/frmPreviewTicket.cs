@@ -1,6 +1,7 @@
 ﻿using BE;
 using BE.PN;  // Asegúrate de que la clase Prioridad de BE.PN está aquí
 using BLL;
+using SERVICIOS;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -94,25 +95,47 @@ namespace UI
 
         private void btnAceptar_Click_1(object sender, EventArgs e)
         {
+            TicketBLL ticketBLL = new TicketBLL();
+            bool huboModificaciones = false;
+
+            // Verificar si hubo modificaciones en Asunto o Descripción
             if (originalAsunto != txtAsunto.Text || originalDescripcion != txtDescripcion.Text)
             {
                 // Actualizar el ticket con los nuevos valores
                 _ticket.Asunto = txtAsunto.Text;
                 _ticket.Descripcion = txtDescripcion.Text;
 
-                // Llamar al método de la BLL para actualizar el ticket
-                TicketBLL ticketBLL = new TicketBLL();
-                ticketBLL.ActualizarTicket(_ticket);  // Se asume que ActualizarTicket guarda los cambios
-
+                // Actualizar el ticket en la base de datos
+                ticketBLL.ActualizarTicket(_ticket);
                 MessageBox.Show("Ticket actualizado con éxito.");
+                huboModificaciones = true;
             }
             else
             {
                 MessageBox.Show("No se detectaron cambios en el ticket.");
             }
 
-            this.Close();
+            // Llamar al formulario de comentarios para agregar un comentario al ticket
+            using (frmTicketComentario frmComentario = new frmTicketComentario())
+            {
+                if (frmComentario.ShowDialog(this) == DialogResult.OK)
+                {
+                    string comentario = frmComentario.Comentario;
+                    if (!string.IsNullOrWhiteSpace(comentario))
+                    {
+                        // Llamar al método de la BLL para agregar el comentario al ticket
+                        ticketBLL.AgregarComentario(_ticket, SingletonSesion.Instancia.Sesion.Usuario,  comentario);
+                        MessageBox.Show("Comentario agregado correctamente.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se ingresó ningún comentario.");
+                    }
+                }
+            }
 
+            this.Close();
         }
+
     }
 }

@@ -11,7 +11,7 @@ namespace BE
         public int Id { get; set; }
         public Guid TicketId { get; set; }
         public Ticket Ticket { get; set; }
-        public int UsuarioId { get; set; }
+        public Guid  UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
         public string Texto { get; set; }
         public DateTime Fecha { get; set; }

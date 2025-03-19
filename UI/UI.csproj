@@ -84,16 +84,28 @@
     <Compile Include="Clientes\frmPerfilCliente.Designer.cs">
       <DependentUpon>frmPerfilCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="System\frmTicketsDelUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\frmTicketsDelUsuario.Designer.cs">
+      <DependentUpon>frmTicketsDelUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\frmTicketComentario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\frmTicketComentario.Designer.cs">
+      <DependentUpon>frmTicketComentario.cs</DependentUpon>
+    </Compile>
     <Compile Include="System\frmPreviewTicket.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="System\frmPreviewTicket.Designer.cs">
       <DependentUpon>frmPreviewTicket.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tecnicos\frmPpalTecnico.cs">
+    <Compile Include="System\frmPpalTecnico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tecnicos\frmPpalTecnico.Designer.cs">
+    <Compile Include="System\frmPpalTecnico.Designer.cs">
       <DependentUpon>frmPpalTecnico.cs</DependentUpon>
     </Compile>
     <Compile Include="Clientes\frmPpalCliente.cs">
@@ -163,7 +175,7 @@
     <EmbeddedResource Include="System\frmPreviewTicket.resx">
       <DependentUpon>frmPreviewTicket.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tecnicos\frmPpalTecnico.resx">
+    <EmbeddedResource Include="System\frmPpalTecnico.resx">
       <DependentUpon>frmPpalTecnico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Clientes\frmPpalCliente.resx">
@@ -185,6 +197,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\frmTicketComentario.resx">
+      <DependentUpon>frmTicketComentario.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -247,6 +262,8 @@
   <ItemGroup>
     <None Include="Resources\avatarTecnico.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tecnicos\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

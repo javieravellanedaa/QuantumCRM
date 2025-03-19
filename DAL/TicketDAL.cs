@@ -117,6 +117,112 @@ namespace DAL
             }
         }
 
+        public void AgregarComentario(Guid ticketId, Guid usuarioId, string comentario)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>
+                {
+                    _acceso.CrearParametro("@TicketId", ticketId.ToString()),
+                    _acceso.CrearParametro("@UsuarioId", usuarioId.ToString()),
+                    _acceso.CrearParametro("@Comentario", comentario)
+                };
+
+            try
+            {
+                _acceso.Abrir();
+                _acceso.ComenzarTransaccion();
+                _acceso.Escribir("sp_AgregarComentarioTicket", parametros);
+                _acceso.ConfirmarTransaccion();
+            }
+            catch (Exception)
+            {
+                _acceso.CancelarTransaccion();
+                throw;
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+        }
+
+        public List<Ticket> ListarTicketsDelUsuario(Guid usuarioId)
+        {
+            List<Ticket> lista = new List<Ticket>();
+            List<SqlParameter> parametros = new List<SqlParameter>
+    {
+        _acceso.CrearParametro("@UsuarioId", usuarioId.ToString())
+    };
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarTicketsDelUsuario", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        Ticket ticket = new Ticket
+                        {
+                            TicketId = reader.GetGuid(reader.GetOrdinal("ticket_id")),
+                            Asunto = reader.GetString(reader.GetOrdinal("asunto")),
+                            Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
+                            UsuarioCreadorId = reader.GetGuid(reader.GetOrdinal("usuario_creador_id")),
+                            FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+                            FechaUltimaModif = reader.GetDateTime(reader.GetOrdinal("fecha_ultima_modif")),
+                            PrioridadId = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
+                            EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
+                            TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id"))
+                        };
+                        lista.Add(ticket);
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+            return lista;
+        }
+
+        public List<Ticket> ListarTicketsDelDepartamento(int departamentoId)
+        {
+            List<Ticket> lista = new List<Ticket>();
+            List<SqlParameter> parametros = new List<SqlParameter>
+    {
+        _acceso.CrearParametro("@DepartamentoId", departamentoId)
+    };
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarTicketsDelDepartamento", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        Ticket ticket = new Ticket
+                        {
+                            TicketId = reader.GetGuid(reader.GetOrdinal("ticket_id")),
+                            Asunto = reader.GetString(reader.GetOrdinal("asunto")),
+                            Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
+                            UsuarioCreadorId = reader.GetGuid(reader.GetOrdinal("usuario_creador_id")),
+                            FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+                            FechaUltimaModif = reader.GetDateTime(reader.GetOrdinal("fecha_ultima_modif")),
+                            PrioridadId = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
+                            EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
+                            TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id"))
+                        };
+                        lista.Add(ticket);
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+            return lista;
+        }
+
+
         // Método para eliminar un ticket por su Id
         public void EliminarTicket(Guid ticketId)
         {

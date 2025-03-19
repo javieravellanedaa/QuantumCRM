@@ -673,6 +673,16 @@ namespace UI
                 FormularioSecundarioCerrado();
             }
         }
+
+        private void misTicketsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmTicketsDelUsuario frmTicketsDelUsuario = new frmTicketsDelUsuario();
+            CargarFormularioEnPanel(frmTicketsDelUsuario);
+            if (frmTicketsDelUsuario.IsDisposed)
+            {
+                FormularioSecundarioCerrado();
+            }
+        }
     }
 
 

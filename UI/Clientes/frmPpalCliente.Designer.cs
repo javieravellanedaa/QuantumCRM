@@ -82,8 +82,9 @@
             this.PanelMenu.Controls.Add(this.panel1);
             this.PanelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.PanelMenu.Location = new System.Drawing.Point(0, 0);
+            this.PanelMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PanelMenu.Name = "PanelMenu";
-            this.PanelMenu.Size = new System.Drawing.Size(230, 532);
+            this.PanelMenu.Size = new System.Drawing.Size(307, 655);
             this.PanelMenu.TabIndex = 0;
             // 
             // iconBtnDesloguear
@@ -98,10 +99,11 @@
             this.iconBtnDesloguear.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnDesloguear.IconSize = 30;
             this.iconBtnDesloguear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 486);
+            this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 598);
+            this.iconBtnDesloguear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iconBtnDesloguear.Name = "iconBtnDesloguear";
-            this.iconBtnDesloguear.Padding = new System.Windows.Forms.Padding(10, 0, 0, 15);
-            this.iconBtnDesloguear.Size = new System.Drawing.Size(230, 46);
+            this.iconBtnDesloguear.Padding = new System.Windows.Forms.Padding(13, 0, 0, 18);
+            this.iconBtnDesloguear.Size = new System.Drawing.Size(307, 57);
             this.iconBtnDesloguear.TabIndex = 7;
             this.iconBtnDesloguear.Tag = "Desloguear";
             this.iconBtnDesloguear.Text = "Desloguear";
@@ -122,10 +124,11 @@
             this.iconBtnConfiguracion.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnConfiguracion.IconSize = 30;
             this.iconBtnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnConfiguracion.Location = new System.Drawing.Point(0, 288);
+            this.iconBtnConfiguracion.Location = new System.Drawing.Point(0, 354);
+            this.iconBtnConfiguracion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iconBtnConfiguracion.Name = "iconBtnConfiguracion";
-            this.iconBtnConfiguracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnConfiguracion.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnConfiguracion.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.iconBtnConfiguracion.Size = new System.Drawing.Size(307, 59);
             this.iconBtnConfiguracion.TabIndex = 5;
             this.iconBtnConfiguracion.Tag = "Configuracion";
             this.iconBtnConfiguracion.Text = "Configuracion";
@@ -145,10 +148,11 @@
             this.iconBtnAdministracion.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnAdministracion.IconSize = 30;
             this.iconBtnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnAdministracion.Location = new System.Drawing.Point(0, 240);
+            this.iconBtnAdministracion.Location = new System.Drawing.Point(0, 295);
+            this.iconBtnAdministracion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iconBtnAdministracion.Name = "iconBtnAdministracion";
-            this.iconBtnAdministracion.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnAdministracion.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnAdministracion.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.iconBtnAdministracion.Size = new System.Drawing.Size(307, 59);
             this.iconBtnAdministracion.TabIndex = 4;
             this.iconBtnAdministracion.Tag = "Administracion";
             this.iconBtnAdministracion.Text = "Administracion";
@@ -168,10 +172,11 @@
             this.iconBtnDepartamentos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnDepartamentos.IconSize = 30;
             this.iconBtnDepartamentos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnDepartamentos.Location = new System.Drawing.Point(0, 192);
+            this.iconBtnDepartamentos.Location = new System.Drawing.Point(0, 236);
+            this.iconBtnDepartamentos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iconBtnDepartamentos.Name = "iconBtnDepartamentos";
-            this.iconBtnDepartamentos.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnDepartamentos.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnDepartamentos.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.iconBtnDepartamentos.Size = new System.Drawing.Size(307, 59);
             this.iconBtnDepartamentos.TabIndex = 3;
             this.iconBtnDepartamentos.Tag = "Departamentos";
             this.iconBtnDepartamentos.Text = "Dashboard";
@@ -192,10 +197,11 @@
             this.iconBtnTickets.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnTickets.IconSize = 30;
             this.iconBtnTickets.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnTickets.Location = new System.Drawing.Point(0, 144);
+            this.iconBtnTickets.Location = new System.Drawing.Point(0, 177);
+            this.iconBtnTickets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iconBtnTickets.Name = "iconBtnTickets";
-            this.iconBtnTickets.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnTickets.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnTickets.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.iconBtnTickets.Size = new System.Drawing.Size(307, 59);
             this.iconBtnTickets.TabIndex = 2;
             this.iconBtnTickets.Tag = "Tickets";
             this.iconBtnTickets.Text = "Tickets";
@@ -216,10 +222,11 @@
             this.iconBtnGeneral.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconBtnGeneral.IconSize = 30;
             this.iconBtnGeneral.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconBtnGeneral.Location = new System.Drawing.Point(0, 96);
+            this.iconBtnGeneral.Location = new System.Drawing.Point(0, 118);
+            this.iconBtnGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iconBtnGeneral.Name = "iconBtnGeneral";
-            this.iconBtnGeneral.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.iconBtnGeneral.Size = new System.Drawing.Size(230, 48);
+            this.iconBtnGeneral.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.iconBtnGeneral.Size = new System.Drawing.Size(307, 59);
             this.iconBtnGeneral.TabIndex = 1;
             this.iconBtnGeneral.Tag = "General";
             this.iconBtnGeneral.Text = "General";
@@ -235,8 +242,9 @@
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(230, 96);
+            this.panel1.Size = new System.Drawing.Size(307, 118);
             this.panel1.TabIndex = 0;
             // 
             // icbApellidoNombre
@@ -248,9 +256,10 @@
             this.icbApellidoNombre.IconChar = FontAwesome.Sharp.IconChar.None;
             this.icbApellidoNombre.IconColor = System.Drawing.Color.Transparent;
             this.icbApellidoNombre.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.icbApellidoNombre.Location = new System.Drawing.Point(102, 6);
+            this.icbApellidoNombre.Location = new System.Drawing.Point(136, 7);
+            this.icbApellidoNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.icbApellidoNombre.Name = "icbApellidoNombre";
-            this.icbApellidoNombre.Size = new System.Drawing.Size(62, 23);
+            this.icbApellidoNombre.Size = new System.Drawing.Size(83, 28);
             this.icbApellidoNombre.TabIndex = 4;
             this.icbApellidoNombre.UseVisualStyleBackColor = true;
             // 
@@ -262,9 +271,10 @@
             this.btnMenu.IconColor = System.Drawing.Color.White;
             this.btnMenu.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMenu.IconSize = 30;
-            this.btnMenu.Location = new System.Drawing.Point(190, 6);
+            this.btnMenu.Location = new System.Drawing.Point(253, 7);
+            this.btnMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnMenu.Name = "btnMenu";
-            this.btnMenu.Size = new System.Drawing.Size(40, 29);
+            this.btnMenu.Size = new System.Drawing.Size(53, 36);
             this.btnMenu.TabIndex = 1;
             this.btnMenu.UseVisualStyleBackColor = true;
             this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
@@ -273,8 +283,9 @@
             // 
             this.pictureBox1.Image = global::UI.Properties.Resources.avatarCliente;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(57, 35);
+            this.pictureBox1.Size = new System.Drawing.Size(76, 43);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -290,9 +301,10 @@
             this.PanelTitleBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelTitleBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelTitleBar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.PanelTitleBar.Location = new System.Drawing.Point(230, 0);
+            this.PanelTitleBar.Location = new System.Drawing.Point(307, 0);
+            this.PanelTitleBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PanelTitleBar.Name = "PanelTitleBar";
-            this.PanelTitleBar.Size = new System.Drawing.Size(647, 60);
+            this.PanelTitleBar.Size = new System.Drawing.Size(862, 74);
             this.PanelTitleBar.TabIndex = 1;
             this.PanelTitleBar.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTitleBar_Paint);
             this.PanelTitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelTitleBar_MouseDown);
@@ -302,11 +314,11 @@
             // 
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei Light", 27.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(52, 6);
-            this.lblTitulo.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTitulo.Location = new System.Drawing.Point(69, 7);
+            this.lblTitulo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.lblTitulo.Size = new System.Drawing.Size(245, 51);
+            this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.lblTitulo.Size = new System.Drawing.Size(311, 64);
             this.lblTitulo.TabIndex = 4;
             this.lblTitulo.Text = "DASHBOARD";
             // 
@@ -320,9 +332,10 @@
             this.btnMinimize.IconColor = System.Drawing.Color.White;
             this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMinimize.IconSize = 20;
-            this.btnMinimize.Location = new System.Drawing.Point(518, 0);
+            this.btnMinimize.Location = new System.Drawing.Point(690, 0);
+            this.btnMinimize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnMinimize.Name = "btnMinimize";
-            this.btnMinimize.Size = new System.Drawing.Size(40, 25);
+            this.btnMinimize.Size = new System.Drawing.Size(53, 31);
             this.btnMinimize.TabIndex = 3;
             this.btnMinimize.UseVisualStyleBackColor = false;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
@@ -337,9 +350,10 @@
             this.btnMaximaze.IconColor = System.Drawing.Color.White;
             this.btnMaximaze.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMaximaze.IconSize = 20;
-            this.btnMaximaze.Location = new System.Drawing.Point(556, 0);
+            this.btnMaximaze.Location = new System.Drawing.Point(740, 0);
+            this.btnMaximaze.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnMaximaze.Name = "btnMaximaze";
-            this.btnMaximaze.Size = new System.Drawing.Size(47, 25);
+            this.btnMaximaze.Size = new System.Drawing.Size(63, 31);
             this.btnMaximaze.TabIndex = 0;
             this.btnMaximaze.UseVisualStyleBackColor = false;
             this.btnMaximaze.Click += new System.EventHandler(this.btnMaximaze_Click);
@@ -354,9 +368,10 @@
             this.btnExit.IconColor = System.Drawing.Color.White;
             this.btnExit.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExit.IconSize = 20;
-            this.btnExit.Location = new System.Drawing.Point(602, 0);
+            this.btnExit.Location = new System.Drawing.Point(802, 0);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(45, 25);
+            this.btnExit.Size = new System.Drawing.Size(60, 31);
             this.btnExit.TabIndex = 2;
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -365,9 +380,10 @@
             // 
             this.PanelDesktop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
             this.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelDesktop.Location = new System.Drawing.Point(230, 60);
+            this.PanelDesktop.Location = new System.Drawing.Point(307, 74);
+            this.PanelDesktop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PanelDesktop.Name = "PanelDesktop";
-            this.PanelDesktop.Size = new System.Drawing.Size(647, 472);
+            this.PanelDesktop.Size = new System.Drawing.Size(862, 581);
             this.PanelDesktop.TabIndex = 2;
             this.PanelDesktop.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelDesktop_Paint);
             // 
@@ -378,6 +394,7 @@
             // 
             // dwnGeneral
             // 
+            this.dwnGeneral.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.dwnGeneral.IsMainMenu = false;
             this.dwnGeneral.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MiCuentaToolStripMenuItem,
@@ -387,37 +404,38 @@
             this.dwnGeneral.MenuItemTextColor = System.Drawing.Color.Empty;
             this.dwnGeneral.Name = "dropDownMenu1";
             this.dwnGeneral.PrimaryColor = System.Drawing.Color.Empty;
-            this.dwnGeneral.Size = new System.Drawing.Size(168, 70);
+            this.dwnGeneral.Size = new System.Drawing.Size(196, 76);
             // 
             // MiCuentaToolStripMenuItem
             // 
             this.MiCuentaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miPerfilToolStripMenuItem1});
             this.MiCuentaToolStripMenuItem.Name = "MiCuentaToolStripMenuItem";
-            this.MiCuentaToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.MiCuentaToolStripMenuItem.Size = new System.Drawing.Size(195, 24);
             this.MiCuentaToolStripMenuItem.Text = "Mi cuenta";
             // 
             // miPerfilToolStripMenuItem1
             // 
             this.miPerfilToolStripMenuItem1.Name = "miPerfilToolStripMenuItem1";
-            this.miPerfilToolStripMenuItem1.Size = new System.Drawing.Size(118, 22);
+            this.miPerfilToolStripMenuItem1.Size = new System.Drawing.Size(146, 26);
             this.miPerfilToolStripMenuItem1.Text = "Mi Perfil";
             this.miPerfilToolStripMenuItem1.Click += new System.EventHandler(this.miPerfilToolStripMenuItem1_Click);
             // 
             // ayudaToolStripMenuItem
             // 
             this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(195, 24);
             this.ayudaToolStripMenuItem.Text = "Ayuda";
             // 
             // contactoSoporteToolStripMenuItem
             // 
             this.contactoSoporteToolStripMenuItem.Name = "contactoSoporteToolStripMenuItem";
-            this.contactoSoporteToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.contactoSoporteToolStripMenuItem.Size = new System.Drawing.Size(195, 24);
             this.contactoSoporteToolStripMenuItem.Text = "Contacto Soporte";
             // 
             // dwnIcono
             // 
+            this.dwnIcono.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.dwnIcono.IsMainMenu = false;
             this.dwnIcono.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miPerfilToolStripMenuItem,
@@ -427,40 +445,41 @@
             this.dwnIcono.MenuItemTextColor = System.Drawing.Color.Empty;
             this.dwnIcono.Name = "dropDownMenu2";
             this.dwnIcono.PrimaryColor = System.Drawing.Color.Empty;
-            this.dwnIcono.Size = new System.Drawing.Size(160, 70);
+            this.dwnIcono.Size = new System.Drawing.Size(186, 76);
             // 
             // miPerfilToolStripMenuItem
             // 
             this.miPerfilToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.datosPersonalesToolStripMenuItem});
             this.miPerfilToolStripMenuItem.Name = "miPerfilToolStripMenuItem";
-            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.miPerfilToolStripMenuItem.Size = new System.Drawing.Size(185, 24);
             this.miPerfilToolStripMenuItem.Text = "Mi Perfil";
             // 
             // datosPersonalesToolStripMenuItem
             // 
             this.datosPersonalesToolStripMenuItem.Name = "datosPersonalesToolStripMenuItem";
-            this.datosPersonalesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.datosPersonalesToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
             this.datosPersonalesToolStripMenuItem.Text = "Datos personales";
             this.datosPersonalesToolStripMenuItem.Click += new System.EventHandler(this.datosPersonalesToolStripMenuItem_Click);
             // 
             // cambiarRolToolStripMenuItem
             // 
             this.cambiarRolToolStripMenuItem.Name = "cambiarRolToolStripMenuItem";
-            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.cambiarRolToolStripMenuItem.Size = new System.Drawing.Size(185, 24);
             this.cambiarRolToolStripMenuItem.Text = "Cambiar Rol";
             this.cambiarRolToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarRolToolStripMenuItem_DropDownOpening);
             // 
             // cambiarIdiomaToolStripMenuItem
             // 
             this.cambiarIdiomaToolStripMenuItem.Name = "cambiarIdiomaToolStripMenuItem";
-            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.cambiarIdiomaToolStripMenuItem.Size = new System.Drawing.Size(185, 24);
             this.cambiarIdiomaToolStripMenuItem.Text = "Cambiar Idioma";
             this.cambiarIdiomaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_DropDownOpening);
             this.cambiarIdiomaToolStripMenuItem.Click += new System.EventHandler(this.cambiarIdiomaToolStripMenuItem_Click);
             // 
             // dwnTickets
             // 
+            this.dwnTickets.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.dwnTickets.IsMainMenu = false;
             this.dwnTickets.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevoTicketToolStripMenuItem,
@@ -470,35 +489,37 @@
             this.dwnTickets.MenuItemTextColor = System.Drawing.Color.Empty;
             this.dwnTickets.Name = "dwnTickets";
             this.dwnTickets.PrimaryColor = System.Drawing.Color.Empty;
-            this.dwnTickets.Size = new System.Drawing.Size(181, 92);
+            this.dwnTickets.Size = new System.Drawing.Size(211, 104);
             // 
             // nuevoTicketToolStripMenuItem
             // 
             this.nuevoTicketToolStripMenuItem.Name = "nuevoTicketToolStripMenuItem";
-            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nuevoTicketToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.nuevoTicketToolStripMenuItem.Text = "Nuevo Ticket";
             this.nuevoTicketToolStripMenuItem.Click += new System.EventHandler(this.nuevoTicketToolStripMenuItem_Click);
             // 
             // misTicketsToolStripMenuItem
             // 
             this.misTicketsToolStripMenuItem.Name = "misTicketsToolStripMenuItem";
-            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.misTicketsToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.misTicketsToolStripMenuItem.Text = "Mis Tickets";
+            this.misTicketsToolStripMenuItem.Click += new System.EventHandler(this.misTicketsToolStripMenuItem_Click);
             // 
             // buscarTicketToolStripMenuItem
             // 
             this.buscarTicketToolStripMenuItem.Name = "buscarTicketToolStripMenuItem";
-            this.buscarTicketToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.buscarTicketToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.buscarTicketToolStripMenuItem.Text = "Buscar Ticket";
             // 
             // frmPpalCliente
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(877, 532);
+            this.ClientSize = new System.Drawing.Size(1169, 655);
             this.Controls.Add(this.PanelDesktop);
             this.Controls.Add(this.PanelTitleBar);
             this.Controls.Add(this.PanelMenu);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmPpalCliente";
             this.Text = "frmPpalNew";
             this.Load += new System.EventHandler(this.frmPpalNew_Load);
