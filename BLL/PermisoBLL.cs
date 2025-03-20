@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
+using System.Net.Http;
 
 namespace BLL
 {
@@ -71,7 +72,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                throw;
+                throw; /*new Exception("Error en la capa de repositorio al guardar la familia.", ex);*/
             }
         }
 

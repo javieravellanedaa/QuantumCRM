@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 using BE;
 
 namespace DAL
@@ -143,14 +144,13 @@ namespace DAL
                 _acceso.Cerrar();
             }
         }
-
         public List<Ticket> ListarTicketsDelUsuario(Guid usuarioId)
         {
             List<Ticket> lista = new List<Ticket>();
             List<SqlParameter> parametros = new List<SqlParameter>
-    {
-        _acceso.CrearParametro("@UsuarioId", usuarioId.ToString())
-    };
+            {
+                _acceso.CrearParametro("@UsuarioId", usuarioId.ToString())
+            };
 
             try
             {
@@ -172,6 +172,54 @@ namespace DAL
                             EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
                             TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id"))
                         };
+
+                        // Mapear Departamento y Cliente
+                        int ordinalDepartamentoId = reader.GetOrdinal("departamento_id");
+                        int ordinalDepartamentoNombre = reader.GetOrdinal("departamento_nombre");
+                        int ordinalClienteId = reader.GetOrdinal("cliente_id");
+
+                        if (!reader.IsDBNull(ordinalDepartamentoId) && !reader.IsDBNull(ordinalDepartamentoNombre))
+                        {
+                            // Se asume que la propiedad UsuarioCreador es de tipo Cliente y éste posee un objeto Departamento.
+                            if (ticket.UsuarioCreador == null)
+                                ticket.UsuarioCreador = new Cliente();
+                            ticket.UsuarioCreador.Departamento = new Departamento
+                            {
+                                Id = reader.GetInt32(ordinalDepartamentoId),
+                                Nombre = reader.GetString(ordinalDepartamentoNombre)
+                            };
+                        }
+                        if (!reader.IsDBNull(ordinalClienteId))
+                        {
+                            if (ticket.UsuarioCreador == null)
+                                ticket.UsuarioCreador = new Cliente();
+                            ticket.UsuarioCreador.ClienteId = reader.GetInt32(ordinalClienteId);
+                        }
+
+                        // Mapear los comentarios del ticket (si existen)
+                        int ordinalComentarios = reader.GetOrdinal("ComentariosXml");
+                        if (!reader.IsDBNull(ordinalComentarios))
+                        {
+                            var sqlXml = reader.GetSqlXml(ordinalComentarios);
+                            string comentariosXml = sqlXml.Value;
+                            if (!string.IsNullOrEmpty(comentariosXml))
+                            {
+                                XDocument doc = XDocument.Parse(comentariosXml);
+                                foreach (var elem in doc.Descendants("Comentario"))
+                                {
+                                    Comentario comentario = new Comentario
+                                    {
+                                        Id = int.Parse(elem.Element("Id").Value),
+                                        UsuarioId = Guid.Parse(elem.Element("UsuarioId").Value),
+                                        Texto = elem.Element("Texto").Value,
+                                        Fecha = DateTime.Parse(elem.Element("Fecha").Value),
+                                        TicketId = ticket.TicketId
+                                    };
+                                    ticket.Comentarios.Add(comentario);
+                                }
+                            }
+                        }
+
                         lista.Add(ticket);
                     }
                 }
@@ -183,13 +231,14 @@ namespace DAL
             return lista;
         }
 
+
         public List<Ticket> ListarTicketsDelDepartamento(int departamentoId)
         {
             List<Ticket> lista = new List<Ticket>();
             List<SqlParameter> parametros = new List<SqlParameter>
-    {
-        _acceso.CrearParametro("@DepartamentoId", departamentoId)
-    };
+            {
+                _acceso.CrearParametro("@DepartamentoId", departamentoId)
+            };
 
             try
             {
@@ -211,6 +260,33 @@ namespace DAL
                             EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
                             TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id"))
                         };
+
+                        // Mapear los comentarios del ticket, si existen
+                        int ordinalComentarios = reader.GetOrdinal("ComentariosXml");
+                        if (!reader.IsDBNull(ordinalComentarios))
+                        {
+                            // Se obtiene el XML de los comentarios
+                            var sqlXml = reader.GetSqlXml(ordinalComentarios);
+                            string comentariosXml = sqlXml.Value;
+                            if (!string.IsNullOrEmpty(comentariosXml))
+                            {
+                                // Parsear el XML y crear objetos Comentario
+                                XDocument doc = XDocument.Parse(comentariosXml);
+                                foreach (var elem in doc.Descendants("Comentario"))
+                                {
+                                    Comentario comentario = new Comentario
+                                    {
+                                        Id = int.Parse(elem.Element("Id").Value),
+                                        UsuarioId = Guid.Parse(elem.Element("UsuarioId").Value),
+                                        Texto = elem.Element("Texto").Value,
+                                        Fecha = DateTime.Parse(elem.Element("Fecha").Value),
+                                        TicketId = ticket.TicketId
+                                    };
+                                    ticket.Comentarios.Add(comentario);
+                                }
+                            }
+                        }
+
                         lista.Add(ticket);
                     }
                 }
@@ -221,7 +297,6 @@ namespace DAL
             }
             return lista;
         }
-
 
         // Método para eliminar un ticket por su Id
         public void EliminarTicket(Guid ticketId)

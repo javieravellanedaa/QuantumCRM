@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 using BE;
 using BLL;
@@ -21,18 +22,85 @@ namespace UI
 
         private void frmTicketsDelUsuario_Load(object sender, EventArgs e)
         {
+            // Suscribimos el evento DataError a cada DataGridView para manejar posibles errores de formateo
+            dgvMisTickets.DataError += dgv_DataError;
+            dgvDeptTickets.DataError += dgv_DataError;
+
             CargarTicketsUsuario();
             CargarTicketsDept();
         }
 
-        // Carga los tickets creados por el usuario actual
+        /// <summary>
+        /// Maneja el error de formateo en los DataGridView, evitando que aparezca el cuadro de diálogo.
+        /// </summary>
+        private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+            e.Cancel = true;
+        }
+
+        /// <summary>
+        /// Carga los tickets creados por el usuario actual y define manualmente las columnas a mostrar.
+        /// </summary>
         private void CargarTicketsUsuario()
         {
             try
             {
                 Guid usuarioId = SingletonSesion.Instancia.Sesion.Usuario.Id;
-                // Se asume que TicketBLL.ListarTicketsDelUsuario retorna List<Ticket>
                 ticketsUsuario = ticketBLL.ListarTicketsDelUsuario(usuarioId);
+
+                // Deshabilitar la generación automática de columnas
+                dgvMisTickets.AutoGenerateColumns = false;
+                dgvMisTickets.Columns.Clear();
+
+                // Definir manualmente las columnas que se desean mostrar
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TicketId",
+                    HeaderText = "ID Ticket",
+                    ReadOnly = true
+                });
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "Asunto",
+                    HeaderText = "Asunto",
+                    ReadOnly = true
+                });
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "Descripcion",
+                    HeaderText = "Descripción",
+                    ReadOnly = true
+                });
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "FechaCreacion",
+                    HeaderText = "Creado",
+                    ReadOnly = true,
+                    DefaultCellStyle = { Format = "g" } // Ejemplo: muestra fecha y hora
+                });
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "FechaUltimaModif",
+                    HeaderText = "Última Modificación",
+                    ReadOnly = true,
+                    DefaultCellStyle = { Format = "g" }
+                });
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "EstadoId",
+                    HeaderText = "Estado",
+                    ReadOnly = true
+                });
+                dgvMisTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "PrioridadId",
+                    HeaderText = "Prioridad",
+                    ReadOnly = true
+                });
+                // Agrega más columnas si lo deseas (por ejemplo, TecnicoId, CategoriaId, etc.)
+
+                // Asignar la lista como DataSource
                 dgvMisTickets.DataSource = ticketsUsuario;
             }
             catch (Exception ex)
@@ -41,15 +109,68 @@ namespace UI
             }
         }
 
-        // Carga los tickets del departamento del usuario
+        /// <summary>
+        /// Carga los tickets del departamento del usuario y define manualmente las columnas a mostrar.
+        /// </summary>
         private void CargarTicketsDept()
         {
             try
             {
-               var cliente= (Cliente)SingletonSesion.Instancia.Sesion.Usuario; 
-                // Asegúrate de tener esta propiedad
-                // Se asume que TicketBLL.ListarTicketsDelDepartamento retorna List<Ticket>
+                var cliente = (Cliente)SingletonSesion.Instancia.Sesion.Usuario;
                 ticketsDepartamento = ticketBLL.ListarTicketsDelDepartamento(cliente.DepartamentoId);
+
+                // Deshabilitar la generación automática de columnas
+                dgvDeptTickets.AutoGenerateColumns = false;
+                dgvDeptTickets.Columns.Clear();
+
+                // Definir manualmente las columnas que se desean mostrar
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "TicketId",
+                    HeaderText = "ID Ticket",
+                    ReadOnly = true
+                });
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "Asunto",
+                    HeaderText = "Asunto",
+                    ReadOnly = true
+                });
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "Descripcion",
+                    HeaderText = "Descripción",
+                    ReadOnly = true
+                });
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "FechaCreacion",
+                    HeaderText = "Creado",
+                    ReadOnly = true,
+                    DefaultCellStyle = { Format = "g" }
+                });
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "FechaUltimaModif",
+                    HeaderText = "Última Modificación",
+                    ReadOnly = true,
+                    DefaultCellStyle = { Format = "g" }
+                });
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "EstadoId",
+                    HeaderText = "Estado",
+                    ReadOnly = true
+                });
+                dgvDeptTickets.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = "PrioridadId",
+                    HeaderText = "Prioridad",
+                    ReadOnly = true
+                });
+                // Agrega más columnas si lo deseas (por ejemplo, TecnicoId, CategoriaId, etc.)
+
+                // Asignar la lista como DataSource
                 dgvDeptTickets.DataSource = ticketsDepartamento;
             }
             catch (Exception ex)
