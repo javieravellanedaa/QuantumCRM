@@ -15,6 +15,7 @@ using BE;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using UI.Design;
 using UI.Admins.UsuariosPermisos;
+using System.Management.Instrumentation;
 
 namespace UI
 {
@@ -388,7 +389,15 @@ namespace UI
                                 MessageBox.Show($"Rol seleccionado: {item.Nombre}");
                                 if (item.Nombre.StartsWith("Cliente"))
                                 {
+                                    var usuario_id = SingletonSesion.Instancia.Sesion.Usuario.Id;
+                                    var rol_id = 3;
+                                    _eventManagerService.Notify("Cerrarsesion", SingletonSesion.Instancia);
+
+                                    _bllUsuarios.CambiarRol(usuario_id, rol_id);
+                                    MessageBox.Show(SingletonSesion.Instancia.Sesion.Usuario.GetType().ToString());
+
                                     this.Close();
+                                    
                                     frmPpalCliente frm = new frmPpalCliente();
                                     
                                     frm.Show();

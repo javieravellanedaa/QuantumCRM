@@ -33,6 +33,14 @@ namespace SERVICIOS
             // Notificar a los observadores de idioma al iniciar sesión
           
         }
+
+        public void CambiarRol (BE.Usuario usuario)
+        {
+
+            // Cambiar el rol del usuario
+            _user = usuario;
+        }
+
         public void CambiarIdioma(IIdioma idioma)
         {
             _idioma = idioma;
@@ -77,7 +85,7 @@ namespace SERVICIOS
             }
             return valid;
         }
-
+         
         public bool IsInRole(int id_permiso)
         {
             if (_user == null) return false;

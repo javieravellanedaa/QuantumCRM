@@ -97,7 +97,7 @@ namespace BLL
         public void FillUserComponents(Usuario u)
         {
             _permisos.FillUserComponents(u);
-
+            
         }
 
         public void FillFamilyComponents(Familia familia)

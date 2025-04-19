@@ -50,6 +50,24 @@ namespace BLL
 
             SingletonSesion.Instancia.Sesion.Logout();
         }
+        public void CambiarRol(Guid usuarioId, int rolId)
+        {
+            Usuario usuario = ((DAL.UsuarioDAL)_crud).CambiarDeRol(usuarioId, rolId);
+
+            if (usuario.Id == Guid.Empty) throw new LoginException(LoginResult.InvalidUsername);
+
+            if (usuario.Roles.Count == 0)
+            {
+                throw new LoginException(LoginResult.NoRolesAssigned);
+            }
+
+            SingletonSesion.Instancia.Sesion.Login(usuario);
+
+            //return LoginResult.ValidUser;
+            // Cambiar el rol del usuario
+            SingletonSesion.Instancia.Sesion.Login(usuario);
+
+        }
 
         public List<Usuario> GetAll()
         {

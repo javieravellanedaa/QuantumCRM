@@ -419,6 +419,70 @@ namespace DAL
             }
         }
 
+        public Usuario CambiarDeRol(Guid usuarioId, int rolId)
+        {
+            Usuario usuario;
+
+            try
+            {
+                acceso.Abrir();
+
+                // 1) Traer datos base de la tabla 'usuarios'
+                var pUsuario = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@usuario_id", usuarioId.ToString())
+            };
+                using (var reader = acceso.EjecutarLectura(
+                    "sp_obtener_usuario_por_id", // Stored procedure que haga: SELECT * FROM usuarios WHERE usuario_id=@UsuarioID
+                    pUsuario))
+                {
+                    if (!reader.Read())
+                        throw new Exception($"Usuario {usuarioId} no encontrado.");
+
+                    // 2) Crear la instancia concreta según rol
+                    usuario = UsuarioFactory.CrearUsuario(rolId);
+                    usuario.Id = usuarioId;
+                    usuario.Email = reader["email"].ToString();
+                    usuario.Password = reader["password"].ToString();
+                    usuario.Nombre = reader["nombre"].ToString();
+                    usuario.Apellido = reader["apellido"].ToString();
+                    usuario.NombreUsuario = reader["nombre_usuario"].ToString();
+                    usuario.Legajo = Convert.ToInt32(reader["legajo"]);
+                    //usuario.FechaAlta = reader["fecha_alta"] != DBNull.Value ? DateTime.Parse(reader["fecha_alta"].ToString())
+                    usuario.UltimoInicioSesion = reader["ultimo_inicio_sesion"] != DBNull.Value
+                                              ? DateTime.Parse(reader["ultimo_inicio_sesion"].ToString())
+                                              : DateTime.Now;
+                }
+
+                // 3) Cargar idioma y roles generales
+                usuario.Idioma = ObtenerIdiomaInternal(usuario);
+                usuario.Roles = GetRolesInternal(usuario);
+                usuario.UltimoRolId = rolId;
+
+                // 4) Despachar a la carga de atributos por subclase
+                switch (rolId)
+                {
+                    case 1: // Administrador
+                        usuario = CargarAtributosAdministradorInternal((Administrador)usuario, usuarioId);
+                        break;
+                    //case 2: // Técnico
+                        //usuario = CargarAtributosTecnicoInternal((Tecnico)usuario, usuarioId);
+                        break;
+                    case 3: // Cliente
+                        usuario = CargarAtributosClienteInternal((Cliente)usuario, usuarioId);
+                        break;
+                    default:
+                        throw new Exception("Rol no reconocido.");
+                }
+
+                return usuario;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
         public int ObtenerUltimoRol(Guid usuarioId)
         {
             try

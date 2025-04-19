@@ -22,6 +22,8 @@ namespace BLL
                    
                     SesionDAL.FinalizarSesion(sesionData);
                     SesionDAL.ActualizarUsuario(sesionData.Sesion.Usuario);
+                    sesionData.Sesion.Logout();
+                  
                 }
                 else if (eventType == "Iniciarsesion")
                 {
