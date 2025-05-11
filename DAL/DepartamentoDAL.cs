@@ -15,7 +15,6 @@ namespace DAL
             acceso = new Acceso();
         }
 
-        // Método para listar todos los departamentos
         public List<Departamento> ListarDepartamentos()
         {
             try
@@ -32,21 +31,18 @@ namespace DAL
             }
         }
 
-        // Método para agregar un nuevo departamento
         public int AgregarDepartamento(Departamento departamento)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Nombre", departamento.Nombre),
-                acceso.CrearParametro("@ClienteLiderId", departamento.ClienteLiderId ?? 0),
-                acceso.CrearParametro("@FechaCreacion", departamento.FechaCreacion),
-                acceso.CrearParametro("@CodigoDepartamento", departamento.CodigoDepartamento),
-                acceso.CrearParametro("@Descripcion", departamento.Descripcion),
-                acceso.CrearParametro("@UbicacionId", departamento.UbicacionId ?? 0),
-                acceso.CrearParametro("@Estado", departamento.Estado),
-                acceso.CrearParametro("@EsPrioritario", departamento.EsPrioritario),
-                acceso.CrearParametro("@HorarioAtencion", departamento.HorarioAtencion),
-                acceso.CrearParametro("@EmailContacto", departamento.EmailContacto)
+                acceso.CrearParametro("@Nombre", departamento.Nombre ?? string.Empty),
+                acceso.CrearParametro("@ClienteLiderId",
+                    departamento.ClienteLider != null ? departamento.ClienteLider.ClienteId.ToString() : null),
+                acceso.CrearParametro("@FechaCreacion", departamento.FechaCreacion.ToString("yyyy-MM-dd HH:mm:ss")),
+                acceso.CrearParametro("@CodigoDepartamento", departamento.CodigoDepartamento ?? string.Empty),
+                acceso.CrearParametro("@Descripcion", departamento.Descripcion ?? string.Empty),
+                acceso.CrearParametro("@Ubicacion", departamento.Ubicacion ?? string.Empty),
+                acceso.CrearParametro("@Estado", departamento.Estado ? "1" : "0")
             };
 
             try
@@ -60,22 +56,19 @@ namespace DAL
             }
         }
 
-        // Método para actualizar un departamento existente
         public void ActualizarDepartamento(Departamento departamento)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Id", departamento.Id),
-                acceso.CrearParametro("@Nombre", departamento.Nombre),
-                acceso.CrearParametro("@ClienteLiderId", departamento.ClienteLiderId ?? 0),
-                acceso.CrearParametro("@FechaCreacion", departamento.FechaCreacion),
-                acceso.CrearParametro("@CodigoDepartamento", departamento.CodigoDepartamento),
-                acceso.CrearParametro("@Descripcion", departamento.Descripcion),
-                acceso.CrearParametro("@UbicacionId", departamento.UbicacionId ?? 0),
-                acceso.CrearParametro("@Estado", departamento.Estado),
-                acceso.CrearParametro("@EsPrioritario", departamento.EsPrioritario),
-                acceso.CrearParametro("@HorarioAtencion", departamento.HorarioAtencion),
-                acceso.CrearParametro("@EmailContacto", departamento.EmailContacto)
+                acceso.CrearParametro("@Id", departamento.Id.ToString()),
+                acceso.CrearParametro("@Nombre", departamento.Nombre ?? string.Empty),
+                acceso.CrearParametro("@ClienteLiderId",
+                    departamento.ClienteLider != null ? departamento.ClienteLider.ClienteId.ToString() : null),
+                acceso.CrearParametro("@FechaCreacion", departamento.FechaCreacion.ToString("yyyy-MM-dd HH:mm:ss")),
+                acceso.CrearParametro("@CodigoDepartamento", departamento.CodigoDepartamento ?? string.Empty),
+                acceso.CrearParametro("@Descripcion", departamento.Descripcion ?? string.Empty),
+                acceso.CrearParametro("@Ubicacion", departamento.Ubicacion ?? string.Empty),
+                acceso.CrearParametro("@Estado", departamento.Estado ? "1" : "0")
             };
 
             try
@@ -89,12 +82,11 @@ namespace DAL
             }
         }
 
-        // Método para eliminar un departamento
         public void EliminarDepartamento(int departamentoId)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Id", departamentoId)
+                acceso.CrearParametro("@Id", departamentoId.ToString())
             };
 
             try
@@ -108,12 +100,11 @@ namespace DAL
             }
         }
 
-        // Método para obtener un departamento por su Id
         public Departamento ObtenerDepartamentoPorId(int departamentoId)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Id", departamentoId)
+                acceso.CrearParametro("@Id", departamentoId.ToString())
             };
 
             try
@@ -122,9 +113,7 @@ namespace DAL
                 using (SqlDataReader reader = acceso.EjecutarLectura("sp_ObtenerDepartamentoPorId", parametros))
                 {
                     if (reader.Read())
-                    {
                         return MapearDepartamento(reader);
-                    }
                 }
             }
             finally
@@ -135,12 +124,11 @@ namespace DAL
             return null;
         }
 
-        // Método para listar departamentos por estado
         public List<Departamento> ListarDepartamentosPorEstado(bool estado)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Estado", estado)
+                acceso.CrearParametro("@Estado", estado ? "1" : "0")
             };
 
             try
@@ -157,12 +145,11 @@ namespace DAL
             }
         }
 
-        // Método para buscar departamentos por nombre
         public List<Departamento> BuscarDepartamentoPorNombre(string nombre)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@Nombre", nombre)
+                acceso.CrearParametro("@Nombre", nombre ?? string.Empty)
             };
 
             try
@@ -179,49 +166,33 @@ namespace DAL
             }
         }
 
-        // Método para listar departamentos prioritarios
-        public List<Departamento> ListarDepartamentosPrioritarios()
-        {
-            try
-            {
-                acceso.Abrir();
-                using (SqlDataReader reader = acceso.EjecutarLectura("sp_ListarDepartamentosPrioritarios"))
-                {
-                    return MapearDepartamentos(reader);
-                }
-            }
-            finally
-            {
-                acceso.Cerrar();
-            }
-        }
-
-        // Método para listar departamentos por ubicación
-        public List<Departamento> ListarDepartamentosPorUbicacion(int ubicacionId)
+        public Departamento ObtenerDepartamentoPorCodigo(string codigo)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
-                acceso.CrearParametro("@UbicacionId", ubicacionId)
+                acceso.CrearParametro("@CodigoDepartamento", codigo ?? string.Empty)
             };
 
             try
             {
                 acceso.Abrir();
-                using (SqlDataReader reader = acceso.EjecutarLectura("sp_ListarDepartamentosPorUbicacion", parametros))
+                using (SqlDataReader reader = acceso.EjecutarLectura("sp_ObtenerDepartamentoPorCodigo", parametros))
                 {
-                    return MapearDepartamentos(reader);
+                    if (reader.Read())
+                        return MapearDepartamento(reader);
                 }
             }
             finally
             {
                 acceso.Cerrar();
             }
+
+            return null;
         }
 
-        // Método auxiliar para mapear una lista de departamentos
         private List<Departamento> MapearDepartamentos(SqlDataReader reader)
         {
-            List<Departamento> departamentos = new List<Departamento>();
+            var departamentos = new List<Departamento>();
 
             while (reader.Read())
             {
@@ -231,22 +202,20 @@ namespace DAL
             return departamentos;
         }
 
-        // Método auxiliar para mapear un solo departamento
         private Departamento MapearDepartamento(SqlDataReader reader)
         {
             return new Departamento
             {
                 Id = reader.GetInt32(reader.GetOrdinal("departamento_id")),
                 Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                ClienteLiderId = reader.IsDBNull(reader.GetOrdinal("cliente_lider_id")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("cliente_lider_id")),
+                ClienteLider = reader.IsDBNull(reader.GetOrdinal("cliente_lider_id"))
+                    ? null
+                    : new Cliente { ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_lider_id")) },
                 FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
                 CodigoDepartamento = reader.GetString(reader.GetOrdinal("codigo_departamento")),
                 Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
-                UbicacionId = reader.IsDBNull(reader.GetOrdinal("ubicacion_id")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("ubicacion_id")),
-                Estado = reader.GetBoolean(reader.GetOrdinal("estado")),
-                EsPrioritario = reader.GetBoolean(reader.GetOrdinal("es_prioritario")),
-                HorarioAtencion = reader.IsDBNull(reader.GetOrdinal("horario_atencion")) ? null : reader.GetString(reader.GetOrdinal("horario_atencion")),
-                EmailContacto = reader.IsDBNull(reader.GetOrdinal("email_contacto")) ? null : reader.GetString(reader.GetOrdinal("email_contacto"))
+                Ubicacion = reader.IsDBNull(reader.GetOrdinal("ubicacion")) ? null : reader.GetString(reader.GetOrdinal("ubicacion")),
+                Estado = reader.GetBoolean(reader.GetOrdinal("estado"))
             };
         }
     }

@@ -19,7 +19,45 @@ namespace DAL
 
         }
 
-        // Método para obtener un cliente por su Id
+        /// Creamos una región para el maper del cliente, este sera llamado para reutilizarse en las demas funciones
+        #region MapearCliente  
+        private Cliente MapearCliente(SqlDataReader reader)
+        {
+            return new Cliente
+            {
+                // De Usuario (padre)
+                Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                Email = reader.GetString(reader.GetOrdinal("email")),
+                Password = reader.GetString(reader.GetOrdinal("password")),
+                Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                NombreUsuario = reader.GetString(reader.GetOrdinal("nombre_usuario")),
+                Legajo = reader.GetInt32(reader.GetOrdinal("legajo")),
+                FechaAlta = reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
+                UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion"))
+                    ? (DateTime?)null
+                    : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion")),
+                // Ignoramos idioma por ahora (se puede mapear aparte si tenés una tabla de idiomas)
+
+                // De Cliente (hijo)
+                ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_id")),
+                Departamento = new Departamento
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("departamento_id"))
+                },
+                FechaRegistro = reader.GetDateTime(reader.GetOrdinal("fecha_registro")),
+                Telefono = reader.IsDBNull(reader.GetOrdinal("telefono")) ? null : reader.GetString(reader.GetOrdinal("telefono")),
+                Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString(reader.GetOrdinal("direccion")),
+                EmailContacto = reader.IsDBNull(reader.GetOrdinal("email_contacto")) ? null : reader.GetString(reader.GetOrdinal("email_contacto")),
+                FechaUltimaInteraccion = reader.IsDBNull(reader.GetOrdinal("fecha_ultima_interaccion")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("fecha_ultima_interaccion")),
+                PreferenciaContacto = reader.IsDBNull(reader.GetOrdinal("preferencia_contacto")) ? null : reader.GetString(reader.GetOrdinal("preferencia_contacto")),
+                Estado = reader.GetBoolean(reader.GetOrdinal("estado")),
+                Observaciones = reader.IsDBNull(reader.GetOrdinal("observaciones")) ? null : reader.GetString(reader.GetOrdinal("observaciones")),
+                EsAprobador = reader.GetBoolean(reader.GetOrdinal("es_aprobador"))
+            };
+        }
+        #endregion  
+
         public Cliente ObtenerClientePorID(int clienteId)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
@@ -46,24 +84,22 @@ namespace DAL
             return null;
         }
 
-        // Método para crear un nuevo cliente
-        // Método para crear un nuevo cliente
         public void AgregarCliente(Cliente cliente)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                _acceso.CrearParametro("@UsuarioID", cliente.Id.ToString()), // Id heredado de Usuario
-                _acceso.CrearParametro("@DepartamentoID", cliente.DepartamentoId),
-                _acceso.CrearParametro("@FechaRegistro", cliente.FechaRegistro),
-                _acceso.CrearParametro("@EstadoClienteID", cliente.EstadoClienteId),
-                _acceso.CrearParametro("@TipoClienteID", cliente.TipoClienteId),
-                _acceso.CrearParametro("@Telefono", cliente.Telefono),
-                _acceso.CrearParametro("@Direccion", cliente.Direccion) ,
-                _acceso.CrearParametro("@EmailContacto", cliente.EmailContacto),
-                _acceso.CrearParametro("@EsInterno", cliente.EsInterno),
-                _acceso.CrearParametro("@Empresa", cliente.Empresa),
-                _acceso.CrearParametro("@PreferenciaContacto", cliente.PreferenciaContacto)
-            };
+                {
+                    _acceso.CrearParametro("@UsuarioID", cliente.Id.ToString()), // ID heredado de Usuario (GUID)
+                    _acceso.CrearParametro("@DepartamentoID", cliente.Departamento.Id.ToString()),
+                    _acceso.CrearParametro("@FechaRegistro", cliente.FechaRegistro?.ToString("yyyy-MM-dd HH:mm:ss")),
+                    _acceso.CrearParametro("@Telefono", cliente.Telefono),
+                    _acceso.CrearParametro("@Direccion", cliente.Direccion),
+                    _acceso.CrearParametro("@EmailContacto", cliente.EmailContacto),
+                    _acceso.CrearParametro("@FechaUltimaInteraccion", cliente.FechaUltimaInteraccion?.ToString("yyyy-MM-dd HH:mm:ss")),
+                    _acceso.CrearParametro("@PreferenciaContacto", cliente.PreferenciaContacto),
+                    _acceso.CrearParametro("@Estado", cliente.Estado ? "1" : "0"),
+                    _acceso.CrearParametro("@Observaciones", cliente.Observaciones),
+                    _acceso.CrearParametro("@EsAprobador", cliente.EsAprobador ? "1" : "0")
+                };
 
             try
             {
@@ -83,8 +119,6 @@ namespace DAL
             }
         }
 
-
-        // Método para actualizar un cliente existente
         public void ActualizarCliente(Cliente cliente)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
@@ -107,7 +141,6 @@ namespace DAL
             }
         }
 
-        // Método para eliminar un cliente
         public void EliminarCliente(int clienteId)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
@@ -126,9 +159,10 @@ namespace DAL
             }
         }
 
-        // Método para listar clientes por departamento
+
         public List<Cliente> ListarClientesPorDepartamento(int departamentoId)
         {
+            List<Cliente> clientes = new List<Cliente>();
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 _acceso.CrearParametro("@DepartamentoID", departamentoId)
@@ -139,67 +173,88 @@ namespace DAL
                 _acceso.Abrir();
                 using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerClientesPorDepartamento", parametros))
                 {
-                    return MapearClientes(reader);
+
+                    while (reader.Read())
+                    {
+                        Cliente cliente = MapearCliente(reader);
+                        clientes.Add(cliente);
+
+                    }
+    
+                  
                 }
             }
             finally
             {
                 _acceso.Cerrar();
             }
+            return clientes;
         }
 
-        // Método para asignar un técnico a un cliente
-        public void AsignarTecnicoACliente(int clienteId, int tecnicoId)
+
+        public List<Cliente> ListarClientes()
         {
-            List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                _acceso.CrearParametro("@ClienteID", clienteId),
-                _acceso.CrearParametro("@TecnicoID", tecnicoId)
-            };
+            List<Cliente> clientes = new List<Cliente>();
 
             try
             {
                 _acceso.Abrir();
-                _acceso.Escribir("sp_AsignarTecnicoACliente", parametros);
+                using (var reader = _acceso.EjecutarLectura("sp_ListarClientes"))
+                {
+                    while (reader.Read())
+                    {
+                        Cliente cliente = MapearCliente(reader);
+
+
+                        clientes.Add(cliente);
+                    }
+                }
             }
             finally
             {
                 _acceso.Cerrar();
             }
-        }
-
-        // Método auxiliar para mapear una lista de clientes
-        private List<Cliente> MapearClientes(SqlDataReader reader)
-        {
-            List<Cliente> clientes = new List<Cliente>();
-
-            while (reader.Read())
-            {
-                clientes.Add(MapearCliente(reader));
-            }
 
             return clientes;
         }
 
-        // Método auxiliar para mapear un solo cliente
-        private Cliente MapearCliente(SqlDataReader reader)
+
+        public List<Cliente> ListarClientesAprobadores ()
         {
-            return new Cliente
+            List<Cliente> clientes = new List<Cliente>();
+            try
             {
-                ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_id")),
-                Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
-                DepartamentoId = reader.GetInt32(reader.GetOrdinal("departamento_id")),
-                FechaRegistro = reader.GetDateTime(reader.GetOrdinal("fecha_registro")),
-                EstadoClienteId = reader.GetInt32(reader.GetOrdinal("estado_cliente_id")),
-                TipoClienteId = reader.GetInt32(reader.GetOrdinal("tipo_cliente_id")),
-                Telefono = reader.IsDBNull(reader.GetOrdinal("telefono")) ? null : reader.GetString(reader.GetOrdinal("telefono")),
-                Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString(reader.GetOrdinal("direccion")),
-                EmailContacto = reader.IsDBNull(reader.GetOrdinal("email_contacto")) ? null : reader.GetString(reader.GetOrdinal("email_contacto")),
-                EsInterno = reader.GetBoolean(reader.GetOrdinal("es_interno")),
-                Empresa = reader.IsDBNull(reader.GetOrdinal("empresa")) ? null : reader.GetString(reader.GetOrdinal("empresa")),
-                PreferenciaContacto = reader.IsDBNull(reader.GetOrdinal("preferencia_contacto")) ? null : reader.GetString(reader.GetOrdinal("preferencia_contacto"))
-            };
+                _acceso.Abrir();
+                using (var reader = _acceso.EjecutarLectura("sp_ListarClientesAprobadores"))
+                {
+                    while (reader.Read())
+                    {
+                        Cliente cliente = MapearCliente(reader);
+                        clientes.Add(cliente);
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+            return clientes;
         }
+
+        public void ActualizarEstadoAprobador(int clienteId, bool esAprobador)
+        {
+            var parametros = new List<SqlParameter>
+    {
+        _acceso.CrearParametro("@ClienteId", clienteId),
+        _acceso.CrearParametro("@EsAprobador", esAprobador)
+    };
+
+            _acceso.Abrir();
+            _acceso.Escribir("sp_ActualizarEsAprobador", parametros);
+            _acceso.Cerrar();
+        }
+
+
     }
 
 }

@@ -9,33 +9,22 @@ namespace BE.PN
         public string Nombre { get; set; }  // Nombre del grupo
         public string Descripcion { get; set; }  // Descripción del grupo
 
-        private Tecnico tecnicoLider; // Objeto del técnico líder
+        public Tecnico TecnicoLider { get; set; }  // Objeto del técnico líder
 
-        public Tecnico TecnicoLider
-        {
-            get { return tecnicoLider; }
-            set { tecnicoLider = value; }
-        }
+        public List<Tecnico> Tecnicos { get; set; } = new List<Tecnico>(); // Técnicos miembros del grupo
 
-        public int? TecnicoLiderId
-        {
-            get
-            {
-                // Devuelve el ID del técnico líder si existe, de lo contrario devuelve null
-                return TecnicoLider != null ? TecnicoLider.TecnicoId : (int?)null;
-            }
-        }
+        public List<Ticket> Tickets { get; set; } = new List<Ticket>(); // Tickets asignados al grupo
 
         // Constructor vacío
         public GrupoTecnico() { }
 
-        // Constructor con parámetros
+        // Constructor extendido
         public GrupoTecnico(int grupoId, string nombre, string descripcion, Tecnico tecnicoLider)
         {
             GrupoId = grupoId;
             Nombre = nombre;
             Descripcion = descripcion;
-            TecnicoLider = tecnicoLider; // Asignar el objeto del técnico líder
+            TecnicoLider = tecnicoLider;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using INTERFACES;
@@ -18,20 +18,12 @@ namespace BLL
             _idiomaDAL = new IdiomaDAL();
         }
 
-        /// <summary>
-        /// Obtiene solamente los idiomas activos (según la implementación en IdiomaDAL).
-        /// </summary>
-        /// <returns></returns>
         public IList<Idioma> ObtenerIdiomas()
         {
             return _idiomaDAL.ObtenerIdiomas();
         }
 
-        /// <summary>
-        /// Devuelve el primer idioma activo como idioma por defecto.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+
         public IIdioma ObtenerIdiomaDefault()
         {
             var idiomas = ObtenerIdiomas();
@@ -42,22 +34,13 @@ namespace BLL
             return idiomas.First(); // Devuelve el primer idioma activo
         }
 
-        /// <summary>
-        /// Busca un idioma activo por nombre (si coincide).
-        /// </summary>
-        /// <param name="nombre"></param>
-        /// <returns></returns>
         public IIdioma ObtenerIdiomaPorNombre(string nombre)
         {
             return _idiomaDAL.ObtenerIdiomas()
                              .FirstOrDefault(i => i.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase));
         }
 
-        /// <summary>
-        /// Agrega un nuevo idioma (activo = true por defecto) en la base de datos.
-        /// </summary>
-        /// <param name="nombre"></param>
-        /// <returns></returns>
+
         public bool AgregarIdioma(string nombre)
         {
             var resultado = _idiomaDAL.AgregarIdioma(nombre);
@@ -69,10 +52,6 @@ namespace BLL
             return resultado;
         }
 
-        /// <summary>
-        /// Desactiva (activo = false) el idioma con el Guid recibido.
-        /// </summary>
-        /// <param name="idiomaId"></param>
         public void DesactivarIdioma(Guid idiomaId)
         {
             _idiomaDAL.DesactivarIdioma(idiomaId);

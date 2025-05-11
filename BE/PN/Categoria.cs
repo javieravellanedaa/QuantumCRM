@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime;
+﻿using BE.PN;
+using System;
 
 namespace BE
 {
     public class Categoria
     {
+        public Categoria() { }
 
+        public int CategoriaId { get; set; }
+        public string Nombre { get; set; }
 
-        public Categoria()
-        {
-
-        }
-
-        public int CategoriaId { get; set; } 
-        public string Nombre { get; set; } 
-        public int GroupId { get; set; }
+        public GrupoTecnico GrupoTecnico { get; set; }
 
         public DateTime FechaCreacion { get; set; }
         public Guid CreadorId { get; set; }
@@ -23,88 +18,42 @@ namespace BE
         public string Descripcion { get; set; }
         public TipoCategoria tipoCategoria { get; set; }
 
-
+        public Prioridad Prioridad { get; set; }
 
         private bool aprobadorRequerido;
         public bool AprobadorRequerido
         {
-            get { return aprobadorRequerido; }
+            get => aprobadorRequerido;
             set
             {
                 aprobadorRequerido = value;
-
-                
-                if (!aprobadorRequerido)
-                {
-                    UsuarioAprobador = null;
-                }
+                if (!value)
+                    ClienteAprobador = null;
             }
         }
 
-        public string NombreUsuarioAprobador
+        public string NombreClienteAprobador =>
+            ClienteAprobador != null
+                ? $"{ClienteAprobador.Apellido}, {ClienteAprobador.Nombre}"
+                : string.Empty;
+
+        private Cliente clienteAprobador;
+        public Cliente ClienteAprobador
         {
-            get
-            {
-                return UsuarioAprobador != null ? usuarioAprobador.Apellido + "," +UsuarioAprobador.Nombre  : string.Empty;
-            }
-        }
-
-        
-        public string NombreEstadoCategoria
-            {
-            get
-            {
-                return Estado.Nombre;
-            }
-        }
-        private Usuario usuarioAprobador;
-        public Usuario UsuarioAprobador
-        {
-            get { return usuarioAprobador; }
+            get => clienteAprobador;
             set
             {
-               
                 if (AprobadorRequerido)
-                {
-                    usuarioAprobador = value;
-                }
+                    clienteAprobador = value;   
                 else
-                {
-                    usuarioAprobador = null; 
-                }
+                    clienteAprobador = null;
             }
         }
-        private Departamento departamento;
-
-        public Departamento Departamento
-        {
-            get { return departamento; }
-            set { departamento = value; }
-        }
+        public bool Eliminado { get; set; }
 
 
-        public string nombreDepartamento
+        public Departamento Departamento { get; set; }
 
-        {
-
-            get
-            {
-                return Departamento.Nombre;
-
-               
-
-            }
-        }
-
-
-
-
-
-        private EstadosCategoria estado;
-        public EstadosCategoria Estado
-        {
-            get { return estado; }
-            set { estado = value; }
-        }
+        public bool Estado { get; set; }
     }
 }

@@ -24,7 +24,6 @@ namespace BE.Composite
 
         public abstract void EliminarHijo(Componente c);
 
-    
 
 
     }

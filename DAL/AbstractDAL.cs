@@ -31,9 +31,8 @@ namespace DAL
         {
             if (dataContext.Contains(entity))
             {
-                //si no fuesen objetos, habria que invocar la forma de actualizar el dato en el entorno de persistencia
             }
-            else
+            else 
             {
                 dataContext.Add(entity);
             }

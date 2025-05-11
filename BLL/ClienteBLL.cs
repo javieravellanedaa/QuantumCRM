@@ -79,17 +79,38 @@ namespace BLL
             }
         }
 
-        public void AsignarTecnicoACliente(int clienteId, int tecnicoId)
+
+        public List<Cliente> ListarClientes()
         {
             try
             {
-                _clienteDAL.AsignarTecnicoACliente(clienteId, tecnicoId);
+                return _clienteDAL.ListarClientes();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los clientes.", ex);
+            }
+        }
+
+        public List<Cliente> ListarClientesAprobadores()
+        {
+            try
+            {
+                return _clienteDAL.ListarClientesAprobadores();
             }
             catch (Exception ex)
             {
                 // Manejo de excepción
-                throw new Exception("Error al asignar técnico al cliente.", ex);
+                throw new Exception("Error al listar los clientes aprobadores.", ex);
             }
         }
+
+
+        public void MarcarComoAprobador(int clienteId)
+        {
+            _clienteDAL.ActualizarEstadoAprobador(clienteId, true);
+        }
+
+
     }
 }

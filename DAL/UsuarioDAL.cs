@@ -19,10 +19,6 @@ namespace DAL
             acceso = new Acceso();
         }
 
-        internal UsuarioDAL(Acceso ac)
-        {
-            acceso = ac;
-        }
 
         public override void Save(Usuario entity)
         {
@@ -48,23 +44,8 @@ namespace DAL
             }
         }
 
-        public List<Usuario> GetAll()
-        {
-            try
-            {
-                acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("usuarios_listar"))
-                {
-                    return MapearUsuarios(reader);
-                }
-            }
-            finally
-            {
-                acceso.Cerrar();
-            }
-        }
+  
 
-        // Método público que administra la conexión y mapea cada registro a un Usuario.
         public List<Usuario> ObtenerlistaDeUsuarios()
         {
             List<Usuario> listaUsuarios = new List<Usuario>();
@@ -72,15 +53,13 @@ namespace DAL
             try
             {
                 acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("usuarios_listar"))
+                using (var reader = acceso.EjecutarLectura("sp_ListarUsuarios"))
                 {
                     while (reader.Read())
                     {
                         Guid usuarioId = Guid.Parse(reader["usuario_id"].ToString());
-                        // Se llama a la versión interna que asume conexión abierta.
                         
-                        int rolId = ObtenerUltimoRolInternal(usuarioId);
-
+                        int rolId = ObtenerUltimoRol(usuarioId);
                         Usuario usuario = UsuarioFactory.CrearUsuario(rolId);
                         usuario.Id = usuarioId;
                         usuario.Email = reader["email"].ToString();
@@ -92,8 +71,6 @@ namespace DAL
                         usuario.FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString());
                         usuario.UltimoInicioSesion = DateTime.Now;
                         usuario.Roles = GetRolesInternal(usuario);
-
-                        // Se podrían mapear permisos, roles o idioma usando las versiones internas.
                         listaUsuarios.Add(usuario);
                     }
                 }
@@ -112,11 +89,7 @@ namespace DAL
 
         public Usuario Login(string email, string password)
         {
-            var parametros = new List<SqlParameter>
-    {
-        acceso.CrearParametro("@Email", email),
-        acceso.CrearParametro("@Password", Encriptador.Hash(password))
-    };
+            var parametros = new List<SqlParameter>{ acceso.CrearParametro("@Email", email), acceso.CrearParametro("@Password", Encriptador.Hash(password))};
 
             Usuario usuario = null;
             Guid usuarioId = Guid.Empty;
@@ -131,7 +104,6 @@ namespace DAL
             try
             {
                 acceso.Abrir();
-                // Primero se ejecuta el sp_LoginUsuario y se leen los datos
                 using (var reader = acceso.EjecutarLectura("sp_LoginUsuario", parametros))
                 {
                     if (reader.Read())
@@ -147,13 +119,19 @@ namespace DAL
                     }
                     else
                     {
-                        // No se encontró el usuario
+   
                         return null;
                     }
-                } // Se cierra el DataReader aquí
+                } 
 
-                // Ahora que no hay ningún DataReader abierto, se pueden ejecutar nuevos comandos.
-                int rolId = ObtenerUltimoRolInternal(usuarioId);
+                int rolId = ObtenerUltimoRol(usuarioId);
+                if (rolId ==-1)
+                    {
+                    
+                    return usuario;
+                    
+
+                }
                 usuario = UsuarioFactory.CrearUsuario(rolId);
                 usuario.Id = usuarioId;
                 usuario.Email = emailDb;
@@ -165,6 +143,7 @@ namespace DAL
                 usuario.FechaAlta = fechaAlta;
                 usuario.UltimoInicioSesion = DateTime.Now;
                 usuario.Roles = GetRolesInternal(usuario);
+                usuario.Permisos = GetPermisosInternal(usuario);
                 usuario.UltimoRolId = rolId;
                 usuario.Idioma = ObtenerIdiomaInternal(usuario);
 
@@ -192,18 +171,18 @@ namespace DAL
             }
             finally
             {
-                acceso.Cerrar();
+                if (acceso.ObtenerConexion()!=null){
+                    acceso.Cerrar();
+                }
+             
             }
         }
 
 
-        #region Métodos Internos (asumen conexión abierta)
-
-        // Versiones internas: no abren ni cierran la conexión
 
         private int ObtenerUltimoRolInternal(Guid usuarioId)
         {
-            int rolId = 3; // Valor predeterminado
+            var rolId = -1;
             acceso.Abrir();
             List<SqlParameter> parametros = new List<SqlParameter>
             {
@@ -213,13 +192,16 @@ namespace DAL
             DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
             if (resultado.Rows.Count > 0)
             {
+                
                 rolId = Convert.ToInt32(resultado.Rows[0]["ultimo_rol_id"]);
             }
+   
             return rolId;
         }
 
         private List<Rol> GetRolesInternal(Usuario usuario)
         {
+            acceso.Abrir();
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 acceso.CrearParametro("@UsuarioId", usuario.Id.ToString())
@@ -272,39 +254,48 @@ namespace DAL
         private Cliente CargarAtributosClienteInternal(Cliente usuario, Guid usuarioId)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@usuario_id", usuarioId.ToString())
-            };
+    {
+        acceso.CrearParametro("@usuario_id", usuarioId.ToString())
+    };
 
             using (var reader = acceso.EjecutarLectura("sp_ObtenerAtributosCliente", parametros))
             {
                 if (reader.Read())
                 {
                     usuario.ClienteId = reader["cliente_id"] != DBNull.Value ? (int)reader["cliente_id"] : 0;
-                    usuario.DepartamentoId = reader["departamento_id"] != DBNull.Value ? (int)reader["departamento_id"] : 0;
-                    usuario.Direccion = reader["direccion"] != DBNull.Value ? reader["direccion"].ToString() : null;
-                    usuario.EmailContacto = reader["email_contacto"] != DBNull.Value ? reader["email_contacto"].ToString() : null;
-                    usuario.Empresa = reader["empresa"] != DBNull.Value ? reader["empresa"].ToString() : null;
-                    usuario.EsInterno = reader["es_interno"] != DBNull.Value && (bool)reader["es_interno"];
-                    usuario.EstadoClienteId = reader["estado_cliente_id"] != DBNull.Value ? (int)reader["estado_cliente_id"] : 0;
-                    usuario.FechaRegistro = reader["fecha_registro"] != DBNull.Value ? DateTime.Parse(reader["fecha_registro"].ToString()) : (DateTime?)null;
-                    usuario.FechaUltimaInteraccion = reader["fecha_ultima_interaccion"] != DBNull.Value ? DateTime.Parse(reader["fecha_ultima_interaccion"].ToString()) : (DateTime?)null;
-                    usuario.PreferenciaContacto = reader["preferencia_contacto"] != DBNull.Value ? reader["preferencia_contacto"].ToString() : null;
-                    usuario.Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : null;
-                    usuario.TipoClienteId = reader["tipo_cliente_id"] != DBNull.Value ? (int)reader["tipo_cliente_id"] : 0;
 
-                    if (usuario.DepartamentoId > 0)
+                    int departamentoId = reader["departamento_id"] != DBNull.Value ? (int)reader["departamento_id"] : 0;
+                    if (departamentoId > 0)
                     {
                         DepartamentosDAL deptDal = new DepartamentosDAL();
-                        usuario.Departamento = deptDal.ObtenerDepartamentoPorId(usuario.DepartamentoId);
+                        usuario.Departamento = deptDal.ObtenerDepartamentoPorId(departamentoId);
                     }
+
+                    usuario.Direccion = reader["direccion"] != DBNull.Value ? reader["direccion"].ToString() : null;
+                    usuario.EmailContacto = reader["email_contacto"] != DBNull.Value ? reader["email_contacto"].ToString() : null;
+
+                    usuario.FechaRegistro = reader["fecha_registro"] != DBNull.Value
+                        ? DateTime.Parse(reader["fecha_registro"].ToString())
+                        : (DateTime?)null;
+
+                    usuario.FechaUltimaInteraccion = reader["fecha_ultima_interaccion"] != DBNull.Value
+                        ? DateTime.Parse(reader["fecha_ultima_interaccion"].ToString())
+                        : (DateTime?)null;
+
+                    usuario.PreferenciaContacto = reader["preferencia_contacto"] != DBNull.Value ? reader["preferencia_contacto"].ToString() : null;
+                    usuario.Telefono = reader["telefono"] != DBNull.Value ? reader["telefono"].ToString() : null;
+
+                    usuario.Estado = reader["estado"] != DBNull.Value && (bool)reader["estado"];
+                    usuario.Observaciones = reader["observaciones"] != DBNull.Value ? reader["observaciones"].ToString() : null;
+                    usuario.EsAprobador = reader["es_aprobador"] != DBNull.Value && (bool)reader["es_aprobador"];
                 }
             }
             return usuario;
         }
 
+
         // Para mapear permisos cuando ya se tiene la conexión abierta.
-        private List<Patente> GetPermisosInternal(Usuario user)
+        private List<Componente> GetPermisosInternal(Usuario user)
         {
             acceso.Abrir();
             List<SqlParameter> parametros = new List<SqlParameter>
@@ -314,7 +305,7 @@ namespace DAL
 
             using (var reader = acceso.EjecutarLectura("sp_ObtenerPermisosUsuario", parametros))
             {
-                List<Patente> permisos = new List<Patente>();
+                List<Componente> permisos = new List<Componente>();
                 while (reader.Read())
                 {
                     Patente permiso = new Patente
@@ -329,7 +320,6 @@ namespace DAL
             }
         }
 
-        #endregion
 
         public void GuardarPermisos(Usuario usuario)
         {
@@ -433,8 +423,7 @@ namespace DAL
                 acceso.CrearParametro("@usuario_id", usuarioId.ToString())
             };
                 using (var reader = acceso.EjecutarLectura(
-                    "sp_obtener_usuario_por_id", // Stored procedure que haga: SELECT * FROM usuarios WHERE usuario_id=@UsuarioID
-                    pUsuario))
+                    "sp_ObtenerUsuarioPorId", pUsuario))
                 {
                     if (!reader.Read())
                         throw new Exception($"Usuario {usuarioId} no encontrado.");
@@ -494,17 +483,34 @@ namespace DAL
                 };
 
                 DataTable resultado = acceso.Leer("sp_ObtenerUsuarioDeSesion", parametros);
-                int rolId = 3;
+                acceso.Cerrar();
+               var rolId = -1;
                 if (resultado.Rows.Count > 0)
                 {
                     rolId = Convert.ToInt32(resultado.Rows[0]["ultimo_rol_id"]);
+                }
+                else 
+                {
+                    var lista_de_roles = ObtenerRolesPorUsuario(usuarioId);
+                    if (lista_de_roles.Count > 0)
+                    {
+                        rolId = lista_de_roles[0].Id;
+                    }
+                
+
+
                 }
                 return rolId;
             }
             finally
             {
-                acceso.Cerrar();
+                if (acceso.ObtenerConexion() != null)
+                    {
+                    acceso.Cerrar();
+                }
+            
             }
+            
         }
 
         public IIdioma ObtenerIdioma(Usuario usuario)
@@ -613,10 +619,10 @@ namespace DAL
             {
                 throw new Exception("Error al obtener roles por usuario: " + ex.Message, ex);
             }
-            finally
-            {
-                acceso.Cerrar();
-            }
+            //finally
+            //{
+            //    acceso.Cerrar();
+            //}
         }
 
         private List<Rol> MapearRoles(SqlDataReader reader)

@@ -27,7 +27,7 @@ namespace DAL
 
             try
             {
-                acceso.Abrir();
+                acceso.Abrir(); 
                 acceso.Escribir("SP_InsertarEtiqueta", parameters);
             }
             finally

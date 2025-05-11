@@ -1,24 +1,35 @@
-﻿using BE;
-using BE.PN;
+﻿using BE.PN;
 using DAL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL
 {
     public class GrupoTecnicoBLL
     {
+        private readonly GruposTecnicosDAL _grupoTecnicoDAL = new GruposTecnicosDAL();
 
         public List<GrupoTecnico> ListarGruposTecnicos()
         {
-            // Instancia de la capa DAL
-            GruposTecnicosDAL GrupoTecnicoDal = new GruposTecnicosDAL();
+            return _grupoTecnicoDAL.ListarGruposTecnicos();
+        }
 
-            // Llamamos al método DAL y devolvemos la lista
-            return GrupoTecnicoDal.ListarGruposTecnicos();
+        public GrupoTecnico ObtenerGrupoPorId(int id)
+        {
+            return _grupoTecnicoDAL.ObtenerPorId(id);
+        }
+
+        public void AgregarGrupoTecnico(GrupoTecnico grupo)
+        {
+            if (string.IsNullOrWhiteSpace(grupo.Nombre))
+                throw new ArgumentException("El nombre del grupo técnico no puede estar vacío.");
+
+            _grupoTecnicoDAL.AgregarGrupoTecnico(grupo);
+        }
+
+        public void EliminarGrupoTecnico(int id)
+        {
+            _grupoTecnicoDAL.EliminarGrupoTecnico(id);
         }
     }
 }

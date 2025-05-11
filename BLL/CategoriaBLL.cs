@@ -14,39 +14,42 @@ namespace BLL
             categoriaDAL = new CategoriaDAL();
         }
 
-        // Agregar una nueva categoría con campos asociados
         public void AgregarCategoria(Categoria categoria)
         {
-            if (categoria == null )
-                throw new ArgumentException("La categoría o departamento no pueden ser nulos.");
+            if (categoria == null)
+                throw new ArgumentException("La categoría no puede ser nula.");
+
             if (string.IsNullOrEmpty(categoria.Nombre))
                 throw new ArgumentException("El nombre de la categoría no puede estar vacío.");
+
+            if (categoria.AprobadorRequerido && categoria.ClienteAprobador == null)
+                throw new ArgumentException("Debe seleccionarse un cliente aprobador si se requiere aprobación.");
+
+                        
+            categoria.Eliminado = false;
 
             categoriaDAL.AgregarCategoria(categoria);
         }
 
-        // Actualizar una categoría existente
         public void ActualizarCategoria(Categoria categoria)
         {
             if (categoria == null)
                 throw new ArgumentNullException("La categoría no puede ser nula.");
+
             if (string.IsNullOrEmpty(categoria.Nombre))
                 throw new ArgumentException("El nombre de la categoría no puede estar vacío.");
+
+            if (categoria.AprobadorRequerido && categoria.ClienteAprobador == null)
+                throw new ArgumentException("Debe seleccionarse un cliente aprobador si se requiere aprobación.");
 
             categoriaDAL.ActualizarCategoria(categoria);
         }
 
-        public Prioridad Obtener_prioridad(Categoria categoria)
-
+        public List<Categoria> ListarCategorias()
         {
-            
-           Prioridad prioridad = categoriaDAL.ObtenerPrioridad(categoria);
-            return prioridad;
+            return categoriaDAL.ListarCategorias();
         }
 
-      
-
-        // Eliminar una categoría y sus asociaciones con campos
         public void EliminarCategoria(int categoriaId)
         {
             if (categoriaId <= 0)
@@ -55,21 +58,14 @@ namespace BLL
             categoriaDAL.EliminarCategoria(categoriaId);
         }
 
-        // Obtener una categoría por su ID
-        public Categoria ObtenerCategoriaPorId(int categoriaId)
+        // cambiar por la DAL de prioridad
+        public BE.PN.Prioridad Obtener_prioridad(Categoria categoria)
         {
-            if (categoriaId <= 0)
-                throw new ArgumentException("El ID de la categoría no es válido.");
-
-            return categoriaDAL.ObtenerCategoriaPorId(categoriaId);
+            return categoriaDAL.ObtenerPrioridad(categoria);
         }
 
-        // Listar todas las categorías
-        public List<Categoria> ListarCategorias()
-        {
-            return categoriaDAL.ListarCategorias();
-        }
+   
 
-
+   
     }
 }

@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="Administrador.cs" />
     <Compile Include="Cliente.cs" />
-    <Compile Include="ClienteTecnico.cs" />
-    <Compile Include="Composite\EnumPermisos.cs" />
     <Compile Include="PN\BandejaDeTicket.cs" />
     <Compile Include="PN\Comentario.cs" />
     <Compile Include="Departamento.cs" />
@@ -59,12 +57,11 @@
     <Compile Include="PN\EstadoTicket.cs" />
     <Compile Include="PN\GrupoTecnico.cs" />
     <Compile Include="PN\Prioridad.cs" />
-    <Compile Include="Prioridad.cs" />
+    <Compile Include="PN\TipoCategoria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="Tecnico.cs" />
     <Compile Include="PN\Ticket.cs" />
-    <Compile Include="PN\TipoCategoria.cs" />
     <Compile Include="TipoCliente.cs" />
     <Compile Include="Traduccion.cs" />
     <Compile Include="Usuario.cs" />

@@ -56,7 +56,6 @@
     <Compile Include="SesionBLL.cs" />
     <Compile Include="TecnicoBLL.cs" />
     <Compile Include="TicketBLL.cs" />
-    <Compile Include="TiposCategoriaBLL.cs" />
     <Compile Include="TraduccionBLL.cs" />
     <Compile Include="UsuarioBLL.cs" />
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace BE
 
         public int PrioridadId { get; set; } // prioridad_id
         
-        public Prioridad Prioridad { get; set; } // Relación con la clase Prioridad
+        public BE.PN.Prioridad Prioridad { get; set; } // Relación con la clase Prioridad
 
         // Campos adicionales para relacionar aprobadores y comentarios
         public Cliente UsuarioAprobador { get; set; } // Usuario aprobador si es necesario
@@ -39,12 +39,6 @@ namespace BE
             TicketId = Guid.NewGuid(); // Genera un GUID único para el ticket
         }
 
-        // Propiedad adicional `Tipo`
-        private string tipo;
-        public string Tipo
-        {
-            get { return tipo; }
-            set { tipo = value; }
-        }
+
     }
 }

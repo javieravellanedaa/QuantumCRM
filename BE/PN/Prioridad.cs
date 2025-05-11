@@ -8,8 +8,29 @@ namespace BE.PN
 {
     public class Prioridad
     {
-        public int Prioridad_id { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        private string nombre;
+
+        public string Nombre
+        {
+            get { return nombre; }
+            set { nombre = value; }
+        }
+
+        private string descripcion;
+
+        public string Descripcion
+        {
+            get { return descripcion; }
+            set { descripcion = value; }
+        }
+
     }
 }

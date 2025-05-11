@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BE.PN
 {
-    internal class BandejaDeTicket
+    public class BandejaDeTicket
     {
+
     }
 }

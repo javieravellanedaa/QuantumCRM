@@ -16,6 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using UI.Design;
 using UI.Admins.UsuariosPermisos;
 using System.Management.Instrumentation;
+using UI.Admins.Categoria;
 
 namespace UI
 {
@@ -719,6 +720,24 @@ namespace UI
 
             CargarFormularioEnPanel(frm);
             
+        }
+
+        private void agregarCategoriaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Asumo que Permisos ahora es una lista o colección de objetos que tienen un ID
+            if (SingletonSesion.Instancia.Sesion.Usuario.Permisos.Any(p => p.Id == 81))
+            {
+                // Si el usuario tiene el permiso con ID 81, abrir el formulario
+                var frm = new frmAltaCategoria(_eventManagerService);
+                CargarFormularioEnPanel(frm);
+            }
+            else
+            {
+                // Si no tiene el permiso, mostrar un mensaje
+                MessageBox.Show("No tiene permisos para agregar categorías.");
+            }
+
+
         }
     }
 

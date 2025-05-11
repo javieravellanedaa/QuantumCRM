@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Xml.Linq;
@@ -10,7 +10,7 @@ namespace DAL
     {
         private Acceso _acceso = new Acceso();
 
-        // Método para guardar un ticket
+        
         public void GuardarTicket(Ticket ticket)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
@@ -22,7 +22,7 @@ namespace DAL
                 _acceso.CrearParametro("@EstadoId", ticket.EstadoId),
                 _acceso.CrearParametro("@FechaCreacion", ticket.FechaCreacion),
                 _acceso.CrearParametro("@FechaUltimaModif", ticket.FechaUltimaModif),
-                _acceso.CrearParametro("@PrioridadId", ticket.PrioridadId),  // Se asume que PrioridadId es el identificador
+                _acceso.CrearParametro("@PrioridadId", ticket.PrioridadId),
                 _acceso.CrearParametro("@TecnicoId", ticket.TecnicoId),
                 _acceso.CrearParametro("@UsuarioCreadorId", ticket.UsuarioCreadorId.ToString())
             };
@@ -31,7 +31,7 @@ namespace DAL
             {
                 _acceso.Abrir();
                 _acceso.ComenzarTransaccion();
-                _acceso.Escribir("sp_GuardarTicket", parametros);  // Se asume que el procedimiento almacenado es sp_GuardarTicket
+                _acceso.Escribir("sp_GuardarTicket", parametros); 
                 _acceso.ConfirmarTransaccion();
             }
             catch (Exception)

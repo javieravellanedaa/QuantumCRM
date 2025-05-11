@@ -75,7 +75,7 @@ namespace UI
                     {
                         // Crear el mensaje con la descripción adicional
                         string mensaje = "Esta categoría requiere aprobación del usuario:\n\n" +
-                                         categoria.NombreUsuarioAprobador + "\n\n" +
+                                         categoria.ClienteAprobador.Nombre + "\n\n" +
                                          "Descripción:\n" + categoria.Descripcion;
 
                         // Mostrar el MessageBox con los botones Aceptar y Cancelar
@@ -128,7 +128,7 @@ namespace UI
             Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
 
             // Se obtiene la prioridad asociada a la categoría (única llamada para evitar redundancia)
-            Prioridad prioridadObtenida = categoriaBLL.Obtener_prioridad(categoria);
+            BE.PN.Prioridad prioridadObtenida = categoriaBLL.Obtener_prioridad(categoria);
             MessageBox.Show(SingletonSesion.Instancia.Sesion.Usuario.GetType().ToString());
 
             // Se construye el objeto ticket con la información ingresada y los datos de la sesión
@@ -145,7 +145,7 @@ namespace UI
                 // Si la categoría requiere aprobación, el ticket se crea con estado 6; de lo contrario, con estado 2
                 EstadoId = categoria.AprobadorRequerido ? 6 : 2,
                 Prioridad = prioridadObtenida,
-                PrioridadId = prioridadObtenida.Prioridad_id,
+                PrioridadId = prioridadObtenida.Id,
                 TecnicoId = 0,
                 Comentarios = new List<Comentario>()
             };
@@ -157,7 +157,7 @@ namespace UI
             // Se muestra un mensaje y se notifica el cierre según si se requiere aprobación
             if (categoria.AprobadorRequerido)
             {
-                MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.NombreUsuarioAprobador);
+                MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.ClienteAprobador.Nombre);
             }
             else
             {

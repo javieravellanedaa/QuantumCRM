@@ -117,7 +117,7 @@ namespace UI
             try
             {
                 var cliente = (Cliente)SingletonSesion.Instancia.Sesion.Usuario;
-                ticketsDepartamento = ticketBLL.ListarTicketsDelDepartamento(cliente.DepartamentoId);
+                ticketsDepartamento = ticketBLL.ListarTicketsDelDepartamento(cliente.Departamento.Id);
 
                 // Deshabilitar la generación automática de columnas
                 dgvDeptTickets.AutoGenerateColumns = false;

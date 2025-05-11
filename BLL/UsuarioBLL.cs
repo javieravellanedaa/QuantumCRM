@@ -29,7 +29,7 @@ namespace BLL
             // Autenticar al usuario y obtener su ID
             Usuario usuario = ((DAL.UsuarioDAL)_crud).Login(email, password);
 
-            if (usuario.Id == Guid.Empty) throw new LoginException(LoginResult.InvalidUsername);
+            if (usuario == null) throw new LoginException(LoginResult.InvalidUsername);
 
             if (usuario.Roles.Count == 0)
             {
@@ -63,16 +63,9 @@ namespace BLL
 
             SingletonSesion.Instancia.Sesion.Login(usuario);
 
-            //return LoginResult.ValidUser;
-            // Cambiar el rol del usuario
-            SingletonSesion.Instancia.Sesion.Login(usuario);
 
         }
 
-        public List<Usuario> GetAll()
-        {
-            return _crud.GetAll();
-        }
 
         public void GuardarPermisos(Usuario u)
         {

@@ -297,6 +297,16 @@ namespace UI
                 Familia familia = (Familia)cboFamilias2.SelectedItem;
                 if (familia != null)
                 {
+                    string nombre = familia.Nombre.Trim().ToLower();
+
+                    // Bloqueamos la eliminación de los roles principales del sistema
+                    if (nombre == "administrador" || nombre == "cliente" || nombre == "tecnico")
+                    {
+                        MessageBox.Show("No se puede eliminar una familia de permisos del sistema base (Administrador, Cliente o Técnico).",
+                            "Operación no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     if (repo.Existe(seleccion, familia.Id))
                     {
                         seleccion.EliminarHijo(seleccion.Hijos.Find(item => familia.Id == item.Id));
@@ -305,6 +315,7 @@ namespace UI
                 }
             }
         }
+ 
 
         private void cboFamilias_SelectedIndexChanged(object sender, EventArgs e)
         {

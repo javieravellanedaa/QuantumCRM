@@ -9,11 +9,7 @@ namespace DAL
     {
         private Acceso _acceso = new Acceso();
 
-        /// <summary>
-        /// Obtiene la prioridad asociada a una categoría mediante el SP sp_obtenerPrioridad.
-        /// </summary>
-        /// <param name="categoriaId">El identificador de la categoría.</param>
-        /// <returns>Un objeto Prioridad con los datos obtenidos o null si no se encuentra.</returns>
+
         public Prioridad ObtenerPrioridad(int categoriaId)
         {
             Prioridad prioridad = null;
@@ -31,7 +27,7 @@ namespace DAL
                     {
                         prioridad = new Prioridad
                         {
-                            Prioridad_id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
                             Nombre = reader.GetString(reader.GetOrdinal("nombre")),
                             Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion"))
                         };
@@ -45,10 +41,7 @@ namespace DAL
             return prioridad;
         }
 
-        /// <summary>
-        /// Obtiene la lista completa de prioridades utilizando el SP sp_GetAllPrioridades.
-        /// </summary>
-        /// <returns>Lista de objetos Prioridad.</returns>
+
         public List<Prioridad> GetAll()
         {
             List<Prioridad> lista = new List<Prioridad>();
@@ -56,13 +49,13 @@ namespace DAL
             {
                 _acceso.Abrir();
                 // Se asume que tienes un SP llamado sp_GetAllPrioridades que retorna todos los registros de la tabla prioridades
-                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_GetAllPrioridades", null))
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarPrioridades", null))
                 {
                     while (reader.Read())
                     {
                         Prioridad prioridad = new Prioridad
                         {
-                            Prioridad_id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
                             Nombre = reader.GetString(reader.GetOrdinal("nombre")),
                             Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion"))
                         };

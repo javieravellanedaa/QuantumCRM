@@ -81,11 +81,6 @@ namespace BLL
             return _permisos.GetAllPatentes();
         }
 
-        public IList<Componente> GetAll(string familia)
-        {
-            return _permisos.GetAll(familia);
-
-        }
 
         public List<Familia> GetAllFamilias()
         {
@@ -93,15 +88,8 @@ namespace BLL
         }
 
 
-
-        public void FillUserComponents(Usuario u)
-        {
-            _permisos.FillUserComponents(u);
-            
-        }
-
         public void FillFamilyComponents(Familia familia)
-        {
+        { 
             _permisos.FillFamilyComponents(familia);
         }
 

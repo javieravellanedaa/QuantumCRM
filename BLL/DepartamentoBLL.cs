@@ -1,67 +1,46 @@
 ﻿using BE;
 using DAL;
-using System;
 using System.Collections.Generic;
+using System;
 
-namespace BLL
+public class DepartamentoBLL
 {
-    public class DepartamentoBLL
+    private DepartamentosDAL departamentosDAL = new DepartamentosDAL();
+
+    public List<Departamento> ListarDepartamentos() =>
+        departamentosDAL.ListarDepartamentos();
+
+    public int AgregarDepartamento(Departamento departamento)
     {
-        // Instancia de la capa DAL
-        private DepartamentosDAL departamentosDAL = new DepartamentosDAL();
+        if (string.IsNullOrWhiteSpace(departamento.Nombre))
+            throw new ArgumentException("El nombre es obligatorio.");
 
-        // Método para listar todos los departamentos
-        public List<Departamento> ListarDepartamentos()
-        {
-            return departamentosDAL.ListarDepartamentos();
-        }
+        if (string.IsNullOrWhiteSpace(departamento.CodigoDepartamento))
+            throw new ArgumentException("El código es obligatorio.");
 
-        // Método para agregar un nuevo departamento
-        public int AgregarDepartamento(Departamento departamento)
-        {
-            return departamentosDAL.AgregarDepartamento(departamento);
-        }
-
-        // Método para actualizar un departamento existente
-        public void ActualizarDepartamento(Departamento departamento)
-        {
-            departamentosDAL.ActualizarDepartamento(departamento);
-        }
-
-        // Método para eliminar un departamento
-        public void EliminarDepartamento(int departamentoId)
-        {
-            departamentosDAL.EliminarDepartamento(departamentoId);
-        }
-
-        // Método para obtener un departamento por su Id
-        public Departamento ObtenerDepartamentoPorId(int departamentoId)
-        {
-            return departamentosDAL.ObtenerDepartamentoPorId(departamentoId);
-        }
-
-        // Método para listar departamentos por estado
-        public List<Departamento> ListarDepartamentosPorEstado(bool estado)
-        {
-            return departamentosDAL.ListarDepartamentosPorEstado(estado);
-        }
-
-        // Método para buscar departamentos por nombre
-        public List<Departamento> BuscarDepartamentoPorNombre(string nombre)
-        {
-            return departamentosDAL.BuscarDepartamentoPorNombre(nombre);
-        }
-
-        // Método para listar departamentos prioritarios
-        public List<Departamento> ListarDepartamentosPrioritarios()
-        {
-            return departamentosDAL.ListarDepartamentosPrioritarios();
-        }
-
-        // Método para listar departamentos por ubicación
-        public List<Departamento> ListarDepartamentosPorUbicacion(int ubicacionId)
-        {
-            return departamentosDAL.ListarDepartamentosPorUbicacion(ubicacionId);
-        }
+        return departamentosDAL.AgregarDepartamento(departamento);
     }
+
+    public void ActualizarDepartamento(Departamento departamento)
+    {
+        if (departamento.Id <= 0)
+            throw new ArgumentException("El ID no es válido.");
+
+        departamentosDAL.ActualizarDepartamento(departamento);
+    }
+
+    public void EliminarDepartamento(int id) =>
+        departamentosDAL.EliminarDepartamento(id);
+
+    public Departamento ObtenerDepartamentoPorId(int id) =>
+        departamentosDAL.ObtenerDepartamentoPorId(id);
+
+    public List<Departamento> ListarDepartamentosPorEstado(bool estado) =>
+        departamentosDAL.ListarDepartamentosPorEstado(estado);
+
+    public List<Departamento> BuscarDepartamentoPorNombre(string nombre) =>
+        departamentosDAL.BuscarDepartamentoPorNombre(nombre);
+
+    public Departamento ObtenerPorCodigo(string codigo) =>
+        departamentosDAL.ObtenerDepartamentoPorCodigo(codigo); 
 }

@@ -18,7 +18,7 @@ namespace BE
         private List<Componente> _permisos;
         public List<Componente> Permisos
         {
-            get { return _permisos; }
+            get { return _permisos; } set { _permisos = value; }
         }
 
         // Atributos originales

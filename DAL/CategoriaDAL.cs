@@ -3,39 +3,90 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace DAL
 {
     public class CategoriaDAL
     {
-        private Acceso _acceso = new Acceso();
+        private readonly Acceso _acceso = new Acceso();
 
-        // Agregar una nueva categoría con campos asociados
+        #region MapearCategoriaDesdeReader <<Mapeo: SqlDataReader → Categoria>>
+        public Categoria MapearCategoriaDesdeReader(SqlDataReader reader)
+        {
+            var categoria = new Categoria
+            {
+                CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
+                Nombre = reader.GetString(reader.GetOrdinal("categoria_nombre")),
+                Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
+
+                // Reemplazamos Estado por Eliminado
+                Eliminado = reader.IsDBNull(reader.GetOrdinal("eliminado")) ? false : reader.GetBoolean(reader.GetOrdinal("eliminado")),
+
+                FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+                CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("creador_id")),
+                AprobadorRequerido = reader.IsDBNull(reader.GetOrdinal("aprobador_requerido")) ? false : reader.GetBoolean(reader.GetOrdinal("aprobador_requerido")),
+
+                Departamento = new Departamento
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("departamento_id")),
+                    Nombre = reader.GetString(reader.GetOrdinal("departamento_nombre"))
+                },
+
+                GrupoTecnico = new BE.PN.GrupoTecnico
+                {
+                    GrupoId = reader.GetInt32(reader.GetOrdinal("group_id")), // corregido si corresponde
+                    Nombre = reader.IsDBNull(reader.GetOrdinal("grupo_nombre")) ? null : reader.GetString(reader.GetOrdinal("grupo_nombre"))
+                },
+
+                ClienteAprobador = reader.IsDBNull(reader.GetOrdinal("cliente_aprobador_id"))
+                    ? null
+                    : new Cliente
+                    {
+                        ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_aprobador_id")),
+                        Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                        Nombre = reader.GetString(reader.GetOrdinal("usuario_nombre")),
+                        Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                        Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString(reader.GetOrdinal("email"))
+                    }
+            };
+
+            return categoria;
+        }
+
+
+        #endregion 
         public void AgregarCategoria(Categoria categoria)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                _acceso.CrearParametro("@Nombre", categoria.Nombre),
-                _acceso.CrearParametro("@GroupId", categoria.GroupId),
-                _acceso.CrearParametro("@TipoId", categoria.tipoCategoria.Id),
-                _acceso.CrearParametro("@EstadoCategoriaId", categoria.Estado.EstadoCategoriaId),
-                _acceso.CrearParametro("@FechaCreacion", categoria.FechaCreacion),
-                _acceso.CrearParametro("@CreadorId", categoria.CreadorId.ToString()),
-                _acceso.CrearParametro("@Descripcion", categoria.Descripcion),
-                _acceso.CrearParametro("@AprobadorRequerido", categoria.AprobadorRequerido),
-                _acceso.CrearParametro("@UsuarioAprobador", categoria.UsuarioAprobador.Id.ToString()),
-                _acceso.CrearParametro("@DepartamentoId", categoria.Departamento.Id)
-            };
+            var parametros = new List<SqlParameter>
+                {
+                    _acceso.CrearParametro("@Nombre", categoria.Nombre),
+                    _acceso.CrearParametro("@GroupId", categoria.GrupoTecnico.GrupoId.ToString()),
+                    _acceso.CrearParametro("@TipoId", ((int)categoria.tipoCategoria).ToString()),
+                    _acceso.CrearParametro("@Eliminado", categoria.Eliminado ? "0" : "1"),
+                    _acceso.CrearParametro("@FechaCreacion", categoria.FechaCreacion.ToString("yyyy-MM-dd HH:mm:ss")),
+                    _acceso.CrearParametro("@CreadorId", categoria.CreadorId.ToString()),
+                    _acceso.CrearParametro("@Descripcion", categoria.Descripcion ?? string.Empty),
+                    _acceso.CrearParametro("@AprobadorRequerido", categoria.AprobadorRequerido ? "1" : "0"),
+                                            _acceso.CrearParametro("@ClienteAprobador",
+                                                categoria.AprobadorRequerido && categoria.ClienteAprobador != null
+                                                    ? categoria.ClienteAprobador.ClienteId.ToString()
+                                                    : null),
+
+                    _acceso.CrearParametro("@DepartamentoId", categoria.Departamento.Id.ToString()),
+                    _acceso.CrearParametro("@PrioridadId", categoria.Prioridad.Id.ToString())
+                };
+        
+
+
 
             try
             {
                 _acceso.Abrir();
-                _acceso.ComenzarTransaccion();
+              
                 categoria.CategoriaId = Convert.ToInt32(_acceso.EscribirEscalar("sp_AgregarCategoria", parametros));
                 _acceso.ConfirmarTransaccion();
             }
-            catch (Exception)
+            catch
             {
                 _acceso.CancelarTransaccion();
                 throw;
@@ -46,22 +97,21 @@ namespace DAL
             }
         }
 
-        // Actualizar una categoría existente
         public void ActualizarCategoria(Categoria categoria)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>
+            var parametros = new List<SqlParameter>
             {
                 _acceso.CrearParametro("@Id", categoria.CategoriaId),
                 _acceso.CrearParametro("@Nombre", categoria.Nombre),
-                _acceso.CrearParametro("@GroupId", categoria.GroupId),
-                _acceso.CrearParametro("@TipoId", categoria.tipoCategoria.Id),
-                _acceso.CrearParametro("@EstadoCategoriaId", categoria.Estado.EstadoCategoriaId),
+                _acceso.CrearParametro("@GroupId", categoria.GrupoTecnico.GrupoId),
+                _acceso.CrearParametro("@TipoId", categoria.tipoCategoria.ToString()),
                 _acceso.CrearParametro("@FechaCreacion", categoria.FechaCreacion),
                 _acceso.CrearParametro("@CreadorId", categoria.CreadorId.ToString()),
                 _acceso.CrearParametro("@Descripcion", categoria.Descripcion),
                 _acceso.CrearParametro("@AprobadorRequerido", categoria.AprobadorRequerido),
-                _acceso.CrearParametro("@UsuarioAprobador", categoria.UsuarioAprobador.Id.ToString()),
-                _acceso.CrearParametro("@DepartamentoId", categoria.Departamento.Id)
+                _acceso.CrearParametro("@ClienteAprobadorId", categoria.ClienteAprobador?.ClienteId.ToString()),
+                _acceso.CrearParametro("@DepartamentoId", categoria.Departamento.Id),
+                _acceso.CrearParametro("@prioridadId", categoria.Prioridad.Id)
             };
 
             try
@@ -75,12 +125,36 @@ namespace DAL
             }
         }
 
-        // Eliminar una categoría
+        public List<Categoria> ListarCategorias()
+        {
+            var categorias = new List<Categoria>();
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarCategorias"))
+                {
+                    while (reader.Read())
+                    {
+                        Categoria categoria = MapearCategoriaDesdeReader(reader);
+
+                        categorias.Add(categoria);
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+
+            return categorias;
+        }
+
         public void EliminarCategoria(int categoriaId)
         {
-            List<SqlParameter> parametros = new List<SqlParameter>
+            var parametros = new List<SqlParameter>
             {
-                _acceso.CrearParametro("@Id", categoriaId)
+                _acceso.CrearParametro("@Id", categoriaId.ToString())
             };
 
             try
@@ -94,15 +168,14 @@ namespace DAL
             }
         }
 
-        public Prioridad ObtenerPrioridad(Categoria categoria)
+        public BE.PN.Prioridad ObtenerPrioridad(Categoria categoria)
         {
-            Prioridad prioridad = null;
+            BE.PN.Prioridad prioridad = null;
 
-            // Crear el parámetro con el Id de la categoría
-            List<SqlParameter> parametros = new List<SqlParameter>
-    {
-        _acceso.CrearParametro("@CategoriaId", categoria.CategoriaId)
-    };
+            var parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@CategoriaId", categoria.CategoriaId.ToString())
+            };
 
             try
             {
@@ -111,10 +184,9 @@ namespace DAL
                 {
                     if (reader.Read())
                     {
-                        // Crear y asignar los valores de la prioridad
-                        prioridad = new Prioridad
+                        prioridad = new BE.PN.Prioridad
                         {
-                            Prioridad_id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
                             Nombre = reader.GetString(reader.GetOrdinal("nombre")),
                             Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion"))
                         };
@@ -129,103 +201,6 @@ namespace DAL
             return prioridad;
         }
 
-
-
-
-        // Obtener una categoría por su Id
-        public Categoria ObtenerCategoriaPorId(int categoriaId)
-        {
-            Categoria categoria = null;
-            List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                _acceso.CrearParametro("@Id", categoriaId)
-            };
-
-            try
-            {
-                _acceso.Abrir();
-                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerCategoriaPorId", parametros))
-                {
-                    if (reader.Read())
-                    {
-                        categoria = new Categoria
-                        {
-                            CategoriaId = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
-                            Estado = new EstadosCategoria
-                            {
-                                Nombre = reader.GetString(reader.GetOrdinal("EstadoNombre"))
-                            }
-                        };
-                    }
-                }
-            }
-            finally
-            {
-                _acceso.Cerrar();
-            }
-
-            return categoria;
-        }
-
-        // Listar todas las categorías con sus estados
-        public List<Categoria> ListarCategorias()
-        {
-            List<Categoria> categorias = new List<Categoria>();
-
-            try
-            {
-                _acceso.Abrir();
-                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarCategorias"))
-                {
-                    while (reader.Read())
-                    {
-                        var categoria = new Categoria
-                        {
-                            CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
-                            Nombre = reader.GetString(reader.GetOrdinal("categoria_nombre")),
-                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
-                            Estado = new EstadosCategoria
-                            {
-                                EstadoCategoriaId = reader.GetInt32(reader.GetOrdinal("estado_categoria_id"))
-                            },
-                            tipoCategoria = new TipoCategoria
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("tipo_id"))
-                            },
-                            Departamento = new Departamento
-                            {
-                                Id = reader.IsDBNull(reader.GetOrdinal("departamento_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("departamento_id")),
-                                Nombre = reader.IsDBNull(reader.GetOrdinal("departamento_nombre")) ? null : reader.GetString(reader.GetOrdinal("departamento_nombre"))
-                            },
-                            GroupId = reader.IsDBNull(reader.GetOrdinal("group_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("group_id")),
-                            FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
-                            CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("creador_id")),
-                            AprobadorRequerido = reader.IsDBNull(reader.GetOrdinal("aprobador_requerido")) ? false : reader.GetBoolean(reader.GetOrdinal("aprobador_requerido")),
-                            UsuarioAprobador = new Usuario
-                            {
-                                Id = reader.IsDBNull(reader.GetOrdinal("usuario_aprobador")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("usuario_aprobador")),
-                                Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString(reader.GetOrdinal("email")),
-                                Password = reader.IsDBNull(reader.GetOrdinal("password")) ? null : reader.GetString(reader.GetOrdinal("password")),
-                                Nombre = reader.IsDBNull(reader.GetOrdinal("usuario_nombre")) ? null : reader.GetString(reader.GetOrdinal("usuario_nombre")),
-                                Apellido = reader.IsDBNull(reader.GetOrdinal("apellido")) ? null : reader.GetString(reader.GetOrdinal("apellido")),
-                                NombreUsuario = reader.IsDBNull(reader.GetOrdinal("nombre_usuario")) ? null : reader.GetString(reader.GetOrdinal("nombre_usuario")),
-                                Legajo = reader.IsDBNull(reader.GetOrdinal("legajo")) ? 0 : reader.GetInt32(reader.GetOrdinal("legajo")),
-                                FechaAlta = reader.IsDBNull(reader.GetOrdinal("fecha_alta")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
-                                UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion"))
-                            }
-                        };
-
-                        categorias.Add(categoria);
-                    }
-                }
-            }
-            finally
-            {
-                _acceso.Cerrar();
-            }
-
-            return categorias;
-        }
+        
     }
 }
