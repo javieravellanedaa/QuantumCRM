@@ -69,5 +69,46 @@ namespace DAL
             }
             return lista;
         }
+
+
+        public Prioridad ObtenerPrioridadPorId(int prioridadId)
+        {
+            if (prioridadId <= 0)
+                throw new ArgumentException("El ID de prioridad debe ser mayor que cero.", nameof(prioridadId));
+
+            Prioridad prioridad = null;
+            var parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@PrioridadId", prioridadId)
+            };
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerPrioridadPorId", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        prioridad = new Prioridad
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("descripcion"))
+                        };
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+
+            return prioridad;
+        }
     }
 }
+
+
+

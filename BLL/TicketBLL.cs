@@ -13,6 +13,7 @@ namespace BLL
         private readonly PrioridadBLL _prioridadBLL;
         private readonly TicketHistoricoDAL _historicoDAL;
         private readonly EstadoTicketBLL _estadoTicketBLL;
+        private readonly ClienteBLL _clienteBLL;
 
         public TicketBLL()
         {
@@ -21,6 +22,7 @@ namespace BLL
             _prioridadBLL = new PrioridadBLL();
             _historicoDAL = new TicketHistoricoDAL();
             _estadoTicketBLL = new EstadoTicketBLL();
+            _clienteBLL = new ClienteBLL();
         }
         public void CrearTicket(Ticket ticket)
         {
@@ -59,13 +61,14 @@ namespace BLL
                 var estadoAprob = _estadoTicketBLL.ObtenerPorNombre("En Aprobacion");
                 ticket.EstadoId = estadoAprob.EstadoId;
                 ticket.UsuarioAprobador = categoria.ClienteAprobador;
-                ticket.GrupoTecnicoId = null;
+                
             }
             else
             {
-                ticket.EstadoId = (int)EstadoTicket.Abierto;
+                var estadoAprob = _estadoTicketBLL.ObtenerPorNombre("Derivado");
+                ticket.EstadoId = estadoAprob.EstadoId;
                 ticket.UsuarioAprobadorId = null;
-                ticket.GrupoTecnicoId = categoria.GrupoTecnicoId;
+                
             }
 
             // 6. Persistir el ticket
@@ -76,7 +79,7 @@ namespace BLL
             {
                 TicketId = ticket.TicketId,
                 FechaCambio = ahora,
-                UsuarioCambioId = ticket.ClienteCreadorId,  // quien creó el ticket
+                UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(ticket.ClienteCreadorId),  // quien creó el ticket
                 TipoEvento = "Creación",
                 Comentario = "Ticket creado"
             });
@@ -86,11 +89,11 @@ namespace BLL
             {
                 TicketId = ticket.TicketId,
                 FechaCambio = ahora,
-                UsuarioCambioId = ticket.ClienteCreadorId,
+                UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(ticket.ClienteCreadorId),
                 TipoEvento = "Estado",
                 ValorAnteriorId = null,
                 ValorNuevoId = ticket.EstadoId,
-                Comentario = categoria.RequiereAprobacion
+                Comentario = categoria.AprobadorRequerido
                                       ? "Enviado a aprobación"
                                       : "Apertura automática"
             });
@@ -102,7 +105,7 @@ namespace BLL
                 {
                     TicketId = ticket.TicketId,
                     FechaCambio = ahora,
-                    UsuarioCambioId = ticket.ClienteCreadorId,
+                    UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(ticket.ClienteCreadorId),
                     TipoEvento = "Grupo",
                     ValorAnteriorId = null,
                     ValorNuevoId = ticket.GrupoTecnicoId,
@@ -114,14 +117,14 @@ namespace BLL
             if (ticket.PrioridadId != prioridadDefault.Id)
             {
                 // Para armar el mensaje, obtengo el nombre de la prioridad seleccionada
-                var prioridadOverride = new PrioridadDAL().ObtenerPrioridadPorId(ticket.PrioridadId);
+                var prioridadOverride = _prioridadBLL.ObtenerPrioridadPorId(ticket.PrioridadId);
                 var nombreOverride = prioridadOverride?.Nombre ?? $"Id {ticket.PrioridadId}";
 
                 _historicoDAL.Insertar(new TicketHistorico
                 {
                     TicketId = ticket.TicketId,
                     FechaCambio = ahora,
-                    UsuarioCambioId = ticket.ClienteCreadorId,
+                    UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(ticket.ClienteCreadorId),
                     TipoEvento = "Prioridad",
                     ValorAnteriorId = prioridadDefault.Id,
                     ValorNuevoId = ticket.PrioridadId,
@@ -160,13 +163,28 @@ namespace BLL
             // Obtener ticket existente
             var existente = ObtenerTicketPorId(ticket.TicketId);
 
-            // Validar y aplicar nueva prioridad si fue modificada
-            if (ticket.PrioridadId > 0 && ticket.PrioridadId != existente.PrioridadId)
+            // --- BLOQUE CORREGIDO: cambio de prioridad ---
+            // Sólo si el ticket NO está cerrado y la prioridad nueva difiere de la actual
+            if (!existente.FechaCierre.HasValue
+                && ticket.PrioridadId > 0
+                && ticket.PrioridadId != existente.PrioridadId)
             {
-                var nuevaPrioridad = _prioridadBLL.ObtenerPrioridadPorId(ticket.PrioridadId)
-                    ?? throw new InvalidOperationException($"Prioridad con Id {ticket.PrioridadId} no encontrada.");
-                existente.PrioridadId = nuevaPrioridad.Id;
+                var prioridadAnterior = existente.PrioridadId;
+                existente.PrioridadId = ticket.PrioridadId;
+
+                // Opcional: registrar en histórico
+                _historicoDAL.Insertar(new TicketHistorico
+                {
+                    TicketId = existente.TicketId,
+                    FechaCambio = DateTime.Now,
+                    UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(ticket.ClienteCreadorId),       // o quien realice el cambio
+                    TipoEvento = "Prioridad",
+                    ValorAnteriorId = prioridadAnterior,
+                    ValorNuevoId = ticket.PrioridadId,
+                    Comentario = $"Prioridad cambiada de Id {prioridadAnterior} a Id {ticket.PrioridadId}"
+                });
             }
+            // --- fin bloque prioridad ---
 
             // Actualizar otros campos permitidos
             existente.Asunto = ticket.Asunto;
@@ -177,14 +195,17 @@ namespace BLL
 
             // Si la categoría requiere aprobación, ajustar estado y aprobador
             var categoria = _categoriaBLL.ObtenerCategoriaPorId(existente.CategoriaId);
-            if (categoria.RequiereAprobacion)
+            if (categoria.AprobadorRequerido)
             {
-                existente.EstadoId = (int)EstadoTicket.EnAprobacion;
-                existente.UsuarioAprobadorId = categoria.UsuarioAprobadorId;
+                var estadoEnAprob = _estadoTicketBLL.ObtenerPorNombre("En aprobación");
+                existente.EstadoId = estadoEnAprob.EstadoId;
+                existente.UsuarioAprobadorId = categoria.ClienteAprobador.ClienteId;
             }
 
+            // Finalmente, persisto los cambios
             _ticketDAL.ActualizarTicket(existente);
         }
+
 
         public void EliminarTicket(Guid id)
         {

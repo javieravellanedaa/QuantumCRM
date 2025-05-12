@@ -27,6 +27,19 @@ namespace BLL
             }
         }
 
+   
+        public Guid ObtenerIdUsuarioPorClienteId(int clienteId)
+        {
+            try
+            {
+                return _clienteDAL.ObtenerIdUsuarioPorClienteId(clienteId);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepción
+                throw new Exception("Error al obtener el ID de usuario por cliente ID.", ex);
+            }
+        }
         public void AgregarCliente(Cliente cliente)
         {
             try

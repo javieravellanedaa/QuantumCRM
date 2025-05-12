@@ -56,7 +56,7 @@ namespace UI
 
             // Se obtiene la prioridad en base a la categoría del ticket
             PrioridadBLL prioridadBLL = new PrioridadBLL();
-            PN_Prioridad prioridadObtenida = prioridadBLL.ObtenerPrioridad(ticket.Categoria);
+            PN_Prioridad prioridadObtenida = prioridadBLL.ObtenerPrioridadCategoria(ticket.Categoria);
             cmbPrioridad.Text = prioridadObtenida != null ? prioridadObtenida.Nombre : "No asignada";
 
             // Se obtiene el estado del ticket mediante el BLL de estados y se muestra en el combo

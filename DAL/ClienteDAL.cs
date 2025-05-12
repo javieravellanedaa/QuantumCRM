@@ -19,7 +19,7 @@ namespace DAL
 
         }
 
-        /// Creamos una región para el maper del cliente, este sera llamado para reutilizarse en las demas funciones
+     
         #region MapearCliente  
         private Cliente MapearCliente(SqlDataReader reader)
         {
@@ -252,6 +252,35 @@ namespace DAL
             _acceso.Abrir();
             _acceso.Escribir("sp_ActualizarEsAprobador", parametros);
             _acceso.Cerrar();
+        }
+        public Guid ObtenerIdUsuarioPorClienteId(int clienteId)
+        {
+            // Prepara el parámetro
+            var parametros = new List<SqlParameter>
+    {
+        _acceso.CrearParametro("@ClienteID", clienteId)
+    };
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerUsuarioIdPorClienteId", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        // Lee el GUID de la columna usuario_id
+                        return reader.GetGuid(reader.GetOrdinal("usuario_id"));
+                    }
+                    else
+                    {
+                        throw new KeyNotFoundException($"No se encontró un usuario para el ClienteID {clienteId}.");
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
         }
 
 

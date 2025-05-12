@@ -20,7 +20,8 @@ namespace UI
         private NotificadorTicket _notificador; // Nueva instancia de observador de tickets
         private List<Categoria> categorias;
         private readonly EventManagerService _eventManagerService;
-       
+        PrioridadBLL _prioridadBLL = new PrioridadBLL();
+
         public frmCrearTicket(EventManagerService eventManagerService)
         {
             categorias = categoriaBLL.ListarCategorias();
@@ -118,59 +119,59 @@ namespace UI
         }
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text) || string.IsNullOrWhiteSpace(txtAsunto.Text))
-            {
-                MessageBox.Show("Debe completar todos los campos");
-                return;
-            }
+            //    if (string.IsNullOrWhiteSpace(txtDescripcion.Text) || string.IsNullOrWhiteSpace(txtAsunto.Text))
+            //    {
+            //        MessageBox.Show("Debe completar todos los campos");
+            //        return;
+            //    }
 
-            // Se obtiene la categoría seleccionada
-            Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
+            //    // Se obtiene la categoría seleccionada
+            //    Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
 
-            // Se obtiene la prioridad asociada a la categoría (única llamada para evitar redundancia)
-            BE.PN.Prioridad prioridadObtenida = PrioridadBLL.ObtenerPrioridadCategoria(categoria);
-            MessageBox.Show(SingletonSesion.Instancia.Sesion.Usuario.GetType().ToString());
+            //    // Se obtiene la prioridad asociada a la categoría (única llamada para evitar redundancia)
+            //    BE.PN.Prioridad prioridadObtenida = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
+            //    MessageBox.Show(SingletonSesion.Instancia.Sesion.Usuario.GetType().ToString());
 
-            // Se construye el objeto ticket con la información ingresada y los datos de la sesión
-            Ticket ticket = new Ticket
-            {
-                Asunto = txtAsunto.Text,
-                Descripcion = txtDescripcion.Text,
-                CategoriaId = categoria.CategoriaId,
-                Categoria = categoria,
-                UsuarioCreadorId = SingletonSesion.Instancia.Sesion.Usuario.Id,
-                UsuarioCreador = (Cliente)SingletonSesion.Instancia.Sesion.Usuario,
-                FechaCreacion = DateTime.Now,
-                FechaUltimaModif = DateTime.Now,
-                // Si la categoría requiere aprobación, el ticket se crea con estado 6; de lo contrario, con estado 2
-                EstadoId = categoria.AprobadorRequerido ? 6 : 2,
-                Prioridad = prioridadObtenida,
-                PrioridadId = prioridadObtenida.Id,
-                TecnicoId = 0,
-                Comentarios = new List<Comentario>()
-            };
+            //    // Se construye el objeto ticket con la información ingresada y los datos de la sesión
+            //    Ticket ticket = new Ticket
+            //    {
+            //        Asunto = txtAsunto.Text,
+            //        Descripcion = txtDescripcion.Text,
+            //        CategoriaId = categoria.CategoriaId,
+            //        Categoria = categoria,
+            //        UsuarioCreadorId = SingletonSesion.Instancia.Sesion.Usuario.Id,
+            //        UsuarioCreador = (Cliente)SingletonSesion.Instancia.Sesion.Usuario,
+            //        FechaCreacion = DateTime.Now,
+            //        FechaUltimaModif = DateTime.Now,
+            //        // Si la categoría requiere aprobación, el ticket se crea con estado 6; de lo contrario, con estado 2
+            //        EstadoId = categoria.AprobadorRequerido ? 6 : 2,
+            //        Prioridad = prioridadObtenida,
+            //        PrioridadId = prioridadObtenida.Id,
+            //        TecnicoId = 0,
+            //        Comentarios = new List<Comentario>()
+            //    };
 
-            // Se guarda el ticket a través de la capa BLL
-            TicketBLL ticketBLL = new TicketBLL();
-            ticketBLL.CrearTicket(ticket);
+            //    // Se guarda el ticket a través de la capa BLL
+            //    TicketBLL ticketBLL = new TicketBLL();
+            //    ticketBLL.CrearTicket(ticket);
 
-            // Se muestra un mensaje y se notifica el cierre según si se requiere aprobación
-            if (categoria.AprobadorRequerido)
-            {
-                MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.ClienteAprobador.Nombre);
-            }
-            else
-            {
-                MessageBox.Show("Ticket creado con éxito");
-            }
+            //    // Se muestra un mensaje y se notifica el cierre según si se requiere aprobación
+            //    if (categoria.AprobadorRequerido)
+            //    {
+            //        MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.ClienteAprobador.Nombre);
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Ticket creado con éxito");
+            //    }
 
-            // Se notifica el cierre del formulario y se cierra el mismo
-            _eventManagerService?.Notify("FormularioCerrado", this);
-            this.Close();
+            //    // Se notifica el cierre del formulario y se cierra el mismo
+            //    _eventManagerService?.Notify("FormularioCerrado", this);
+            //    this.Close();
 
-            // Se muestra la vista previa del ticket
-            frmPreviewTicket frmPreviewTicket = new frmPreviewTicket(ticket);
-            frmPreviewTicket.ShowDialog();
+            //    // Se muestra la vista previa del ticket
+            //    frmPreviewTicket frmPreviewTicket = new frmPreviewTicket(ticket);
+            //    frmPreviewTicket.ShowDialog();
         }
 
     }
