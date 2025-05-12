@@ -10,7 +10,7 @@ namespace DAL
         private Acceso _acceso = new Acceso();
 
 
-        public Prioridad ObtenerPrioridad(int categoriaId)
+        public Prioridad ObtenerPrioridadCategoria(int categoriaId)
         {
             Prioridad prioridad = null;
             List<SqlParameter> parametros = new List<SqlParameter>

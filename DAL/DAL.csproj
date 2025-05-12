@@ -45,8 +45,8 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="CategoriaDAL.cs" />
     <Compile Include="ClienteDAL.cs" />
+    <Compile Include="ComentarioDAL.cs" />
     <Compile Include="DepartamentoDAL.cs" />
-    <Compile Include="EstadosCategoriaDAL.cs" />
     <Compile Include="EstadoTicketDAL.cs" />
     <Compile Include="EtiquetaDAL.cs" />
     <Compile Include="GrupoTecnicoDAL.cs" />
@@ -57,6 +57,7 @@
     <Compile Include="SesionDAL.cs" />
     <Compile Include="TecnicoDAL.cs" />
     <Compile Include="TicketDAL.cs" />
+    <Compile Include="TicketHistoricoDAL.cs" />
     <Compile Include="TraduccionDAL.cs" />
     <Compile Include="UsuarioDAL.cs" />
   </ItemGroup>

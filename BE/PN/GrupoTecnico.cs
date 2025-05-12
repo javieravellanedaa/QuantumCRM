@@ -5,26 +5,38 @@ namespace BE.PN
 {
     public class GrupoTecnico
     {
-        public int GrupoId { get; set; }  // Clave primaria del grupo
-        public string Nombre { get; set; }  // Nombre del grupo
-        public string Descripcion { get; set; }  // Descripción del grupo
+        public int GrupoId { get; set; }              // PK
+        public string Nombre { get; set; }            // Nombre del grupo
+        public string Descripcion { get; set; }       // Descripción
 
-        public Tecnico TecnicoLider { get; set; }  // Objeto del técnico líder
+        // Líder del grupo
+        public int TecnicoLiderId { get; set; }
+        public Tecnico TecnicoLider { get; set; }
 
-        public List<Tecnico> Tecnicos { get; set; } = new List<Tecnico>(); // Técnicos miembros del grupo
+        // Miembros del grupo (m:n)
+        public List<Tecnico> Tecnicos { get; set; } = new List<Tecnico>();
 
-        public List<Ticket> Tickets { get; set; } = new List<Ticket>(); // Tickets asignados al grupo
+        // Categorías asociadas (1 grupo ↔ n categorías)
+        public List<Categoria> Categorias { get; set; } = new List<Categoria>();
+
+        // Soft delete y auditoría
+        public bool Eliminado { get; set; }
+        public DateTime FechaCreacion { get; set; }
 
         // Constructor vacío
-        public GrupoTecnico() { }
+        public GrupoTecnico()
+        {
+            FechaCreacion = DateTime.UtcNow;
+        }
 
         // Constructor extendido
-        public GrupoTecnico(int grupoId, string nombre, string descripcion, Tecnico tecnicoLider)
+        public GrupoTecnico(int grupoId, string nombre, string descripcion, int tecnicoLiderId)
         {
             GrupoId = grupoId;
             Nombre = nombre;
             Descripcion = descripcion;
-            TecnicoLider = tecnicoLider;
+            TecnicoLiderId = tecnicoLiderId;
+            FechaCreacion = DateTime.UtcNow;
         }
     }
 }

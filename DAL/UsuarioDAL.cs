@@ -44,7 +44,7 @@ namespace DAL
             }
         }
 
-  
+    
 
         public List<Usuario> ObtenerlistaDeUsuarios()
         {
@@ -294,7 +294,7 @@ namespace DAL
         }
 
 
-        // Para mapear permisos cuando ya se tiene la conexión abierta.
+    
         private List<Componente> GetPermisosInternal(Usuario user)
         {
             acceso.Abrir();

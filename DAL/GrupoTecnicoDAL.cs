@@ -94,6 +94,33 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+        public bool ExisteNombre(string nombre)
+        {
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@Nombre", nombre)
+    };
+
+            try
+            {
+                acceso.Abrir();
+                // Llamamos a un SP que devuelva COUNT(1)
+                using (var reader = acceso.EjecutarLectura("sp_ExisteNombreGrupoTecnico", parametros))
+                {
+                    if (reader.Read())
+                        return reader.GetInt32(0) > 0;
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar existencia de nombre de grupo técnico: " + ex.Message);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
 
         public void AgregarGrupoTecnico(GrupoTecnico grupo)
         {
@@ -155,5 +182,133 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public bool ExisteTecnicoEnGrupo(int grupoId, int tecnicoId)
+        {
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@GrupoId", grupoId.ToString()),
+        acceso.CrearParametro("@TecnicoId", tecnicoId.ToString())
+    };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ExisteTecnicoEnGrupo", parametros))
+                {
+                    if (reader.Read())
+                        return reader.GetInt32(0) > 0;
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar si el técnico pertenece al grupo: " + ex.Message);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public void MarcarComoEliminado(int grupoId)
+        {
+            var parametros = new List<SqlParameter>
+                {
+                    acceso.CrearParametro("@Id", grupoId.ToString())
+                };
+
+            try
+            {
+                acceso.Abrir();
+                acceso.Escribir("sp_MarcarComoEliminadoGrupoTecnico", parametros);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al marcar como eliminado el grupo técnico: " + ex.Message);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+        public void InsertarTecnicoEnGrupo(int grupoId, int tecnicoId)
+        {
+            var parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@GrupoId", grupoId.ToString()),
+                acceso.CrearParametro("@TecnicoId", tecnicoId.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                acceso.Escribir("sp_InsertarTecnicoEnGrupo", parametros);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al insertar técnico en el grupo: " + ex.Message);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+        public void EliminarTecnicoDeGrupo(int grupoId, int tecnicoId)
+        {
+            var parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@GrupoId", grupoId.ToString()),
+                acceso.CrearParametro("@TecnicoId", tecnicoId.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                acceso.Escribir("sp_EliminarTecnicoDeGrupo", parametros);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar técnico del grupo: " + ex.Message);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+        public List<Tecnico> ListarTecnicosPorGrupo(int grupoId)
+        {
+            var tecnicos = new List<Tecnico>();
+            var parametros = new List<SqlParameter>
+            {
+                acceso.CrearParametro("@GrupoId", grupoId.ToString())
+            };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ListarTecnicosPorGrupo", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        tecnicos.Add(new Tecnico
+                        {
+                            TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id"))
+
+                        });
+                    }
+                }
+                return tecnicos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar técnicos del grupo: " + ex.Message);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
     }
 }

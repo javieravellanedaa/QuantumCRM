@@ -16,12 +16,12 @@ namespace BLL
         }
 
      
-        public PN_Prioridad ObtenerPrioridad(Categoria categoria)
+        public PN_Prioridad ObtenerPrioridadCategoria(Categoria categoria)
         {
             if (categoria == null)
                 throw new ArgumentNullException(nameof(categoria));
 
-            return _prioridadDAL.ObtenerPrioridad(categoria.CategoriaId);
+            return _prioridadDAL.ObtenerPrioridadCategoria(categoria.CategoriaId);
         }
 
         public List<PN_Prioridad> GetAllPrioridades()

@@ -128,7 +128,7 @@ namespace UI
             Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
 
             // Se obtiene la prioridad asociada a la categoría (única llamada para evitar redundancia)
-            BE.PN.Prioridad prioridadObtenida = categoriaBLL.Obtener_prioridad(categoria);
+            BE.PN.Prioridad prioridadObtenida = PrioridadBLL.ObtenerPrioridadCategoria(categoria);
             MessageBox.Show(SingletonSesion.Instancia.Sesion.Usuario.GetType().ToString());
 
             // Se construye el objeto ticket con la información ingresada y los datos de la sesión

@@ -45,9 +45,9 @@
     <Compile Include="BandejaDeEntradaBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="ClienteBLL.cs" />
+    <Compile Include="ComentarioBLL.cs" />
     <Compile Include="DepartamentoBLL.cs" />
-    <Compile Include="EstadosCategoriaBLL.cs" />
-    <Compile Include="EstadosTicketBLL.cs" />
+    <Compile Include="EstadoTicketBLL.cs" />
     <Compile Include="GrupoTecnicoBLL.cs" />
     <Compile Include="IdiomaBLL.cs" />
     <Compile Include="PermisoBLL.cs" />
@@ -56,6 +56,7 @@
     <Compile Include="SesionBLL.cs" />
     <Compile Include="TecnicoBLL.cs" />
     <Compile Include="TicketBLL.cs" />
+    <Compile Include="TicketHistoricoBLL.cs" />
     <Compile Include="TraduccionBLL.cs" />
     <Compile Include="UsuarioBLL.cs" />
   </ItemGroup>

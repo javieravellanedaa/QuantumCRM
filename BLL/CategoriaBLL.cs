@@ -64,8 +64,18 @@ namespace BLL
             return categoriaDAL.ObtenerPrioridad(categoria);
         }
 
-   
+        public Categoria ObtenerCategoriaPorId(int categoriaId)
+        {
+            if (categoriaId <= 0)
+                throw new ArgumentException("El ID de la categoría debe ser mayor que cero.", nameof(categoriaId));
 
-   
+            var categoria = categoriaDAL.ObtenerCategoriaPorId(categoriaId);
+            if (categoria == null)
+                throw new KeyNotFoundException($"No existe ninguna categoría con ID {categoriaId} o está eliminada.");
+
+            return categoria;
+        }
+
+
     }
 }

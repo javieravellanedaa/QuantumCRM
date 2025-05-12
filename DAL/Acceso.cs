@@ -216,8 +216,22 @@ namespace DAL
             return parametro;
         }
 
-
-
+        public SqlParameter CrearParametro(string nombre, Guid? valor)
+        {
+            var parametro = new SqlParameter(nombre, SqlDbType.UniqueIdentifier)
+            {
+                Value = valor.HasValue ? (object)valor.Value : DBNull.Value
+            };
+            return parametro;
+        }
+        public SqlParameter CrearParametro(string nombre, int? valor)
+        {
+            var parametro = new SqlParameter(nombre, SqlDbType.Int)
+            {
+                Value = valor.HasValue ? (object)valor.Value : DBNull.Value
+            };
+            return parametro;
+        }
 
 
         public SqlParameter CrearParametro(string nombre, long valor)

@@ -42,8 +42,8 @@ namespace UI
         private void MapearTicket(Ticket ticket)
         {
             txtTicket.Text = ticket.TicketId.ToString();
-            txtDepartamentoOrigen.Text = ticket.UsuarioCreador.Departamento?.Nombre;
-            txtUsuarioCreador.Text = ticket.UsuarioCreador?.Nombre;
+            txtDepartamentoOrigen.Text = ticket.ClienteCreador.Departamento?.Nombre;
+            txtUsuarioCreador.Text = ticket.ClienteCreador?.Nombre;
             txtAsunto.Text = ticket.Asunto;
             txtDescripcion.Text = ticket.Descripcion;
             txtFechaDeCreacion.Text = ticket.FechaCreacion.ToString("dd/MM/yyyy");

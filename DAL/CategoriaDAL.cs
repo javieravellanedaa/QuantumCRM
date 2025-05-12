@@ -34,7 +34,7 @@ namespace DAL
 
                 GrupoTecnico = new BE.PN.GrupoTecnico
                 {
-                    GrupoId = reader.GetInt32(reader.GetOrdinal("group_id")), // corregido si corresponde
+                    GrupoId = reader.GetInt32(reader.GetOrdinal("group_id")), 
                     Nombre = reader.IsDBNull(reader.GetOrdinal("grupo_nombre")) ? null : reader.GetString(reader.GetOrdinal("grupo_nombre"))
                 },
 
@@ -201,6 +201,33 @@ namespace DAL
             return prioridad;
         }
 
-        
+        public Categoria ObtenerCategoriaPorId(int categoriaId)
+        {
+            if (categoriaId <= 0)
+                throw new ArgumentException("El ID de la categoría debe ser mayor que cero.", nameof(categoriaId));
+
+            Categoria categoria = null;
+            var parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@CategoriaId", categoriaId)
+            };
+
+            try
+            {
+                _acceso.Abrir();
+                using (var reader = _acceso.EjecutarLectura("sp_obtenerCategoriaPorId", parametros))
+                {
+                    if (reader.Read())
+                        categoria = MapearCategoriaDesdeReader(reader);
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+
+            return categoria;
+        }
+
     }
 }
