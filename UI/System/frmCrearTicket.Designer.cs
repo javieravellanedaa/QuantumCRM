@@ -7,157 +7,276 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Asunto = new System.Windows.Forms.Label();
-            this.txtAsunto = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.cmbCategorias = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.Descripcion = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.txtDepartamentoOrigen = new System.Windows.Forms.TextBox();
+            this.txtCliente = new System.Windows.Forms.TextBox();
+            this.lblCategoria = new System.Windows.Forms.Label();
+            this.cmbCategorias = new System.Windows.Forms.ComboBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.lblPrioridad = new System.Windows.Forms.Label();
+            this.txtPrioridad = new System.Windows.Forms.TextBox();
+            this.lblAsunto = new System.Windows.Forms.Label();
+            this.txtAsunto = new System.Windows.Forms.TextBox();
+            this.lblDescripcion = new System.Windows.Forms.Label();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtFecha = new System.Windows.Forms.TextBox();
+            this.txtEstado = new System.Windows.Forms.TextBox();
+            this.lblEstado = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox1.Controls.Add(this.Asunto);
-            this.groupBox1.Controls.Add(this.txtAsunto);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.btnBuscar);
-            this.groupBox1.Controls.Add(this.btnGuardar);
-            this.groupBox1.Controls.Add(this.cmbCategorias);
+            this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.Descripcion);
+            this.groupBox1.Controls.Add(this.lblCliente);
+            this.groupBox1.Controls.Add(this.txtFecha);
+            this.groupBox1.Controls.Add(this.txtDepartamentoOrigen);
+            this.groupBox1.Controls.Add(this.txtCliente);
+            this.groupBox1.Controls.Add(this.lblCategoria);
+            this.groupBox1.Controls.Add(this.cmbCategorias);
+            this.groupBox1.Controls.Add(this.btnBuscar);
+            this.groupBox1.Controls.Add(this.lblEstado);
+            this.groupBox1.Controls.Add(this.txtEstado);
+            this.groupBox1.Controls.Add(this.lblPrioridad);
+            this.groupBox1.Controls.Add(this.txtPrioridad);
+            this.groupBox1.Controls.Add(this.lblAsunto);
+            this.groupBox1.Controls.Add(this.txtAsunto);
+            this.groupBox1.Controls.Add(this.lblDescripcion);
             this.groupBox1.Controls.Add(this.txtDescripcion);
+            this.groupBox1.Controls.Add(this.btnGuardar);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold);
+            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(700, 543);
-            this.groupBox1.TabIndex = 13;
+            this.groupBox1.Size = new System.Drawing.Size(1015, 599);
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            // 
-            // Asunto
-            // 
-            this.Asunto.AutoSize = true;
-            this.Asunto.Location = new System.Drawing.Point(56, 207);
-            this.Asunto.Name = "Asunto";
-            this.Asunto.Size = new System.Drawing.Size(40, 13);
-            this.Asunto.TabIndex = 29;
-            this.Asunto.Text = "Asunto";
-            // 
-            // txtAsunto
-            // 
-            this.txtAsunto.Location = new System.Drawing.Point(139, 200);
-            this.txtAsunto.Name = "txtAsunto";
-            this.txtAsunto.ReadOnly = true;
-            this.txtAsunto.Size = new System.Drawing.Size(424, 20);
-            this.txtAsunto.TabIndex = 28;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(71, 71);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(271, 13);
-            this.label4.TabIndex = 27;
-            this.label4.Text = "Elija la categoria del ticket y luego pulse el boton buscar";
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Location = new System.Drawing.Point(488, 157);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscar.TabIndex = 26;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Location = new System.Drawing.Point(482, 421);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(81, 33);
-            this.btnGuardar.TabIndex = 19;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Visible = false;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
-            // cmbCategorias
-            // 
-            this.cmbCategorias.FormattingEnabled = true;
-            this.cmbCategorias.Location = new System.Drawing.Point(139, 120);
-            this.cmbCategorias.Name = "cmbCategorias";
-            this.cmbCategorias.Size = new System.Drawing.Size(424, 21);
-            this.cmbCategorias.TabIndex = 17;
-            this.cmbCategorias.SelectedIndexChanged += new System.EventHandler(this.cmbCategorias_SelectedIndexChanged);
+            this.groupBox1.Text = "Crear Nuevo Ticket";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(55, 121);
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.label1.Location = new System.Drawing.Point(30, 123);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 20);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Categoria";
+            this.label1.Size = new System.Drawing.Size(206, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Departamento Origen:";
             // 
-            // Descripcion
+            // lblCliente
             // 
-            this.Descripcion.AutoSize = true;
-            this.Descripcion.Location = new System.Drawing.Point(56, 250);
-            this.Descripcion.Name = "Descripcion";
-            this.Descripcion.Size = new System.Drawing.Size(60, 13);
-            this.Descripcion.TabIndex = 16;
-            this.Descripcion.Text = "Descipcion";
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.lblCliente.Location = new System.Drawing.Point(31, 58);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(77, 25);
+            this.lblCliente.TabIndex = 0;
+            this.lblCliente.Text = "Cliente:";
+            // 
+            // txtDepartamentoOrigen
+            // 
+            this.txtDepartamentoOrigen.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtDepartamentoOrigen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDepartamentoOrigen.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtDepartamentoOrigen.Location = new System.Drawing.Point(335, 121);
+            this.txtDepartamentoOrigen.Name = "txtDepartamentoOrigen";
+            this.txtDepartamentoOrigen.ReadOnly = true;
+            this.txtDepartamentoOrigen.Size = new System.Drawing.Size(207, 27);
+            this.txtDepartamentoOrigen.TabIndex = 1;
+            this.txtDepartamentoOrigen.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
+            // 
+            // txtCliente
+            // 
+            this.txtCliente.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCliente.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtCliente.Location = new System.Drawing.Point(335, 60);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.ReadOnly = true;
+            this.txtCliente.Size = new System.Drawing.Size(151, 27);
+            this.txtCliente.TabIndex = 1;
+            this.txtCliente.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
+            // 
+            // lblCategoria
+            // 
+            this.lblCategoria.AutoSize = true;
+            this.lblCategoria.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.lblCategoria.Location = new System.Drawing.Point(30, 179);
+            this.lblCategoria.Name = "lblCategoria";
+            this.lblCategoria.Size = new System.Drawing.Size(100, 25);
+            this.lblCategoria.TabIndex = 2;
+            this.lblCategoria.Text = "Categoría:";
+            // 
+            // cmbCategorias
+            // 
+            this.cmbCategorias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCategorias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbCategorias.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbCategorias.Location = new System.Drawing.Point(202, 176);
+            this.cmbCategorias.Name = "cmbCategorias";
+            this.cmbCategorias.Size = new System.Drawing.Size(570, 28);
+            this.cmbCategorias.TabIndex = 3;
+            this.cmbCategorias.SelectedIndexChanged += new System.EventHandler(this.cmbCategorias_SelectedIndexChanged);
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnBuscar.FlatAppearance.BorderSize = 0;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.ForeColor = System.Drawing.Color.White;
+            this.btnBuscar.Location = new System.Drawing.Point(807, 171);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(152, 40);
+            this.btnBuscar.TabIndex = 4;
+            this.btnBuscar.Text = "Validar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // lblPrioridad
+            // 
+            this.lblPrioridad.AutoSize = true;
+            this.lblPrioridad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.lblPrioridad.Location = new System.Drawing.Point(52, 521);
+            this.lblPrioridad.Name = "lblPrioridad";
+            this.lblPrioridad.Size = new System.Drawing.Size(95, 25);
+            this.lblPrioridad.TabIndex = 5;
+            this.lblPrioridad.Text = "Prioridad:";
+            // 
+            // txtPrioridad
+            // 
+            this.txtPrioridad.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtPrioridad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPrioridad.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtPrioridad.Location = new System.Drawing.Point(224, 519);
+            this.txtPrioridad.Name = "txtPrioridad";
+            this.txtPrioridad.ReadOnly = true;
+            this.txtPrioridad.Size = new System.Drawing.Size(140, 27);
+            this.txtPrioridad.TabIndex = 6;
+            // 
+            // lblAsunto
+            // 
+            this.lblAsunto.AutoSize = true;
+            this.lblAsunto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.lblAsunto.Location = new System.Drawing.Point(31, 249);
+            this.lblAsunto.Name = "lblAsunto";
+            this.lblAsunto.Size = new System.Drawing.Size(78, 25);
+            this.lblAsunto.TabIndex = 7;
+            this.lblAsunto.Text = "Asunto:";
+            // 
+            // txtAsunto
+            // 
+            this.txtAsunto.BackColor = System.Drawing.Color.White;
+            this.txtAsunto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtAsunto.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtAsunto.Location = new System.Drawing.Point(202, 251);
+            this.txtAsunto.Name = "txtAsunto";
+            this.txtAsunto.ReadOnly = true;
+            this.txtAsunto.Size = new System.Drawing.Size(570, 27);
+            this.txtAsunto.TabIndex = 8;
+            // 
+            // lblDescripcion
+            // 
+            this.lblDescripcion.AutoSize = true;
+            this.lblDescripcion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.lblDescripcion.Location = new System.Drawing.Point(31, 308);
+            this.lblDescripcion.Name = "lblDescripcion";
+            this.lblDescripcion.Size = new System.Drawing.Size(117, 25);
+            this.lblDescripcion.TabIndex = 9;
+            this.lblDescripcion.Text = "Descripción:";
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(139, 247);
+            this.txtDescripcion.BackColor = System.Drawing.Color.White;
+            this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDescripcion.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtDescripcion.Location = new System.Drawing.Point(202, 308);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.ReadOnly = true;
-            this.txtDescripcion.Size = new System.Drawing.Size(424, 154);
-            this.txtDescripcion.TabIndex = 13;
+            this.txtDescripcion.Size = new System.Drawing.Size(570, 150);
+            this.txtDescripcion.TabIndex = 10;
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.btnGuardar.FlatAppearance.BorderSize = 0;
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGuardar.ForeColor = System.Drawing.Color.White;
+            this.btnGuardar.Location = new System.Drawing.Point(841, 508);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(151, 42);
+            this.btnGuardar.TabIndex = 11;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Visible = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.label2.Location = new System.Drawing.Point(596, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 31);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Fecha";
+            // 
+            // txtFecha
+            // 
+            this.txtFecha.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtFecha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtFecha.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtFecha.Location = new System.Drawing.Point(710, 58);
+            this.txtFecha.Name = "txtFecha";
+            this.txtFecha.ReadOnly = true;
+            this.txtFecha.Size = new System.Drawing.Size(207, 27);
+            this.txtFecha.TabIndex = 1;
+            this.txtFecha.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
+            // 
+            // txtEstado
+            // 
+            this.txtEstado.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtEstado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtEstado.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtEstado.Location = new System.Drawing.Point(632, 515);
+            this.txtEstado.Name = "txtEstado";
+            this.txtEstado.ReadOnly = true;
+            this.txtEstado.Size = new System.Drawing.Size(140, 27);
+            this.txtEstado.TabIndex = 6;
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
+            this.lblEstado.Location = new System.Drawing.Point(447, 517);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(93, 31);
+            this.lblEstado.TabIndex = 5;
+            this.lblEstado.Text = "Estado:";
             // 
             // frmCrearTicket
             // 
-            this.AcceptButton = this.btnGuardar;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlText;
-            this.ClientSize = new System.Drawing.Size(700, 543);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
+            this.ClientSize = new System.Drawing.Size(1015, 599);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "frmCrearTicket";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
-            this.Text = "Nuevo Ticket";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Crear Ticket";
             this.Load += new System.EventHandler(this.CrearTicket_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -166,17 +285,25 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.ComboBox cmbCategorias;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label Descripcion;
-        private System.Windows.Forms.TextBox txtDescripcion;
+
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label Asunto;
+        private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.TextBox txtCliente;
+        private System.Windows.Forms.Label lblCategoria;
+        private System.Windows.Forms.ComboBox cmbCategorias;
+        private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Label lblPrioridad;
+        private System.Windows.Forms.TextBox txtPrioridad;
+        private System.Windows.Forms.Label lblAsunto;
         private System.Windows.Forms.TextBox txtAsunto;
-
-
+        private System.Windows.Forms.Label lblDescripcion;
+        private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtDepartamentoOrigen;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtFecha;
+        private System.Windows.Forms.Label lblEstado;
+        private System.Windows.Forms.TextBox txtEstado;
     }
 }

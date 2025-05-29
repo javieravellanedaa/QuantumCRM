@@ -2,6 +2,7 @@
 using DAL;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace BLL
 {
@@ -14,11 +15,11 @@ namespace BLL
             _clienteDAL = new ClienteDAL();
         }
 
-        public Cliente ObtenerClientePorID(int clienteId)
+        public Cliente ObtenerClientePorId(int clienteId)
         {
             try
             {
-                return _clienteDAL.ObtenerClientePorID(clienteId);
+                return _clienteDAL.ObtenerClientePorId(clienteId);
             }
             catch (Exception ex)
             {
@@ -27,7 +28,7 @@ namespace BLL
             }
         }
 
-   
+
         public Guid ObtenerIdUsuarioPorClienteId(int clienteId)
         {
             try
@@ -125,5 +126,28 @@ namespace BLL
         }
 
 
+        public Cliente ObtenerClientePorIdUsuario(Guid usuarioId)
+        {
+            if (usuarioId == Guid.Empty)
+                throw new ArgumentException("El ID de usuario no puede ser vacío.", nameof(usuarioId));
+
+            try
+            {
+                // Devolvemos directamente lo que nos devuelve la DAL (puede ser null)
+                return _clienteDAL.ObtenerClientePorIdUsuario(usuarioId);
+            }
+            catch (SqlException sqlex)
+            {
+                // Si quieres capturar errores de BD
+                throw new Exception("Error de base de datos al obtener el cliente por ID de usuario.", sqlex);
+            }
+            catch (Exception ex)
+            {
+                // Otros errores
+                throw new Exception("Error inesperado al obtener el cliente por ID de usuario.", ex);
+            }
+        }
+
     }
 }
+

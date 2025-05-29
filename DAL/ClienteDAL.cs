@@ -19,46 +19,194 @@ namespace DAL
 
         }
 
-     
+
+        private bool HasColumn(SqlDataReader reader, string columnName)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                if (reader.GetName(i).Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+
+
         #region MapearCliente  
+        // Mapeo completo de Cliente (incluye datos de Usuario y de Cliente)
+        //private Cliente MapearCliente(SqlDataReader reader)
+        //{
+        //    return new Cliente
+        //    {
+        //        // Campos heredados de Usuario
+
+        //        Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+        //        Email = reader.GetString(reader.GetOrdinal("email")),
+        //        Password = reader.GetString(reader.GetOrdinal("password")),
+        //        Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+        //        Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+        //        NombreUsuario = reader.GetString(reader.GetOrdinal("nombre_usuario")),
+        //        Legajo = reader.GetInt32(reader.GetOrdinal("legajo")),
+        //        FechaAlta = reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
+        //        UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion"))
+        //                                  ? (DateTime?)null
+        //                                  : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion")),
+
+        //        // Campos propios de Cliente
+        //        ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_id")),
+        //        Departamento = new Departamento
+        //        {
+        //            Id = reader.GetInt32(reader.GetOrdinal("departamento_id"))
+        //        },
+        //        FechaRegistro = reader.IsDBNull(reader.GetOrdinal("fecha_registro"))
+        //                                  ? (DateTime?)null
+        //                                  : reader.GetDateTime(reader.GetOrdinal("fecha_registro")),
+        //        Telefono = reader.IsDBNull(reader.GetOrdinal("telefono"))
+        //                                  ? null
+        //                                  : reader.GetString(reader.GetOrdinal("telefono")),
+        //        Direccion = reader.IsDBNull(reader.GetOrdinal("direccion"))
+        //                                  ? null
+        //                                  : reader.GetString(reader.GetOrdinal("direccion")),
+        //        EmailContacto = reader.IsDBNull(reader.GetOrdinal("email_contacto"))
+        //                                  ? null
+        //                                  : reader.GetString(reader.GetOrdinal("email_contacto")),
+        //        FechaUltimaInteraccion = reader.IsDBNull(reader.GetOrdinal("fecha_ultima_interaccion"))
+        //                                  ? (DateTime?)null
+        //                                  : reader.GetDateTime(reader.GetOrdinal("fecha_ultima_interaccion")),
+        //        PreferenciaContacto = reader.IsDBNull(reader.GetOrdinal("preferencia_contacto"))
+        //                                  ? null
+        //                                  : reader.GetString(reader.GetOrdinal("preferencia_contacto")),
+        //        Estado = reader.GetBoolean(reader.GetOrdinal("estado")),
+        //        Observaciones = reader.IsDBNull(reader.GetOrdinal("observaciones"))
+        //                                  ? null
+        //                                  : reader.GetString(reader.GetOrdinal("observaciones")),
+        //        EsAprobador = reader.GetBoolean(reader.GetOrdinal("es_aprobador"))
+        //    };
+        //}
+
         private Cliente MapearCliente(SqlDataReader reader)
         {
-            return new Cliente
-            {
-                // De Usuario (padre)
-                Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
-                Email = reader.GetString(reader.GetOrdinal("email")),
-                Password = reader.GetString(reader.GetOrdinal("password")),
-                Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                Apellido = reader.GetString(reader.GetOrdinal("apellido")),
-                NombreUsuario = reader.GetString(reader.GetOrdinal("nombre_usuario")),
-                Legajo = reader.GetInt32(reader.GetOrdinal("legajo")),
-                FechaAlta = reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
-                UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion"))
-                    ? (DateTime?)null
-                    : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion")),
-                // Ignoramos idioma por ahora (se puede mapear aparte si tenés una tabla de idiomas)
+            var cliente = new Cliente();
 
-                // De Cliente (hijo)
-                ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_id")),
-                Departamento = new Departamento
-                {
-                    Id = reader.GetInt32(reader.GetOrdinal("departamento_id"))
-                },
-                FechaRegistro = reader.GetDateTime(reader.GetOrdinal("fecha_registro")),
-                Telefono = reader.IsDBNull(reader.GetOrdinal("telefono")) ? null : reader.GetString(reader.GetOrdinal("telefono")),
-                Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString(reader.GetOrdinal("direccion")),
-                EmailContacto = reader.IsDBNull(reader.GetOrdinal("email_contacto")) ? null : reader.GetString(reader.GetOrdinal("email_contacto")),
-                FechaUltimaInteraccion = reader.IsDBNull(reader.GetOrdinal("fecha_ultima_interaccion")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("fecha_ultima_interaccion")),
-                PreferenciaContacto = reader.IsDBNull(reader.GetOrdinal("preferencia_contacto")) ? null : reader.GetString(reader.GetOrdinal("preferencia_contacto")),
-                Estado = reader.GetBoolean(reader.GetOrdinal("estado")),
-                Observaciones = reader.IsDBNull(reader.GetOrdinal("observaciones")) ? null : reader.GetString(reader.GetOrdinal("observaciones")),
-                EsAprobador = reader.GetBoolean(reader.GetOrdinal("es_aprobador"))
+            // --- Campos de Usuario (opcionales) ---
+            if (HasColumn(reader, "usuario_id"))
+                cliente.Id = reader.GetGuid(reader.GetOrdinal("usuario_id"));
+
+            if (HasColumn(reader, "email"))
+                cliente.Email = reader.GetString(reader.GetOrdinal("email"));
+
+            if (HasColumn(reader, "password"))
+                cliente.Password = reader.GetString(reader.GetOrdinal("password"));
+
+            if (HasColumn(reader, "nombre"))
+                cliente.Nombre = reader.GetString(reader.GetOrdinal("nombre"));
+
+            if (HasColumn(reader, "apellido"))
+                cliente.Apellido = reader.GetString(reader.GetOrdinal("apellido"));
+
+            if (HasColumn(reader, "nombre_usuario"))
+                cliente.NombreUsuario = reader.GetString(reader.GetOrdinal("nombre_usuario"));
+
+            if (HasColumn(reader, "legajo"))
+                cliente.Legajo = reader.GetInt32(reader.GetOrdinal("legajo"));
+
+            if (HasColumn(reader, "fecha_alta"))
+                cliente.FechaAlta = reader.GetDateTime(reader.GetOrdinal("fecha_alta"));
+
+            if (HasColumn(reader, "ultimo_inicio_sesion"))
+                cliente.UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion"))
+                    ? (DateTime?)null
+                    : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion"));
+
+            // --- Campos propios de Cliente (estos sí siempre están en tu SP) ---
+            cliente.ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_id"));
+
+            // departamento_id siempre existe
+            cliente.Departamento = new Departamento
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("departamento_id"))
             };
+
+            if (HasColumn(reader, "fecha_registro"))
+                cliente.FechaRegistro = reader.IsDBNull(reader.GetOrdinal("fecha_registro"))
+                    ? (DateTime?)null
+                    : reader.GetDateTime(reader.GetOrdinal("fecha_registro"));
+
+            if (HasColumn(reader, "telefono"))
+                cliente.Telefono = reader.IsDBNull(reader.GetOrdinal("telefono"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("telefono"));
+
+            if (HasColumn(reader, "direccion"))
+                cliente.Direccion = reader.IsDBNull(reader.GetOrdinal("direccion"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("direccion"));
+
+            if (HasColumn(reader, "email_contacto"))
+                cliente.EmailContacto = reader.IsDBNull(reader.GetOrdinal("email_contacto"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("email_contacto"));
+
+            if (HasColumn(reader, "fecha_ultima_interaccion"))
+                cliente.FechaUltimaInteraccion = reader.IsDBNull(reader.GetOrdinal("fecha_ultima_interaccion"))
+                    ? (DateTime?)null
+                    : reader.GetDateTime(reader.GetOrdinal("fecha_ultima_interaccion"));
+
+            if (HasColumn(reader, "preferencia_contacto"))
+                cliente.PreferenciaContacto = reader.IsDBNull(reader.GetOrdinal("preferencia_contacto"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("preferencia_contacto"));
+
+            if (HasColumn(reader, "estado"))
+                cliente.Estado = reader.GetBoolean(reader.GetOrdinal("estado"));
+
+            if (HasColumn(reader, "observaciones"))
+                cliente.Observaciones = reader.IsDBNull(reader.GetOrdinal("observaciones"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("observaciones"));
+
+            if (HasColumn(reader, "es_aprobador"))
+                cliente.EsAprobador = reader.GetBoolean(reader.GetOrdinal("es_aprobador"));
+
+            return cliente;
         }
+
+
+
+
+        public Cliente ObtenerClientePorId(Guid usuarioId)
+        {
+         
+            var parametros = new List<SqlParameter>
+                {
+                    _acceso.CrearParametro("@usuario_id", usuarioId)
+                };
+
+            try
+            {
+               
+                _acceso.Abrir();
+                using (var reader = _acceso.EjecutarLectura("sp_ObtenerClientePorIdUsuario", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        return MapearCliente(reader);
+                    }
+                }
+            }
+            finally
+            {
+            
+                _acceso.Cerrar();
+            }
+
+  
+            return null;
+        }
+
         #endregion  
 
-        public Cliente ObtenerClientePorID(int clienteId)
+        public Cliente ObtenerClientePorId(int clienteId)
         {
             List<SqlParameter> parametros = new List<SqlParameter>
             {
@@ -72,7 +220,7 @@ namespace DAL
                 {
                     if (reader.Read())
                     {
-                        return MapearCliente(reader);
+                            return MapearCliente(reader);
                     }
                 }
             }
@@ -281,6 +429,40 @@ namespace DAL
             {
                 _acceso.Cerrar();
             }
+        }
+        public Cliente ObtenerClientePorIdUsuario(Guid usuarioId)
+        {
+            // Preparamos el parámetro para el SP
+            var parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@usuario_id", usuarioId)
+            };
+
+            try
+            {
+                // Abrimos la conexión con Acceso
+                _acceso.Abrir();
+
+                // Ejecutamos el SP y obtenemos el lector
+                using (var reader = _acceso.EjecutarLectura("sp_ObtenerClientePorIdUsuario", parametros))
+                {
+                    // Si encontramos un registro, lo mapeamos y devolvemos
+                    if (reader.Read())
+                    {
+                        Cliente cliente = MapearCliente(reader);
+                        return cliente;
+                    }
+
+                }
+            }
+            finally
+            {
+                // Nos aseguramos de cerrar la conexión en todo caso
+                _acceso.Cerrar();
+            }
+
+            // Si no hay filas, devolvemos null
+            return null;
         }
 
 

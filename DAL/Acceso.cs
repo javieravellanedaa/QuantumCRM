@@ -137,8 +137,10 @@ namespace DAL
 
                 catch (Exception ex)
                 {
-
+                    
                     FilasAfectadas = -1;
+                   
+
                 }
                 cmd.Parameters.Clear();
                 cmd.Dispose();

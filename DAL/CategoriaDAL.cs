@@ -1,4 +1,5 @@
 ﻿using BE;
+using BE.PN;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,14 +18,38 @@ namespace DAL
             {
                 CategoriaId = reader.GetInt32(reader.GetOrdinal("categoria_id")),
                 Nombre = reader.GetString(reader.GetOrdinal("categoria_nombre")),
-                Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
+                Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("descripcion")),
 
-                // Reemplazamos Estado por Eliminado
-                Eliminado = reader.IsDBNull(reader.GetOrdinal("eliminado")) ? false : reader.GetBoolean(reader.GetOrdinal("eliminado")),
+                // --- Nuevo mapeo del tipo de categoría ---
+                tipoCategoria = reader.IsDBNull(reader.GetOrdinal("tipo_id"))
+                    ? default(BE.PN.TipoCategoria)
+                    : (BE.PN.TipoCategoria)reader.GetInt32(reader.GetOrdinal("tipo_id")),
 
-                FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion")) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
-                CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id")) ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("creador_id")),
-                AprobadorRequerido = reader.IsDBNull(reader.GetOrdinal("aprobador_requerido")) ? false : reader.GetBoolean(reader.GetOrdinal("aprobador_requerido")),
+                Eliminado = reader.IsDBNull(reader.GetOrdinal("eliminado"))
+                    ? false
+                    : reader.GetBoolean(reader.GetOrdinal("eliminado")),
+
+                GrupoTecnico = new BE.PN.GrupoTecnico
+                {
+                    GrupoId = reader.GetInt32(reader.GetOrdinal("group_id")),
+                    Nombre = reader.IsDBNull(reader.GetOrdinal("grupo_nombre"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("grupo_nombre"))
+                },
+
+                FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion"))
+                    ? DateTime.MinValue
+                    : reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
+
+                CreadorId = reader.IsDBNull(reader.GetOrdinal("creador_id"))
+                    ? Guid.Empty
+                    : reader.GetGuid(reader.GetOrdinal("creador_id")),
+
+                AprobadorRequerido = reader.IsDBNull(reader.GetOrdinal("aprobador_requerido"))
+                    ? false
+                    : reader.GetBoolean(reader.GetOrdinal("aprobador_requerido")),
 
                 Departamento = new Departamento
                 {
@@ -32,11 +57,7 @@ namespace DAL
                     Nombre = reader.GetString(reader.GetOrdinal("departamento_nombre"))
                 },
 
-                GrupoTecnico = new BE.PN.GrupoTecnico
-                {
-                    GrupoId = reader.GetInt32(reader.GetOrdinal("group_id")), 
-                    Nombre = reader.IsDBNull(reader.GetOrdinal("grupo_nombre")) ? null : reader.GetString(reader.GetOrdinal("grupo_nombre"))
-                },
+           
 
                 ClienteAprobador = reader.IsDBNull(reader.GetOrdinal("cliente_aprobador_id"))
                     ? null
@@ -46,12 +67,30 @@ namespace DAL
                         Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
                         Nombre = reader.GetString(reader.GetOrdinal("usuario_nombre")),
                         Apellido = reader.GetString(reader.GetOrdinal("apellido")),
-                        Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString(reader.GetOrdinal("email"))
-                    }
+                        Email = reader.IsDBNull(reader.GetOrdinal("email"))
+                            ? null
+                            : reader.GetString(reader.GetOrdinal("email"))
+                    },
+
+                // --- Mapeo de Prioridad ---
+                Prioridad = reader.IsDBNull(reader.GetOrdinal("prioridad_id"))
+                    ? null
+                    : new Prioridad
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
+                        Nombre = reader.GetString(reader.GetOrdinal("prioridad_nombre")),
+                        Descripcion = reader.IsDBNull(reader.GetOrdinal("prioridad_descripcion"))
+                            ? null
+                            : reader.GetString(reader.GetOrdinal("prioridad_descripcion"))
+                    },
+
+           
             };
 
             return categoria;
         }
+
+
 
 
         #endregion 

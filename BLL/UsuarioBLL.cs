@@ -88,7 +88,7 @@ namespace BLL
             return Roles;
         }
 
-        // Método para asignar un permiso (rol) a un usuario.
+       
         public bool AsignarPermiso(Guid usuarioId, int permisoId)
         {
             try
@@ -121,6 +121,21 @@ namespace BLL
                 // Aquí podrías registrar el error o lanzar la excepción según sea necesario.
                 return false;
             }
+        }
+
+
+        public void CrearUsuario(Usuario usuario)
+        {
+            if (usuario == null) throw new ArgumentNullException(nameof(usuario));
+
+            usuario.Id = Guid.NewGuid();
+            usuario.FechaAlta = DateTime.Now;
+
+            //// Si no se especifica idioma, podrías asignar un valor por defecto:
+            //if (usuario.Idioma == null)
+            //    usuario.Idioma = new Idioma { Id = '37C99BDE-5A59-48E2-96D3-971D578F4815' };
+
+            _crud.Save(usuario);
         }
     }
 }

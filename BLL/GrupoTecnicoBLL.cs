@@ -9,7 +9,7 @@ namespace BLL
 {
     public class GrupoTecnicoBLL
     {
-        private readonly GruposTecnicosDAL _grupoTecnicoDAL = new GruposTecnicosDAL();
+        private readonly GrupoTecnicoDAL _grupoTecnicoDAL = new GrupoTecnicoDAL();
 
         public List<GrupoTecnico> ListarGruposTecnicos()
         {
@@ -42,12 +42,19 @@ namespace BLL
             if (grupo.TecnicoLiderId <= 0)
                 throw new ArgumentException("Debe especificar un técnico líder válido.", nameof(grupo.TecnicoLiderId));
 
-            // Verificar unicidad de nombre
+            if (grupo.Tecnicos == null || !grupo.Tecnicos.Any())
+                throw new InvalidOperationException("El grupo debe tener al menos un técnico.");
+
+            // 🔍 Validar que el líder esté en la lista de técnicos
+            if (!grupo.Tecnicos.Any(t => t.TecnicoId == grupo.TecnicoLiderId))
+                throw new InvalidOperationException("El técnico líder debe formar parte de la lista de técnicos del grupo.");
+
             if (_grupoTecnicoDAL.ExisteNombre(grupo.Nombre))
                 throw new InvalidOperationException($"Ya existe otro grupo técnico con el nombre '{grupo.Nombre}'.");
 
             _grupoTecnicoDAL.AgregarGrupoTecnico(grupo);
         }
+
 
         public void ActualizarGrupoTecnico(GrupoTecnico grupo)
         {
@@ -63,12 +70,17 @@ namespace BLL
             if (grupo.TecnicoLiderId <= 0)
                 throw new ArgumentException("Debe especificar un técnico líder válido.", nameof(grupo.TecnicoLiderId));
 
-            // Verificar que exista el grupo
+            if (grupo.Tecnicos == null || !grupo.Tecnicos.Any())
+                throw new InvalidOperationException("El grupo debe tener al menos un técnico.");
+
+            // 🔍 Validar que el líder esté en la lista de técnicos
+            if (!grupo.Tecnicos.Any(t => t.TecnicoId == grupo.TecnicoLiderId))
+                throw new InvalidOperationException("El técnico líder debe formar parte de la lista de técnicos del grupo.");
+
             var existente = _grupoTecnicoDAL.ObtenerPorId(grupo.GrupoId);
             if (existente == null || existente.Eliminado)
                 throw new KeyNotFoundException($"No existe un grupo técnico activo con ID {grupo.GrupoId}.");
 
-            // Verificar que no choque nombre con otro grupo
             if (!string.Equals(existente.Nombre, grupo.Nombre, StringComparison.OrdinalIgnoreCase)
                 && _grupoTecnicoDAL.ExisteNombre(grupo.Nombre))
             {
@@ -103,7 +115,7 @@ namespace BLL
             if (_grupoTecnicoDAL.ExisteTecnicoEnGrupo(grupoId, tecnicoId))
                 throw new InvalidOperationException("El técnico ya forma parte de ese grupo.");
 
-            _grupoTecnicoDAL.InsertarTecnicoEnGrupo(grupoId, tecnicoId);
+            _grupoTecnicoDAL.AgregarTecnicoAGrupo(grupoId, tecnicoId);
         }
 
         public void QuitarTecnicoDelGrupo(int grupoId, int tecnicoId)
@@ -117,11 +129,13 @@ namespace BLL
             _grupoTecnicoDAL.EliminarTecnicoDeGrupo(grupoId, tecnicoId);
         }
 
-        public List<Tecnico> ListarTecnicosPorGrupo(int grupoId)
+ 
+        public List<GrupoTecnico> ListarGruposTecnicosActivos()
         {
-            if (grupoId <= 0) throw new ArgumentException("ID de grupo no válido.", nameof(grupoId));
-            // Devuelve los técnicos activos del grupo
-            return _grupoTecnicoDAL.ListarTecnicosPorGrupo(grupoId);
+            return _grupoTecnicoDAL.ListarGruposTecnicos()
+                                   .Where(g => !g.Eliminado && g.Activo)
+                                   .ToList();
         }
+
     }
 }

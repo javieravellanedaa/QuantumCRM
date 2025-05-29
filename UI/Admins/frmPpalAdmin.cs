@@ -739,6 +739,17 @@ namespace UI
 
 
         }
+
+        private void nuevoUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 1. Crear la instancia del formulario de alta
+            var frmAlta = new frmAltaUsuario();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmAlta);
+        }
+
+
     }
 
 

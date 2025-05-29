@@ -1,179 +1,145 @@
 ﻿using BE;
 using BLL;
+using SERVICIOS;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SERVICIOS;
 
 namespace UI
 {
     public partial class frmCrearTicket : Form
     {
-        CategoriaBLL categoriaBLL = new CategoriaBLL();
-        BLL.UsuarioBLL _bllUsuarios;
-        private NotificadorTicket _notificador; // Nueva instancia de observador de tickets
-        private List<Categoria> categorias;
+        private readonly CategoriaBLL _categoriaBLL;
+        private readonly ClienteBLL _clienteBLL;
+        private readonly PrioridadBLL _prioridadBLL;
+        private readonly TicketBLL _ticketBLL;
         private readonly EventManagerService _eventManagerService;
-        PrioridadBLL _prioridadBLL = new PrioridadBLL();
+        private readonly DepartamentoBLL _departamentoBLL;
+        private List<Categoria> _categorias;
 
         public frmCrearTicket(EventManagerService eventManagerService)
         {
-            categorias = categoriaBLL.ListarCategorias();
             InitializeComponent();
-            _bllUsuarios = new BLL.UsuarioBLL();
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.BackColor = Color.FromArgb(96, 116, 239);
-            // Instanciar el observador para tickets
-            _notificador = new NotificadorTicket();
-            // mismo color que frmPpalAdmin
+            _categoriaBLL = new CategoriaBLL();
+            _prioridadBLL = new PrioridadBLL();
+            _clienteBLL = new ClienteBLL();
+            _ticketBLL = new TicketBLL();
+            _departamentoBLL = new DepartamentoBLL();
             _eventManagerService = eventManagerService;
-
-            _eventManagerService.Subscribe("TicketCreated", _notificador);
+            _eventManagerService.Subscribe("TicketCreated", new NotificadorTicket());
         }
 
         private void CrearTicket_Load(object sender, EventArgs e)
         {
-            // Obtener la lista de categorías
+            // Cargar cliente actual
+            txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            var usuario = SingletonSesion.Instancia.Sesion.Usuario;
+            txtCliente.Text = usuario.Apellido + "," + usuario.Nombre;
+            var cliente = _clienteBLL.ObtenerClientePorIdUsuario(SingletonSesion.Instancia.Sesion.Usuario.Id);
+            var departamento =_departamentoBLL.ObtenerDepartamentoPorId(cliente.Departamento.Id);
+            txtDepartamentoOrigen.Text = departamento.Nombre.ToString();
 
-            if (categorias != null && categorias.Count > 0)
+            // Cargar categorías
+            _categorias = _categoriaBLL.ListarCategorias();
+            if (_categorias?.Count > 0)
             {
-                // Asignar la lista completa de categorías al ComboBox
-                cmbCategorias.DataSource = categorias;
-
-                // Especificar qué propiedad de la clase Categoria se mostrará en el ComboBox
+                cmbCategorias.DataSource = _categorias;
                 cmbCategorias.DisplayMember = "Nombre";
-
-                // Opcional: Especificar qué propiedad se utilizará como valor de la categoría
                 cmbCategorias.ValueMember = "CategoriaId";
             }
             else
             {
-                // Manejar el caso en que no haya categorías disponibles
                 cmbCategorias.Items.Clear();
-                cmbCategorias.Text = "No hay categorías disponibles";
+                cmbCategorias.Text = "No hay categorías";
+                btnBuscar.Enabled = false;
             }
         }
 
-
         private void cmbCategorias_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            // Cada vez que cambia categoría, limpiar campos y ocultar guardar
+            txtPrioridad.Clear();
+            txtAsunto.Clear();
+            txtDescripcion.Clear();
+            txtAsunto.ReadOnly = true;
+            txtDescripcion.ReadOnly = true;
+            btnGuardar.Visible = false;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            foreach (Categoria categoria in categorias)
+            if (cmbCategorias.SelectedItem is Categoria categoria)
             {
-                if (categoria == (Categoria)cmbCategorias.SelectedItem)
+                // Mostrar prioridad para la categoría seleccionada
+                var prioridad = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
+                txtPrioridad.Text = prioridad.Nombre;
+
+                // Mostrar descripción y control de aprobación
+                txtAsunto.ReadOnly = false;
+                txtDescripcion.ReadOnly = false;
+                btnGuardar.Visible = true;
+
+                if (categoria.AprobadorRequerido)
                 {
-                    if (categoria.AprobadorRequerido)
-                    {
-                        // Crear el mensaje con la descripción adicional
-                        string mensaje = "Esta categoría requiere aprobación del usuario:\n\n" +
-                                         categoria.ClienteAprobador.Nombre + "\n\n" +
-                                         "Descripción:\n" + categoria.Descripcion;
-
-                        // Mostrar el MessageBox con los botones Aceptar y Cancelar
-                        DialogResult result = MessageBox.Show(
-                            mensaje,
-                            "Aprobación Requerida",
-                            MessageBoxButtons.OKCancel, // Agrega los botones Aceptar (OK) y Cancelar
-                            MessageBoxIcon.Information // Puedes cambiar el icono si lo deseas
-                        );
-                        txtAsunto.ReadOnly = false;
-                        txtDescripcion.ReadOnly = false;
-                        btnGuardar.Visible = true;
-                    }
-
-                    else if (!categoria.AprobadorRequerido)
-                    {
-                        // Crear el mensaje con una mejor presentación y saltos de línea adicionales
-                        string mensaje = "Categoría encontrada.\n" +
-                                         "Esta categoría no requiere aprobación.\n\n" +
-                                         "Descripción:\n" +
-                                         categoria.Descripcion;
-
-                        // Mostrar el MessageBox con el botón Aceptar
-                        MessageBox.Show(
-                            mensaje,
-                            "Aprobación No Requerida",
-                            MessageBoxButtons.OK, // Solo el botón Aceptar
-                            MessageBoxIcon.Information // Icono informativo
-                        );
-                        txtAsunto.ReadOnly = false;
-                        txtDescripcion.ReadOnly = false;
-                        btnGuardar.Visible = true;
-                        btnGuardar.Enabled = true;
-                    }
-
-
-
+                    var msg = $"Esta categoría requiere aprobación del usuario: {categoria.ClienteAprobador.Nombre}\n\n" +
+                              $"Descripción de categoría:\n{categoria.Descripcion}";
+                    MessageBox.Show(msg, "Requiere Aprobación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtEstado.Text = "En Aprobacion";
+                }
+                else
+                {
+                    MessageBox.Show($"Categoría: {categoria.Nombre} ({categoria.Descripcion})", "Sin Aprobación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            //    if (string.IsNullOrWhiteSpace(txtDescripcion.Text) || string.IsNullOrWhiteSpace(txtAsunto.Text))
-            //    {
-            //        MessageBox.Show("Debe completar todos los campos");
-            //        return;
-            //    }
+            if (string.IsNullOrWhiteSpace(txtAsunto.Text) || string.IsNullOrWhiteSpace(txtDescripcion.Text))
+            {
+                MessageBox.Show("Debe completar Asunto y Descripción.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
 
-            //    // Se obtiene la categoría seleccionada
-            //    Categoria categoria = (Categoria)cmbCategorias.SelectedItem;
+            var categoria = cmbCategorias.SelectedItem as Categoria;
+            var prioridad = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
+            var cliente = _clienteBLL.ObtenerClientePorIdUsuario(SingletonSesion.Instancia.Sesion.Usuario.Id);
 
-            //    // Se obtiene la prioridad asociada a la categoría (única llamada para evitar redundancia)
-            //    BE.PN.Prioridad prioridadObtenida = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
-            //    MessageBox.Show(SingletonSesion.Instancia.Sesion.Usuario.GetType().ToString());
+            var ticket = new Ticket
+            {
+                Asunto = txtAsunto.Text.Trim(),
+                Descripcion = txtDescripcion.Text.Trim(),
+                CategoriaId = categoria.CategoriaId,
+                Categoria = categoria,                                                                                                                                                                                                                                      
+                ClienteCreador =cliente,
+                ClienteCreadorId = cliente.ClienteId,
+                FechaCreacion = DateTime.Now,
+                FechaUltimaModif = DateTime.Now,
+                EstadoId = categoria.AprobadorRequerido ? 6 : 2,
+                PrioridadId = prioridad.Id,
+                UsuarioAprobadorId = categoria.AprobadorRequerido ? categoria.ClienteAprobador.ClienteId : (int?)null,
+                Prioridad = prioridad,
+                GrupoTecnicoId = categoria.GrupoTecnico.GrupoId
+                
+            };
 
-            //    // Se construye el objeto ticket con la información ingresada y los datos de la sesión
-            //    Ticket ticket = new Ticket
-            //    {
-            //        Asunto = txtAsunto.Text,
-            //        Descripcion = txtDescripcion.Text,
-            //        CategoriaId = categoria.CategoriaId,
-            //        Categoria = categoria,
-            //        UsuarioCreadorId = SingletonSesion.Instancia.Sesion.Usuario.Id,
-            //        UsuarioCreador = (Cliente)SingletonSesion.Instancia.Sesion.Usuario,
-            //        FechaCreacion = DateTime.Now,
-            //        FechaUltimaModif = DateTime.Now,
-            //        // Si la categoría requiere aprobación, el ticket se crea con estado 6; de lo contrario, con estado 2
-            //        EstadoId = categoria.AprobadorRequerido ? 6 : 2,
-            //        Prioridad = prioridadObtenida,
-            //        PrioridadId = prioridadObtenida.Id,
-            //        TecnicoId = 0,
-            //        Comentarios = new List<Comentario>()
-            //    };
-
-            //    // Se guarda el ticket a través de la capa BLL
-            //    TicketBLL ticketBLL = new TicketBLL();
-            //    ticketBLL.CrearTicket(ticket);
-
-            //    // Se muestra un mensaje y se notifica el cierre según si se requiere aprobación
-            //    if (categoria.AprobadorRequerido)
-            //    {
-            //        MessageBox.Show("El ticket ha sido creado y está pendiente de aprobación por el usuario: " + categoria.ClienteAprobador.Nombre);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Ticket creado con éxito");
-            //    }
-
-            //    // Se notifica el cierre del formulario y se cierra el mismo
-            //    _eventManagerService?.Notify("FormularioCerrado", this);
-            //    this.Close();
-
-            //    // Se muestra la vista previa del ticket
-            //    frmPreviewTicket frmPreviewTicket = new frmPreviewTicket(ticket);
-            //    frmPreviewTicket.ShowDialog();
+            try
+            {
+                _ticketBLL.CrearTicket(ticket);
+                MessageBox.Show($"Ticket # {ticket.TicketId} \ncreado con éxito.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _eventManagerService.Notify("TicketCreated", ticket);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al crear el ticket: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-    }
+        private void txtCliente_TextChanged(object sender, EventArgs e)
+        {
 
+        }
+    }
 }

@@ -19,19 +19,20 @@ namespace DAL
             acceso = new Acceso();
         }
 
-
         public override void Save(Usuario entity)
         {
             var parametros = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@Email", entity.Email),
-                acceso.CrearParametro("@Password", Encriptador.Hash(entity.Password)),
-                acceso.CrearParametro("@Nombre", entity.Nombre),
-                acceso.CrearParametro("@Apellido", entity.Apellido),
-                acceso.CrearParametro("@nombre_usuario", entity.Nombre[0] + entity.Apellido[0] + "_" + entity.Legajo),
-                acceso.CrearParametro("@fecha_alta", entity.FechaAlta),
-                acceso.CrearParametro("@idioma_id", entity.Idioma.Id.ToString())
-            };
+                {
+                    acceso.CrearParametro("@UsuarioId",      (Guid?)entity.Id),          // Guid? -> UniqueIdentifier
+                    acceso.CrearParametro("@Email",          entity.Email),              // string
+                    acceso.CrearParametro("@Password",       Encriptador.Hash(entity.Password)), // string
+                    acceso.CrearParametro("@Nombre",         entity.Nombre),             // string
+                    acceso.CrearParametro("@Apellido",       entity.Apellido),           // string
+                    acceso.CrearParametro("@Nombre_Usuario", $"{entity.Nombre[0]}{entity.Apellido[0]}_{entity.Legajo}"), // string
+                    acceso.CrearParametro("@Legajo",         entity.Legajo),             // int
+                    acceso.CrearParametro("@Fecha_Alta",     entity.FechaAlta),          // DateTime
+                    acceso.CrearParametro("@Idioma_Id",      entity.Idioma?.Id)          // Guid? (si es null, el parámetro será DBNull)
+                };
 
             try
             {
@@ -44,7 +45,6 @@ namespace DAL
             }
         }
 
-    
 
         public List<Usuario> ObtenerlistaDeUsuarios()
         {

@@ -11,18 +11,24 @@ namespace BLL
         private readonly TicketDAL _ticketDAL;
         private readonly CategoriaBLL _categoriaBLL;
         private readonly PrioridadBLL _prioridadBLL;
-        private readonly TicketHistoricoDAL _historicoDAL;
         private readonly EstadoTicketBLL _estadoTicketBLL;
         private readonly ClienteBLL _clienteBLL;
+        private readonly GrupoTecnicoBLL _grupoTecnicoBLL;
+        private readonly TecnicoBLL _tecnicoBLL;
+        private readonly ComentarioBLL _comentarioBLL;
+        private readonly TicketHistoricoDAL _historicoDAL;
 
         public TicketBLL()
         {
             _ticketDAL = new TicketDAL();
             _categoriaBLL = new CategoriaBLL();
             _prioridadBLL = new PrioridadBLL();
-            _historicoDAL = new TicketHistoricoDAL();
             _estadoTicketBLL = new EstadoTicketBLL();
             _clienteBLL = new ClienteBLL();
+            _grupoTecnicoBLL = new GrupoTecnicoBLL();
+            _tecnicoBLL = new TecnicoBLL();
+            _comentarioBLL = new ComentarioBLL();
+            _historicoDAL = new TicketHistoricoDAL();
         }
         public void CrearTicket(Ticket ticket)
         {
@@ -138,14 +144,38 @@ namespace BLL
             if (id == Guid.Empty)
                 throw new ArgumentException("El ID del ticket no puede ser vacío.", nameof(id));
 
+            // 1) Traer sólo los campos primitivos desde DAL
             var ticket = _ticketDAL.ObtenerTicketPorId(id)
                 ?? throw new InvalidOperationException($"Ticket con Id {id} no encontrado.");
 
+            // 2) Validar soft-delete
             if (ticket.Eliminado)
                 throw new InvalidOperationException($"El ticket con Id {id} ha sido eliminado.");
 
+            // 3) Cargar entidades de navegación
+            ticket.ClienteCreador = _clienteBLL.ObtenerClientePorId(ticket.ClienteCreadorId);
+            ticket.Categoria = _categoriaBLL.ObtenerCategoriaPorId(ticket.CategoriaId);
+            ticket.Prioridad = _prioridadBLL.ObtenerPrioridadPorId(ticket.PrioridadId);
+            ticket.Estado = _estadoTicketBLL.ObtenerEstadoTicket(ticket.EstadoId);
+
+            
+
+            if (ticket.UsuarioAprobadorId.HasValue)
+                ticket.UsuarioAprobador = _clienteBLL.ObtenerClientePorId(ticket.UsuarioAprobadorId.Value);
+
+            if (ticket.GrupoTecnicoId.HasValue)
+                ticket.GrupoTecnico = _grupoTecnicoBLL.ObtenerGrupoPorId(ticket.GrupoTecnicoId.Value);
+
+            if (ticket.TecnicoId.HasValue)
+                ticket.TecnicoAsignado = _tecnicoBLL.ObtenerTecnicoPorId(ticket.TecnicoId.Value);
+
+            // 4) Cargar comentarios e histórico (si ya definiste esos BLL/DAL)
+            ticket.Comentarios = _comentarioBLL.ListarComentariosPorTicket(ticket.TicketId);
+            //ticket.Historicos = _historicoDAL.ListarHistoricos(ticket.TicketId);
+
             return ticket;
         }
+
 
         public void ActualizarTicket(Ticket ticket)
         {
@@ -206,49 +236,67 @@ namespace BLL
             _ticketDAL.ActualizarTicket(existente);
         }
 
-
-        public void EliminarTicket(Guid id)
+        public void EliminarTicket(Ticket ticket, Usuario usuario)
         {
-            if (id == Guid.Empty)
-                throw new ArgumentException("El ID del ticket no puede ser vacío.", nameof(id));
-
-            var ticket = ObtenerTicketPorId(id);
-            if (ticket.Eliminado)
-                throw new InvalidOperationException($"El ticket con Id {id} ya está eliminado.");
-
-            _ticketDAL.EliminarTicket(id);
-        }
-
-        public void AgregarComentario(Ticket ticket, Usuario usuario, string comentario)
-        {
+            // 0) Validar parámetros
             if (ticket == null)
-                throw new ArgumentNullException(nameof(ticket));
+                throw new ArgumentNullException(nameof(ticket), "El ticket no puede ser nulo.");
             if (usuario == null)
-                throw new ArgumentNullException(nameof(usuario));
-            if (string.IsNullOrWhiteSpace(comentario))
-                throw new ArgumentException("El comentario no puede estar vacío.", nameof(comentario));
+                throw new ArgumentNullException(nameof(usuario), "El usuario no puede ser nulo.");
 
-            var existente = ObtenerTicketPorId(ticket.TicketId);
-            _ticketDAL.AgregarComentario(existente.TicketId, usuario.Id, comentario);
+            // 1) Verificar estado actual
+            if (ticket.Eliminado)
+                throw new InvalidOperationException($"El ticket con Id {ticket.TicketId} ya está eliminado.");
+            if (ticket.FechaCierre.HasValue)
+                throw new InvalidOperationException("No se puede eliminar un ticket ya cerrado.");
 
-            var nuevoComentario = new Comentario
+            //// TO:DO --> Agregar el permiso necesario para que se ejecute esto
+            //if (usuario.Permisos
+            //    /* && !usuario.EsAdmin */)
+            //{
+            //    throw new UnauthorizedAccessException("No tienes permisos para eliminar este ticket.");
+            //}
+
+            // 3) Marcar como eliminado
+            var ahora = DateTime.Now;
+            ticket.Eliminado = true;
+            ticket.FechaUltimaModif = ahora;
+
+            // 4) Persistir cambios (el DAL debe soportar el flag 'eliminado')
+            _ticketDAL.ActualizarTicket(ticket);
+
+            // 5) Registrar en histórico
+            _historicoDAL.Insertar(new TicketHistorico
             {
-                TicketId = existente.TicketId,
-                Texto = comentario,
-                Fecha = DateTime.Now,
-                UsuarioId = usuario.Id,
-                Ticket = existente
-            };
-            existente.Comentarios.Add(nuevoComentario);
+                TicketId = ticket.TicketId,
+                FechaCambio = ahora,
+                UsuarioCambioId = usuario.Id,
+                TipoEvento = "Eliminación",
+                ValorAnteriorId = 0,      
+                ValorNuevoId = null,
+                Comentario = "Ticket marcado como eliminado"
+            });
         }
 
-        public List<Ticket> ListarTicketsDelUsuario(Guid usuarioId)
-        {
-            if (usuarioId == Guid.Empty)
-                throw new ArgumentException("El ID del usuario no puede ser vacío.", nameof(usuarioId));
 
-            var tickets = _ticketDAL.ListarTicketsDelUsuario(usuarioId);
-            return tickets.Where(t => !t.Eliminado).ToList();
+
+
+        public List<Ticket> ListarTicketsDeCliente(Cliente cliente)
+        {
+            int clienteId = cliente.ClienteId;
+            if (clienteId>0)
+            {
+                var tickets = _ticketDAL.ListarTicketsDeCliente(clienteId);
+                return tickets.Where(t => !t.Eliminado).ToList();
+
+            }
+            else
+            {
+
+                throw new ArgumentException("El ID del usuario no puede ser vacío.", nameof(Cliente.Id));
+            }
+
+           
         }
 
         public List<Ticket> ListarTicketsDelDepartamento(int departamentoId)

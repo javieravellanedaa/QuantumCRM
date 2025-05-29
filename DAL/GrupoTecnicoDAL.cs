@@ -6,14 +6,36 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-    public class GruposTecnicosDAL
+    public class GrupoTecnicoDAL
     {
         private readonly Acceso acceso;
 
-        public GruposTecnicosDAL()
+        public GrupoTecnicoDAL()
         {
             acceso = new Acceso();
         }
+
+        private GrupoTecnico MapearGrupoTecnico(SqlDataReader reader)
+        {
+            return new GrupoTecnico
+            {
+                GrupoId = reader.GetInt32(reader.GetOrdinal("grupo_id")),
+                Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
+                TecnicoLider = reader.IsDBNull(reader.GetOrdinal("tecnico_lider_id"))
+                    ? null
+                    : new Tecnico
+                    {
+                        TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_lider_id"))
+                    },
+                TecnicoLiderId = reader.IsDBNull(reader.GetOrdinal("tecnico_lider_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("tecnico_lider_id")),
+                Eliminado = reader.IsDBNull(reader.GetOrdinal("eliminado")) ? false : reader.GetBoolean(reader.GetOrdinal("eliminado")),
+                FechaCreacion = reader.IsDBNull(reader.GetOrdinal("fecha_creacion"))
+                    ? DateTime.MinValue
+                    : reader.GetDateTime(reader.GetOrdinal("fecha_creacion"))
+            };
+        }
+
 
         public List<GrupoTecnico> ListarGruposTecnicos()
         {
@@ -26,20 +48,7 @@ namespace DAL
                 {
                     while (reader.Read())
                     {
-                        var grupo = new GrupoTecnico
-                        {
-                            GrupoId = reader.GetInt32(reader.GetOrdinal("grupo_id")),
-                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
-                            TecnicoLider = reader.IsDBNull(reader.GetOrdinal("tecnico_lider_id"))
-                                ? null
-                                : new Tecnico
-                                {
-                                    TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_lider_id"))
-                                }
-                        };
-
-                        gruposTecnicos.Add(grupo);
+                        gruposTecnicos.Add(MapearGrupoTecnico(reader));
                     }
                 }
                 return gruposTecnicos;
@@ -54,12 +63,13 @@ namespace DAL
             }
         }
 
+
         public GrupoTecnico ObtenerPorId(int id)
         {
             var parametros = new List<SqlParameter>
-            {
-                acceso.CrearParametro("@Id", id.ToString())
-            };
+                {
+                    acceso.CrearParametro("@Id", id.ToString())
+                };
 
             try
             {
@@ -68,21 +78,9 @@ namespace DAL
                 {
                     if (reader.Read())
                     {
-                        return new GrupoTecnico
-                        {
-                            GrupoId = reader.GetInt32(reader.GetOrdinal("grupo_id")),
-                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? null : reader.GetString(reader.GetOrdinal("descripcion")),
-                            TecnicoLider = reader.IsDBNull(reader.GetOrdinal("tecnico_lider_id"))
-                                ? null
-                                : new Tecnico
-                                {
-                                    TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_lider_id"))
-                                }
-                        };
+                        return MapearGrupoTecnico(reader);
                     }
                 }
-
                 return null;
             }
             catch (Exception ex)
@@ -94,6 +92,7 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
         public bool ExisteNombre(string nombre)
         {
             var parametros = new List<SqlParameter>
@@ -128,7 +127,7 @@ namespace DAL
             {
                 acceso.CrearParametro("@Nombre", grupo.Nombre),
                 acceso.CrearParametro("@Descripcion", grupo.Descripcion ?? DBNull.Value.ToString()),
-               acceso.CrearParametro("@TecnicoLiderId", grupo.TecnicoLider != null ? grupo.TecnicoLider.Id.ToString() : DBNull.Value.ToString())
+               acceso.CrearParametro("@TecnicoLiderId", grupo.TecnicoLider != null ? grupo.TecnicoLider.TecnicoId.ToString() : DBNull.Value.ToString())
 
             };
 
@@ -150,7 +149,7 @@ namespace DAL
                 acceso.CrearParametro("@Id", grupo.GrupoId.ToString()),
                 acceso.CrearParametro("@Nombre", grupo.Nombre),
                 acceso.CrearParametro("@Descripcion", grupo.Descripcion ?? DBNull.Value.ToString()),
-               acceso.CrearParametro("@TecnicoLiderId", grupo.TecnicoLider != null ? grupo.TecnicoLider.Id.ToString() : DBNull.Value.ToString())
+               acceso.CrearParametro("@TecnicoLiderId", grupo.TecnicoLider != null ? grupo.TecnicoLider.TecnicoId.ToString() : DBNull.Value.ToString())
 
             };
 
@@ -175,7 +174,7 @@ namespace DAL
             try
             {
                 acceso.Abrir();
-                acceso.Escribir("sp_EliminarGrupoTecnico", parametros);
+                acceso.Escribir("sp_MarcarComoEliminadoGrupoTecnico", parametros);
             }
             finally
             {
@@ -232,7 +231,7 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
-        public void InsertarTecnicoEnGrupo(int grupoId, int tecnicoId)
+        public void AgregarTecnicoAGrupo(int grupoId, int tecnicoId )
         {
             var parametros = new List<SqlParameter>
             {

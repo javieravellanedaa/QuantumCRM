@@ -338,18 +338,24 @@ namespace UI
 
         private void CargarFormularioEnPanel(Form formulario)
         {
-            if (formulario is frmPerfil perfilForm /*|| formulario is frmNuevoIdioma*/)
+            // Suscripciones si fuera necesario
+            if (formulario is frmPerfil perfilForm /*|| frmNuevoIdioma…*/)
             {
                 _eventManagerService.Subscribe("FormularioCerrado", this);
-
             }
+
+            // Limpio el panel y preparo el form
             PanelDesktop.Controls.Clear();
             formulario.TopLevel = false;
-
-            PanelDesktop.Controls.Add(formulario);
+            formulario.FormBorderStyle = FormBorderStyle.None;  // <- sin bordes
+            formulario.ControlBox = false;                 // <- quita botones
             formulario.Dock = DockStyle.Fill;
+
+            // Ajusto título si lo usas
             lblTitulo.Text = formulario.Text;
 
+            // Inserto y muestro
+            PanelDesktop.Controls.Add(formulario);
             formulario.Show();
         }
 
@@ -676,14 +682,11 @@ namespace UI
 
         private void misTicketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmTicketsDelUsuario frmTicketsDelUsuario = new frmTicketsDelUsuario();
-            CargarFormularioEnPanel(frmTicketsDelUsuario);
-            if (frmTicketsDelUsuario.IsDisposed)
-            {
-                FormularioSecundarioCerrado();
-            }
+            var form = new frmMisTicketsCliente(_eventManagerService);
+            CargarFormularioEnPanel(form);
         }
     }
+    
 
 
 }

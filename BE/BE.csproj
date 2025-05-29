@@ -62,7 +62,6 @@
     <Compile Include="Rol.cs" />
     <Compile Include="Tecnico.cs" />
     <Compile Include="PN\Ticket.cs" />
-    <Compile Include="TipoCliente.cs" />
     <Compile Include="Traduccion.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

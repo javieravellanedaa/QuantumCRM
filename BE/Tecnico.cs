@@ -1,32 +1,22 @@
 ﻿using BE.PN;
-using System;
+using BE;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
-namespace BE
+public class Tecnico : Usuario
 {
-    public class Tecnico:Usuario
-    {
-        public int TecnicoId { get; set; }  // ID único del técnico
+    public int TecnicoId { get; set; }
 
+    public int DepartamentoId { get; set; }
+    public Departamento Departamento { get; set; }
 
-		private Departamento departamento;
+    // Declarado como List en lugar de ICollection
+    public List<GrupoTecnico> GruposTecnicos { get; set; } = new List<GrupoTecnico>();
 
-		public Departamento Departamento
-		{
-			get { return departamento; }
-			set { departamento = value; }
-		}
-		private GrupoTecnico grupoTecnico;
+    public bool EstaActivo { get; set; }
+    public DateTime FechaIngreso { get; set; }
+    public string Especialidad { get; set; }
+    public int CapacidadMaximaTickets { get; set; }
 
-		public GrupoTecnico GrupoTecnico
-		{
-			get { return grupoTecnico; }
-			set { grupoTecnico = value; }
-		}
-
-
-	}
+    public List<Ticket> TicketsAsignados { get; set; } = new List<Ticket>();
 }
