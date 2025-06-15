@@ -84,17 +84,59 @@
     <Compile Include="Admins\UsuariosPermisos\frmUsuarioPermisos.Designer.cs">
       <DependentUpon>frmUsuarioPermisos.cs</DependentUpon>
     </Compile>
+    <Compile Include="AltaTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AltaTecnico.Designer.cs">
+      <DependentUpon>AltaTecnico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clientes\frmPerfilCliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Clientes\frmPerfilCliente.Designer.cs">
       <DependentUpon>frmPerfilCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAltaAdministrador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaAdministrador.Designer.cs">
+      <DependentUpon>frmAltaAdministrador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaCliente.Designer.cs">
+      <DependentUpon>frmAltaCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaDepartamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaDepartamento.Designer.cs">
+      <DependentUpon>frmAltaDepartamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaGrupoTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaGrupoTecnico.Designer.cs">
+      <DependentUpon>frmAltaGrupoTecnico.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAltaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmAltaUsuario.Designer.cs">
       <DependentUpon>frmAltaUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmControlDeCambiosGeneral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmControlDeCambiosGeneral.Designer.cs">
+      <DependentUpon>frmControlDeCambiosGeneral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetalleValor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetalleValor.Designer.cs">
+      <DependentUpon>frmDetalleValor.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMisTicketsCliente.cs">
       <SubType>Form</SubType>
@@ -169,8 +211,23 @@
     <EmbeddedResource Include="Admins\UsuariosPermisos\frmUsuarioPermisos.resx">
       <DependentUpon>frmUsuarioPermisos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AltaTecnico.resx">
+      <DependentUpon>AltaTecnico.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Clientes\frmPerfilCliente.resx">
       <DependentUpon>frmPerfilCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaAdministrador.resx">
+      <DependentUpon>frmAltaAdministrador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaDepartamento.resx">
+      <DependentUpon>frmAltaDepartamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaGrupoTecnico.resx">
+      <DependentUpon>frmAltaGrupoTecnico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmControlDeCambiosGeneral.resx">
+      <DependentUpon>frmControlDeCambiosGeneral.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMisTicketsCliente.resx">
       <DependentUpon>frmMisTicketsCliente.cs</DependentUpon>

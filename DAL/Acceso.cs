@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace DAL
 {
@@ -11,8 +12,10 @@ namespace DAL
 
         SqlConnection conexion;
         SqlTransaction tx;
+        private readonly string _connectionString;
         public Acceso()
         {
+            _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
 
         }
@@ -25,9 +28,9 @@ namespace DAL
 
         public void Abrir()
         {
-            string cns = @"Integrated Security=SSPI;Data Source=.\SQLEXPRESS;Initial Catalog=CRM";
+           
             conexion = new SqlConnection();
-            conexion.ConnectionString = cns;
+            conexion.ConnectionString = _connectionString;
             conexion.Open();
         }
 
@@ -132,7 +135,18 @@ namespace DAL
                 try
                 {
 
-                    FilasAfectadas = cmd.ExecuteNonQuery();
+                    object resultado = cmd.ExecuteScalar();
+                    if (resultado == null || resultado == DBNull.Value)
+                    {
+                        // No vino nada: señalamos con -1
+                        FilasAfectadas = -1;
+                    }
+                    else
+                    {
+                        // Convertimos el objeto a int
+                        FilasAfectadas = Convert.ToInt32(resultado);
+                    }
+
                 }
 
                 catch (Exception ex)
@@ -183,7 +197,7 @@ namespace DAL
         }
 
         public SqlParameter CrearParametro(string nombre, int valor)
-        {
+            {
 
             SqlParameter parametro = new SqlParameter(nombre, valor);
             parametro.DbType = DbType.Int32;

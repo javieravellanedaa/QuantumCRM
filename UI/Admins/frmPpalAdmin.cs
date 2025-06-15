@@ -749,7 +749,60 @@ namespace UI
             CargarFormularioEnPanel(frmAlta);
         }
 
+        private void altaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 1. Crear la instancia del formulario de alta
+            var AltaTecnico = new AltaTecnico();
 
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(AltaTecnico);
+        }
+
+        private void altaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var frmAltaCliente = new frmAltaCliente();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmAltaCliente);
+
+        }
+
+        private void altaToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+            var frmAltaAdministrador = new frmAltaAdministrador();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmAltaAdministrador);
+
+        }
+
+        private void agregarDepartamentoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmAltaDepartamento = new frmAltaDepartamento();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmAltaDepartamento);
+
+        }
+
+        private void agregarGrupoTecnicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmAltaGrupoTecnico = new frmAltaGrupoTecnico();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmAltaGrupoTecnico);
+
+
+        }
+
+        private void controlDeCambiosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmControlDeCambiosGeneral = new frmControlDeCambiosGeneral();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmControlDeCambiosGeneral);
+        }
     }
 
 

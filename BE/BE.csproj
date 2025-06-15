@@ -42,7 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrador.cs" />
+    <Compile Include="Backup.cs" />
+    <Compile Include="BackupHistoryEntry.cs" />
+    <Compile Include="Bitacora.cs" />
     <Compile Include="Cliente.cs" />
+    <Compile Include="ControlDeCambios.cs" />
     <Compile Include="PN\BandejaDeTicket.cs" />
     <Compile Include="PN\Comentario.cs" />
     <Compile Include="Departamento.cs" />
@@ -62,6 +66,7 @@
     <Compile Include="Rol.cs" />
     <Compile Include="Tecnico.cs" />
     <Compile Include="PN\Ticket.cs" />
+    <Compile Include="TipoDeOperacion.cs" />
     <Compile Include="Traduccion.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

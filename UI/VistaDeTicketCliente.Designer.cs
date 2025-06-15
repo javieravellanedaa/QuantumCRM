@@ -1,47 +1,89 @@
-﻿// VistaDeTicketCliente.Designer.cs
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace UI
+﻿namespace UI
 {
     partial class VistaDeTicketCliente
     {
-            private IContainer components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-        private SplitContainer splitContainerMain;
-        private Panel panelDates;
-        private Label lblFechadeCreacion, lblOpenDateValue,                                    lblLastUpd, lblLastUpdValue;
+        // Controles existentes
+        private System.Windows.Forms.SplitContainer splitContainerMain;
+        private System.Windows.Forms.Panel panelDates;
+        private System.Windows.Forms.Label lblFechadeCreacion;
+        private System.Windows.Forms.Label lblOpenDateValue;
+        private System.Windows.Forms.Label lblLastUpd;
+        private System.Windows.Forms.Label lblLastUpdValue;
 
-        private TableLayoutPanel tblDetails;
-        private Label lblClient, lblCreatedBy,
-                                   lblLocation, lblDepartment,
-                                   lblCategoria, lblTipoTicket,
-                                   lblGrupoTecDestino, lblAssignedTech,
-                                   lblPrioridad, lblAsunto, lblDescripcion;
-        private TextBox txtCliente, txtCreadoPor,
-                                   txtUbicacion, txtDepartamento,
-                                   txtAssignedTech, txtAsunto, txtDescripcion;
-        private ComboBox cmbCategoria, cmbTicketType,
-                                   cmbGrupoTecDestino, cmbPrioridad;
+        private System.Windows.Forms.TableLayoutPanel tblDetails;
+        private System.Windows.Forms.Label lblClient;
+        private System.Windows.Forms.TextBox txtCliente;
+        private System.Windows.Forms.Label lblCreatedBy;
+        private System.Windows.Forms.TextBox txtCreadoPor;
+        private System.Windows.Forms.Label lblLocation;
+        private System.Windows.Forms.TextBox txtUbicacion;
+        private System.Windows.Forms.Label lblDepartment;
+        private System.Windows.Forms.TextBox txtDepartamento;
+        private System.Windows.Forms.Label lblCategoria;
+        private System.Windows.Forms.ComboBox cmbCategoria;
+        private System.Windows.Forms.Label lblTipoTicket;
+        private System.Windows.Forms.ComboBox cmbTicketType;
+        private System.Windows.Forms.Label lblGrupoTecDestino;
+        private System.Windows.Forms.ComboBox cmbGrupoTecDestino;
+        private System.Windows.Forms.Label lblAssignedTech;
+        private System.Windows.Forms.TextBox txtAssignedTech;
+        private System.Windows.Forms.Label lblPrioridad;
+        private System.Windows.Forms.ComboBox cmbPrioridad;
+        private System.Windows.Forms.Label lblAsunto;
+        private System.Windows.Forms.TextBox txtAsunto;
+        private System.Windows.Forms.Label lblDescripcion;
+        private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.Label lblEstado;
+        private System.Windows.Forms.TextBox txtEstado;
 
-        private DataGridView dgvComentarios;
-        private Button btnNuevoComentario,
-                                   btnGuardarCambios, btnCancelarTicket;
+        // Nuevo DataGridView para Historial
+        private System.Windows.Forms.DataGridView dgvHistorial;
 
+        private System.Windows.Forms.DataGridView dgvComentarios;
+        private System.Windows.Forms.Button btnNuevoComentario;
+        private System.Windows.Forms.Button btnGuardarCambios;
+        private System.Windows.Forms.Button btnCancelarTicket;
+
+        // Panel y controles para agregar comentario en Panel2
+        private System.Windows.Forms.Panel panelAgregarComentario;
+        private System.Windows.Forms.Label lblComentarioNuevo;
+        private System.Windows.Forms.TextBox txtComentarioNuevo;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
+            {
                 components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.dgvComentarios = new System.Windows.Forms.DataGridView();
+            this.dgvHistorial = new System.Windows.Forms.DataGridView();
+            this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelDates = new System.Windows.Forms.Panel();
             this.lblFechadeCreacion = new System.Windows.Forms.Label();
             this.lblOpenDateValue = new System.Windows.Forms.Label();
@@ -70,42 +112,128 @@ namespace UI
             this.txtAsunto = new System.Windows.Forms.TextBox();
             this.lblDescripcion = new System.Windows.Forms.Label();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.lblEstado = new System.Windows.Forms.Label();
+            this.txtEstado = new System.Windows.Forms.TextBox();
+            this.panelAgregarComentario = new System.Windows.Forms.Panel();
+            this.lblComentarioNuevo = new System.Windows.Forms.Label();
+            this.txtComentarioNuevo = new System.Windows.Forms.TextBox();
             this.btnNuevoComentario = new System.Windows.Forms.Button();
             this.btnGuardarCambios = new System.Windows.Forms.Button();
             this.btnCancelarTicket = new System.Windows.Forms.Button();
-            this.dgvComentarios = new System.Windows.Forms.DataGridView();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.txtEstado = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvComentarios)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
             this.panelDates.SuspendLayout();
             this.tblDetails.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvComentarios)).BeginInit();
+            this.panelAgregarComentario.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainerMain
             // 
             this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerMain.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainerMain.Name = "splitContainerMain";
             this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainerMain.Panel1
             // 
+            this.splitContainerMain.Panel1.Controls.Add(this.dgvComentarios);
+            this.splitContainerMain.Panel1.Controls.Add(this.dgvHistorial);
             this.splitContainerMain.Panel1.Controls.Add(this.panelDates);
             this.splitContainerMain.Panel1.Controls.Add(this.tblDetails);
+            this.splitContainerMain.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerMain_Panel1_Paint);
             // 
             // splitContainerMain.Panel2
             // 
+            this.splitContainerMain.Panel2.Controls.Add(this.panelAgregarComentario);
             this.splitContainerMain.Panel2.Controls.Add(this.btnNuevoComentario);
             this.splitContainerMain.Panel2.Controls.Add(this.btnGuardarCambios);
             this.splitContainerMain.Panel2.Controls.Add(this.btnCancelarTicket);
-            this.splitContainerMain.Panel2.Controls.Add(this.dgvComentarios);
-            this.splitContainerMain.Size = new System.Drawing.Size(1104, 685);
-            this.splitContainerMain.SplitterDistance = 486;
+            this.splitContainerMain.Size = new System.Drawing.Size(1104, 686);
+            this.splitContainerMain.SplitterDistance = 449;
             this.splitContainerMain.TabIndex = 0;
+            // 
+            // dgvComentarios
+            // 
+            this.dgvComentarios.AllowUserToAddRows = false;
+            this.dgvComentarios.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.dgvComentarios.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvComentarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvComentarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvComentarios.ColumnHeadersHeight = 29;
+            this.dgvComentarios.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvComentarios.EnableHeadersVisualStyles = false;
+            this.dgvComentarios.Location = new System.Drawing.Point(0, 472);
+            this.dgvComentarios.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvComentarios.Name = "dgvComentarios";
+            this.dgvComentarios.ReadOnly = true;
+            this.dgvComentarios.RowHeadersVisible = false;
+            this.dgvComentarios.RowHeadersWidth = 51;
+            this.dgvComentarios.Size = new System.Drawing.Size(1104, 0);
+            this.dgvComentarios.TabIndex = 3;
+            // 
+            // dgvHistorial
+            // 
+            this.dgvHistorial.AllowUserToAddRows = false;
+            this.dgvHistorial.AllowUserToDeleteRows = false;
+            this.dgvHistorial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHistorial.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvHistorial.ColumnHeadersHeight = 29;
+            this.dgvHistorial.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colFecha,
+            this.colUsuario,
+            this.colAccion});
+            this.dgvHistorial.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvHistorial.EnableHeadersVisualStyles = false;
+            this.dgvHistorial.Location = new System.Drawing.Point(0, 324);
+            this.dgvHistorial.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvHistorial.Name = "dgvHistorial";
+            this.dgvHistorial.ReadOnly = true;
+            this.dgvHistorial.RowHeadersVisible = false;
+            this.dgvHistorial.RowHeadersWidth = 51;
+            this.dgvHistorial.Size = new System.Drawing.Size(1104, 148);
+            this.dgvHistorial.TabIndex = 4;
+            // 
+            // colFecha
+            // 
+            this.colFecha.DataPropertyName = "Fecha";
+            this.colFecha.HeaderText = "Fecha";
+            this.colFecha.MinimumWidth = 6;
+            this.colFecha.Name = "colFecha";
+            this.colFecha.ReadOnly = true;
+            // 
+            // colUsuario
+            // 
+            this.colUsuario.DataPropertyName = "Usuario";
+            this.colUsuario.HeaderText = "Usuario";
+            this.colUsuario.MinimumWidth = 6;
+            this.colUsuario.Name = "colUsuario";
+            this.colUsuario.ReadOnly = true;
+            // 
+            // colAccion
+            // 
+            this.colAccion.DataPropertyName = "Accion";
+            this.colAccion.HeaderText = "Acción";
+            this.colAccion.MinimumWidth = 6;
+            this.colAccion.Name = "colAccion";
+            this.colAccion.ReadOnly = true;
             // 
             // panelDates
             // 
@@ -115,7 +243,8 @@ namespace UI
             this.panelDates.Controls.Add(this.lblLastUpd);
             this.panelDates.Controls.Add(this.lblLastUpdValue);
             this.panelDates.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelDates.Location = new System.Drawing.Point(0, 280);
+            this.panelDates.Location = new System.Drawing.Point(0, 294);
+            this.panelDates.Margin = new System.Windows.Forms.Padding(4);
             this.panelDates.Name = "panelDates";
             this.panelDates.Size = new System.Drawing.Size(1104, 30);
             this.panelDates.TabIndex = 0;
@@ -123,7 +252,8 @@ namespace UI
             // lblFechadeCreacion
             // 
             this.lblFechadeCreacion.ForeColor = System.Drawing.Color.White;
-            this.lblFechadeCreacion.Location = new System.Drawing.Point(10, 6);
+            this.lblFechadeCreacion.Location = new System.Drawing.Point(11, 6);
+            this.lblFechadeCreacion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFechadeCreacion.Name = "lblFechadeCreacion";
             this.lblFechadeCreacion.Size = new System.Drawing.Size(133, 23);
             this.lblFechadeCreacion.TabIndex = 0;
@@ -133,7 +263,8 @@ namespace UI
             // lblOpenDateValue
             // 
             this.lblOpenDateValue.ForeColor = System.Drawing.Color.White;
-            this.lblOpenDateValue.Location = new System.Drawing.Point(218, 3);
+            this.lblOpenDateValue.Location = new System.Drawing.Point(219, 2);
+            this.lblOpenDateValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblOpenDateValue.Name = "lblOpenDateValue";
             this.lblOpenDateValue.Size = new System.Drawing.Size(100, 23);
             this.lblOpenDateValue.TabIndex = 1;
@@ -143,6 +274,7 @@ namespace UI
             // 
             this.lblLastUpd.ForeColor = System.Drawing.Color.White;
             this.lblLastUpd.Location = new System.Drawing.Point(344, 6);
+            this.lblLastUpd.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastUpd.Name = "lblLastUpd";
             this.lblLastUpd.Size = new System.Drawing.Size(100, 23);
             this.lblLastUpd.TabIndex = 4;
@@ -152,6 +284,7 @@ namespace UI
             // 
             this.lblLastUpdValue.ForeColor = System.Drawing.Color.White;
             this.lblLastUpdValue.Location = new System.Drawing.Point(491, 6);
+            this.lblLastUpdValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastUpdValue.Name = "lblLastUpdValue";
             this.lblLastUpdValue.Size = new System.Drawing.Size(100, 23);
             this.lblLastUpdValue.TabIndex = 5;
@@ -163,8 +296,8 @@ namespace UI
             this.tblDetails.ColumnCount = 4;
             this.tblDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12F));
             this.tblDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
-            this.tblDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12F));
-            this.tblDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.tblDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.13301F));
+            this.tblDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.99015F));
             this.tblDetails.Controls.Add(this.lblClient, 0, 0);
             this.tblDetails.Controls.Add(this.txtCliente, 1, 0);
             this.tblDetails.Controls.Add(this.lblCreatedBy, 2, 0);
@@ -191,8 +324,9 @@ namespace UI
             this.tblDetails.Controls.Add(this.txtEstado, 3, 4);
             this.tblDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.tblDetails.Location = new System.Drawing.Point(0, 0);
+            this.tblDetails.Margin = new System.Windows.Forms.Padding(4);
             this.tblDetails.Name = "tblDetails";
-            this.tblDetails.Padding = new System.Windows.Forms.Padding(10);
+            this.tblDetails.Padding = new System.Windows.Forms.Padding(11, 10, 11, 10);
             this.tblDetails.RowCount = 7;
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -201,12 +335,13 @@ namespace UI
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblDetails.Size = new System.Drawing.Size(1104, 280);
+            this.tblDetails.Size = new System.Drawing.Size(1104, 294);
             this.tblDetails.TabIndex = 1;
             // 
             // lblClient
             // 
-            this.lblClient.Location = new System.Drawing.Point(13, 10);
+            this.lblClient.Location = new System.Drawing.Point(15, 10);
+            this.lblClient.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClient.Name = "lblClient";
             this.lblClient.Size = new System.Drawing.Size(100, 23);
             this.lblClient.TabIndex = 0;
@@ -215,7 +350,8 @@ namespace UI
             // txtCliente
             // 
             this.txtCliente.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtCliente.Location = new System.Drawing.Point(143, 13);
+            this.txtCliente.Location = new System.Drawing.Point(144, 14);
+            this.txtCliente.Margin = new System.Windows.Forms.Padding(4);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.ReadOnly = true;
             this.txtCliente.Size = new System.Drawing.Size(396, 22);
@@ -224,6 +360,7 @@ namespace UI
             // lblCreatedBy
             // 
             this.lblCreatedBy.Location = new System.Drawing.Point(554, 10);
+            this.lblCreatedBy.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCreatedBy.Name = "lblCreatedBy";
             this.lblCreatedBy.Size = new System.Drawing.Size(100, 23);
             this.lblCreatedBy.TabIndex = 2;
@@ -232,7 +369,8 @@ namespace UI
             // txtCreadoPor
             // 
             this.txtCreadoPor.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtCreadoPor.Location = new System.Drawing.Point(684, 13);
+            this.txtCreadoPor.Location = new System.Drawing.Point(728, 14);
+            this.txtCreadoPor.Margin = new System.Windows.Forms.Padding(4);
             this.txtCreadoPor.Name = "txtCreadoPor";
             this.txtCreadoPor.ReadOnly = true;
             this.txtCreadoPor.Size = new System.Drawing.Size(224, 22);
@@ -240,7 +378,8 @@ namespace UI
             // 
             // lblLocation
             // 
-            this.lblLocation.Location = new System.Drawing.Point(13, 38);
+            this.lblLocation.Location = new System.Drawing.Point(15, 40);
+            this.lblLocation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLocation.Name = "lblLocation";
             this.lblLocation.Size = new System.Drawing.Size(100, 23);
             this.lblLocation.TabIndex = 4;
@@ -249,7 +388,8 @@ namespace UI
             // txtUbicacion
             // 
             this.txtUbicacion.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtUbicacion.Location = new System.Drawing.Point(143, 41);
+            this.txtUbicacion.Location = new System.Drawing.Point(144, 44);
+            this.txtUbicacion.Margin = new System.Windows.Forms.Padding(4);
             this.txtUbicacion.Name = "txtUbicacion";
             this.txtUbicacion.ReadOnly = true;
             this.txtUbicacion.Size = new System.Drawing.Size(396, 22);
@@ -257,16 +397,18 @@ namespace UI
             // 
             // lblDepartment
             // 
-            this.lblDepartment.Location = new System.Drawing.Point(554, 38);
+            this.lblDepartment.Location = new System.Drawing.Point(554, 40);
+            this.lblDepartment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDepartment.Name = "lblDepartment";
-            this.lblDepartment.Size = new System.Drawing.Size(100, 23);
+            this.lblDepartment.Size = new System.Drawing.Size(143, 23);
             this.lblDepartment.TabIndex = 6;
             this.lblDepartment.Text = "Departamento:";
             // 
             // txtDepartamento
             // 
             this.txtDepartamento.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtDepartamento.Location = new System.Drawing.Point(684, 41);
+            this.txtDepartamento.Location = new System.Drawing.Point(728, 44);
+            this.txtDepartamento.Margin = new System.Windows.Forms.Padding(4);
             this.txtDepartamento.Name = "txtDepartamento";
             this.txtDepartamento.ReadOnly = true;
             this.txtDepartamento.Size = new System.Drawing.Size(224, 22);
@@ -274,7 +416,8 @@ namespace UI
             // 
             // lblCategoria
             // 
-            this.lblCategoria.Location = new System.Drawing.Point(13, 66);
+            this.lblCategoria.Location = new System.Drawing.Point(15, 70);
+            this.lblCategoria.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCategoria.Name = "lblCategoria";
             this.lblCategoria.Size = new System.Drawing.Size(100, 23);
             this.lblCategoria.TabIndex = 8;
@@ -283,14 +426,16 @@ namespace UI
             // cmbCategoria
             // 
             this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCategoria.Location = new System.Drawing.Point(143, 69);
+            this.cmbCategoria.Location = new System.Drawing.Point(144, 74);
+            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(396, 24);
             this.cmbCategoria.TabIndex = 9;
             // 
             // lblTipoTicket
             // 
-            this.lblTipoTicket.Location = new System.Drawing.Point(554, 66);
+            this.lblTipoTicket.Location = new System.Drawing.Point(554, 70);
+            this.lblTipoTicket.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTipoTicket.Name = "lblTipoTicket";
             this.lblTipoTicket.Size = new System.Drawing.Size(100, 23);
             this.lblTipoTicket.TabIndex = 10;
@@ -299,14 +444,16 @@ namespace UI
             // cmbTicketType
             // 
             this.cmbTicketType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTicketType.Location = new System.Drawing.Point(684, 69);
+            this.cmbTicketType.Location = new System.Drawing.Point(728, 74);
+            this.cmbTicketType.Margin = new System.Windows.Forms.Padding(4);
             this.cmbTicketType.Name = "cmbTicketType";
             this.cmbTicketType.Size = new System.Drawing.Size(224, 24);
             this.cmbTicketType.TabIndex = 11;
             // 
             // lblGrupoTecDestino
             // 
-            this.lblGrupoTecDestino.Location = new System.Drawing.Point(13, 96);
+            this.lblGrupoTecDestino.Location = new System.Drawing.Point(15, 102);
+            this.lblGrupoTecDestino.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGrupoTecDestino.Name = "lblGrupoTecDestino";
             this.lblGrupoTecDestino.Size = new System.Drawing.Size(100, 23);
             this.lblGrupoTecDestino.TabIndex = 12;
@@ -315,14 +462,16 @@ namespace UI
             // cmbGrupoTecDestino
             // 
             this.cmbGrupoTecDestino.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbGrupoTecDestino.Location = new System.Drawing.Point(143, 99);
+            this.cmbGrupoTecDestino.Location = new System.Drawing.Point(144, 106);
+            this.cmbGrupoTecDestino.Margin = new System.Windows.Forms.Padding(4);
             this.cmbGrupoTecDestino.Name = "cmbGrupoTecDestino";
             this.cmbGrupoTecDestino.Size = new System.Drawing.Size(396, 24);
             this.cmbGrupoTecDestino.TabIndex = 13;
             // 
             // lblAssignedTech
             // 
-            this.lblAssignedTech.Location = new System.Drawing.Point(554, 96);
+            this.lblAssignedTech.Location = new System.Drawing.Point(554, 102);
+            this.lblAssignedTech.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAssignedTech.Name = "lblAssignedTech";
             this.lblAssignedTech.Size = new System.Drawing.Size(100, 23);
             this.lblAssignedTech.TabIndex = 14;
@@ -331,16 +480,17 @@ namespace UI
             // txtAssignedTech
             // 
             this.txtAssignedTech.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtAssignedTech.Location = new System.Drawing.Point(684, 99);
+            this.txtAssignedTech.Location = new System.Drawing.Point(728, 106);
+            this.txtAssignedTech.Margin = new System.Windows.Forms.Padding(4);
             this.txtAssignedTech.Name = "txtAssignedTech";
             this.txtAssignedTech.ReadOnly = true;
             this.txtAssignedTech.Size = new System.Drawing.Size(224, 22);
             this.txtAssignedTech.TabIndex = 15;
-            this.txtAssignedTech.TextChanged += new System.EventHandler(this.txtAssignedTech_TextChanged);
             // 
             // lblPrioridad
             // 
-            this.lblPrioridad.Location = new System.Drawing.Point(13, 126);
+            this.lblPrioridad.Location = new System.Drawing.Point(15, 134);
+            this.lblPrioridad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPrioridad.Name = "lblPrioridad";
             this.lblPrioridad.Size = new System.Drawing.Size(100, 23);
             this.lblPrioridad.TabIndex = 16;
@@ -349,14 +499,16 @@ namespace UI
             // cmbPrioridad
             // 
             this.cmbPrioridad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPrioridad.Location = new System.Drawing.Point(143, 129);
+            this.cmbPrioridad.Location = new System.Drawing.Point(144, 138);
+            this.cmbPrioridad.Margin = new System.Windows.Forms.Padding(4);
             this.cmbPrioridad.Name = "cmbPrioridad";
             this.cmbPrioridad.Size = new System.Drawing.Size(396, 24);
             this.cmbPrioridad.TabIndex = 17;
             // 
             // lblAsunto
             // 
-            this.lblAsunto.Location = new System.Drawing.Point(13, 156);
+            this.lblAsunto.Location = new System.Drawing.Point(15, 166);
+            this.lblAsunto.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAsunto.Name = "lblAsunto";
             this.lblAsunto.Size = new System.Drawing.Size(100, 23);
             this.lblAsunto.TabIndex = 18;
@@ -366,14 +518,16 @@ namespace UI
             // 
             this.txtAsunto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tblDetails.SetColumnSpan(this.txtAsunto, 3);
-            this.txtAsunto.Location = new System.Drawing.Point(143, 159);
+            this.txtAsunto.Location = new System.Drawing.Point(144, 170);
+            this.txtAsunto.Margin = new System.Windows.Forms.Padding(4);
             this.txtAsunto.Name = "txtAsunto";
-            this.txtAsunto.Size = new System.Drawing.Size(396, 22);
+            this.txtAsunto.Size = new System.Drawing.Size(809, 22);
             this.txtAsunto.TabIndex = 19;
             // 
             // lblDescripcion
             // 
-            this.lblDescripcion.Location = new System.Drawing.Point(13, 184);
+            this.lblDescripcion.Location = new System.Drawing.Point(15, 196);
+            this.lblDescripcion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDescripcion.Name = "lblDescripcion";
             this.lblDescripcion.Size = new System.Drawing.Size(100, 23);
             this.lblDescripcion.TabIndex = 20;
@@ -383,11 +537,64 @@ namespace UI
             // 
             this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tblDetails.SetColumnSpan(this.txtDescripcion, 3);
-            this.txtDescripcion.Location = new System.Drawing.Point(143, 187);
+            this.txtDescripcion.Location = new System.Drawing.Point(144, 200);
+            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(396, 80);
+            this.txtDescripcion.Size = new System.Drawing.Size(809, 80);
             this.txtDescripcion.TabIndex = 21;
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.Location = new System.Drawing.Point(554, 134);
+            this.lblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(100, 23);
+            this.lblEstado.TabIndex = 14;
+            this.lblEstado.Text = "Estado:";
+            // 
+            // txtEstado
+            // 
+            this.txtEstado.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtEstado.Location = new System.Drawing.Point(728, 138);
+            this.txtEstado.Margin = new System.Windows.Forms.Padding(4);
+            this.txtEstado.Name = "txtEstado";
+            this.txtEstado.ReadOnly = true;
+            this.txtEstado.Size = new System.Drawing.Size(224, 22);
+            this.txtEstado.TabIndex = 15;
+            // 
+            // panelAgregarComentario
+            // 
+            this.panelAgregarComentario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
+            this.panelAgregarComentario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAgregarComentario.Controls.Add(this.lblComentarioNuevo);
+            this.panelAgregarComentario.Controls.Add(this.txtComentarioNuevo);
+            this.panelAgregarComentario.Location = new System.Drawing.Point(11, 49);
+            this.panelAgregarComentario.Margin = new System.Windows.Forms.Padding(4);
+            this.panelAgregarComentario.Name = "panelAgregarComentario";
+            this.panelAgregarComentario.Size = new System.Drawing.Size(666, 66);
+            this.panelAgregarComentario.TabIndex = 4;
+            this.panelAgregarComentario.Visible = false;
+            // 
+            // lblComentarioNuevo
+            // 
+            this.lblComentarioNuevo.AutoSize = true;
+            this.lblComentarioNuevo.Location = new System.Drawing.Point(5, 5);
+            this.lblComentarioNuevo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblComentarioNuevo.Name = "lblComentarioNuevo";
+            this.lblComentarioNuevo.Size = new System.Drawing.Size(139, 16);
+            this.lblComentarioNuevo.TabIndex = 0;
+            this.lblComentarioNuevo.Text = "Escribe tu comentario:";
+            // 
+            // txtComentarioNuevo
+            // 
+            this.txtComentarioNuevo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtComentarioNuevo.Location = new System.Drawing.Point(5, 25);
+            this.txtComentarioNuevo.Margin = new System.Windows.Forms.Padding(4);
+            this.txtComentarioNuevo.Multiline = true;
+            this.txtComentarioNuevo.Name = "txtComentarioNuevo";
+            this.txtComentarioNuevo.Size = new System.Drawing.Size(653, 36);
+            this.txtComentarioNuevo.TabIndex = 1;
             // 
             // btnNuevoComentario
             // 
@@ -395,9 +602,10 @@ namespace UI
             this.btnNuevoComentario.FlatAppearance.BorderSize = 0;
             this.btnNuevoComentario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNuevoComentario.ForeColor = System.Drawing.Color.White;
-            this.btnNuevoComentario.Location = new System.Drawing.Point(10, 10);
+            this.btnNuevoComentario.Location = new System.Drawing.Point(11, 10);
+            this.btnNuevoComentario.Margin = new System.Windows.Forms.Padding(4);
             this.btnNuevoComentario.Name = "btnNuevoComentario";
-            this.btnNuevoComentario.Size = new System.Drawing.Size(150, 30);
+            this.btnNuevoComentario.Size = new System.Drawing.Size(187, 30);
             this.btnNuevoComentario.TabIndex = 0;
             this.btnNuevoComentario.Text = "+ Nuevo comentario";
             this.btnNuevoComentario.UseVisualStyleBackColor = false;
@@ -408,12 +616,14 @@ namespace UI
             this.btnGuardarCambios.FlatAppearance.BorderSize = 0;
             this.btnGuardarCambios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarCambios.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarCambios.Location = new System.Drawing.Point(170, 10);
+            this.btnGuardarCambios.Location = new System.Drawing.Point(208, 10);
+            this.btnGuardarCambios.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardarCambios.Name = "btnGuardarCambios";
-            this.btnGuardarCambios.Size = new System.Drawing.Size(120, 30);
+            this.btnGuardarCambios.Size = new System.Drawing.Size(160, 30);
             this.btnGuardarCambios.TabIndex = 1;
             this.btnGuardarCambios.Text = "Guardar Cambios";
             this.btnGuardarCambios.UseVisualStyleBackColor = false;
+            this.btnGuardarCambios.Click += new System.EventHandler(this.BtnGuardarCambios_Click);
             // 
             // btnCancelarTicket
             // 
@@ -421,63 +631,21 @@ namespace UI
             this.btnCancelarTicket.FlatAppearance.BorderSize = 0;
             this.btnCancelarTicket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarTicket.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarTicket.Location = new System.Drawing.Point(310, 10);
+            this.btnCancelarTicket.Location = new System.Drawing.Point(384, 10);
+            this.btnCancelarTicket.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancelarTicket.Name = "btnCancelarTicket";
-            this.btnCancelarTicket.Size = new System.Drawing.Size(120, 30);
+            this.btnCancelarTicket.Size = new System.Drawing.Size(160, 30);
             this.btnCancelarTicket.TabIndex = 2;
             this.btnCancelarTicket.Text = "Cancelar Ticket";
             this.btnCancelarTicket.UseVisualStyleBackColor = false;
-            // 
-            // dgvComentarios
-            // 
-            this.dgvComentarios.AllowUserToAddRows = false;
-            this.dgvComentarios.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.dgvComentarios.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvComentarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvComentarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvComentarios.ColumnHeadersHeight = 29;
-            this.dgvComentarios.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvComentarios.EnableHeadersVisualStyles = false;
-            this.dgvComentarios.Location = new System.Drawing.Point(0, 0);
-            this.dgvComentarios.Name = "dgvComentarios";
-            this.dgvComentarios.ReadOnly = true;
-            this.dgvComentarios.RowHeadersVisible = false;
-            this.dgvComentarios.RowHeadersWidth = 51;
-            this.dgvComentarios.Size = new System.Drawing.Size(1104, 195);
-            this.dgvComentarios.TabIndex = 3;
-            // 
-            // lblEstado
-            // 
-            this.lblEstado.Location = new System.Drawing.Point(554, 126);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(100, 23);
-            this.lblEstado.TabIndex = 14;
-            this.lblEstado.Text = "Estado:";
-            // 
-            // txtEstado
-            // 
-            this.txtEstado.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtEstado.Location = new System.Drawing.Point(684, 129);
-            this.txtEstado.Name = "txtEstado";
-            this.txtEstado.ReadOnly = true;
-            this.txtEstado.Size = new System.Drawing.Size(224, 22);
-            this.txtEstado.TabIndex = 15;
-            this.txtEstado.TextChanged += new System.EventHandler(this.txtAssignedTech_TextChanged);
             // 
             // VistaDeTicketCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1104, 685);
+            this.ClientSize = new System.Drawing.Size(1104, 686);
             this.Controls.Add(this.splitContainerMain);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "VistaDeTicketCliente";
             this.Text = "Detalle de Ticket";
             this.splitContainerMain.Panel1.ResumeLayout(false);
@@ -485,15 +653,21 @@ namespace UI
             this.splitContainerMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvComentarios)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).EndInit();
             this.panelDates.ResumeLayout(false);
             this.tblDetails.ResumeLayout(false);
             this.tblDetails.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvComentarios)).EndInit();
+            this.panelAgregarComentario.ResumeLayout(false);
+            this.panelAgregarComentario.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
-        private Label lblEstado;
-        private TextBox txtEstado;
+        #endregion
+
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFecha;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUsuario;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAccion;
     }
 }

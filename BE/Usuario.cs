@@ -44,9 +44,13 @@ namespace BE
 
             _permisos.Add(componente);
         }
+
+        public string NombreListado => $"{Apellido}, {Nombre}";
+
         public override string ToString()
         {
             return NombreUsuario;
         }
+        
     }
 }

@@ -42,53 +42,59 @@ namespace DAL
         }
         public void ActualizarTicket(Ticket ticket)
         {
+            // Creamos la lista de parámetros usando las sobrecargas adecuadas de CrearParametro
             var parametros = new List<SqlParameter>
-                {
-                    _acceso.CrearParametro("@ticket_id",            ticket.TicketId.ToString()),
-                    _acceso.CrearParametro("@asunto",               ticket.Asunto),
-                    _acceso.CrearParametro("@descripcion",          ticket.Descripcion),
-                    _acceso.CrearParametro("@categoria_id",         ticket.CategoriaId.ToString()),
-                    _acceso.CrearParametro("@prioridad_id",         ticket.PrioridadId.ToString()),
-                    _acceso.CrearParametro("@estado_id",            ticket.EstadoId.ToString()),
-                    _acceso.CrearParametro(
-                        "@usuario_aprobador_id",
-                        ticket.UsuarioAprobadorId.HasValue
-                            ? ticket.UsuarioAprobadorId.Value.ToString()
-                            : DBNull.Value.ToString()
-                    ),
-                    _acceso.CrearParametro(
-                        "@grupo_tecnico_id",
-                        ticket.GrupoTecnicoId.HasValue
-                            ? ticket.GrupoTecnicoId.Value.ToString()
-                            : DBNull.Value.ToString()
-                    ),
-                    _acceso.CrearParametro(
-                        "@tecnico_id",
-                        ticket.TecnicoId.HasValue
-                            ? ticket.TecnicoId.Value.ToString()
-                            : DBNull.Value.ToString()
-                    ),
-                    // <-- Nuevo parámetro eliminado
-                    _acceso.CrearParametro(
-                        "@eliminado",
-                        ticket.Eliminado ? "1" : "0"
-                    ),
-                    _acceso.CrearParametro(
-                        "@fecha_ultima_modif",
-                        ticket.FechaUltimaModif.ToString("o")
-                    )
-                };
+    {
+        // @ticket_id         UNIQUEIDENTIFIER
+        // En la clase Acceso existe la sobrecarga CrearParametro(string, Guid?)
+        // Pasamos ticket.TicketId como Guid (se convierte implícitamente a Guid?)
+        _acceso.CrearParametro("@ticket_id", ticket.TicketId),
+
+        // @asunto            NVARCHAR(50)
+        // Sobre carga CrearParametro(string, string) → DbType.String → NVARCHAR
+        _acceso.CrearParametro("@asunto", ticket.Asunto),
+
+        // @descripcion       NVARCHAR(150)
+        _acceso.CrearParametro("@descripcion", ticket.Descripcion),
+
+        // @categoria_id      INT
+        _acceso.CrearParametro("@categoria_id", ticket.CategoriaId),
+
+        // @prioridad_id      INT
+        _acceso.CrearParametro("@prioridad_id", ticket.PrioridadId),
+
+        // @estado_id         INT
+        _acceso.CrearParametro("@estado_id", ticket.EstadoId),
+
+        // @usuario_aprobador_id  INT = NULL
+        // ticket.UsuarioAprobadorId es int?; si es null, la sobrecarga lo pone como DBNull
+        _acceso.CrearParametro("@usuario_aprobador_id", ticket.UsuarioAprobadorId),
+
+        // @grupo_tecnico_id   INT = NULL
+        _acceso.CrearParametro("@grupo_tecnico_id", ticket.GrupoTecnicoId),
+
+        // @tecnico_id        INT = NULL
+        _acceso.CrearParametro("@tecnico_id", ticket.TecnicoId),
+
+        // @eliminado         BIT
+        // Sobre carga CrearParametro(string, bool) → DbType.Boolean → BIT
+        _acceso.CrearParametro("@eliminado", ticket.Eliminado),
+
+        // @fecha_ultima_modif DATETIME
+        _acceso.CrearParametro("@fecha_ultima_modif", ticket.FechaUltimaModif)
+    };
 
             try
             {
                 _acceso.Abrir();
-                _acceso.Escribir("sp_ActualizarTicket", parametros);
+                    _acceso.Escribir("sp_ActualizarTicket", parametros);
             }
             finally
             {
                 _acceso.Cerrar();
             }
         }
+
 
         public void GuardarTicket(Ticket ticket)
         {

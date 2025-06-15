@@ -128,6 +128,14 @@ namespace DAL
             }
         }
 
+
+        // Devuelve todos los técnicos existentes (activos e inactivos)
+        public List<Tecnico> ListarTodos()
+        {
+            return ObtenerTodos().ToList();
+        }
+
+
         // Actualiza el estado activo y sincroniza grupos
         public void Actualizar(Tecnico tecnico)
         {

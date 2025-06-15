@@ -52,8 +52,14 @@ namespace BLL
             if (_grupoTecnicoDAL.ExisteNombre(grupo.Nombre))
                 throw new InvalidOperationException($"Ya existe otro grupo técnico con el nombre '{grupo.Nombre}'.");
 
-            _grupoTecnicoDAL.AgregarGrupoTecnico(grupo);
+            int nuevoGrupoId= _grupoTecnicoDAL.AgregarGrupoTecnico(grupo);
+
+            foreach (var tecnico in grupo.Tecnicos)
+            {
+                _grupoTecnicoDAL.AgregarTecnicoAGrupo(nuevoGrupoId, tecnico.TecnicoId);
+            }
         }
+
 
 
         public void ActualizarGrupoTecnico(GrupoTecnico grupo)

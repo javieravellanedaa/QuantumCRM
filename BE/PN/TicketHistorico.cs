@@ -1,7 +1,5 @@
 ﻿// BE/TicketHistorico.cs
-using BE.PN;
 using System;
-using System.Collections.Generic;
 
 namespace BE
 {
@@ -16,6 +14,7 @@ namespace BE
         // Cuándo y quién realizó el cambio
         public DateTime FechaCambio { get; set; }
         public Guid UsuarioCambioId { get; set; }
+        public Usuario UsuarioCambio { get; set; }  // Navegación opcional si se desea
 
         // Tipo de evento: "Estado", "Grupo", "Prioridad", "Categoría", etc.
         public string TipoEvento { get; set; }

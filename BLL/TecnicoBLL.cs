@@ -24,14 +24,31 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(tecnico.Nombre))
                 throw new ArgumentException("El nombre del técnico es obligatorio.");
 
-            if (tecnico.CapacidadMaximaTickets < 0)
-                throw new ArgumentException("La capacidad máxima de tickets no puede ser negativa.");
-
             tecnico.FechaIngreso = DateTime.Now;
             tecnico.EstaActivo = true;
 
-            return _tecnicoDAL.Insertar(tecnico);
+            // 1. Insertamos técnico
+            var tecnicoCreado = _tecnicoDAL.Insertar(tecnico);
+
+            // 2. Asignamos sus grupos usando la lógica de BLL (validación incluida)
+            if (tecnico.GruposTecnicos != null)
+            {
+                foreach (var grupo in tecnico.GruposTecnicos)
+                {
+                    _grupoDAL.AgregarTecnicoAGrupo(grupo.GrupoId, tecnicoCreado.TecnicoId);
+                }
+            }
+
+            return tecnicoCreado;
         }
+
+        public List<Tecnico> ListarTecnicosActivos()
+        {
+            var tecnicos = _tecnicoDAL.ListarTodos();
+            return tecnicos.Where(t => t.EstaActivo).ToList();
+        }
+
+
 
         // Obtener un técnico por su ID
         public Tecnico ObtenerTecnicoPorId(int id)
@@ -59,11 +76,10 @@ namespace BLL
         {
             var existente = ObtenerTecnicoPorId(tecnico.TecnicoId);
 
-            if (tecnico.CapacidadMaximaTickets < 0)
-                throw new ArgumentException("Capacidad máxima inválida.");
+ 
 
             existente.Especialidad = tecnico.Especialidad;
-            existente.CapacidadMaximaTickets = tecnico.CapacidadMaximaTickets;
+         
             existente.EstaActivo = tecnico.EstaActivo;
             existente.DepartamentoId = tecnico.DepartamentoId;
 

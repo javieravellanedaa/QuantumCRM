@@ -232,6 +232,30 @@ namespace DAL
             return null;
         }
 
+        public List<Cliente> ListarClientesDisponiblesParaLider()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+            _acceso.Abrir();
+
+            using (var reader = _acceso.EjecutarLectura("sp_ListarClientesParaLider"))
+            {
+                while (reader.Read())
+                {
+                    clientes.Add(new Cliente
+                    {
+                        ClienteId = reader.GetInt32(reader.GetOrdinal("cliente_id")),
+                        Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                        Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                        Email = reader.GetString(reader.GetOrdinal("email"))
+                    });
+                }
+            }
+
+            _acceso.Cerrar();
+            return clientes;
+        }
+
+
         public void AgregarCliente(Cliente cliente)
         {
             List<SqlParameter> parametros = new List<SqlParameter>

@@ -32,6 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=9.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.9.0.6\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,9 +47,13 @@
   <ItemGroup>
     <Compile Include="AbstractDAL.cs" />
     <Compile Include="Acceso.cs" />
+    <Compile Include="AdministradorDAL.cs" />
+    <Compile Include="BackupDAL.cs" />
+    <Compile Include="BitacoraDAL.cs" />
     <Compile Include="CategoriaDAL.cs" />
     <Compile Include="ClienteDAL.cs" />
     <Compile Include="ComentarioDAL.cs" />
+    <Compile Include="ControlDeCambiosDAL.cs" />
     <Compile Include="DepartamentoDAL.cs" />
     <Compile Include="EstadoTicketDAL.cs" />
     <Compile Include="EtiquetaDAL.cs" />
@@ -74,6 +82,9 @@
       <Project>{886171d6-de2d-416a-9e59-b08957b71be1}</Project>
       <Name>SERVICIOS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

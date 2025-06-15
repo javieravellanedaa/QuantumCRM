@@ -41,6 +41,12 @@ namespace BLL
                 throw new Exception("Error al obtener el ID de usuario por cliente ID.", ex);
             }
         }
+
+        public List<Cliente> ObtenerClientesParaLider()
+        {
+            return _clienteDAL.ListarClientesDisponiblesParaLider();
+        }
+
         public void AgregarCliente(Cliente cliente)
         {
             try

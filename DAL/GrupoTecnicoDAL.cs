@@ -121,26 +121,27 @@ namespace DAL
             }
         }
 
-        public void AgregarGrupoTecnico(GrupoTecnico grupo)
+        public int AgregarGrupoTecnico(GrupoTecnico grupo)
         {
-            var parametros = new List<SqlParameter>
+                    var parametros = new List<SqlParameter>
             {
                 acceso.CrearParametro("@Nombre", grupo.Nombre),
                 acceso.CrearParametro("@Descripcion", grupo.Descripcion ?? DBNull.Value.ToString()),
-               acceso.CrearParametro("@TecnicoLiderId", grupo.TecnicoLider != null ? grupo.TecnicoLider.TecnicoId.ToString() : DBNull.Value.ToString())
-
+                acceso.CrearParametro("@TecnicoLiderId", grupo.TecnicoLider != null ? grupo.TecnicoLider.TecnicoId.ToString() : DBNull.Value.ToString())
             };
 
             try
             {
                 acceso.Abrir();
-                acceso.Escribir("sp_AgregarGrupoTecnico", parametros);
+                var result = acceso.EscribirEscalar("sp_AgregarGrupoTecnico", parametros);
+                return Convert.ToInt32(result);
             }
             finally
             {
                 acceso.Cerrar();
             }
         }
+
 
         public void ActualizarGrupoTecnico(GrupoTecnico grupo)
         {
@@ -253,6 +254,8 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+
         public void EliminarTecnicoDeGrupo(int grupoId, int tecnicoId)
         {
             var parametros = new List<SqlParameter>

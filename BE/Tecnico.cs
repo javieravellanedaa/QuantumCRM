@@ -16,7 +16,7 @@ public class Tecnico : Usuario
     public bool EstaActivo { get; set; }
     public DateTime FechaIngreso { get; set; }
     public string Especialidad { get; set; }
-    public int CapacidadMaximaTickets { get; set; }
-
     public List<Ticket> TicketsAsignados { get; set; } = new List<Ticket>();
+    public string NombreCompleto => $"{Nombre} {Apellido}";
+
 }

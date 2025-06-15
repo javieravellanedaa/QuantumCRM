@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using BLL;
-using BE;
-using BE.PN;
-using SERVICIOS;
+using BLL;        // Asegúrate que TicketBLL, ComentarioBLL, etc. estén en este namespace
+using BE;         // Entidades BE, incluida TicketHistorico y Usuario
+using BE.PN;      // Si tus entidades específicas están en BE.PN
+using SERVICIOS;  // Otras utilerías que uses
 
 namespace UI
 {
@@ -16,6 +16,8 @@ namespace UI
         private readonly CategoriaBLL _categoriaBLL;
         private readonly PrioridadBLL _prioridadBLL;
         private readonly TecnicoBLL _tecnicoBLL;
+        private readonly EstadoTicketBLL _estadoBLL;
+        private readonly DepartamentoBLL _departamentoBLL;
 
         private Ticket _ticket;
 
@@ -23,20 +25,77 @@ namespace UI
         {
             InitializeComponent();
 
+            // Inicializo las instancias de las capas BLL
             _ticketBLL = new TicketBLL();
             _comentarioBLL = new ComentarioBLL();
             _clienteBLL = new ClienteBLL();
             _categoriaBLL = new CategoriaBLL();
             _prioridadBLL = new PrioridadBLL();
             _tecnicoBLL = new TecnicoBLL();
+            _estadoBLL = new EstadoTicketBLL();
+            _departamentoBLL = new DepartamentoBLL();
 
             _ticket = ticket;
-            ticket.Categoria = _categoriaBLL.ObtenerCategoriaPorId(ticket.CategoriaId);
-            ticket.ClienteCreador = _clienteBLL.ObtenerClientePorId(ticket.ClienteCreadorId);
 
+            //
+            // Cargo datos relacionados: Categoría, Cliente (y su Departamento), Estado.
+            //
+            // 1.a) Cargo la Categoría completa
+            ticket.Categoria = _categoriaBLL.ObtenerCategoriaPorId(ticket.CategoriaId);
+
+            // 1.b) Cargo el Cliente creador con su Departamento
+            ticket.ClienteCreador = _clienteBLL.ObtenerClientePorId(ticket.ClienteCreadorId);
+            if (ticket.ClienteCreador.Departamento?.Nombre == null)
+            {
+                ticket.ClienteCreador.Departamento =
+                    _departamentoBLL.ObtenerDepartamentoPorId(ticket.ClienteCreador.Departamento.Id);
+            }
+
+            // 1.c) Cargo el Estado del ticket (si ya tiene uno asignado)
+            if (ticket.EstadoId > 0)
+            {
+                ticket.Estado = _estadoBLL.ObtenerEstadoTicket(ticket.EstadoId);
+            }
+
+            // 2) Cargo los combos (categorías, prioridades, tipos, etc.)
             LoadCombos();
+
+            // 3) Poblo los campos de la parte superior (Cliente, Asunto, Ubicación, etc.)
             PopulateFields();
+
+            // 4) CARGA EL HISTORIAL y lo muestra en dgvHistorial
+            LoadHistorial();
+
+            // 5) Cargo la sección de comentarios debajo del histórico
             LoadComentarios();
+
+            // 6) Suscribo eventos de botones
+            btnNuevoComentario.Click += BtnNuevoComentario_Click;
+            btnGuardarCambios.Click += BtnGuardarCambios_Click;
+            btnCancelarTicket.Click += btnCancelarTicket_Click;
+        }
+
+        /// <summary>
+        /// Carga la lista de historial de este ticket y lo asigna a dgvHistorial.
+        /// </summary>
+        private void LoadHistorial()
+        {
+            var historicoBLL = new TicketHistoricoBLL();
+            var listaHistorialCompleta = historicoBLL.ObtenerHistorialPorTicket(_ticket.TicketId);
+
+            var listaPlano = listaHistorialCompleta
+                             .Select(h => new
+                             {
+                                 Fecha = h.FechaCambio.ToString("g"),
+                                 Usuario = /* Si tienes Usuario cargado en h.UsuarioCambio, úsalo aquí: */
+                                           h.UsuarioCambioId.ToString(),
+                                 Accion = $"{h.TipoEvento}: {h.ValorAnteriorId ?? 0} → {h.ValorNuevoId ?? 0}",
+                                 Comentario = h.Comentario
+                             })
+                             .OrderBy(x => DateTime.Parse(x.Fecha))
+                             .ToList();
+
+            dgvHistorial.DataSource = listaPlano;
         }
 
         private void CmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,8 +104,6 @@ namespace UI
             {
                 cmbTicketType.SelectedItem = selCat.tipoCategoria;
                 cmbPrioridad.SelectedItem = selCat.Prioridad.Nombre;
-
-                // Grupo técnico asociado a la categoría
                 cmbGrupoTecDestino.DataSource = new[] { selCat.GrupoTecnico };
                 cmbGrupoTecDestino.DisplayMember = "Nombre";
                 cmbGrupoTecDestino.ValueMember = "GrupoId";
@@ -55,34 +112,31 @@ namespace UI
 
         private void LoadCombos()
         {
-            // Categorías
             var cats = _categoriaBLL.ListarCategorias();
             cmbCategoria.DataSource = cats;
             cmbCategoria.DisplayMember = "Nombre";
             cmbCategoria.ValueMember = "CategoriaId";
 
-            // Tipo de ticket (solo lectura)
-            cmbTicketType.DataSource = Enum.GetValues(typeof(BE.PN.TipoCategoria))
-                                         .Cast<BE.PN.TipoCategoria>()
-                                         .ToList();
+            cmbTicketType.DataSource = Enum.GetValues(typeof(TipoCategoria))
+                                          .Cast<TipoCategoria>()
+                                          .ToList();
             cmbTicketType.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTicketType.Enabled = false;
 
-            // Grupo técnico (bloqueado para usuario)
             cmbGrupoTecDestino.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbGrupoTecDestino.Enabled = false;
 
-            // Prioridad
             cmbPrioridad.DataSource = _prioridadBLL.GetAllPrioridades();
             cmbPrioridad.DisplayMember = "Nombre";
             cmbPrioridad.ValueMember = "Id";
 
-            // Eventos
             cmbCategoria.SelectedIndexChanged += CmbCategoria_SelectedIndexChanged;
 
-            // Forzar selección inicial
             if (cmbCategoria.Items.Count > 0)
+            {
+                cmbCategoria.SelectedIndex = 0;
                 CmbCategoria_SelectedIndexChanged(this, EventArgs.Empty);
+            }
         }
 
         private void PopulateFields()
@@ -95,66 +149,171 @@ namespace UI
             txtUbicacion.Text = _ticket.ClienteCreador.Direccion ?? "";
             txtDepartamento.Text = _ticket.ClienteCreador.Departamento?.Nombre ?? "";
 
-            // Categoría
-            //cmbCategoria.SelectedValue = _ticket.CategoriaId;
-            //cmbCategoria.
+            cmbCategoria.SelectedValue = _ticket.CategoriaId;
+            cmbTicketType.SelectedItem = _ticket.Categoria.tipoCategoria;
 
-            // Tipo de ticket
-            //cmbTicketType.SelectedItem = _ticket.Categoria.tipoCategoria;
-
-            // Grupo técnico (solo uno disponible en combo)
-            //cmbGrupoTecDestino.DataSource = new[] { _ticket.Categoria.GrupoTecnico };
-            //cmbGrupoTecDestino.DisplayMember = "Nombre";
-            //cmbGrupoTecDestino.ValueMember = "GrupoId";
-
-            // Técnico asignado
             if (_ticket.TecnicoId.HasValue)
             {
-                Tecnico tecnico = _tecnicoBLL.ObtenerTecnicoPorId(_ticket.TecnicoId.Value);
+                var tecnico = _tecnicoBLL.ObtenerTecnicoPorId(_ticket.TecnicoId.Value);
                 txtAssignedTech.Text = $"{tecnico.Apellido}, {tecnico.Nombre}";
             }
 
-            // Prioridad
             cmbPrioridad.SelectedValue = _ticket.PrioridadId;
-
-            // Asunto y descripción
+            txtEstado.Text = _ticket.Estado?.Nombre ?? "";
             txtAsunto.Text = _ticket.Asunto;
             txtDescripcion.Text = _ticket.Descripcion;
         }
 
         private void LoadComentarios()
         {
-            var list = _comentarioBLL.ListarComentariosPorTicket(_ticket.TicketId);
-            dgvComentarios.DataSource = list
-                .OrderBy(c => c.Fecha)
-                .Select(c => new {
-                    Fecha = c.Fecha,
-                    Autor = c.Usuario.NombreUsuario,
-                    Comentario = c.Texto
-                })
+            var lista = _comentarioBLL.ListarComentariosPorTicket(_ticket.TicketId);
+            dgvComentarios.DataSource = lista
+                .SelectMany(c => ConstruirListadoPlano(c))
+                .OrderBy(x => x.Fecha)
                 .ToList();
         }
 
-        private void btnNuevoComentario_Click(object sender, EventArgs e)
+        private static System.Collections.Generic.List<dynamic> ConstruirListadoPlano(Comentario raiz)
         {
-            // Lógica para nuevo comentario (comentada por ahora)
+            var result = new System.Collections.Generic.List<dynamic>();
+            result.Add(new
+            {
+                Fecha = raiz.Fecha,
+                Autor = $"{raiz.Usuario.Nombre} {raiz.Usuario.Apellido}",
+                Comentario = raiz.Texto
+            });
+
+            foreach (var respuesta in raiz.Respuestas)
+            {
+                result.Add(new
+                {
+                    Fecha = respuesta.Fecha,
+                    Autor = $"{respuesta.Usuario.Nombre} {respuesta.Usuario.Apellido}",
+                    Comentario = "↳ " + respuesta.Texto
+                });
+
+                var másRespuestas = ConstruirListadoPlano(respuesta).Skip(1);
+                result.AddRange(másRespuestas);
+            }
+            return result;
         }
 
-        private void btnGuardarCambios_Click(object sender, EventArgs e)
+        private void BtnNuevoComentario_Click(object sender, EventArgs e)
         {
+            panelAgregarComentario.Visible = true;
+            txtComentarioNuevo.Clear();
+            txtComentarioNuevo.Focus();
+        }
+
+        private void BtnGuardarCambios_Click(object sender, EventArgs e)
+        {
+            // 1) Si panelAgregarComentario.Visible, guardo comentario y genero histórico
+            if (panelAgregarComentario.Visible)
+            {
+                var texto = txtComentarioNuevo.Text.Trim();
+                if (!string.IsNullOrEmpty(texto))
+                {
+                    // Agrego el comentario
+                    var usuarioComentarioId = _ticket.ClienteCreador.Id;
+                    _comentarioBLL.AgregarComentario(_ticket.TicketId, usuarioComentarioId, texto);
+
+                    // Registro en histórico la acción de añadir comentario
+                    var historicoBLL = new TicketHistoricoBLL();
+                    var histComentario = new TicketHistorico
+                    {
+                        TicketId = _ticket.TicketId,
+                        UsuarioCambioId = usuarioComentarioId,
+                        FechaCambio = DateTime.Now,
+                        TipoEvento = "Comentario",
+                        ValorAnteriorId = null,
+                        ValorNuevoId = null,
+                        Comentario = $"Se agregó comentario: \"{texto}\""
+                    };
+                    historicoBLL.AgregarHistorico(histComentario);
+
+                    // Actualizo la grilla de comentarios y oculto panel
+                    LoadComentarios();
+                    LoadHistorial();
+                    panelAgregarComentario.Visible = false;
+                    txtComentarioNuevo.Clear();
+                }
+            }
+
+            // Capturar valores antiguos
+            int prioridadAntes = _ticket.PrioridadId;
+            int categoriaAntes = _ticket.CategoriaId;
+            int? grupoAntes = _ticket.GrupoTecnicoId;
+            int estadoAntes = _ticket.EstadoId;
+
+            // 2) Actualizo campos
             _ticket.CategoriaId = (int)cmbCategoria.SelectedValue;
             _ticket.Categoria = (Categoria)cmbCategoria.SelectedItem;
             _ticket.Categoria.tipoCategoria = (TipoCategoria)cmbTicketType.SelectedItem;
 
-            _ticket.GrupoTecnicoId = ((GrupoTecnico)cmbGrupoTecDestino.SelectedItem).GrupoId;
-            _ticket.GrupoTecnico = (GrupoTecnico)cmbGrupoTecDestino.SelectedItem;
+            if (cmbGrupoTecDestino.SelectedItem is GrupoTecnico grupoSel)
+            {
+                _ticket.GrupoTecnicoId = grupoSel.GrupoId;
+                _ticket.GrupoTecnico = grupoSel;
+            }
 
             _ticket.PrioridadId = (int)cmbPrioridad.SelectedValue;
             _ticket.Prioridad = (Prioridad)cmbPrioridad.SelectedItem;
-
             _ticket.Asunto = txtAsunto.Text.Trim();
             _ticket.Descripcion = txtDescripcion.Text.Trim();
 
+            // 3) Insertar históricos de cambios (prioridad, categoría, grupo)
+            var historicoCambioBLL = new TicketHistoricoBLL();
+            Guid usuarioActualId = SingletonSesion.Instancia.Sesion.Usuario.Id;
+
+            // 3.a) Prioridad
+            if (prioridadAntes != _ticket.PrioridadId)
+            {
+                var histPrioridad = new TicketHistorico
+                {
+                    TicketId = _ticket.TicketId,
+                    UsuarioCambioId = usuarioActualId,
+                    FechaCambio = DateTime.Now,
+                    TipoEvento = "Prioridad",
+                    ValorAnteriorId = prioridadAntes,
+                    ValorNuevoId = _ticket.PrioridadId,
+                    Comentario = $"Cambia prioridad de {prioridadAntes} a {_ticket.PrioridadId}"
+                };
+                historicoCambioBLL.AgregarHistorico(histPrioridad);
+            }
+
+            // 3.b) Categoría
+            if (categoriaAntes != _ticket.CategoriaId)
+            {
+                var histCategoria = new TicketHistorico
+                {
+                    TicketId = _ticket.TicketId,
+                    UsuarioCambioId = usuarioActualId,
+                    FechaCambio = DateTime.Now,
+                    TipoEvento = "Categoría",
+                    ValorAnteriorId = categoriaAntes,
+                    ValorNuevoId = _ticket.CategoriaId,
+                    Comentario = $"Cambia categoría de {categoriaAntes} a {_ticket.CategoriaId}"
+                };
+                historicoCambioBLL.AgregarHistorico(histCategoria);
+            }
+
+            // 3.c) Grupo técnico
+            if (grupoAntes != _ticket.GrupoTecnicoId)
+            {
+                var histGrupo = new TicketHistorico
+                {
+                    TicketId = _ticket.TicketId,
+                    UsuarioCambioId = usuarioActualId,
+                    FechaCambio = DateTime.Now,
+                    TipoEvento = "GrupoTécnico",
+                    ValorAnteriorId = grupoAntes,
+                    ValorNuevoId = _ticket.GrupoTecnicoId,
+                    Comentario = $"Reasignado de grupo {grupoAntes} a {_ticket.GrupoTecnicoId}"
+                };
+                historicoCambioBLL.AgregarHistorico(histGrupo);
+            }
+
+            // 4) Guardar ticket
             _ticketBLL.ActualizarTicket(_ticket);
             MessageBox.Show("Cambios guardados", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
@@ -162,22 +321,35 @@ namespace UI
 
         private void btnCancelarTicket_Click(object sender, EventArgs e)
         {
-            var cancelado = new EstadoTicketBLL()
-                               .ListarEstadosTicket()
-                               .FirstOrDefault(st => st.Nombre == "Cancelado");
+            const int estadoCanceladoId = 7;
+            int estadoAntes = _ticket.EstadoId;
 
-            if (cancelado != null)
+            _ticket.EstadoId = estadoCanceladoId;
+            _ticket.Estado = _estadoBLL.ObtenerEstadoTicket(estadoCanceladoId);
+
+            var historicoBLL = new TicketHistoricoBLL();
+            Guid usuarioActualId = SingletonSesion.Instancia.Sesion.Usuario.Id;
+
+            var histEstado = new TicketHistorico
             {
-                _ticket.EstadoId = cancelado.EstadoId;
-                _ticket.Estado = cancelado;
-                _ticketBLL.ActualizarTicket(_ticket);
-                MessageBox.Show("Ticket cancelado", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+                TicketId = _ticket.TicketId,
+                UsuarioCambioId = usuarioActualId,
+                FechaCambio = DateTime.Now,
+                TipoEvento = "Estado",
+                ValorAnteriorId = estadoAntes,
+                ValorNuevoId = estadoCanceladoId,
+                Comentario = "Ticket cancelado"
+            };
+            historicoBLL.AgregarHistorico(histEstado);
+
+         
+            MessageBox.Show("Ticket cancelado", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             this.Close();
         }
 
+        // Métodos vacíos para eventos que no usamos
         private void txtAssignedTech_TextChanged(object sender, EventArgs e) { }
-
         private void lblOpenDate_Click(object sender, EventArgs e) { }
+        private void splitContainerMain_Panel1_Paint(object sender, PaintEventArgs e) { }
     }
 }

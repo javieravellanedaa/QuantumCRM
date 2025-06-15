@@ -45,9 +45,11 @@
             // 
             this.groupBox1.Controls.Add(this.comboBox3);
             this.groupBox1.Controls.Add(this.cbUsuarios);
-            this.groupBox1.Location = new System.Drawing.Point(12, 22);
+            this.groupBox1.Location = new System.Drawing.Point(9, 18);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(366, 120);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(274, 98);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Usuario";
@@ -55,25 +57,29 @@
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(434, 187);
+            this.comboBox3.Location = new System.Drawing.Point(326, 152);
+            this.comboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(237, 24);
+            this.comboBox3.Size = new System.Drawing.Size(179, 21);
             this.comboBox3.TabIndex = 0;
             // 
             // cbUsuarios
             // 
             this.cbUsuarios.FormattingEnabled = true;
-            this.cbUsuarios.Location = new System.Drawing.Point(19, 37);
+            this.cbUsuarios.Location = new System.Drawing.Point(14, 30);
+            this.cbUsuarios.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbUsuarios.Name = "cbUsuarios";
-            this.cbUsuarios.Size = new System.Drawing.Size(237, 24);
+            this.cbUsuarios.Size = new System.Drawing.Size(179, 21);
             this.cbUsuarios.TabIndex = 0;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbFamilias);
-            this.groupBox3.Location = new System.Drawing.Point(12, 148);
+            this.groupBox3.Location = new System.Drawing.Point(9, 120);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(366, 108);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(274, 88);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Grupo de permisos actuales";
@@ -81,16 +87,18 @@
             // cbFamilias
             // 
             this.cbFamilias.FormattingEnabled = true;
-            this.cbFamilias.Location = new System.Drawing.Point(34, 59);
+            this.cbFamilias.Location = new System.Drawing.Point(26, 48);
+            this.cbFamilias.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbFamilias.Name = "cbFamilias";
-            this.cbFamilias.Size = new System.Drawing.Size(237, 24);
+            this.cbFamilias.Size = new System.Drawing.Size(179, 21);
             this.cbFamilias.TabIndex = 0;
             // 
             // btnAsignar
             // 
-            this.btnAsignar.Location = new System.Drawing.Point(507, 253);
+            this.btnAsignar.Location = new System.Drawing.Point(378, 195);
+            this.btnAsignar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAsignar.Name = "btnAsignar";
-            this.btnAsignar.Size = new System.Drawing.Size(100, 44);
+            this.btnAsignar.Size = new System.Drawing.Size(75, 36);
             this.btnAsignar.TabIndex = 1;
             this.btnAsignar.Text = "Asignar";
             this.btnAsignar.UseVisualStyleBackColor = true;
@@ -99,9 +107,11 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cbAsignarFamilias);
-            this.groupBox4.Location = new System.Drawing.Point(407, 73);
+            this.groupBox4.Location = new System.Drawing.Point(305, 59);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(366, 108);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Size = new System.Drawing.Size(274, 88);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Asigna un nuevo Grupo de Permisos";
@@ -109,20 +119,22 @@
             // cbAsignarFamilias
             // 
             this.cbAsignarFamilias.FormattingEnabled = true;
-            this.cbAsignarFamilias.Location = new System.Drawing.Point(26, 49);
+            this.cbAsignarFamilias.Location = new System.Drawing.Point(20, 40);
+            this.cbAsignarFamilias.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbAsignarFamilias.Name = "cbAsignarFamilias";
-            this.cbAsignarFamilias.Size = new System.Drawing.Size(237, 24);
+            this.cbAsignarFamilias.Size = new System.Drawing.Size(179, 21);
             this.cbAsignarFamilias.TabIndex = 0;
             // 
             // frmUsuarioPermisos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.btnAsignar);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmUsuarioPermisos";
             this.Text = "frmUsuarioPermisoscs";
             this.groupBox1.ResumeLayout(false);

@@ -14,9 +14,13 @@ namespace BLL
     public class UsuarioBLL : AbstractBLL<BE.Usuario>
     {
         UsuarioDAL _crud;
+        BitacoraBLL _bitacoraBLL;
+        ControlDeCambiosBLL _controlDeCambiosBLL;
         public UsuarioBLL()
         {
             _crud = new UsuarioDAL();
+            _bitacoraBLL = new BitacoraBLL();
+            _controlDeCambiosBLL = new ControlDeCambiosBLL ();
         }
 
         public LoginResult Login(string email, string password)
@@ -37,7 +41,9 @@ namespace BLL
             }
 
             SingletonSesion.Instancia.Sesion.Login(usuario);
-
+            _bitacoraBLL.RegistrarEntrada(usuario.Id, usuario.NombreUsuario, "UsuarioBLL", "Login");
+      
+            
             return LoginResult.ValidUser;
         }
 
@@ -123,6 +129,24 @@ namespace BLL
             }
         }
 
+        public List<Usuario> ListarUsuariosConRolClienteNoRegistrados()
+        {
+            // Retorna los usuarios con rol_id = 2 que NO están en la tabla Cliente
+            return _crud.ObtenerUsuariosConRolClienteNoRegistrados();
+        }
+
+
+        public List<Usuario> ObtenerCandidatosParaTecnico()
+        {
+            
+            return _crud.ObtenerUsuariosDisponiblesParaTecnico();
+        }
+
+        public List<Usuario> ObtenerCandidatosParaAdministrador()
+        {
+
+            return _crud.ObtenerUsuariosDisponiblesParaAdministrador();
+        }
 
         public void CrearUsuario(Usuario usuario)
         {
@@ -135,7 +159,10 @@ namespace BLL
             //if (usuario.Idioma == null)
             //    usuario.Idioma = new Idioma { Id = '37C99BDE-5A59-48E2-96D3-971D578F4815' };
 
+
+
             _crud.Save(usuario);
+            _controlDeCambiosBLL.RegistrarCambios<BE.Usuario>(null, usuario);
         }
     }
 }

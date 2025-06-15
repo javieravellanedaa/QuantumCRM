@@ -42,10 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractBLL.cs" />
+    <Compile Include="AdministradorBLL.cs" />
+    <Compile Include="BackupBLL.cs" />
     <Compile Include="BandejaDeEntradaBLL.cs" />
+    <Compile Include="BitacoraBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="ClienteBLL.cs" />
     <Compile Include="ComentarioBLL.cs" />
+    <Compile Include="ControlDeCambiosBLL.cs" />
     <Compile Include="DepartamentoBLL.cs" />
     <Compile Include="EstadoTicketBLL.cs" />
     <Compile Include="GrupoTecnicoBLL.cs" />

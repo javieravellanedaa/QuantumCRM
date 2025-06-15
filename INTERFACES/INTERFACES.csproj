@@ -45,6 +45,7 @@
     <Compile Include="IEtiqueta.cs" />
     <Compile Include="IEventListener.cs" />
     <Compile Include="IIdioma.cs" />
+    <Compile Include="IRevertible.cs" />
     <Compile Include="ITraduccion.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -331,8 +331,8 @@ namespace DAL
             try
             {
                 acceso.Abrir();
-                // Se elimina la configuración actual de permisos del usuario
-                acceso.Escribir("sp_EliminarPermisosUsuario", parametrosEliminar);
+                //// Se elimina la configuración actual de permisos del usuario
+                //acceso.Escribir("sp_EliminarPermisosUsuario", parametrosEliminar);
 
                 foreach (var permiso in usuario.Permisos)
                 {
@@ -577,6 +577,111 @@ namespace DAL
             return lista;
         }
 
+
+
+        public List<Usuario> ObtenerUsuariosConRolClienteNoRegistrados()
+        {
+            var usuarios = new List<Usuario>();
+
+            var parametros = new List<SqlParameter>
+    {
+        new SqlParameter("@rol_cliente", 2) // Cliente
+    };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerUsuariosDisponiblesParaCliente", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        usuarios.Add(new Usuario
+                        {
+                            Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email"))
+                        });
+                    }
+                }
+
+                return usuarios;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+
+
+
+        public List<Usuario> ObtenerUsuariosDisponiblesParaAdministrador()
+        {
+            var usuarios = new List<Usuario>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@rol_Admin", 1)
+            };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerUsuariosDisponiblesParaAdministrador", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        usuarios.Add(new Usuario
+                        {
+                            Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            // Agregá más campos si los necesitás
+                        });
+                    }
+                }
+                return usuarios;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+
+        public List<Usuario> ObtenerUsuariosDisponiblesParaTecnico()
+        {
+            var usuarios = new List<Usuario>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@rol_tecnico", 3)
+            };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerUsuariosDisponiblesParaTecnico", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        usuarios.Add(new Usuario
+                        {
+                            Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            // Agregá más campos si los necesitás
+                        });
+                    }
+                }
+                return usuarios;
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
         private Usuario MapearUsuario(SqlDataReader reader)
         {
             IIdioma idioma = new Idioma
