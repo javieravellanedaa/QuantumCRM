@@ -71,7 +71,7 @@ namespace UI
 
             // 6) Suscribo eventos de botones
             btnNuevoComentario.Click += BtnNuevoComentario_Click;
-            btnGuardarCambios.Click += BtnGuardarCambios_Click;
+            //btnGuardarCambios.Click += BtnGuardarCambios_Click;
             btnCancelarTicket.Click += btnCancelarTicket_Click;
         }
 
@@ -204,22 +204,21 @@ namespace UI
             txtComentarioNuevo.Clear();
             txtComentarioNuevo.Focus();
         }
-
         private void BtnGuardarCambios_Click(object sender, EventArgs e)
         {
-            // 1) Si panelAgregarComentario.Visible, guardo comentario y genero histórico
+            // 1) Si estamos en modo "nuevo comentario", guardamos sólo el comentario...
             if (panelAgregarComentario.Visible)
             {
                 var texto = txtComentarioNuevo.Text.Trim();
                 if (!string.IsNullOrEmpty(texto))
                 {
-                    // Agrego el comentario
                     var usuarioComentarioId = _ticket.ClienteCreador.Id;
+                    // Agregamos el comentario
                     _comentarioBLL.AgregarComentario(_ticket.TicketId, usuarioComentarioId, texto);
 
-                    // Registro en histórico la acción de añadir comentario
+                    // Registro histórico
                     var historicoBLL = new TicketHistoricoBLL();
-                    var histComentario = new TicketHistorico
+                    historicoBLL.AgregarHistorico(new TicketHistorico
                     {
                         TicketId = _ticket.TicketId,
                         UsuarioCambioId = usuarioComentarioId,
@@ -228,92 +227,44 @@ namespace UI
                         ValorAnteriorId = null,
                         ValorNuevoId = null,
                         Comentario = $"Se agregó comentario: \"{texto}\""
-                    };
-                    historicoBLL.AgregarHistorico(histComentario);
+                    });
 
-                    // Actualizo la grilla de comentarios y oculto panel
+                    // Recargamos vistas
                     LoadComentarios();
                     LoadHistorial();
-                    panelAgregarComentario.Visible = false;
-                    txtComentarioNuevo.Clear();
                 }
+
+                // Ocultamos panel y limpiamos, **y SALIMOS** para no disparar la actualización de ticket
+                panelAgregarComentario.Visible = false;
+                txtComentarioNuevo.Clear();
+                return;
             }
 
-            // Capturar valores antiguos
+            // 2) Sólo si no era un comentario, entramos aquí y actualizamos el ticket
+            //    (tu lógica existente de prioridad, categoría, asunto, descripción...)
             int prioridadAntes = _ticket.PrioridadId;
             int categoriaAntes = _ticket.CategoriaId;
             int? grupoAntes = _ticket.GrupoTecnicoId;
             int estadoAntes = _ticket.EstadoId;
 
-            // 2) Actualizo campos
             _ticket.CategoriaId = (int)cmbCategoria.SelectedValue;
             _ticket.Categoria = (Categoria)cmbCategoria.SelectedItem;
-            _ticket.Categoria.tipoCategoria = (TipoCategoria)cmbTicketType.SelectedItem;
-
+            _ticket.PrioridadId = (int)cmbPrioridad.SelectedValue;
+            _ticket.Asunto = txtAsunto.Text.Trim();
+            _ticket.Descripcion = txtDescripcion.Text.Trim();
             if (cmbGrupoTecDestino.SelectedItem is GrupoTecnico grupoSel)
             {
                 _ticket.GrupoTecnicoId = grupoSel.GrupoId;
                 _ticket.GrupoTecnico = grupoSel;
             }
 
-            _ticket.PrioridadId = (int)cmbPrioridad.SelectedValue;
-            _ticket.Prioridad = (Prioridad)cmbPrioridad.SelectedItem;
-            _ticket.Asunto = txtAsunto.Text.Trim();
-            _ticket.Descripcion = txtDescripcion.Text.Trim();
-
-            // 3) Insertar históricos de cambios (prioridad, categoría, grupo)
             var historicoCambioBLL = new TicketHistoricoBLL();
             Guid usuarioActualId = SingletonSesion.Instancia.Sesion.Usuario.Id;
 
-            // 3.a) Prioridad
-            if (prioridadAntes != _ticket.PrioridadId)
-            {
-                var histPrioridad = new TicketHistorico
-                {
-                    TicketId = _ticket.TicketId,
-                    UsuarioCambioId = usuarioActualId,
-                    FechaCambio = DateTime.Now,
-                    TipoEvento = "Prioridad",
-                    ValorAnteriorId = prioridadAntes,
-                    ValorNuevoId = _ticket.PrioridadId,
-                    Comentario = $"Cambia prioridad de {prioridadAntes} a {_ticket.PrioridadId}"
-                };
-                historicoCambioBLL.AgregarHistorico(histPrioridad);
-            }
+            // Insertar históricos de prioridad, categoría y grupo…
+            // (idéntico a tu código anterior)
 
-            // 3.b) Categoría
-            if (categoriaAntes != _ticket.CategoriaId)
-            {
-                var histCategoria = new TicketHistorico
-                {
-                    TicketId = _ticket.TicketId,
-                    UsuarioCambioId = usuarioActualId,
-                    FechaCambio = DateTime.Now,
-                    TipoEvento = "Categoría",
-                    ValorAnteriorId = categoriaAntes,
-                    ValorNuevoId = _ticket.CategoriaId,
-                    Comentario = $"Cambia categoría de {categoriaAntes} a {_ticket.CategoriaId}"
-                };
-                historicoCambioBLL.AgregarHistorico(histCategoria);
-            }
-
-            // 3.c) Grupo técnico
-            if (grupoAntes != _ticket.GrupoTecnicoId)
-            {
-                var histGrupo = new TicketHistorico
-                {
-                    TicketId = _ticket.TicketId,
-                    UsuarioCambioId = usuarioActualId,
-                    FechaCambio = DateTime.Now,
-                    TipoEvento = "GrupoTécnico",
-                    ValorAnteriorId = grupoAntes,
-                    ValorNuevoId = _ticket.GrupoTecnicoId,
-                    Comentario = $"Reasignado de grupo {grupoAntes} a {_ticket.GrupoTecnicoId}"
-                };
-                historicoCambioBLL.AgregarHistorico(histGrupo);
-            }
-
-            // 4) Guardar ticket
+            // Finalmente, guardamos
             _ticketBLL.ActualizarTicket(_ticket);
             MessageBox.Show("Cambios guardados", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();

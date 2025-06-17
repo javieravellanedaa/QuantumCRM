@@ -104,6 +104,9 @@
             this.altaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.administradoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.altaToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.auditoriaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.controlDeCambiosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bitacoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drdwConfiguracion = new UI.Design.DropDownMenu(this.components);
             this.IdiomaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gestionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,8 +115,7 @@
             this.idiomasInactivosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarIdiomasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.auditoriaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.controlDeCambiosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -136,7 +138,7 @@
             this.PanelMenu.Controls.Add(this.panel1);
             this.PanelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.PanelMenu.Location = new System.Drawing.Point(0, 0);
-            this.PanelMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PanelMenu.Margin = new System.Windows.Forms.Padding(4);
             this.PanelMenu.Name = "PanelMenu";
             this.PanelMenu.Size = new System.Drawing.Size(307, 655);
             this.PanelMenu.TabIndex = 0;
@@ -154,7 +156,7 @@
             this.iconBtnDesloguear.IconSize = 30;
             this.iconBtnDesloguear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnDesloguear.Location = new System.Drawing.Point(0, 598);
-            this.iconBtnDesloguear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBtnDesloguear.Margin = new System.Windows.Forms.Padding(4);
             this.iconBtnDesloguear.Name = "iconBtnDesloguear";
             this.iconBtnDesloguear.Padding = new System.Windows.Forms.Padding(13, 0, 0, 18);
             this.iconBtnDesloguear.Size = new System.Drawing.Size(307, 57);
@@ -179,7 +181,7 @@
             this.iconBtnConfiguracion.IconSize = 30;
             this.iconBtnConfiguracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnConfiguracion.Location = new System.Drawing.Point(0, 354);
-            this.iconBtnConfiguracion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBtnConfiguracion.Margin = new System.Windows.Forms.Padding(4);
             this.iconBtnConfiguracion.Name = "iconBtnConfiguracion";
             this.iconBtnConfiguracion.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this.iconBtnConfiguracion.Size = new System.Drawing.Size(307, 59);
@@ -204,7 +206,7 @@
             this.iconBtnAdministracion.IconSize = 30;
             this.iconBtnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnAdministracion.Location = new System.Drawing.Point(0, 295);
-            this.iconBtnAdministracion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBtnAdministracion.Margin = new System.Windows.Forms.Padding(4);
             this.iconBtnAdministracion.Name = "iconBtnAdministracion";
             this.iconBtnAdministracion.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this.iconBtnAdministracion.Size = new System.Drawing.Size(307, 59);
@@ -229,7 +231,7 @@
             this.iconBtnDepartamentos.IconSize = 30;
             this.iconBtnDepartamentos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnDepartamentos.Location = new System.Drawing.Point(0, 236);
-            this.iconBtnDepartamentos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBtnDepartamentos.Margin = new System.Windows.Forms.Padding(4);
             this.iconBtnDepartamentos.Name = "iconBtnDepartamentos";
             this.iconBtnDepartamentos.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this.iconBtnDepartamentos.Size = new System.Drawing.Size(307, 59);
@@ -253,7 +255,7 @@
             this.iconBtnTickets.IconSize = 30;
             this.iconBtnTickets.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnTickets.Location = new System.Drawing.Point(0, 177);
-            this.iconBtnTickets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBtnTickets.Margin = new System.Windows.Forms.Padding(4);
             this.iconBtnTickets.Name = "iconBtnTickets";
             this.iconBtnTickets.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this.iconBtnTickets.Size = new System.Drawing.Size(307, 59);
@@ -278,7 +280,7 @@
             this.iconBtnGeneral.IconSize = 30;
             this.iconBtnGeneral.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.iconBtnGeneral.Location = new System.Drawing.Point(0, 118);
-            this.iconBtnGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBtnGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.iconBtnGeneral.Name = "iconBtnGeneral";
             this.iconBtnGeneral.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this.iconBtnGeneral.Size = new System.Drawing.Size(307, 59);
@@ -297,7 +299,7 @@
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(307, 118);
             this.panel1.TabIndex = 0;
@@ -312,7 +314,7 @@
             this.icbApellidoNombre.IconColor = System.Drawing.Color.Transparent;
             this.icbApellidoNombre.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.icbApellidoNombre.Location = new System.Drawing.Point(136, 7);
-            this.icbApellidoNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.icbApellidoNombre.Margin = new System.Windows.Forms.Padding(4);
             this.icbApellidoNombre.Name = "icbApellidoNombre";
             this.icbApellidoNombre.Size = new System.Drawing.Size(83, 28);
             this.icbApellidoNombre.TabIndex = 4;
@@ -327,7 +329,7 @@
             this.btnMenu.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMenu.IconSize = 30;
             this.btnMenu.Location = new System.Drawing.Point(253, 7);
-            this.btnMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMenu.Margin = new System.Windows.Forms.Padding(4);
             this.btnMenu.Name = "btnMenu";
             this.btnMenu.Size = new System.Drawing.Size(53, 36);
             this.btnMenu.TabIndex = 1;
@@ -338,7 +340,7 @@
             // 
             this.pictureBox1.Image = global::UI.Properties.Resources.avatarAdmin;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(76, 43);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -357,7 +359,7 @@
             this.PanelTitleBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelTitleBar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.PanelTitleBar.Location = new System.Drawing.Point(307, 0);
-            this.PanelTitleBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PanelTitleBar.Margin = new System.Windows.Forms.Padding(4);
             this.PanelTitleBar.Name = "PanelTitleBar";
             this.PanelTitleBar.Size = new System.Drawing.Size(862, 74);
             this.PanelTitleBar.TabIndex = 1;
@@ -370,7 +372,7 @@
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei Light", 27.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(69, 7);
-            this.lblTitulo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lblTitulo.Margin = new System.Windows.Forms.Padding(4);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.lblTitulo.Size = new System.Drawing.Size(311, 64);
@@ -388,7 +390,7 @@
             this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMinimize.IconSize = 20;
             this.btnMinimize.Location = new System.Drawing.Point(691, 0);
-            this.btnMinimize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMinimize.Margin = new System.Windows.Forms.Padding(4);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(53, 31);
             this.btnMinimize.TabIndex = 3;
@@ -406,7 +408,7 @@
             this.btnMaximaze.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMaximaze.IconSize = 20;
             this.btnMaximaze.Location = new System.Drawing.Point(740, 0);
-            this.btnMaximaze.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMaximaze.Margin = new System.Windows.Forms.Padding(4);
             this.btnMaximaze.Name = "btnMaximaze";
             this.btnMaximaze.Size = new System.Drawing.Size(63, 31);
             this.btnMaximaze.TabIndex = 0;
@@ -424,7 +426,7 @@
             this.btnExit.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExit.IconSize = 20;
             this.btnExit.Location = new System.Drawing.Point(803, 0);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(4);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(60, 31);
             this.btnExit.TabIndex = 2;
@@ -436,7 +438,7 @@
             this.PanelDesktop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
             this.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelDesktop.Location = new System.Drawing.Point(307, 74);
-            this.PanelDesktop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PanelDesktop.Margin = new System.Windows.Forms.Padding(4);
             this.PanelDesktop.Name = "PanelDesktop";
             this.PanelDesktop.Size = new System.Drawing.Size(862, 581);
             this.PanelDesktop.TabIndex = 2;
@@ -600,20 +602,20 @@
             // nuevoUsuarioToolStripMenuItem
             // 
             this.nuevoUsuarioToolStripMenuItem.Name = "nuevoUsuarioToolStripMenuItem";
-            this.nuevoUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.nuevoUsuarioToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.nuevoUsuarioToolStripMenuItem.Text = "Nuevo usuario";
             this.nuevoUsuarioToolStripMenuItem.Click += new System.EventHandler(this.nuevoUsuarioToolStripMenuItem_Click);
             // 
             // modificarUsuarioToolStripMenuItem
             // 
             this.modificarUsuarioToolStripMenuItem.Name = "modificarUsuarioToolStripMenuItem";
-            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.modificarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.modificarUsuarioToolStripMenuItem.Text = "Modificar usuario";
             // 
             // eliminarUsuarioToolStripMenuItem
             // 
             this.eliminarUsuarioToolStripMenuItem.Name = "eliminarUsuarioToolStripMenuItem";
-            this.eliminarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.eliminarUsuarioToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.eliminarUsuarioToolStripMenuItem.Text = "Eliminar usuario";
             // 
             // ticketsToolStripMenuItem
@@ -631,7 +633,7 @@
             this.tipoDeTicketsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.verToolStripMenuItem});
             this.tipoDeTicketsToolStripMenuItem.Name = "tipoDeTicketsToolStripMenuItem";
-            this.tipoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.tipoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.tipoDeTicketsToolStripMenuItem.Text = "Tipo de tickets";
             // 
             // verToolStripMenuItem
@@ -649,7 +651,7 @@
             this.asignarDepartamentoToolStripMenuItem,
             this.asignarAprobadorToolStripMenuItem});
             this.categoriasToolStripMenuItem.Name = "categoriasToolStripMenuItem";
-            this.categoriasToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.categoriasToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.categoriasToolStripMenuItem.Text = "Categorias";
             // 
             // agregarCategoriaToolStripMenuItem
@@ -688,7 +690,7 @@
             this.estadoDeTicketsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.verToolStripMenuItem1});
             this.estadoDeTicketsToolStripMenuItem.Name = "estadoDeTicketsToolStripMenuItem";
-            this.estadoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.estadoDeTicketsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.estadoDeTicketsToolStripMenuItem.Text = "Estado de tickets";
             // 
             // verToolStripMenuItem1
@@ -854,7 +856,7 @@
             // altaToolStripMenuItem
             // 
             this.altaToolStripMenuItem.Name = "altaToolStripMenuItem";
-            this.altaToolStripMenuItem.Size = new System.Drawing.Size(119, 26);
+            this.altaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.altaToolStripMenuItem.Text = "Alta";
             this.altaToolStripMenuItem.Click += new System.EventHandler(this.altaToolStripMenuItem_Click);
             // 
@@ -869,7 +871,7 @@
             // altaToolStripMenuItem1
             // 
             this.altaToolStripMenuItem1.Name = "altaToolStripMenuItem1";
-            this.altaToolStripMenuItem1.Size = new System.Drawing.Size(119, 26);
+            this.altaToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.altaToolStripMenuItem1.Text = "Alta";
             this.altaToolStripMenuItem1.Click += new System.EventHandler(this.altaToolStripMenuItem1_Click);
             // 
@@ -884,9 +886,33 @@
             // altaToolStripMenuItem2
             // 
             this.altaToolStripMenuItem2.Name = "altaToolStripMenuItem2";
-            this.altaToolStripMenuItem2.Size = new System.Drawing.Size(119, 26);
+            this.altaToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
             this.altaToolStripMenuItem2.Text = "Alta";
             this.altaToolStripMenuItem2.Click += new System.EventHandler(this.altaToolStripMenuItem2_Click);
+            // 
+            // auditoriaToolStripMenuItem
+            // 
+            this.auditoriaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.controlDeCambiosToolStripMenuItem,
+            this.bitacoraToolStripMenuItem,
+            this.backupToolStripMenuItem});
+            this.auditoriaToolStripMenuItem.Name = "auditoriaToolStripMenuItem";
+            this.auditoriaToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.auditoriaToolStripMenuItem.Text = "Auditoria";
+            // 
+            // controlDeCambiosToolStripMenuItem
+            // 
+            this.controlDeCambiosToolStripMenuItem.Name = "controlDeCambiosToolStripMenuItem";
+            this.controlDeCambiosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.controlDeCambiosToolStripMenuItem.Text = "Control de cambios";
+            this.controlDeCambiosToolStripMenuItem.Click += new System.EventHandler(this.controlDeCambiosToolStripMenuItem_Click);
+            // 
+            // bitacoraToolStripMenuItem
+            // 
+            this.bitacoraToolStripMenuItem.Name = "bitacoraToolStripMenuItem";
+            this.bitacoraToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.bitacoraToolStripMenuItem.Text = "Bitacora";
+            this.bitacoraToolStripMenuItem.Click += new System.EventHandler(this.bitacoraToolStripMenuItem_Click);
             // 
             // drdwConfiguracion
             // 
@@ -955,20 +981,12 @@
             this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(144, 24);
             this.acercaDeToolStripMenuItem.Text = "Acerca de";
             // 
-            // auditoriaToolStripMenuItem
+            // backupToolStripMenuItem
             // 
-            this.auditoriaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.controlDeCambiosToolStripMenuItem});
-            this.auditoriaToolStripMenuItem.Name = "auditoriaToolStripMenuItem";
-            this.auditoriaToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.auditoriaToolStripMenuItem.Text = "Auditoria";
-            // 
-            // controlDeCambiosToolStripMenuItem
-            // 
-            this.controlDeCambiosToolStripMenuItem.Name = "controlDeCambiosToolStripMenuItem";
-            this.controlDeCambiosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.controlDeCambiosToolStripMenuItem.Text = "Control de cambios";
-            this.controlDeCambiosToolStripMenuItem.Click += new System.EventHandler(this.controlDeCambiosToolStripMenuItem_Click);
+            this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.backupToolStripMenuItem.Text = "Backup";
+            this.backupToolStripMenuItem.Click += new System.EventHandler(this.backupToolStripMenuItem_Click);
             // 
             // frmPpalAdmin
             // 
@@ -978,7 +996,7 @@
             this.Controls.Add(this.PanelDesktop);
             this.Controls.Add(this.PanelTitleBar);
             this.Controls.Add(this.PanelMenu);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmPpalAdmin";
             this.Text = "frmPpalNew";
             this.Load += new System.EventHandler(this.frmPpalNew_Load);
@@ -1084,5 +1102,7 @@
         private System.Windows.Forms.ToolStripMenuItem altaToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem auditoriaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem controlDeCambiosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bitacoraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backupToolStripMenuItem;
     }
 }

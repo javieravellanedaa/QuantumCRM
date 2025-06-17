@@ -28,7 +28,7 @@ namespace DAL
         {
            
             _connectionString = ConfigurationManager
-                .ConnectionStrings["DefaultConnection"]?.ConnectionString
+                .ConnectionStrings["connectionString"]?.ConnectionString
                 ?? throw new BackupException("Falta la cadena de conexión 'DefaultConnection'.");
 
             _backupFolder = ConfigurationManager.AppSettings["BackupFolder"]

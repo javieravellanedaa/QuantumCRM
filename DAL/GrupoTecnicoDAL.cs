@@ -278,6 +278,45 @@ namespace DAL
                 acceso.Cerrar();
             }
         }
+
+        public List<GrupoTecnico> ListarGruposPorTecnico(int tecnicoId)
+        {
+            var grupos = new List<GrupoTecnico>();
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@TecnicoId", tecnicoId.ToString())
+    };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ListarGruposPorTecnico", parametros))
+                {
+                    while (reader.Read())
+                    {
+                        // Mapeo básico
+                        var grupo = MapearGrupoTecnico(reader);
+                        // Cargo la lista de miembros
+                        grupo.Tecnicos = ListarTecnicosPorGrupo(grupo.GrupoId);
+                        grupos.Add(grupo);
+                    }
+                }
+                return grupos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar grupos por técnico: " + ex.Message);
+            }
+            finally
+            {
+                if (acceso.ObtenerConexion()!= null)
+                {
+                    acceso.Cerrar();
+                }
+
+            }
+        }
+
         public List<Tecnico> ListarTecnicosPorGrupo(int grupoId)
         {
             var tecnicos = new List<Tecnico>();
@@ -308,7 +347,11 @@ namespace DAL
             }
             finally
             {
-                acceso.Cerrar();
+                if (acceso.ObtenerConexion() != null)
+                {
+                    acceso.Cerrar();
+                }
+                
             }
         }
 

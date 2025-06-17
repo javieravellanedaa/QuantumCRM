@@ -72,8 +72,24 @@ namespace BLL
 
         }
 
+        /// <summary>
+        /// Verifica si un usuario con el ID especificado existe en la base de datos.
+        /// </summary>
+        public bool UsuarioExiste(Guid usuarioId)
+        {
+            try
+            {
+                return _crud.ExisteUsuario(usuarioId);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+   
 
-        public void GuardarPermisos(Usuario u)
+
+public void GuardarPermisos(Usuario u)
         {
             _crud.GuardarPermisos(u);
         }
@@ -163,6 +179,8 @@ namespace BLL
 
             _crud.Save(usuario);
             _controlDeCambiosBLL.RegistrarCambios<BE.Usuario>(null, usuario);
+            var mgr = new BLL.DigitVerifier.DigitVerifierManager();
+            mgr.RecalcularDVDeTabla("Usuario");
         }
     }
 }

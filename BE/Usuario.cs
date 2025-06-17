@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BE
 {
-    public class Usuario : Entity
+    public class Usuario : Entity, IDigitVerificable
     {
         public Usuario()
         {
@@ -46,6 +46,8 @@ namespace BE
         }
 
         public string NombreListado => $"{Apellido}, {Nombre}";
+
+        public string DigitoVerificadorH { get; set; }
 
         public override string ToString()
         {

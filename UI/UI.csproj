@@ -126,6 +126,30 @@
     <Compile Include="frmAltaUsuario.Designer.cs">
       <DependentUpon>frmAltaUsuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAprobador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAprobador.Designer.cs">
+      <DependentUpon>frmAprobador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBackup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBackup.Designer.cs">
+      <DependentUpon>frmBackup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBandejaDeTicketsTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBandejaDeTicketsTecnico.Designer.cs">
+      <DependentUpon>frmBandejaDeTicketsTecnico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBitacora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBitacora.Designer.cs">
+      <DependentUpon>frmBitacora.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmControlDeCambiosGeneral.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,11 +162,23 @@
     <Compile Include="frmDetalleValor.Designer.cs">
       <DependentUpon>frmDetalleValor.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHistorialBackup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHistorialBackup.Designer.cs">
+      <DependentUpon>frmHistorialBackup.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMisTicketsCliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMisTicketsCliente.Designer.cs">
       <DependentUpon>frmMisTicketsCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVistaDeTicketTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVistaDeTicketTecnico.Designer.cs">
+      <DependentUpon>frmVistaDeTicketTecnico.cs</DependentUpon>
     </Compile>
     <Compile Include="System\frmPpalTecnico.cs">
       <SubType>Form</SubType>
@@ -226,11 +262,26 @@
     <EmbeddedResource Include="frmAltaGrupoTecnico.resx">
       <DependentUpon>frmAltaGrupoTecnico.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAprobador.resx">
+      <DependentUpon>frmAprobador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBackup.resx">
+      <DependentUpon>frmBackup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBandejaDeTicketsTecnico.resx">
+      <DependentUpon>frmBandejaDeTicketsTecnico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBitacora.resx">
+      <DependentUpon>frmBitacora.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmControlDeCambiosGeneral.resx">
       <DependentUpon>frmControlDeCambiosGeneral.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMisTicketsCliente.resx">
       <DependentUpon>frmMisTicketsCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVistaDeTicketTecnico.resx">
+      <DependentUpon>frmVistaDeTicketTecnico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="System\frmPpalTecnico.resx">
       <DependentUpon>frmPpalTecnico.cs</DependentUpon>

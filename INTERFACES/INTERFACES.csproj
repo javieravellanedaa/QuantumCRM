@@ -42,9 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICrud.cs" />
+    <Compile Include="IDigitVerificable.cs" />
+    <Compile Include="IDigitVerifier.cs" />
+    <Compile Include="IDigitVerifierBase.cs" />
     <Compile Include="IEtiqueta.cs" />
     <Compile Include="IEventListener.cs" />
     <Compile Include="IIdioma.cs" />
+    <Compile Include="IntegrityModels.cs" />
     <Compile Include="IRevertible.cs" />
     <Compile Include="ITraduccion.cs" />
     <Compile Include="IEntity.cs" />

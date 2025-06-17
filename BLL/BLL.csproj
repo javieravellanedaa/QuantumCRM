@@ -51,6 +51,11 @@
     <Compile Include="ComentarioBLL.cs" />
     <Compile Include="ControlDeCambiosBLL.cs" />
     <Compile Include="DepartamentoBLL.cs" />
+    <Compile Include="DigitVerifier\DigitVerifier.cs" />
+    <Compile Include="DigitVerifier\DigitVerifierManager.cs" />
+    <Compile Include="DigitVerifier\DigitVerifierStartupService.cs" />
+    <Compile Include="DigitVerifier\TicketVerifierService.cs" />
+    <Compile Include="DigitVerifier\UsuarioVerifierService.cs" />
     <Compile Include="EstadoTicketBLL.cs" />
     <Compile Include="GrupoTecnicoBLL.cs" />
     <Compile Include="IdiomaBLL.cs" />

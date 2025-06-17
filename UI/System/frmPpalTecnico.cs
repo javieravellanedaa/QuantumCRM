@@ -190,6 +190,7 @@ namespace UI
             formSize = this.ClientSize;
             dropDownMenu1.IsMainMenu = true;
             dropDownMenu2.IsMainMenu = true;
+            dropDownMenu3.IsMainMenu = true;
 
         }
 
@@ -303,7 +304,7 @@ namespace UI
 
         private void iconBtnGeneral_Click(object sender, EventArgs e)
         {
-            dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
+            //dropDownMenu1.Show(iconBtnGeneral, iconBtnGeneral.Width, 0);
         }
 
         private void iconBtnDepartamentos_Click(object sender, EventArgs e)
@@ -639,6 +640,31 @@ namespace UI
                 // Cerrar la aplicación
                 Application.Exit();
             }
+        }
+
+
+
+        private void aaaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var frmBandeja = new frmBandejaDeTicketsTecnico();
+            CargarFormularioEnPanel(frmBandeja);
+
+        }
+
+        private void iconBtnTickets_Click(object sender, EventArgs e)
+        {
+            dropDownMenu3.Show(iconBtnTickets, iconBtnTickets.Width, 0);
+        }
+
+        private void dropDownMenu3_Opening(object sender, CancelEventArgs e)
+        {
+
         }
     }
 

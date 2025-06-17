@@ -730,6 +730,180 @@ namespace DAL
             //}
         }
 
+        public bool ExisteUsuario(Guid usuarioId)
+        {
+            try
+            {
+                acceso.Abrir();
+                var parametros = new List<SqlParameter>
+        {
+            acceso.CrearParametro("@usuario_id", usuarioId.ToString())
+        };
+
+                DataTable resultado = acceso.Leer("sp_ExisteUsuario", parametros);
+                if (resultado.Rows.Count > 0)
+                {
+                    int cantidad = Convert.ToInt32(resultado.Rows[0][0]);
+                    return cantidad > 0;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar existencia del usuario", ex);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+        public Usuario ObtenerPorId(int legajo)
+        {
+            Usuario usuario = null;
+
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@Legajo", legajo)
+    };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerUsuarioPorLegajo", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        usuario = new Usuario
+                        {
+                            Id = Guid.Parse(reader["usuario_id"].ToString()),
+                            Email = reader["email"].ToString(),
+                            Password = reader["password"].ToString(),
+                            Nombre = reader["nombre"].ToString(),
+                            Apellido = reader["apellido"].ToString(),
+                            NombreUsuario = reader["nombre_usuario"].ToString(),
+                            Legajo = int.Parse(reader["legajo"].ToString()),
+                            FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString()),
+                            DigitoVerificadorH = reader["digito_verificador_h"]?.ToString()
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener usuario por legajo", ex);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
+            return usuario;
+        }
+
+        public void ActualizarDVH(Usuario usuario)
+        {
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@UsuarioId", usuario.Id),
+        acceso.CrearParametro("@DigitoVerificadorH", usuario.DigitoVerificadorH)
+    };
+
+            try
+            {
+                acceso.Abrir();
+                acceso.Escribir("sp_ActualizarDVH_Usuario", parametros); // creá este SP
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+        }
+
+
+        public List<Usuario> ObtenerTodos()
+        {
+            List<Usuario> listaUsuarios = new List<Usuario>();
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ListarUsuariosConDVH")) // asegurate de que este SP incluya la columna DigitoVerificadorH
+                {
+                    while (reader.Read())
+                    {
+                        Usuario usuario = new Usuario
+                        {
+                            Id = Guid.Parse(reader["usuario_id"].ToString()),
+                            Email = reader["email"].ToString(),
+                            Password = reader["password"].ToString(),
+                            Nombre = reader["nombre"].ToString(),
+                            Apellido = reader["apellido"].ToString(),
+                            NombreUsuario = reader["nombre_usuario"].ToString(),
+                            Legajo = int.Parse(reader["legajo"].ToString()),
+                            FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString()),
+                            DigitoVerificadorH = reader["digito_verificador_h"]?.ToString()
+                        };
+
+                        listaUsuarios.Add(usuario);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener todos los usuarios", ex);
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
+            return listaUsuarios;
+        }
+
+        public Usuario ObtenerUsuarioPorId(Guid usuarioId)
+        {
+            Usuario usuario = null;
+            var parametros = new List<SqlParameter>
+    {
+        acceso.CrearParametro("@UsuarioId", usuarioId)
+    };
+
+            try
+            {
+                acceso.Abrir();
+                using (var reader = acceso.EjecutarLectura("sp_ObtenerUsuarioPorId", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        // Mapea igual que en MapearUsuario, incluyendo DVH
+                        usuario = new Usuario
+                        {
+                            Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            Password = reader.GetString(reader.GetOrdinal("password")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            NombreUsuario = reader.GetString(reader.GetOrdinal("nombre_usuario")),
+                            Legajo = reader.GetInt32(reader.GetOrdinal("legajo")),
+                            FechaAlta = reader.GetDateTime(reader.GetOrdinal("fecha_alta")),
+                            UltimoInicioSesion = reader.IsDBNull(reader.GetOrdinal("ultimo_inicio_sesion"))
+                                                 ? (DateTime?)null
+                                                 : reader.GetDateTime(reader.GetOrdinal("ultimo_inicio_sesion")),
+                            DigitoVerificadorH = reader["digito_verificador_h"]?.ToString()
+                        };
+                    }
+                }
+            }
+            finally
+            {
+                acceso.Cerrar();
+            }
+
+            return usuario;
+        }
+
         private List<Rol> MapearRoles(SqlDataReader reader)
         {
             var roles = new List<Rol>();

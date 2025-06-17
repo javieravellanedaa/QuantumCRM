@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using BE.PN;
+using INTERFACES;
 
 namespace BE
 {
-    public class Ticket
+    public class Ticket : IDigitVerificable
     {
         public Ticket()
         {
@@ -13,6 +14,7 @@ namespace BE
             Comentarios = new List<Comentario>();
             Historicos = new List<TicketHistorico>();
         }
+        public string DigitoVerificadorH { get; set; }
 
         public Guid TicketId { get; set; }
 

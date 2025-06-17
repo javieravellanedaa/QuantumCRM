@@ -25,6 +25,7 @@ namespace UI
         BLL.IdiomaBLL _idiomaBLL;
         BLL.TraduccionBLL _traduccionBLL = new TraduccionBLL();
         BLL.SesionBLL _sesionBLL = new SesionBLL();
+        BLL.ClienteBLL _clienteBLL = new ClienteBLL();
 
         private Usuario _usuario;
         private int borderSize = 2;
@@ -685,8 +686,23 @@ namespace UI
             var form = new frmMisTicketsCliente(_eventManagerService);
             CargarFormularioEnPanel(form);
         }
+
+        private void tsmTicketsParaAprobar_Click(object sender, EventArgs e)
+        {
+            // 1) Obtén el ID del usuario aprobador (ajústalo al campo correcto de tu sesión)
+           var cliente = _clienteBLL.ObtenerClientePorIdUsuario (SingletonSesion.Instancia.Sesion.Usuario.Id);
+
+            int usuarioAprobadorId = cliente.ClienteId;
+
+            // 2) Instancia el form pasándole el mismo EventManagerService
+            var frm = new frmAprobador(_eventManagerService, usuarioAprobadorId);
+
+            // 3) Cárgalo en tu panel
+            CargarFormularioEnPanel(frm);
+        }
+
     }
-    
+
 
 
 }

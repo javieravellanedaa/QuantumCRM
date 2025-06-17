@@ -803,6 +803,22 @@ namespace UI
             // 2. Cargarlo en el panel principal
             CargarFormularioEnPanel(frmControlDeCambiosGeneral);
         }
+
+        private void bitacoraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmBitacora = new frmBitacora();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmBitacora);
+        }
+
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frmBackup = new frmBackup();
+
+            // 2. Cargarlo en el panel principal
+            CargarFormularioEnPanel(frmBackup);
+        }
     }
 
 

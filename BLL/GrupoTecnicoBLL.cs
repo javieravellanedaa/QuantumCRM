@@ -109,6 +109,18 @@ namespace BLL
             _grupoTecnicoDAL.MarcarComoEliminado(id);
         }
 
+        public List<GrupoTecnico> ObtenerGruposAsignados(int tecnicoId)
+        {
+            if (tecnicoId <= 0)
+                throw new ArgumentException("El ID de técnico no es válido.", nameof(tecnicoId));
+
+            var grupos = _grupoTecnicoDAL.ListarGruposPorTecnico(tecnicoId);
+            // Filtrar activos y no eliminados
+            return grupos
+                .Where(g => g.Activo && !g.Eliminado)
+                .ToList();
+        }
+
         // ----- Métodos para relación m:n con técnicos -----
 
         public void AsignarTecnicoAlGrupo(int grupoId, int tecnicoId)

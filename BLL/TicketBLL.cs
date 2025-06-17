@@ -5,6 +5,7 @@ using System.Reflection;      // Para usar reflection en RevertirPropiedad
 using BE;
 using DAL;
 using INTERFACES;             // Para IRevertible
+using BLL.DigitVerifier;      // Para TicketVerifierService
 
 namespace BLL
 {
@@ -50,12 +51,10 @@ namespace BLL
             var categoria = _categoriaBLL.ObtenerCategoriaPorId(ticket.CategoriaId)
                 ?? throw new InvalidOperationException($"Categoría con Id {ticket.CategoriaId} no encontrada.");
 
-            // 3. Determinar prioridad inicial: por defecto de la categoría o override desde la UI
+            // 3. Determinar prioridad inicial
             var prioridadDefault = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
             if (ticket.PrioridadId <= 0)
-            {
                 ticket.PrioridadId = prioridadDefault.Id;
-            }
 
             // 4. Inicializar timestamps y flags
             var ahora = DateTime.Now;
@@ -63,25 +62,25 @@ namespace BLL
             ticket.FechaUltimaModif = ahora;
             ticket.Eliminado = false;
 
-            // 5. Estado y aprobador inicial según necesidad de aprobación  
+            // 5. Estado y aprobador inicial
             if (categoria.AprobadorRequerido)
             {
-                var estadoAprob = _estadoTicketBLL.ObtenerPorNombre("En Aprobacion");
-                ticket.EstadoId = estadoAprob.EstadoId;
+                var est = _estadoTicketBLL.ObtenerPorNombre("En Aprobacion");
+                ticket.EstadoId = est.EstadoId;
                 ticket.UsuarioAprobador = categoria.ClienteAprobador;
             }
             else
             {
-                var estadoAprob = _estadoTicketBLL.ObtenerPorNombre("Derivado");
-                ticket.EstadoId = estadoAprob.EstadoId;
+                var est = _estadoTicketBLL.ObtenerPorNombre("Derivado");
+                ticket.EstadoId = est.EstadoId;
                 ticket.UsuarioAprobadorId = null;
             }
 
-            // 6. Persistir el ticket
+            // 6. Persistir ticket
             _ticketDAL.GuardarTicket(ticket);
             _controlDeCambiosBLL.RegistrarCambios(null, ticket);
 
-            // 7. Registrar histórico: creación
+            // 7. Histórico de creación
             _historicoDAL.Insertar(new TicketHistorico
             {
                 TicketId = ticket.TicketId,
@@ -91,7 +90,7 @@ namespace BLL
                 Comentario = "Ticket creado"
             });
 
-            // 8. Registrar histórico: estado inicial
+            // 8. Histórico de estado inicial
             _historicoDAL.Insertar(new TicketHistorico
             {
                 TicketId = ticket.TicketId,
@@ -101,11 +100,11 @@ namespace BLL
                 ValorAnteriorId = null,
                 ValorNuevoId = ticket.EstadoId,
                 Comentario = categoria.AprobadorRequerido
-                                    ? "Enviado a aprobación"
-                                    : "Apertura automática"
+                                  ? "Enviado a aprobación"
+                                  : "Apertura automática"
             });
 
-            // 9. Registrar histórico: asignación de grupo técnico inicial (si aplica)
+            // 9. Histórico de grupo técnico inicial (si aplica)
             if (ticket.GrupoTecnicoId.HasValue)
             {
                 _historicoDAL.Insertar(new TicketHistorico
@@ -120,12 +119,11 @@ namespace BLL
                 });
             }
 
-            // 10. Registrar histórico: override de prioridad (solo si cambió)
+            // 10. Histórico de override de prioridad
             if (ticket.PrioridadId != prioridadDefault.Id)
             {
-                var prioridadOverride = _prioridadBLL.ObtenerPrioridadPorId(ticket.PrioridadId);
-                var nombreOverride = prioridadOverride?.Nombre ?? $"Id {ticket.PrioridadId}";
-
+                var prim = _prioridadBLL.ObtenerPrioridadPorId(ticket.PrioridadId);
+                var nombreOverride = prim?.Nombre ?? $"Id {ticket.PrioridadId}";
                 _historicoDAL.Insertar(new TicketHistorico
                 {
                     TicketId = ticket.TicketId,
@@ -137,6 +135,9 @@ namespace BLL
                     Comentario = $"Prioridad por defecto ({prioridadDefault.Nombre}) cambiada a {nombreOverride}"
                 });
             }
+
+            // 11. Recalcular integridad para este ticket y DVV global
+            new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
         }
 
         public Ticket ObtenerTicketPorId(Guid id)
@@ -150,6 +151,7 @@ namespace BLL
             if (ticket.Eliminado)
                 throw new InvalidOperationException($"El ticket con Id {id} ha sido eliminado.");
 
+            // Carga de relaciones
             ticket.ClienteCreador = _clienteBLL.ObtenerClientePorId(ticket.ClienteCreadorId);
             ticket.Categoria = _categoriaBLL.ObtenerCategoriaPorId(ticket.CategoriaId);
             ticket.Prioridad = _prioridadBLL.ObtenerPrioridadPorId(ticket.PrioridadId);
@@ -179,20 +181,23 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(ticket.Descripcion))
                 throw new ArgumentException("La descripción del ticket no puede ser nula.", nameof(ticket.Descripcion));
 
-            // Paso 1: obtener copia completa antes de cambios
+            // 1) Copia antes de cambios
             var ticketAnterior = ObtenerTicketPorId(ticket.TicketId);
 
-            // Paso 2: obtener copia para aplicar cambios
+            // 2) Carga para aplicar cambios
             var existente = ObtenerTicketPorId(ticket.TicketId);
             const int estadoCanceladoId = 7;
 
-            // Estado cancelado
+            // Cancelación
             if (ticket.EstadoId == estadoCanceladoId)
             {
                 existente.EstadoId = estadoCanceladoId;
                 existente.FechaCierre = DateTime.Now;
                 existente.FechaUltimaModif = DateTime.Now;
                 _ticketDAL.ActualizarTicket(existente);
+
+                // Recalcular integridad
+                new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
                 return;
             }
 
@@ -201,58 +206,57 @@ namespace BLL
                 && ticket.PrioridadId > 0
                 && ticket.PrioridadId != existente.PrioridadId)
             {
-                var prioridadAnterior = existente.PrioridadId;
+                var ant = existente.PrioridadId;
                 existente.PrioridadId = ticket.PrioridadId;
-
                 _historicoDAL.Insertar(new TicketHistorico
                 {
                     TicketId = existente.TicketId,
                     FechaCambio = DateTime.Now,
                     UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(ticket.ClienteCreadorId),
                     TipoEvento = "Prioridad",
-                    ValorAnteriorId = prioridadAnterior,
+                    ValorAnteriorId = ant,
                     ValorNuevoId = ticket.PrioridadId,
-                    Comentario = $"Prioridad cambiada de Id {prioridadAnterior} a Id {ticket.PrioridadId}"
+                    Comentario = $"Prioridad cambiada de Id {ant} a Id {ticket.PrioridadId}"
                 });
             }
 
-            // Actualizar campos permitidos
+            // Campos editables
             existente.Asunto = ticket.Asunto;
             existente.Descripcion = ticket.Descripcion;
             existente.CategoriaId = ticket.CategoriaId;
             existente.TecnicoId = ticket.TecnicoId;
             existente.FechaUltimaModif = DateTime.Now;
+            existente.Estado = ticket.Estado;
+            existente.EstadoId = ticket.Estado.EstadoId;
 
-            var categoria = _categoriaBLL.ObtenerCategoriaPorId(existente.CategoriaId);
-            if (categoria.AprobadorRequerido)
+            var cat = _categoriaBLL.ObtenerCategoriaPorId(existente.CategoriaId);
+            if (cat.AprobadorRequerido)
             {
-                var estadoEnAprob = _estadoTicketBLL.ObtenerPorNombre("En aprobacion");
-                existente.EstadoId = estadoEnAprob.EstadoId;
-                existente.UsuarioAprobadorId = categoria.ClienteAprobador.ClienteId;
+                var et = _estadoTicketBLL.ObtenerPorNombre("En aprobacion");
+                existente.EstadoId = et.EstadoId;
+                existente.UsuarioAprobadorId = cat.ClienteAprobador.ClienteId;
             }
 
-            // Persistir cambios
+            // Persistir
             _ticketDAL.ActualizarTicket(existente);
-
-            // Registrar sólo las diferencias reales
             _controlDeCambiosBLL.RegistrarCambios(ticketAnterior, existente);
+
+            // Recalcular integridad
+            new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
         }
 
         public void EliminarTicket(Ticket ticket, Usuario usuario)
         {
-            if (ticket == null)
-                throw new ArgumentNullException(nameof(ticket), "El ticket no puede ser nulo.");
-            if (usuario == null)
-                throw new ArgumentNullException(nameof(usuario), "El usuario no puede ser nulo.");
+            if (ticket == null || usuario == null)
+                throw new ArgumentNullException("Ticket o usuario nulo.");
             if (ticket.Eliminado)
-                throw new InvalidOperationException($"El ticket con Id {ticket.TicketId} ya está eliminado.");
+                throw new InvalidOperationException($"El ticket {ticket.TicketId} ya está eliminado.");
             if (ticket.FechaCierre.HasValue)
                 throw new InvalidOperationException("No se puede eliminar un ticket ya cerrado.");
 
             var ahora = DateTime.Now;
             ticket.Eliminado = true;
             ticket.FechaUltimaModif = ahora;
-
             _ticketDAL.ActualizarTicket(ticket);
             _historicoDAL.Insertar(new TicketHistorico
             {
@@ -264,6 +268,103 @@ namespace BLL
                 ValorNuevoId = null,
                 Comentario = "Ticket marcado como eliminado"
             });
+
+            // Recalcular integridad
+            new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
+        }
+
+
+        /// <summary>
+        /// Obtiene todos los tickets pendientes de aprobación para un usuario aprobador.
+        /// </summary>
+        public List<Ticket> ListarTicketsPendientesDeAprobacion(int usuarioAprobadorId)
+        {
+            // 1) Obtener el estado "En Aprobacion"
+            var estadoEnAprobacion = _estadoTicketBLL.ObtenerPorNombre("En Aprobacion")
+                ?? throw new InvalidOperationException("Estado 'En Aprobacion' no encontrado.");
+
+            // 2) Llamar al DAL
+            return _ticketDAL.ListarTicketsParaAprobacion(usuarioAprobadorId, estadoEnAprobacion.EstadoId);
+        }
+
+        /// <summary>
+        /// Aprueba (deriva) un ticket que está en estado "En Aprobacion".
+        /// </summary>
+        public void AprobarTicket(Guid ticketId, int usuarioAprobadorId)
+        {
+            var ticket = ObtenerTicketPorId(ticketId);
+
+            if (ticket.Estado.Nombre != "En Aprobacion")
+                throw new InvalidOperationException("Solo se pueden aprobar tickets en estado 'En Aprobacion'.");
+
+            var estadoDerivado = _estadoTicketBLL.ObtenerPorNombre("Derivado")
+                ?? throw new InvalidOperationException("Estado 'Derivado' no encontrado.");
+
+            int anterior = ticket.EstadoId;
+            ticket.EstadoId = estadoDerivado.EstadoId;
+            ticket.FechaUltimaModif = DateTime.Now;
+
+            // Persistir cambio de estado
+            _ticketDAL.ActualizarTicket(ticket);
+            var UsuarioCambio = _clienteBLL.ObtenerIdUsuarioPorClienteId(usuarioAprobadorId);
+
+            // Registrar en histórico
+            _historicoDAL.Insertar(new TicketHistorico
+            {
+
+                TicketId = ticketId,
+                FechaCambio = DateTime.Now,
+                UsuarioCambioId = UsuarioCambio,
+                TipoEvento = "Aprobación",
+                ValorAnteriorId = anterior,
+                ValorNuevoId = estadoDerivado.EstadoId,
+                Comentario = "Ticket aprobado y derivado"
+            });
+
+            // Control de cambios y dígito verificable
+            _controlDeCambiosBLL.RegistrarCambios(
+                new Ticket { TicketId = ticketId, EstadoId = anterior },
+                ticket
+            );
+            new TicketVerifierService().RecalcularSingleDV(ticketId);
+        }
+
+        /// <summary>
+        /// Rechaza (cancela) un ticket que está en estado "En Aprobacion".
+        /// </summary>
+        public void RechazarTicket(Guid ticketId, int usuarioAprobadorId)
+        {
+            var ticket = ObtenerTicketPorId(ticketId);
+
+            if (ticket.Estado.Nombre != "En Aprobacion")
+                throw new InvalidOperationException("Solo se pueden rechazar tickets en estado 'En Aprobacion'.");
+
+            var estadoCancelado = _estadoTicketBLL.ObtenerPorNombre("Cancelado")
+                ?? throw new InvalidOperationException("Estado 'Cancelado' no encontrado.");
+
+            int anterior = ticket.EstadoId;
+            ticket.EstadoId = estadoCancelado.EstadoId;
+            ticket.FechaUltimaModif = DateTime.Now;
+            ticket.FechaCierre = DateTime.Now;
+
+            _ticketDAL.ActualizarTicket(ticket);
+
+            _historicoDAL.Insertar(new TicketHistorico
+            {
+                TicketId = ticketId,
+                FechaCambio = DateTime.Now,
+                UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(usuarioAprobadorId),
+                TipoEvento = "Cancelación",
+                ValorAnteriorId = anterior,
+                ValorNuevoId = estadoCancelado.EstadoId,
+                Comentario = "Ticket rechazado y cancelado"
+            });
+
+            _controlDeCambiosBLL.RegistrarCambios(
+                new Ticket { TicketId = ticketId, EstadoId = anterior },
+                ticket
+            );
+            new TicketVerifierService().RecalcularSingleDV(ticketId);
         }
 
         public List<Ticket> ListarTicketsDeCliente(Cliente cliente)
@@ -271,30 +372,39 @@ namespace BLL
             if (cliente.ClienteId <= 0)
                 throw new ArgumentException("El ID del cliente no puede ser vacío.", nameof(cliente));
 
-            var tickets = _ticketDAL.ListarTicketsDeCliente(cliente.ClienteId);
-            return tickets.Where(t => !t.Eliminado).ToList();
+            // ← Aquí corregimos el uso de la propiedad
+            var lista = _ticketDAL.ListarTicketsDeCliente(cliente.ClienteId);
+            return lista.Where(t => !t.Eliminado).ToList();
         }
+
+        public List<Ticket> ListarTicketsPorGrupo(int grupoId)
+        {
+            if (grupoId <= 0) throw new ArgumentException("ID de grupo inválido", nameof(grupoId));
+            return _ticketDAL.ListarTicketsPorGrupoTecnico(grupoId);
+        }
+
 
         public List<Ticket> ListarTicketsDelDepartamento(int departamentoId)
         {
             if (departamentoId <= 0)
-                throw new ArgumentException("El ID del departamento debe ser mayor que cero.", nameof(departamentoId));
-
-            var tickets = _ticketDAL.ListarTicketsDelDepartamento(departamentoId);
-            return tickets.Where(t => !t.Eliminado).ToList();
+                throw new ArgumentException("ID de departamento inválido.", nameof(departamentoId));
+            var list = _ticketDAL.ListarTicketsDelDepartamento(departamentoId);
+            return list.Where(t => !t.Eliminado).ToList();
         }
 
         public void RevertirPropiedad(Guid id, string propiedad, string valorAnterior)
         {
             var ticket = ObtenerTicketPorId(id);
-
             var propInfo = typeof(Ticket)
                 .GetProperty(propiedad, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase)
-                ?? throw new InvalidOperationException($"No existe la propiedad '{propiedad}' en Ticket.");
+                ?? throw new InvalidOperationException($"Propiedad '{propiedad}' no existe.");
 
-            var typedValue = Convert.ChangeType(valorAnterior, propInfo.PropertyType);
-            propInfo.SetValue(ticket, typedValue);
+            var valTyped = Convert.ChangeType(valorAnterior, propInfo.PropertyType);
+            propInfo.SetValue(ticket, valTyped);
             ActualizarTicket(ticket);
+
+            // Recalcular integridad
+            new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
         }
     }
 }

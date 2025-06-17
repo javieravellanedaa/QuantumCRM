@@ -55,6 +55,7 @@
     <Compile Include="ComentarioDAL.cs" />
     <Compile Include="ControlDeCambiosDAL.cs" />
     <Compile Include="DepartamentoDAL.cs" />
+    <Compile Include="DigitoVerificadorVDAL.cs" />
     <Compile Include="EstadoTicketDAL.cs" />
     <Compile Include="EtiquetaDAL.cs" />
     <Compile Include="GrupoTecnicoDAL.cs" />

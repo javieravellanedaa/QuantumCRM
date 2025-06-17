@@ -21,8 +21,11 @@ namespace DAL
                     {
                         var estado = new EstadoTicket
                         {
-                            EstadoId = reader.GetInt32(reader.GetOrdinal("ticket_estado_id")),
-                            Nombre = reader.GetString(reader.GetOrdinal("nombre"))
+                            EstadoId = reader.GetInt32(reader.GetOrdinal("EstadoId")),
+                            Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion"))
+                                            ? null
+                                            : reader.GetString(reader.GetOrdinal("Descripcion"))
                         };
                         lista.Add(estado);
                     }
@@ -40,7 +43,7 @@ namespace DAL
             EstadoTicket estado = null;
             var parametros = new List<SqlParameter>
             {
-                _acceso.CrearParametro("@ticket_estado_id", id)
+                _acceso.CrearParametro("@estado_id", id)
             };
 
             try
@@ -52,8 +55,11 @@ namespace DAL
                     {
                         estado = new EstadoTicket
                         {
-                            EstadoId = reader.GetInt32(reader.GetOrdinal("ticket_estado_id")),
-                            Nombre = reader.GetString(reader.GetOrdinal("nombre"))
+                            EstadoId = reader.GetInt32(reader.GetOrdinal("EstadoId")),
+                            Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion"))
+                                            ? null
+                                            : reader.GetString(reader.GetOrdinal("Descripcion"))
                         };
                     }
                 }

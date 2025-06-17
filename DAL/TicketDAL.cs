@@ -18,8 +18,8 @@ namespace DAL
                 FechaCreacion = reader.GetDateTime(reader.GetOrdinal("fecha_creacion")),
                 FechaUltimaModif = reader.GetDateTime(reader.GetOrdinal("fecha_ultima_modif")),
                 FechaCierre = reader.IsDBNull(reader.GetOrdinal("fecha_cierre"))
-                                      ? (DateTime?)null
-                                      : reader.GetDateTime(reader.GetOrdinal("fecha_cierre")),
+                                         ? (DateTime?)null
+                                         : reader.GetDateTime(reader.GetOrdinal("fecha_cierre")),
                 Eliminado = reader.GetBoolean(reader.GetOrdinal("eliminado")),
                 Asunto = reader.GetString(reader.GetOrdinal("asunto")),
                 Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
@@ -28,18 +28,24 @@ namespace DAL
                 PrioridadId = reader.GetInt32(reader.GetOrdinal("prioridad_id")),
                 EstadoId = reader.GetInt32(reader.GetOrdinal("estado_id")),
                 UsuarioAprobadorId = reader.IsDBNull(reader.GetOrdinal("usuario_aprobador_id"))
-                                      ? (int?)null
-                                      : reader.GetInt32(reader.GetOrdinal("usuario_aprobador_id")),
+                                         ? (int?)null
+                                         : reader.GetInt32(reader.GetOrdinal("usuario_aprobador_id")),
                 GrupoTecnicoId = reader.IsDBNull(reader.GetOrdinal("grupo_tecnico_id"))
-                                      ? (int?)null
-                                      : reader.GetInt32(reader.GetOrdinal("grupo_tecnico_id")),
+                                         ? (int?)null
+                                         : reader.GetInt32(reader.GetOrdinal("grupo_tecnico_id")),
                 TecnicoId = reader.IsDBNull(reader.GetOrdinal("tecnico_id"))
-                                      ? (int?)null
-                                      : reader.GetInt32(reader.GetOrdinal("tecnico_id")),
+                                         ? (int?)null
+                                         : reader.GetInt32(reader.GetOrdinal("tecnico_id")),
+                // —— NUEVO —— carga del DVH
+                DigitoVerificadorH = reader.IsDBNull(reader.GetOrdinal("digito_verificador_h"))
+                                         ? null
+                                         : reader.GetString(reader.GetOrdinal("digito_verificador_h")),
+
                 Comentarios = new List<Comentario>(),
                 Historicos = new List<TicketHistorico>()
             };
         }
+
         public void ActualizarTicket(Ticket ticket)
         {
             // Creamos la lista de parámetros usando las sobrecargas adecuadas de CrearParametro
@@ -192,6 +198,89 @@ namespace DAL
                 _acceso.Cerrar();
             }
 
+            return lista;
+        }
+        public List<Ticket> ListarTodos()
+        {
+            var lista = new List<Ticket>();
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ListarTodosTickets"))
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(MapearTicket(reader));
+                    }
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+
+            return lista;
+        }
+
+        public void ActualizarDVH(Guid ticketId, string dvh)
+        {
+            var parametros = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@ticket_id", ticketId),
+                _acceso.CrearParametro("@dvh", dvh)
+            };
+
+            try
+            {
+                _acceso.Abrir();
+                _acceso.Escribir("sp_ActualizarDVHTicket", parametros);
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+        }
+
+
+        /// <summary>
+        /// Devuelve todos los tickets asignados a un aprobador en un estado concreto.
+        /// </summary>
+        public List<Ticket> ListarTicketsParaAprobacion(int usuarioAprobadorId, int estadoId)
+        {
+            var lista = new List<Ticket>();
+            var parametros = new List<SqlParameter>
+                {
+                    _acceso.CrearParametro("@usuario_aprobador_id", usuarioAprobadorId),
+                    _acceso.CrearParametro("@estado_id",           estadoId)
+                };
+
+            try
+            {
+                _acceso.Abrir();
+                using (var reader = _acceso.EjecutarLectura("sp_ListarTicketsParaAprobacion", parametros))
+                {
+                    while (reader.Read())
+                        lista.Add(MapearTicket(reader));
+                }
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+
+            return lista;
+        }
+
+        public List<Ticket> ListarTicketsPorGrupoTecnico(int grupoId)
+        {
+            var lista = new List<Ticket>();
+            var pars = new List<SqlParameter> { _acceso.CrearParametro("@grupo_tecnico_id", grupoId) };
+            _acceso.Abrir();
+            using (var reader = _acceso.EjecutarLectura("sp_ListarTicketsPorGrupoTecnico", pars))
+                while (reader.Read())
+                    lista.Add(MapearTicket(reader));
+            _acceso.Cerrar();
             return lista;
         }
 
