@@ -17,6 +17,7 @@ namespace UI
         private readonly CategoriaBLL _categoriaBLL;
         private readonly EstadoTicketBLL _estadoBLL;
         private readonly ClienteBLL _clienteBLL;
+        private readonly TecnicoBLL _tecnicoBLL;
 
         public frmMisTicketsCliente(EventManagerService eventManagerService)
         {
@@ -26,6 +27,7 @@ namespace UI
             _categoriaBLL = new CategoriaBLL();
             _estadoBLL = new EstadoTicketBLL();
             _clienteBLL = new ClienteBLL();
+            _tecnicoBLL= new TecnicoBLL();
             dgvTickets.CellFormatting += dgvTickets_CellFormatting;
         }
 
@@ -122,7 +124,7 @@ namespace UI
                     var estadoObj = _estadoBLL.ObtenerEstadoTicket(t.EstadoId);
                     var prioridadObj = _categoriaBLL.Obtener_prioridad(categoriaObj);
 
-                    // Usuario aprobador
+                    // Usuario aprobador 
                     string aprobadorTexto = string.Empty;
                     if (t.UsuarioAprobadorId.HasValue)
                     {
@@ -134,7 +136,7 @@ namespace UI
                     string tecnicoTexto = string.Empty;
                     if (t.TecnicoId.HasValue)
                     {
-                        var tec = _clienteBLL.ObtenerClientePorId(t.TecnicoId.Value);
+                        var tec = _tecnicoBLL.ObtenerTecnicoPorId(t.TecnicoId.Value);
                         tecnicoTexto = $"{tec.Apellido}, {tec.Nombre}";
                     }
 

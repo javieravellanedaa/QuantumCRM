@@ -58,5 +58,8 @@ namespace BE
 
         // Historial genérico de eventos
         public List<TicketHistorico> Historicos { get; set; }
+
+        public List<ValorCampoTicket> ValoresCamposPersonalizados { get; set; }
+        = new List<ValorCampoTicket>();
     }
 }

@@ -47,6 +47,7 @@ namespace UI.Admins.UsuariosPermisos
             {
                 // Obtenemos la lista de usuarios
                 var usuarios = _usuarioBLL.ObtenerlistaDeUsuarios();
+            
 
                 // Proyectamos en un nuevo listado con el formato "Apellido, Nombre"
                 var lista = usuarios.Select(u => new

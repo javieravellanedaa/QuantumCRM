@@ -1,9 +1,5 @@
 ﻿using BE;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SERVICIOS
 {
@@ -13,12 +9,17 @@ namespace SERVICIOS
         {
             switch (rolId)
             {
-                case 3:
-                    return new Cliente();
-                default:
+                case 1:
+                    // Administrador
                     return new Administrador();
-                
-                        
+                case 2:
+                    // Cliente
+                    return new Cliente();
+                case 3:
+                    // Técnico
+                    return new Tecnico();
+                default:
+                    return new Usuario();
             }
         }
     }

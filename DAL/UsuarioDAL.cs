@@ -13,6 +13,7 @@ namespace DAL
     public class UsuarioDAL : AbstractDAL<Usuario>
     {
         private readonly Acceso acceso;
+        TecnicoDAL TecnicoDAL = new TecnicoDAL();
 
         public UsuarioDAL()
         {
@@ -48,7 +49,7 @@ namespace DAL
 
         public List<Usuario> ObtenerlistaDeUsuarios()
         {
-            List<Usuario> listaUsuarios = new List<Usuario>();
+            var listaUsuarios = new List<Usuario>();
 
             try
             {
@@ -57,9 +58,27 @@ namespace DAL
                 {
                     while (reader.Read())
                     {
+                        // 1) Leer ID
                         Guid usuarioId = Guid.Parse(reader["usuario_id"].ToString());
-                        
+
+                        // 2) Intentar leer último rol
                         int rolId = ObtenerUltimoRol(usuarioId);
+                        List<Rol> roles = null;
+
+                        // 3) Si nunca inició sesión, hago un fallback leyendo todos sus roles y tomo el primero
+                        if (rolId == -1)
+                        {
+                            // Preparo un stub para pasarle al helper
+                            var stub = new Usuario { Id = usuarioId };
+                            roles = GetRolesInternal(stub);
+
+                            if (roles != null && roles.Count > 0)
+                                rolId = roles[0].Id;      // tomo el primer rol
+                            //else
+                            //    throw new InvalidOperationException($"El usuario {usuarioId} no tiene roles asignados.");
+                        }
+
+                        // 4) Creo instancia concreta según rol
                         Usuario usuario = UsuarioFactory.CrearUsuario(rolId);
                         usuario.Id = usuarioId;
                         usuario.Email = reader["email"].ToString();
@@ -70,7 +89,12 @@ namespace DAL
                         usuario.Legajo = int.Parse(reader["legajo"].ToString());
                         usuario.FechaAlta = DateTime.Parse(reader["fecha_alta"].ToString());
                         usuario.UltimoInicioSesion = DateTime.Now;
-                        usuario.Roles = GetRolesInternal(usuario);
+
+                        // 5) Asigno su colección de roles
+                        //    - si ya vino del fallback, uso esa lista
+                        //    - si no, la vuelvo a leer aquí para poblarla
+                        usuario.Roles = roles ?? GetRolesInternal(usuario);
+
                         listaUsuarios.Add(usuario);
                     }
                 }
@@ -81,7 +105,8 @@ namespace DAL
             }
             finally
             {
-                acceso.Cerrar();
+                if (acceso.ObtenerConexion() != null)
+                    acceso.Cerrar();
             }
 
             return listaUsuarios;
@@ -153,10 +178,22 @@ namespace DAL
                     case 1: // Administrador
                         usuario = CargarAtributosAdministradorInternal((Administrador)usuario, usuarioId);
                         break;
-                    case 2: // Técnico
-                            // usuario = CargarAtributosTecnicoInternal((Tecnico)usuario, usuarioId);
+                    case 3: // Técnico
+                    // Técnico
+                            // Obtengo sólo la parte de técnico
+                        var datosTec = TecnicoDAL.ObtenerPorUsuarioId(usuarioId)
+                                     ?? throw new InvalidOperationException($"Técnico {usuarioId} no encontrado.");
+
+                        // Convierto mi usuario actual (que ya tiene Roles, Permisos, Idioma…) a Tecnico
+                        var tecActual = (Tecnico)usuario;
+
+                        // Inyecto sólo los campos específicos de la tabla Técnico
+                        tecActual.TecnicoId = datosTec.TecnicoId;
+                        tecActual.EstaActivo = datosTec.EstaActivo;
+                        tecActual.FechaIngreso = datosTec.FechaIngreso;
+                        tecActual.GruposTecnicos = datosTec.GruposTecnicos;
                         break;
-                    case 3: // Cliente
+                    case 2: // Cliente
                         usuario = CargarAtributosClienteInternal((Cliente)usuario, usuarioId);
                         break;
                     default:
@@ -454,10 +491,22 @@ namespace DAL
                     case 1: // Administrador
                         usuario = CargarAtributosAdministradorInternal((Administrador)usuario, usuarioId);
                         break;
-                    //case 2: // Técnico
-                        //usuario = CargarAtributosTecnicoInternal((Tecnico)usuario, usuarioId);
+                    case 3: // Técnico
+                            // Obtengo sólo la parte de técnico
+                        var datosTec = TecnicoDAL.ObtenerPorUsuarioId(usuarioId)
+                                     ?? throw new InvalidOperationException($"Técnico {usuarioId} no encontrado.");
+
+                        // Convierto mi usuario actual (que ya tiene Roles, Permisos, Idioma…) a Tecnico
+                        var tecActual = (Tecnico)usuario;
+
+                        // Inyecto sólo los campos específicos de la tabla Técnico
+                        tecActual.TecnicoId = datosTec.TecnicoId;
+                        tecActual.EstaActivo = datosTec.EstaActivo;
+                        tecActual.FechaIngreso = datosTec.FechaIngreso;
+                        tecActual.GruposTecnicos = datosTec.GruposTecnicos;
                         break;
-                    case 3: // Cliente
+                        
+                    case 2: // Cliente
                         usuario = CargarAtributosClienteInternal((Cliente)usuario, usuarioId);
                         break;
                     default:
@@ -468,7 +517,10 @@ namespace DAL
             }
             finally
             {
-                acceso.Cerrar();
+                if (acceso.ObtenerConexion() != null)
+                {
+                    acceso.Cerrar();
+                }
             }
         }
 

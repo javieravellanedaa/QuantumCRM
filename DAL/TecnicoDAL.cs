@@ -129,6 +129,35 @@ namespace DAL
         }
 
 
+        public Tecnico ObtenerPorUsuarioId(Guid usuarioId)
+        {
+            var parametros = new List<SqlParameter>
+    {
+        _acceso.CrearParametro("@usuario_id", usuarioId)
+    };
+
+            try
+            {
+                _acceso.Abrir();
+                using (SqlDataReader reader = _acceso.EjecutarLectura("sp_ObtenerTecnicoPorUsuarioId", parametros))
+                {
+                    if (reader.Read())
+                    {
+                        // Mapeamos el registro a un objeto Tecnico
+                        Tecnico tecnico = Map(reader);
+                        // Cargamos sus grupos asociados
+                        tecnico.GruposTecnicos = ObtenerGruposPorTecnico(tecnico.TecnicoId);
+                        return tecnico;
+                    }
+                }
+                return null;
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+        }
+
         // Devuelve todos los técnicos existentes (activos e inactivos)
         public List<Tecnico> ListarTodos()
         {

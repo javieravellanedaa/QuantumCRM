@@ -110,6 +110,19 @@ namespace BLL
             t.GruposTecnicos.Add(g);
         }
 
+
+        public Tecnico ObtenerTecnicoPorUsuarioId(Guid usuarioId)
+        {
+            // 1) Llamamos al DAL
+            var tecnico = _tecnicoDAL.ObtenerPorUsuarioId(usuarioId)
+                ?? throw new InvalidOperationException($"Técnico con UsuarioId {usuarioId} no encontrado.");
+
+            // 2) Validamos que esté activo
+            if (!tecnico.EstaActivo)
+                throw new InvalidOperationException($"El técnico con UsuarioId {usuarioId} está inactivo.");
+
+            return tecnico;
+        }
         // Quitar un grupo técnico
         public void QuitarGrupoTecnico(int tecnicoId, int grupoId)
         {

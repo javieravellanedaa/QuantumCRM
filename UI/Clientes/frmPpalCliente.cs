@@ -38,7 +38,7 @@ namespace UI
         public List<Etiqueta> etiquetas = new List<Etiqueta>();
         public frmPpalCliente()
         {
-            SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId = 3;
+            SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId = 2;
             InitializeComponent();
             if (SingletonSesion.Instancia.Sesion.IsLogged())
             {

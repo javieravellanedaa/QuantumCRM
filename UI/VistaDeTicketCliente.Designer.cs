@@ -638,6 +638,7 @@
             this.btnCancelarTicket.TabIndex = 2;
             this.btnCancelarTicket.Text = "Cancelar Ticket";
             this.btnCancelarTicket.UseVisualStyleBackColor = false;
+            this.btnCancelarTicket.Click += new System.EventHandler(this.btnCancelarTicket_Click);
             // 
             // VistaDeTicketCliente
             // 

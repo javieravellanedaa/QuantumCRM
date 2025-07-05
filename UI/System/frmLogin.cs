@@ -135,8 +135,8 @@ namespace UI
                     switch (sesion.Usuario.UltimoRolId)
                     {
                         case 1: new frmPpalAdmin().Show(); break;
-                        case 2: new frmPpalTecnico().Show(); break;
-                        case 3: new frmPpalCliente().Show(); break;
+                        case 3: new frmPpalTecnico().Show(); break;
+                        case 2: new frmPpalCliente().Show(); break;
                         default:
                             MessageBox.Show("No tiene un rol asignado");
                             this.Close();
