@@ -41,6 +41,11 @@
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.TextBox txtEstado;
 
+        // Panel para campos personalizados
+        private System.Windows.Forms.Panel panelCamposPersonalizados;
+        private System.Windows.Forms.Label lblCamposPersonalizados;
+        private System.Windows.Forms.FlowLayoutPanel flpCampos;
+
         // Nuevo DataGridView para Historial
         private System.Windows.Forms.DataGridView dgvHistorial;
 
@@ -84,6 +89,9 @@
             this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panelCamposPersonalizados = new System.Windows.Forms.Panel();
+            this.lblCamposPersonalizados = new System.Windows.Forms.Label();
+            this.flpCampos = new System.Windows.Forms.FlowLayoutPanel();
             this.panelDates = new System.Windows.Forms.Panel();
             this.lblFechadeCreacion = new System.Windows.Forms.Label();
             this.lblOpenDateValue = new System.Windows.Forms.Label();
@@ -126,6 +134,7 @@
             this.splitContainerMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvComentarios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).BeginInit();
+            this.panelCamposPersonalizados.SuspendLayout();
             this.panelDates.SuspendLayout();
             this.tblDetails.SuspendLayout();
             this.panelAgregarComentario.SuspendLayout();
@@ -141,8 +150,10 @@
             // 
             // splitContainerMain.Panel1
             // 
+            this.splitContainerMain.Panel1.AutoScroll = true;
             this.splitContainerMain.Panel1.Controls.Add(this.dgvComentarios);
             this.splitContainerMain.Panel1.Controls.Add(this.dgvHistorial);
+            this.splitContainerMain.Panel1.Controls.Add(this.panelCamposPersonalizados);
             this.splitContainerMain.Panel1.Controls.Add(this.panelDates);
             this.splitContainerMain.Panel1.Controls.Add(this.tblDetails);
             this.splitContainerMain.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerMain_Panel1_Paint);
@@ -153,8 +164,8 @@
             this.splitContainerMain.Panel2.Controls.Add(this.btnNuevoComentario);
             this.splitContainerMain.Panel2.Controls.Add(this.btnGuardarCambios);
             this.splitContainerMain.Panel2.Controls.Add(this.btnCancelarTicket);
-            this.splitContainerMain.Size = new System.Drawing.Size(1104, 686);
-            this.splitContainerMain.SplitterDistance = 449;
+            this.splitContainerMain.Size = new System.Drawing.Size(1104, 800);
+            this.splitContainerMain.SplitterDistance = 563;
             this.splitContainerMain.TabIndex = 0;
             // 
             // dgvComentarios
@@ -175,7 +186,7 @@
             this.dgvComentarios.ColumnHeadersHeight = 29;
             this.dgvComentarios.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvComentarios.EnableHeadersVisualStyles = false;
-            this.dgvComentarios.Location = new System.Drawing.Point(0, 472);
+            this.dgvComentarios.Location = new System.Drawing.Point(0, 632);
             this.dgvComentarios.Margin = new System.Windows.Forms.Padding(4);
             this.dgvComentarios.Name = "dgvComentarios";
             this.dgvComentarios.ReadOnly = true;
@@ -202,7 +213,7 @@
             this.colAccion});
             this.dgvHistorial.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvHistorial.EnableHeadersVisualStyles = false;
-            this.dgvHistorial.Location = new System.Drawing.Point(0, 324);
+            this.dgvHistorial.Location = new System.Drawing.Point(0, 484);
             this.dgvHistorial.Margin = new System.Windows.Forms.Padding(4);
             this.dgvHistorial.Name = "dgvHistorial";
             this.dgvHistorial.ReadOnly = true;
@@ -234,6 +245,42 @@
             this.colAccion.MinimumWidth = 6;
             this.colAccion.Name = "colAccion";
             this.colAccion.ReadOnly = true;
+            // 
+            // panelCamposPersonalizados
+            // 
+            this.panelCamposPersonalizados.BackColor = System.Drawing.Color.White;
+            this.panelCamposPersonalizados.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelCamposPersonalizados.Controls.Add(this.lblCamposPersonalizados);
+            this.panelCamposPersonalizados.Controls.Add(this.flpCampos);
+            this.panelCamposPersonalizados.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelCamposPersonalizados.Location = new System.Drawing.Point(0, 324);
+            this.panelCamposPersonalizados.Name = "panelCamposPersonalizados";
+            this.panelCamposPersonalizados.Size = new System.Drawing.Size(1104, 160);
+            this.panelCamposPersonalizados.TabIndex = 5;
+            // 
+            // lblCamposPersonalizados
+            // 
+            this.lblCamposPersonalizados.AutoSize = true;
+            this.lblCamposPersonalizados.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCamposPersonalizados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.lblCamposPersonalizados.Location = new System.Drawing.Point(11, 10);
+            this.lblCamposPersonalizados.Name = "lblCamposPersonalizados";
+            this.lblCamposPersonalizados.Size = new System.Drawing.Size(193, 18);
+            this.lblCamposPersonalizados.TabIndex = 0;
+            this.lblCamposPersonalizados.Text = "Campos Personalizados";
+            // 
+            // flpCampos
+            // 
+            this.flpCampos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpCampos.AutoScroll = true;
+            this.flpCampos.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
+            this.flpCampos.Location = new System.Drawing.Point(11, 35);
+            this.flpCampos.Name = "flpCampos";
+            this.flpCampos.Size = new System.Drawing.Size(1080, 110);
+            this.flpCampos.TabIndex = 1;
+            this.flpCampos.WrapContents = true;
             // 
             // panelDates
             // 
@@ -644,7 +691,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1104, 686);
+            this.ClientSize = new System.Drawing.Size(1104, 800);
             this.Controls.Add(this.splitContainerMain);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "VistaDeTicketCliente";
@@ -656,6 +703,8 @@
             this.splitContainerMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvComentarios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorial)).EndInit();
+            this.panelCamposPersonalizados.ResumeLayout(false);
+            this.panelCamposPersonalizados.PerformLayout();
             this.panelDates.ResumeLayout(false);
             this.tblDetails.ResumeLayout(false);
             this.tblDetails.PerformLayout();

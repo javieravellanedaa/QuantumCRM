@@ -1,5 +1,6 @@
 ﻿using BE.PN;
 using System;
+using System.Collections.Generic;
 
 namespace BE
 {
@@ -31,6 +32,8 @@ namespace BE
                     ClienteAprobador = null;
             }
         }
+        public List<CategoriaCampoPersonalizado> CamposPersonalizados { get; set; }
+    = new List<CategoriaCampoPersonalizado>();
 
         public string NombreClienteAprobador =>
             ClienteAprobador != null

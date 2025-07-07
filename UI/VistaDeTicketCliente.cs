@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using BLL;        // Asegúrate que TicketBLL, ComentarioBLL, etc. estén en este namespace
-using BE;         // Entidades BE, incluida TicketHistorico y Usuario
-using BE.PN;      // Si tus entidades específicas están en BE.PN
-using SERVICIOS;  // Otras utilerías que uses
+using BLL;        // TicketBLL, ComentarioBLL, etc.
+using BE;         // Ticket, Comentario, TicketHistorico, Usuario
+using BE.PN;      // Categoria, GrupoTecnico, TipoCategoria, ValorCampoTicket, TipoDatoCampo
+using SERVICIOS;  // EventManagerService, SingletonSesion
+using System.Collections.Generic;
 
 namespace UI
 {
@@ -18,14 +19,17 @@ namespace UI
         private readonly TecnicoBLL _tecnicoBLL;
         private readonly EstadoTicketBLL _estadoBLL;
         private readonly DepartamentoBLL _departamentoBLL;
+        private readonly CategoriaCampoPersonalizadoBLL _catCampoBLL;
+        private readonly DefinicionCampoPersonalizadoBLL _defCampoBLL;
+        private readonly ValorCampoTicketBLL _valorCampoBLL;
 
         private Ticket _ticket;
+        private Dictionary<int, Control> _mapControles = new Dictionary<int, Control>();
 
         public VistaDeTicketCliente(Ticket ticket)
         {
             InitializeComponent();
 
-            // Inicializo las instancias de las capas BLL
             _ticketBLL = new TicketBLL();
             _comentarioBLL = new ComentarioBLL();
             _clienteBLL = new ClienteBLL();
@@ -34,79 +38,177 @@ namespace UI
             _tecnicoBLL = new TecnicoBLL();
             _estadoBLL = new EstadoTicketBLL();
             _departamentoBLL = new DepartamentoBLL();
+            _catCampoBLL = new CategoriaCampoPersonalizadoBLL();
+            _defCampoBLL = new DefinicionCampoPersonalizadoBLL();
+            _valorCampoBLL = new ValorCampoTicketBLL();
 
             _ticket = ticket;
 
-            //
-            // Cargo datos relacionados: Categoría, Cliente (y su Departamento), Estado.
-            //
-            // 1.a) Cargo la Categoría completa
-            ticket.Categoria = _categoriaBLL.ObtenerCategoriaPorId(ticket.CategoriaId);
-
-            // 1.b) Cargo el Cliente creador con su Departamento
-            ticket.ClienteCreador = _clienteBLL.ObtenerClientePorId(ticket.ClienteCreadorId);
-            if (ticket.ClienteCreador.Departamento?.Nombre == null)
+            // Cargo datos relacionados
+            _ticket.Categoria = _categoriaBLL.ObtenerCategoriaPorId(_ticket.CategoriaId);
+            _ticket.ClienteCreador = _clienteBLL.ObtenerClientePorId(_ticket.ClienteCreadorId);
+            if (_ticket.ClienteCreador.Departamento?.Nombre == null)
             {
-                ticket.ClienteCreador.Departamento =
-                    _departamentoBLL.ObtenerDepartamentoPorId(ticket.ClienteCreador.Departamento.Id);
+                _ticket.ClienteCreador.Departamento =
+                    _departamentoBLL.ObtenerDepartamentoPorId(_ticket.ClienteCreador.Departamento.Id);
+            }
+            if (_ticket.EstadoId > 0)
+            {
+                _ticket.Estado = _estadoBLL.ObtenerEstadoTicket(_ticket.EstadoId);
             }
 
-            // 1.c) Cargo el Estado del ticket (si ya tiene uno asignado)
-            if (ticket.EstadoId > 0)
-            {
-                ticket.Estado = _estadoBLL.ObtenerEstadoTicket(ticket.EstadoId);
-            }
-
-            // 2) Cargo los combos (categorías, prioridades, tipos, etc.)
+            // Inicializo UI
             LoadCombos();
-
-            // 3) Poblo los campos de la parte superior (Cliente, Asunto, Ubicación, etc.)
             PopulateFields();
-
-            // 4) CARGA EL HISTORIAL y lo muestra en dgvHistorial
+            LoadCamposPersonalizados();
             LoadHistorial();
-
-            // 5) Cargo la sección de comentarios debajo del histórico
             LoadComentarios();
 
-            // 6) Suscribo eventos de botones
+            // Eventos
             btnNuevoComentario.Click += BtnNuevoComentario_Click;
-            //btnGuardarCambios.Click += BtnGuardarCambios_Click;
+            btnGuardarCambios.Click += BtnGuardarCambios_Click;
             btnCancelarTicket.Click += btnCancelarTicket_Click;
         }
 
-        /// <summary>
-        /// Carga la lista de historial de este ticket y lo asigna a dgvHistorial.
-        /// </summary>
-        private void LoadHistorial()
+        private void LoadCamposPersonalizados()
         {
-            var historicoBLL = new TicketHistoricoBLL();
-            var listaHistorialCompleta = historicoBLL.ObtenerHistorialPorTicket(_ticket.TicketId);
+            // Configuro el FlowLayoutPanel
+            flpCampos.FlowDirection = FlowDirection.TopDown;
+            flpCampos.WrapContents = false;
+            flpCampos.AutoScroll = true;
 
-            var listaPlano = listaHistorialCompleta
-                             .Select(h => new
-                             {
-                                 Fecha = h.FechaCambio.ToString("g"),
-                                 Usuario = /* Si tienes Usuario cargado en h.UsuarioCambio, úsalo aquí: */
-                                           h.UsuarioCambioId.ToString(),
-                                 Accion = $"{h.TipoEvento}: {h.ValorAnteriorId ?? 0} → {h.ValorNuevoId ?? 0}",
-                                 Comentario = h.Comentario
-                             })
-                             .OrderBy(x => DateTime.Parse(x.Fecha))
-                             .ToList();
+            _mapControles.Clear();
+            flpCampos.Controls.Clear();
 
-            dgvHistorial.DataSource = listaPlano;
-        }
+            // Obtengo las asociaciones de campos para esta categoría
+            var asociaciones = _catCampoBLL
+                .ListarPorCategoria(_ticket.CategoriaId)
+                .OrderBy(a => a.OrdenVisualizacion)
+                .ToList();
 
-        private void CmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbCategoria.SelectedItem is Categoria selCat)
+            // Obtengo los valores guardados para este ticket
+            var valoresGuardados = _valorCampoBLL.ListarPorTicket(_ticket.TicketId);
+
+            foreach (var asoc in asociaciones)
             {
-                cmbTicketType.SelectedItem = selCat.tipoCategoria;
-                cmbPrioridad.SelectedItem = selCat.Prioridad.Nombre;
-                cmbGrupoTecDestino.DataSource = new[] { selCat.GrupoTecnico };
-                cmbGrupoTecDestino.DisplayMember = "Nombre";
-                cmbGrupoTecDestino.ValueMember = "GrupoId";
+                if (asoc.DefinicionCampoPersonalizadoId <= 0) continue;
+
+                var def = _defCampoBLL.ObtenerPorId(asoc.DefinicionCampoPersonalizadoId);
+
+                // Busco el valor guardado para este campo
+                var valorGuardado = valoresGuardados.FirstOrDefault(v =>
+                    v.DefinicionCampoPersonalizadoId == def.Id);
+
+                // Creo una fila horizontal para el campo
+                var fila = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.LeftToRight,
+                    AutoSize = true,
+                    WrapContents = false,
+                    Margin = new Padding(0, 5, 0, 5),
+                    Width = flpCampos.Width - 25
+                };
+
+                // Label
+                var lbl = new Label
+                {
+                    Text = def.Etiqueta + ":",
+                    AutoSize = true,
+                    Margin = new Padding(3, 6, 10, 0),
+                    Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold),
+                    ForeColor = System.Drawing.Color.FromArgb(55, 71, 79)
+                };
+                fila.Controls.Add(lbl);
+
+                // Control según el tipo de dato
+                Control ctrl;
+                switch (def.TipoDato)
+                {
+                    case TipoDatoCampo.Texto:
+                        var txt = new TextBox
+                        {
+                            Width = 300,
+                            ReadOnly = true,
+                            BackColor = System.Drawing.Color.WhiteSmoke,
+                            Text = valorGuardado?.ValorTexto ?? ""
+                        };
+                        ctrl = txt;
+                        break;
+
+                    case TipoDatoCampo.Numero:
+                        var num = new NumericUpDown
+                        {
+                            Width = 100,
+                            DecimalPlaces = 0,
+                            Maximum = 100000,
+                            ReadOnly = true,
+                            BackColor = System.Drawing.Color.WhiteSmoke,
+                            Value = valorGuardado?.ValorNumero ?? 0
+                        };
+                        ctrl = num;
+                        break;
+
+                    case TipoDatoCampo.Fecha:
+                        var dtp = new DateTimePicker
+                        {
+                            Width = 140,
+                            Format = DateTimePickerFormat.Short,
+                            Enabled = false
+                        };
+                        if (valorGuardado?.ValorFecha != null)
+                        {
+                            dtp.Value = valorGuardado.ValorFecha.Value;
+                        }
+                        ctrl = dtp;
+                        break;
+
+                    case TipoDatoCampo.Lista:
+                        var cb = new ComboBox
+                        {
+                            DropDownStyle = ComboBoxStyle.DropDownList,
+                            Width = 300,
+                            Enabled = false,
+                            BackColor = System.Drawing.Color.WhiteSmoke
+                        };
+
+                        // Cargo las opciones
+                        if (!string.IsNullOrEmpty(def.OpcionesJson))
+                        {
+                            var items = def.OpcionesJson
+                                .Trim('[', ']')
+                                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(x => x.Trim('"'));
+                            cb.Items.AddRange(items.ToArray());
+                        }
+
+                        // Selecciono el valor guardado
+                        if (!string.IsNullOrEmpty(valorGuardado?.ValorTexto))
+                        {
+                            cb.SelectedItem = valorGuardado.ValorTexto;
+                        }
+                        ctrl = cb;
+                        break;
+
+                    default:
+                        ctrl = new TextBox
+                        {
+                            Width = 300,
+                            ReadOnly = true,
+                            BackColor = System.Drawing.Color.WhiteSmoke
+                        };
+                        break;
+                }
+
+                fila.Controls.Add(ctrl);
+                flpCampos.Controls.Add(fila);
+
+                _mapControles[def.Id] = ctrl;
+            }
+
+            // Si no hay campos personalizados, oculto el panel
+            if (asociaciones.Count == 0)
+            {
+                panelCamposPersonalizados.Visible = false;
             }
         }
 
@@ -117,9 +219,7 @@ namespace UI
             cmbCategoria.DisplayMember = "Nombre";
             cmbCategoria.ValueMember = "CategoriaId";
 
-            cmbTicketType.DataSource = Enum.GetValues(typeof(TipoCategoria))
-                                          .Cast<TipoCategoria>()
-                                          .ToList();
+            cmbTicketType.DataSource = Enum.GetValues(typeof(TipoCategoria)).Cast<TipoCategoria>().ToList();
             cmbTicketType.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTicketType.Enabled = false;
 
@@ -131,11 +231,22 @@ namespace UI
             cmbPrioridad.ValueMember = "Id";
 
             cmbCategoria.SelectedIndexChanged += CmbCategoria_SelectedIndexChanged;
-
             if (cmbCategoria.Items.Count > 0)
             {
                 cmbCategoria.SelectedIndex = 0;
                 CmbCategoria_SelectedIndexChanged(this, EventArgs.Empty);
+            }
+        }
+
+        private void CmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbCategoria.SelectedItem is Categoria selCat)
+            {
+                cmbTicketType.SelectedItem = selCat.tipoCategoria;
+                cmbPrioridad.SelectedItem = selCat.Prioridad.Nombre;
+                cmbGrupoTecDestino.DataSource = new[] { selCat.GrupoTecnico };
+                cmbGrupoTecDestino.DisplayMember = "Nombre";
+                cmbGrupoTecDestino.ValueMember = "GrupoId";
             }
         }
 
@@ -154,8 +265,8 @@ namespace UI
 
             if (_ticket.TecnicoId.HasValue)
             {
-                var tecnico = _tecnicoBLL.ObtenerTecnicoPorId(_ticket.TecnicoId.Value);
-                txtAssignedTech.Text = $"{tecnico.Apellido}, {tecnico.Nombre}";
+                var tech = _tecnicoBLL.ObtenerTecnicoPorId(_ticket.TecnicoId.Value);
+                txtAssignedTech.Text = $"{tech.Apellido}, {tech.Nombre}";
             }
 
             cmbPrioridad.SelectedValue = _ticket.PrioridadId;
@@ -164,18 +275,39 @@ namespace UI
             txtDescripcion.Text = _ticket.Descripcion;
         }
 
+        private void LoadHistorial()
+        {
+            var historicoBLL = new TicketHistoricoBLL();
+            var listaHistorialCompleta = historicoBLL.ObtenerHistorialPorTicket(_ticket.TicketId);
+
+            var listaPlano = listaHistorialCompleta
+                .Select(h => new
+                {
+                    Fecha = h.FechaCambio.ToString("g"),
+                    Usuario = h.UsuarioCambioId.ToString(),
+                    Accion = $"{h.TipoEvento}: {h.ValorAnteriorId ?? 0} → {h.ValorNuevoId ?? 0}",
+                    Comentario = h.Comentario
+                })
+                .OrderBy(x => DateTime.Parse(x.Fecha))
+                .ToList();
+
+            dgvHistorial.DataSource = listaPlano;
+        }
+
         private void LoadComentarios()
         {
             var lista = _comentarioBLL.ListarComentariosPorTicket(_ticket.TicketId);
-            dgvComentarios.DataSource = lista
+            var plano = lista
                 .SelectMany(c => ConstruirListadoPlano(c))
                 .OrderBy(x => x.Fecha)
                 .ToList();
+
+            dgvComentarios.DataSource = plano;
         }
 
-        private static System.Collections.Generic.List<dynamic> ConstruirListadoPlano(Comentario raiz)
+        private static List<dynamic> ConstruirListadoPlano(Comentario raiz)
         {
-            var result = new System.Collections.Generic.List<dynamic>();
+            var result = new List<dynamic>();
             result.Add(new
             {
                 Fecha = raiz.Fecha,
@@ -191,7 +323,6 @@ namespace UI
                     Autor = $"{respuesta.Usuario.Nombre} {respuesta.Usuario.Apellido}",
                     Comentario = "↳ " + respuesta.Texto
                 });
-
                 var másRespuestas = ConstruirListadoPlano(respuesta).Skip(1);
                 result.AddRange(másRespuestas);
             }
@@ -204,101 +335,116 @@ namespace UI
             txtComentarioNuevo.Clear();
             txtComentarioNuevo.Focus();
         }
+
         private void BtnGuardarCambios_Click(object sender, EventArgs e)
         {
-            // 1) Si estamos en modo "nuevo comentario", guardamos sólo el comentario...
+            // Si estamos agregando comentario
             if (panelAgregarComentario.Visible)
             {
                 var texto = txtComentarioNuevo.Text.Trim();
                 if (!string.IsNullOrEmpty(texto))
                 {
-                    var usuarioComentarioId = _ticket.ClienteCreador.Id;
-                    // Agregamos el comentario
-                    _comentarioBLL.AgregarComentario(_ticket.TicketId, usuarioComentarioId, texto);
+                    var userId = _ticket.ClienteCreador.Id;
+                    _comentarioBLL.AgregarComentario(_ticket.TicketId, userId, texto);
 
-                    // Registro histórico
                     var historicoBLL = new TicketHistoricoBLL();
                     historicoBLL.AgregarHistorico(new TicketHistorico
                     {
                         TicketId = _ticket.TicketId,
-                        UsuarioCambioId = usuarioComentarioId,
+                        UsuarioCambioId = userId,
                         FechaCambio = DateTime.Now,
                         TipoEvento = "Comentario",
-                        ValorAnteriorId = null,
-                        ValorNuevoId = null,
                         Comentario = $"Se agregó comentario: \"{texto}\""
                     });
 
-                    // Recargamos vistas
                     LoadComentarios();
                     LoadHistorial();
                 }
 
-                // Ocultamos panel y limpiamos, **y SALIMOS** para no disparar la actualización de ticket
                 panelAgregarComentario.Visible = false;
                 txtComentarioNuevo.Clear();
                 return;
             }
 
-            // 2) Sólo si no era un comentario, entramos aquí y actualizamos el ticket
-            //    (tu lógica existente de prioridad, categoría, asunto, descripción...)
-            int prioridadAntes = _ticket.PrioridadId;
-            int categoriaAntes = _ticket.CategoriaId;
-            int? grupoAntes = _ticket.GrupoTecnicoId;
-            int estadoAntes = _ticket.EstadoId;
+            // Actualizar ticket
+            var antesPrio = _ticket.PrioridadId;
+            var antesCat = _ticket.CategoriaId;
+            var antesGrupo = _ticket.GrupoTecnicoId;
+            var antesEstado = _ticket.EstadoId;
 
             _ticket.CategoriaId = (int)cmbCategoria.SelectedValue;
             _ticket.Categoria = (Categoria)cmbCategoria.SelectedItem;
             _ticket.PrioridadId = (int)cmbPrioridad.SelectedValue;
             _ticket.Asunto = txtAsunto.Text.Trim();
             _ticket.Descripcion = txtDescripcion.Text.Trim();
-            if (cmbGrupoTecDestino.SelectedItem is GrupoTecnico grupoSel)
+            if (cmbGrupoTecDestino.SelectedItem is GrupoTecnico gt)
             {
-                _ticket.GrupoTecnicoId = grupoSel.GrupoId;
-                _ticket.GrupoTecnico = grupoSel;
+                _ticket.GrupoTecnicoId = gt.GrupoId;
+                _ticket.GrupoTecnico = gt;
             }
 
-            var historicoCambioBLL = new TicketHistoricoBLL();
-            Guid usuarioActualId = SingletonSesion.Instancia.Sesion.Usuario.Id;
+            var histBLL = new TicketHistoricoBLL();
+            var currentUserId = SingletonSesion.Instancia.Sesion.Usuario.Id;
 
-            // Insertar históricos de prioridad, categoría y grupo…
-            // (idéntico a tu código anterior)
+            // Registrar históricos si hubo cambios
+            if (antesPrio != _ticket.PrioridadId)
+            {
+                histBLL.AgregarHistorico(new TicketHistorico
+                {
+                    TicketId = _ticket.TicketId,
+                    UsuarioCambioId = currentUserId,
+                    FechaCambio = DateTime.Now,
+                    TipoEvento = "Prioridad",
+                    ValorAnteriorId = antesPrio,
+                    ValorNuevoId = _ticket.PrioridadId,
+                    Comentario = "Cambio de prioridad"
+                });
+            }
 
-            // Finalmente, guardamos
+            if (antesCat != _ticket.CategoriaId)
+            {
+                histBLL.AgregarHistorico(new TicketHistorico
+                {
+                    TicketId = _ticket.TicketId,
+                    UsuarioCambioId = currentUserId,
+                    FechaCambio = DateTime.Now,
+                    TipoEvento = "Categoría",
+                    ValorAnteriorId = antesCat,
+                    ValorNuevoId = _ticket.CategoriaId,
+                    Comentario = "Cambio de categoría"
+                });
+            }
+
             _ticketBLL.ActualizarTicket(_ticket);
             MessageBox.Show("Cambios guardados", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
+            Close();
         }
 
         private void btnCancelarTicket_Click(object sender, EventArgs e)
         {
             const int estadoCanceladoId = 7;
-            int estadoAntes = _ticket.EstadoId;
+            var antesEstado = _ticket.EstadoId;
 
             _ticket.EstadoId = estadoCanceladoId;
             _ticket.Estado = _estadoBLL.ObtenerEstadoTicket(estadoCanceladoId);
 
             var historicoBLL = new TicketHistoricoBLL();
-            Guid usuarioActualId = SingletonSesion.Instancia.Sesion.Usuario.Id;
-
-            var histEstado = new TicketHistorico
+            historicoBLL.AgregarHistorico(new TicketHistorico
             {
                 TicketId = _ticket.TicketId,
-                UsuarioCambioId = usuarioActualId,
+                UsuarioCambioId = SingletonSesion.Instancia.Sesion.Usuario.Id,
                 FechaCambio = DateTime.Now,
                 TipoEvento = "Estado",
-                ValorAnteriorId = estadoAntes,
+                ValorAnteriorId = antesEstado,
                 ValorNuevoId = estadoCanceladoId,
                 Comentario = "Ticket cancelado"
-            };
-            historicoBLL.AgregarHistorico(histEstado);
+            });
 
-         
             MessageBox.Show("Ticket cancelado", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            this.Close();
+            Close();
         }
 
-        // Métodos vacíos para eventos que no usamos
+        // Eventos vacíos
         private void txtAssignedTech_TextChanged(object sender, EventArgs e) { }
         private void lblOpenDate_Click(object sender, EventArgs e) { }
         private void splitContainerMain_Panel1_Paint(object sender, PaintEventArgs e) { }

@@ -1,0 +1,13 @@
+
+Cliente --> cliente.GestionDeTalento@crm.com 
+'30FA9548-E313-43DA-953D-B23BA4EDEDAD' 
+ del departamento 22 (gestion de talento)
+ accede a la categoria 
+ 
+categoria : Incorporación y Configuración de Nuevo Empleado --> categoria_id 33
+grupo tecnico:Grupo de Onboarding --> id 13
+departamento : onboarding --> id departamento_id=23
+tecnico :tecnico.onboarding@crm.com
+aprobador :aprobador.onboarding@crm.com
+
+

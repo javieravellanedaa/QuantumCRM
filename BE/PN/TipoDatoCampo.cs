@@ -8,10 +8,9 @@ namespace BE
 {
     public enum TipoDatoCampo
     {
-        Texto,
-        Numero,
-        Fecha,
-        Lista
+        Texto = 1,
+        Numero = 2,
+        Fecha = 3,
+        Lista = 4
     }
-
 }

@@ -22,6 +22,7 @@ namespace BLL
         private readonly ComentarioBLL _comentarioBLL;
         private readonly TicketHistoricoDAL _historicoDAL;
         private readonly ControlDeCambiosBLL _controlDeCambiosBLL;
+        private readonly ValorCampoTicketBLL _valorCampoBLL;
 
         public TicketBLL()
         {
@@ -35,6 +36,7 @@ namespace BLL
             _comentarioBLL = new ComentarioBLL();
             _historicoDAL = new TicketHistoricoDAL();
             _controlDeCambiosBLL = new ControlDeCambiosBLL();
+            _valorCampoBLL = new ValorCampoTicketBLL();
         }
 
         public void CrearTicket(Ticket ticket)
@@ -138,6 +140,7 @@ namespace BLL
 
             // 11. Recalcular integridad para este ticket y DVV global
             new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
+            _valorCampoBLL.GuardarValores(ticket.TicketId, ticket.ValoresCamposPersonalizados);
         }
 
         public Ticket ObtenerTicketPorId(Guid id)
@@ -166,6 +169,7 @@ namespace BLL
 
             ticket.Comentarios = _comentarioBLL.ListarComentariosPorTicket(ticket.TicketId);
             // ticket.Historicos = _historicoDAL.ListarHistoricos(ticket.TicketId);
+            ticket.ValoresCamposPersonalizados = _valorCampoBLL.ListarPorTicket(ticket.TicketId);
 
             return ticket;
         }
@@ -227,6 +231,7 @@ namespace BLL
 
             // 5) Persistimos cambios
             _ticketDAL.ActualizarTicket(existente);
+            _valorCampoBLL.GuardarValores(existente.TicketId, existente.ValoresCamposPersonalizados);
             _controlDeCambiosBLL.RegistrarCambios(ticketAnterior, existente);
             new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
         }

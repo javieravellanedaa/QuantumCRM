@@ -47,9 +47,11 @@
     <Compile Include="BandejaDeEntradaBLL.cs" />
     <Compile Include="BitacoraBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
+    <Compile Include="CategoriaCampoPersonalizadoBLL.cs" />
     <Compile Include="ClienteBLL.cs" />
     <Compile Include="ComentarioBLL.cs" />
     <Compile Include="ControlDeCambiosBLL.cs" />
+    <Compile Include="DefinicionCampoPersonalizadoBLL.cs" />
     <Compile Include="DepartamentoBLL.cs" />
     <Compile Include="DigitVerifier\DigitVerifier.cs" />
     <Compile Include="DigitVerifier\DigitVerifierManager.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="TicketHistoricoBLL.cs" />
     <Compile Include="TraduccionBLL.cs" />
     <Compile Include="UsuarioBLL.cs" />
+    <Compile Include="ValorCampoTicketBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
