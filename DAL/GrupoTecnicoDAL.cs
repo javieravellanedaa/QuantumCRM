@@ -328,14 +328,20 @@ namespace DAL
             try
             {
                 acceso.Abrir();
-                using (var reader = acceso.EjecutarLectura("sp_ListarTecnicosPorGrupo", parametros))
+                // Usar el SP que devuelve información completa del técnico
+                using (var reader = acceso.EjecutarLectura("sp_ListarTecnicosCompletosPorGrupo", parametros))
                 {
                     while (reader.Read())
                     {
                         tecnicos.Add(new Tecnico
                         {
-                            TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id"))
-
+                            TecnicoId = reader.GetInt32(reader.GetOrdinal("tecnico_id")),
+                            Id = reader.GetGuid(reader.GetOrdinal("usuario_id")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            EstaActivo = reader.GetBoolean(reader.GetOrdinal("activo")),
+                            FechaIngreso = reader.GetDateTime(reader.GetOrdinal("fecha_alta"))
                         });
                     }
                 }
@@ -351,7 +357,6 @@ namespace DAL
                 {
                     acceso.Cerrar();
                 }
-                
             }
         }
 

@@ -72,9 +72,6 @@ namespace BLL
 
         }
 
-        /// <summary>
-        /// Verifica si un usuario con el ID especificado existe en la base de datos.
-        /// </summary>
         public bool UsuarioExiste(Guid usuarioId)
         {
             try
@@ -89,7 +86,7 @@ namespace BLL
    
 
 
-public void GuardarPermisos(Usuario u)
+        public void GuardarPermisos(Usuario u)
         {
             _crud.GuardarPermisos(u);
         }
@@ -162,6 +159,10 @@ public void GuardarPermisos(Usuario u)
         {
 
             return _crud.ObtenerUsuariosDisponiblesParaAdministrador();
+        }
+        public BE.Usuario ObtenerUsuarioPorId(Guid usuarioId)
+        {
+            return _crud.ObtenerUsuarioPorId(usuarioId);
         }
 
         public void CrearUsuario(Usuario usuario)

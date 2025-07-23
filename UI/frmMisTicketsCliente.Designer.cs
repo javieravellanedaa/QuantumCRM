@@ -1,9 +1,11 @@
-﻿
-namespace UI
+﻿namespace UI
 {
     partial class frmMisTicketsCliente
     {
         private System.ComponentModel.IContainer components = null;
+
+        private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Label lblHeaderTitle;
         private System.Windows.Forms.Panel panelFilters;
         private System.Windows.Forms.Label lblTicketNumber;
         private System.Windows.Forms.TextBox txtTicketNumber;
@@ -32,9 +34,32 @@ namespace UI
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            var dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            var dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            var dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+
+            // panelHeader
+            this.panelHeader = new System.Windows.Forms.Panel();
+            this.lblHeaderTitle = new System.Windows.Forms.Label();
+            this.panelHeader.BackColor = System.Drawing.Color.White;
+            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelHeader.Location = new System.Drawing.Point(0, 0);
+            this.panelHeader.Name = "panelHeader";
+            this.panelHeader.Size = new System.Drawing.Size(1415, 50);
+            this.panelHeader.TabIndex = 0;
+            this.panelHeader.Controls.Add(this.lblHeaderTitle);
+
+            // lblHeaderTitle
+            this.lblHeaderTitle.AutoSize = true;
+            this.lblHeaderTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblHeaderTitle.ForeColor = System.Drawing.Color.FromArgb(33, 150, 243);
+            this.lblHeaderTitle.Location = new System.Drawing.Point(20, 10);
+            this.lblHeaderTitle.Name = "lblHeaderTitle";
+            this.lblHeaderTitle.Size = new System.Drawing.Size(145, 30);
+            this.lblHeaderTitle.TabIndex = 0;
+            this.lblHeaderTitle.Text = "Mis Tickets";
+
+            // panelFilters
             this.panelFilters = new System.Windows.Forms.Panel();
             this.lblTicketNumber = new System.Windows.Forms.Label();
             this.txtTicketNumber = new System.Windows.Forms.TextBox();
@@ -49,14 +74,8 @@ namespace UI
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnAbrirTicket = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.dgvTickets = new System.Windows.Forms.DataGridView();
-            this.panelFilters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTickets)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // panelFilters
-            // 
-            this.panelFilters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+
+            this.panelFilters.BackColor = System.Drawing.Color.FromArgb(33, 150, 243);
             this.panelFilters.Controls.Add(this.lblTicketNumber);
             this.panelFilters.Controls.Add(this.txtTicketNumber);
             this.panelFilters.Controls.Add(this.lblCategoriaFilter);
@@ -71,14 +90,13 @@ namespace UI
             this.panelFilters.Controls.Add(this.btnAbrirTicket);
             this.panelFilters.Controls.Add(this.btnLimpiar);
             this.panelFilters.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelFilters.Location = new System.Drawing.Point(0, 0);
+            this.panelFilters.Location = new System.Drawing.Point(0, 50);
             this.panelFilters.Name = "panelFilters";
             this.panelFilters.Padding = new System.Windows.Forms.Padding(10);
             this.panelFilters.Size = new System.Drawing.Size(1415, 117);
             this.panelFilters.TabIndex = 1;
-            // 
+
             // lblTicketNumber
-            // 
             this.lblTicketNumber.AutoSize = true;
             this.lblTicketNumber.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblTicketNumber.ForeColor = System.Drawing.Color.White;
@@ -87,9 +105,8 @@ namespace UI
             this.lblTicketNumber.Size = new System.Drawing.Size(80, 20);
             this.lblTicketNumber.TabIndex = 0;
             this.lblTicketNumber.Text = "Nro Ticket:";
-            // 
+
             // txtTicketNumber
-            // 
             this.txtTicketNumber.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtTicketNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTicketNumber.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -97,9 +114,8 @@ namespace UI
             this.txtTicketNumber.Name = "txtTicketNumber";
             this.txtTicketNumber.Size = new System.Drawing.Size(269, 27);
             this.txtTicketNumber.TabIndex = 1;
-            // 
+
             // lblCategoriaFilter
-            // 
             this.lblCategoriaFilter.AutoSize = true;
             this.lblCategoriaFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblCategoriaFilter.ForeColor = System.Drawing.Color.White;
@@ -108,9 +124,8 @@ namespace UI
             this.lblCategoriaFilter.Size = new System.Drawing.Size(77, 20);
             this.lblCategoriaFilter.TabIndex = 2;
             this.lblCategoriaFilter.Text = "Categoría:";
-            // 
+
             // cmbCategoriaFilter
-            // 
             this.cmbCategoriaFilter.BackColor = System.Drawing.Color.White;
             this.cmbCategoriaFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCategoriaFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -119,9 +134,8 @@ namespace UI
             this.cmbCategoriaFilter.Name = "cmbCategoriaFilter";
             this.cmbCategoriaFilter.Size = new System.Drawing.Size(300, 28);
             this.cmbCategoriaFilter.TabIndex = 3;
-            // 
+
             // lblEstadoFilter
-            // 
             this.lblEstadoFilter.AutoSize = true;
             this.lblEstadoFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblEstadoFilter.ForeColor = System.Drawing.Color.White;
@@ -130,9 +144,8 @@ namespace UI
             this.lblEstadoFilter.Size = new System.Drawing.Size(57, 20);
             this.lblEstadoFilter.TabIndex = 4;
             this.lblEstadoFilter.Text = "Estado:";
-            // 
+
             // cmbEstadoFilter
-            // 
             this.cmbEstadoFilter.BackColor = System.Drawing.Color.White;
             this.cmbEstadoFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbEstadoFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -141,9 +154,8 @@ namespace UI
             this.cmbEstadoFilter.Name = "cmbEstadoFilter";
             this.cmbEstadoFilter.Size = new System.Drawing.Size(200, 28);
             this.cmbEstadoFilter.TabIndex = 5;
-            // 
+
             // lblFechaDesde
-            // 
             this.lblFechaDesde.AutoSize = true;
             this.lblFechaDesde.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblFechaDesde.ForeColor = System.Drawing.Color.White;
@@ -152,9 +164,8 @@ namespace UI
             this.lblFechaDesde.Size = new System.Drawing.Size(54, 20);
             this.lblFechaDesde.TabIndex = 6;
             this.lblFechaDesde.Text = "Desde:";
-            // 
+
             // dtpFechaDesde
-            // 
             this.dtpFechaDesde.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpFechaDesde.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -162,9 +173,8 @@ namespace UI
             this.dtpFechaDesde.Name = "dtpFechaDesde";
             this.dtpFechaDesde.Size = new System.Drawing.Size(120, 27);
             this.dtpFechaDesde.TabIndex = 7;
-            // 
+
             // lblFechaHasta
-            // 
             this.lblFechaHasta.AutoSize = true;
             this.lblFechaHasta.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblFechaHasta.ForeColor = System.Drawing.Color.White;
@@ -173,9 +183,8 @@ namespace UI
             this.lblFechaHasta.Size = new System.Drawing.Size(50, 20);
             this.lblFechaHasta.TabIndex = 8;
             this.lblFechaHasta.Text = "Hasta:";
-            // 
+
             // dtpFechaHasta
-            // 
             this.dtpFechaHasta.CalendarFont = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpFechaHasta.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -183,10 +192,9 @@ namespace UI
             this.dtpFechaHasta.Name = "dtpFechaHasta";
             this.dtpFechaHasta.Size = new System.Drawing.Size(120, 27);
             this.dtpFechaHasta.TabIndex = 9;
-            // 
+
             // btnBuscar
-            // 
-            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(0, 123, 255);
             this.btnBuscar.FlatAppearance.BorderSize = 0;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
@@ -198,10 +206,9 @@ namespace UI
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-            // 
+
             // btnAbrirTicket
-            // 
-            this.btnAbrirTicket.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnAbrirTicket.BackColor = System.Drawing.Color.FromArgb(40, 167, 69);
             this.btnAbrirTicket.FlatAppearance.BorderSize = 0;
             this.btnAbrirTicket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAbrirTicket.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
@@ -213,10 +220,9 @@ namespace UI
             this.btnAbrirTicket.Text = "Abrir Ticket";
             this.btnAbrirTicket.UseVisualStyleBackColor = false;
             this.btnAbrirTicket.Click += new System.EventHandler(this.btnAbrirTicket_Click);
-            // 
+
             // btnLimpiar
-            // 
-            this.btnLimpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(34)))));
+            this.btnLimpiar.BackColor = System.Drawing.Color.FromArgb(255, 87, 34);
             this.btnLimpiar.FlatAppearance.BorderSize = 0;
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
@@ -224,17 +230,17 @@ namespace UI
             this.btnLimpiar.Location = new System.Drawing.Point(1280, 30);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(120, 30);
-            this.btnLimpiar.TabIndex = 11;
+            this.btnLimpiar.TabIndex = 12;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
+
             // dgvTickets
-            // 
+            this.dgvTickets = new System.Windows.Forms.DataGridView();
             this.dgvTickets.AllowUserToAddRows = false;
             this.dgvTickets.AllowUserToDeleteRows = false;
             this.dgvTickets.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(240, 240, 240);
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
             this.dgvTickets.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvTickets.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -242,7 +248,7 @@ namespace UI
             this.dgvTickets.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvTickets.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(33, 150, 243);
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
             this.dgvTickets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
@@ -252,37 +258,39 @@ namespace UI
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(0, 123, 255);
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvTickets.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvTickets.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTickets.EnableHeadersVisualStyles = false;
-            this.dgvTickets.Location = new System.Drawing.Point(0, 117);
+            this.dgvTickets.Location = new System.Drawing.Point(0, 167);
             this.dgvTickets.Name = "dgvTickets";
             this.dgvTickets.ReadOnly = true;
             this.dgvTickets.RowHeadersVisible = false;
             this.dgvTickets.RowHeadersWidth = 51;
             this.dgvTickets.RowTemplate.Height = 28;
-            this.dgvTickets.Size = new System.Drawing.Size(1415, 597);
-            this.dgvTickets.TabIndex = 0;
-            // 
+            this.dgvTickets.Size = new System.Drawing.Size(1415, 547);
+            this.dgvTickets.TabIndex = 2;
+
             // frmMisTicketsCliente
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1415, 714);
             this.Controls.Add(this.dgvTickets);
             this.Controls.Add(this.panelFilters);
+            this.Controls.Add(this.panelHeader);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Name = "frmMisTicketsCliente";
             this.Text = "Mis Tickets";
             this.Load += new System.EventHandler(this.frmMisTicketsCliente_Load);
+
             this.panelFilters.ResumeLayout(false);
             this.panelFilters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTickets)).EndInit();
+            this.panelHeader.ResumeLayout(false);
+            this.panelHeader.PerformLayout();
             this.ResumeLayout(false);
-
         }
     }
 }

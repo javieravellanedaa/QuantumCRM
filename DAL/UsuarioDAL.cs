@@ -919,7 +919,7 @@ namespace DAL
             Usuario usuario = null;
             var parametros = new List<SqlParameter>
     {
-        acceso.CrearParametro("@UsuarioId", usuarioId)
+        acceso.CrearParametro("@usuario_id", usuarioId)
     };
 
             try

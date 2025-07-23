@@ -195,15 +195,18 @@ namespace BLL
             // Mismo manejo de cancelación…
             if (ticket.EstadoId == estadoCanceladoId)
             {
+                existente.UsuarioAprobadorId = ticketAnterior.UsuarioAprobadorId;
+                existente.Asunto = ticket.Asunto;
+                existente.Descripcion = ticket.Descripcion;
+                existente.CategoriaId = ticket.CategoriaId;
                 existente.EstadoId = estadoCanceladoId;
                 existente.FechaCierre = DateTime.Now;
                 existente.FechaUltimaModif = DateTime.Now;
+                existente.PrioridadId = ticket.PrioridadId;
                 _ticketDAL.ActualizarTicket(existente);
                 new TicketVerifierService().RecalcularSingleDV(ticket.TicketId);
                 return;
             }
-
-            // Cambio de prioridad (igual que antes)…
 
             // 3) Campos editables
             existente.Asunto = ticket.Asunto;
@@ -216,7 +219,6 @@ namespace BLL
             // **Primero** asignamos el estado que viene del UI
             existente.EstadoId = ticket.EstadoId;
             existente.UsuarioAprobadorId = ticketAnterior.UsuarioAprobadorId;
-            // (mantenemos el aprobador previo a menos que lo necesitemos recalcular)
 
             // 4) Sólo si realmente cambié de una categoría NO requiere-aprobación
             //    a una que SÍ la requiere, lo forzamos a "En aprobación"
@@ -228,6 +230,10 @@ namespace BLL
                 existente.EstadoId = et.EstadoId;
                 existente.UsuarioAprobadorId = catNueva.ClienteAprobador.ClienteId;
             }
+
+            // *** NUEVO: reasignar GrupoTecnicoId según la categoría seleccionada ***
+            //    ticket.GrupoTecnicoId ya viene asignado en la UI antes de llamar a este método
+            existente.GrupoTecnicoId = ticket.GrupoTecnicoId;
 
             // 5) Persistimos cambios
             _ticketDAL.ActualizarTicket(existente);
@@ -284,38 +290,61 @@ namespace BLL
         /// </summary>
         public void AprobarTicket(Guid ticketId, int usuarioAprobadorId)
         {
+            // 1) Cargar y validar
             var ticket = ObtenerTicketPorId(ticketId);
-
             if (ticket.Estado.Nombre != "En Aprobacion")
-                throw new InvalidOperationException("Solo se pueden aprobar tickets en estado 'En Aprobacion'.");
+                throw new InvalidOperationException("Solo se pueden aprobar tickets que estén en estado 'En Aprobacion'.");
 
+            int categoriaOld = ticket.CategoriaId;
+            int estadoOld = ticket.EstadoId;
+
+            // 2) Recategorizar si viene de la categoría 2
+            if (categoriaOld == 2)
+            {
+                ticket.CategoriaId = 4;
+            }
+
+            // 3) Siempre derivamos tras aprobar
             var estadoDerivado = _estadoTicketBLL.ObtenerPorNombre("Derivado")
-                ?? throw new InvalidOperationException("Estado 'Derivado' no encontrado.");
-
-            int anterior = ticket.EstadoId;
+                                    ?? throw new InvalidOperationException("Estado 'Derivado' no encontrado.");
             ticket.EstadoId = estadoDerivado.EstadoId;
             ticket.FechaUltimaModif = DateTime.Now;
 
-            // Persistir cambio de estado
+            // 4) Persistir cambios
             _ticketDAL.ActualizarTicket(ticket);
-            var UsuarioCambio = _clienteBLL.ObtenerIdUsuarioPorClienteId(usuarioAprobadorId);
 
-            // Registrar en histórico
+
             _historicoDAL.Insertar(new TicketHistorico
             {
-
                 TicketId = ticketId,
                 FechaCambio = DateTime.Now,
-                UsuarioCambioId = UsuarioCambio,
+                UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(usuarioAprobadorId),
                 TipoEvento = "Aprobación",
-                ValorAnteriorId = anterior,
-                ValorNuevoId = estadoDerivado.EstadoId,
+                ValorAnteriorId = estadoOld,
+                ValorNuevoId = ticket.EstadoId,
                 Comentario = "Ticket aprobado y derivado"
             });
+            // 5) Histórico de recategorización (solo si cambió)
+            if (categoriaOld != ticket.CategoriaId)
+            {
+                _historicoDAL.Insertar(new TicketHistorico
+                {
+                    TicketId = ticketId,
+                    FechaCambio = DateTime.Now,
+                    UsuarioCambioId = _clienteBLL.ObtenerIdUsuarioPorClienteId(usuarioAprobadorId),
+                    TipoEvento = "Categoría",
+                    ValorAnteriorId = categoriaOld,
+                    ValorNuevoId = ticket.CategoriaId,
+                    Comentario = "Recategorizado automáticamente tras aprobación"
+                });
+            }
 
-            // Control de cambios y dígito verificable
+            // 6) Histórico de estado
+
+
+            // 7) Control de cambios y DVH
             _controlDeCambiosBLL.RegistrarCambios(
-                new Ticket { TicketId = ticketId, EstadoId = anterior },
+                new Ticket { TicketId = ticketId, CategoriaId = categoriaOld, EstadoId = estadoOld },
                 ticket
             );
             new TicketVerifierService().RecalcularSingleDV(ticketId);

@@ -56,8 +56,9 @@ namespace BLL
             var t = _tecnicoDAL.ObtenerPorId(id)
                 ?? throw new InvalidOperationException($"Técnico con ID {id} no encontrado.");
 
-            if (!t.EstaActivo)
-                throw new InvalidOperationException($"El técnico {id} está inactivo.");
+            //if (!t.EstaActivo)
+            //    throw new InvalidOperationException($"El técnico {id} está inactivo.");
+      
 
             return t;
         }
@@ -109,7 +110,19 @@ namespace BLL
             // 2) Actualizo el objeto en memoria
             t.GruposTecnicos.Add(g);
         }
+        public List<Tecnico> ListarTecnicosPorGrupo(int grupoTecnicoId)
+        {
+            if (grupoTecnicoId <= 0)
+                throw new ArgumentException("El ID del grupo técnico debe ser mayor a 0.", nameof(grupoTecnicoId));
 
+            // Verificar que el grupo existe
+            var grupo = _grupoDAL.ObtenerPorId(grupoTecnicoId);
+            if (grupo == null || grupo.Eliminado)
+                throw new InvalidOperationException($"El grupo técnico con ID {grupoTecnicoId} no existe o está eliminado.");
+
+            // Obtener los técnicos del grupo desde el DAL
+            return _tecnicoDAL.ListarTecnicosPorGrupo(grupoTecnicoId);
+        }
 
         public Tecnico ObtenerTecnicoPorUsuarioId(Guid usuarioId)
         {

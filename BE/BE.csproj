@@ -45,6 +45,8 @@
     <Compile Include="Backup.cs" />
     <Compile Include="BackupHistoryEntry.cs" />
     <Compile Include="Bitacora.cs" />
+    <Compile Include="CategoriaDepartamentoVisible.cs" />
+    <Compile Include="CategoriaGrupoTecnicoVisible.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="ControlDeCambios.cs" />
     <Compile Include="PN\CategoriaCampoPersonalizado.cs" />

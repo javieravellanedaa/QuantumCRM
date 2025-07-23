@@ -1,5 +1,4 @@
-﻿
-namespace UI
+﻿namespace UI
 {
     partial class frmPpalTecnico
     {
@@ -348,7 +347,7 @@ namespace UI
             this.btnMinimize.IconColor = System.Drawing.Color.White;
             this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMinimize.IconSize = 20;
-            this.btnMinimize.Location = new System.Drawing.Point(924, 0);
+            this.btnMinimize.Location = new System.Drawing.Point(690, 0);
             this.btnMinimize.Margin = new System.Windows.Forms.Padding(4);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(53, 31);
@@ -366,7 +365,7 @@ namespace UI
             this.btnMaximaze.IconColor = System.Drawing.Color.White;
             this.btnMaximaze.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMaximaze.IconSize = 20;
-            this.btnMaximaze.Location = new System.Drawing.Point(974, 0);
+            this.btnMaximaze.Location = new System.Drawing.Point(740, 0);
             this.btnMaximaze.Margin = new System.Windows.Forms.Padding(4);
             this.btnMaximaze.Name = "btnMaximaze";
             this.btnMaximaze.Size = new System.Drawing.Size(63, 31);
@@ -384,7 +383,7 @@ namespace UI
             this.btnExit.IconColor = System.Drawing.Color.White;
             this.btnExit.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExit.IconSize = 20;
-            this.btnExit.Location = new System.Drawing.Point(1036, 0);
+            this.btnExit.Location = new System.Drawing.Point(802, 0);
             this.btnExit.Margin = new System.Windows.Forms.Padding(4);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(60, 31);
@@ -401,6 +400,7 @@ namespace UI
             this.PanelDesktop.Name = "PanelDesktop";
             this.PanelDesktop.Size = new System.Drawing.Size(862, 581);
             this.PanelDesktop.TabIndex = 2;
+            this.PanelDesktop.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelDesktop_Paint);
             // 
             // notifyIcon1
             // 
@@ -430,6 +430,7 @@ namespace UI
             this.aaaToolStripMenuItem.Name = "aaaToolStripMenuItem";
             this.aaaToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.aaaToolStripMenuItem.Text = "aaa";
+            this.aaaToolStripMenuItem.Click += new System.EventHandler(this.aaaToolStripMenuItem_Click);
             // 
             // aaaaToolStripMenuItem
             // 
@@ -647,9 +648,11 @@ namespace UI
             this.Controls.Add(this.PanelDesktop);
             this.Controls.Add(this.PanelTitleBar);
             this.Controls.Add(this.PanelMenu);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmPpalTecnico";
-            this.Text = "frmPpalNew";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "frmPpalTecnico";
             this.Load += new System.EventHandler(this.frmPpalNew_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPpalNew_MouseDown);
             this.Resize += new System.EventHandler(this.frmPpalNew_Resize);

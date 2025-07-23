@@ -15,9 +15,9 @@ namespace DAL
         {
             return new ValorCampoTicket
             {
-                Id = reader.GetInt32(reader.GetOrdinal("valorId")),
+                Id = reader.GetInt32(reader.GetOrdinal("ValorId")),
                 TicketId = reader.GetGuid(reader.GetOrdinal("TicketId")),
-                DefinicionCampoPersonalizadoId = reader.GetInt32(reader.GetOrdinal("DefinicionId")),
+                DefinicionCampoPersonalizadoId = reader.GetInt32(reader.GetOrdinal("DefinicionCampoPersonalizadoId")),
                 ValorTexto = reader.IsDBNull(reader.GetOrdinal("ValorTexto"))
                              ? null
                              : reader.GetString(reader.GetOrdinal("ValorTexto")),
@@ -63,6 +63,28 @@ namespace DAL
             {
                 _acceso.Abrir();
                 _acceso.Escribir("sp_EliminarValoresCampoTicket", pars);
+            }
+            finally
+            {
+                _acceso.Cerrar();
+            }
+        }
+
+        /// <summary>
+        /// Elimina un valor específico de campo personalizado por TicketId y DefinicionId
+        /// </summary>
+        public void EliminarPorTicketYDefinicion(Guid ticketId, int definicionId)
+        {
+            var pars = new List<SqlParameter>
+            {
+                _acceso.CrearParametro("@TicketId", ticketId),
+                _acceso.CrearParametro("@DefinicionId", definicionId)
+            };
+
+            try
+            {
+                _acceso.Abrir();
+                _acceso.Escribir("sp_EliminarValorCampoTicketPorDefinicion", pars);
             }
             finally
             {

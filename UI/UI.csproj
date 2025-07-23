@@ -229,6 +229,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VentanaCamposPersonalizados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VentanaCamposPersonalizados.Designer.cs">
+      <DependentUpon>VentanaCamposPersonalizados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VistaDeTicketAprobador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VistaDeTicketAprobador.Designer.cs">
+      <DependentUpon>VistaDeTicketAprobador.cs</DependentUpon>
+    </Compile>
     <Compile Include="VistaDeTicketCliente.cs">
       <SubType>Form</SubType>
     </Compile>

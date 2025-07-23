@@ -192,7 +192,7 @@
             this.dgvComentarios.ReadOnly = true;
             this.dgvComentarios.RowHeadersVisible = false;
             this.dgvComentarios.RowHeadersWidth = 51;
-            this.dgvComentarios.Size = new System.Drawing.Size(1104, 0);
+            this.dgvComentarios.Size = new System.Drawing.Size(1083, 0);
             this.dgvComentarios.TabIndex = 3;
             // 
             // dgvHistorial
@@ -219,7 +219,7 @@
             this.dgvHistorial.ReadOnly = true;
             this.dgvHistorial.RowHeadersVisible = false;
             this.dgvHistorial.RowHeadersWidth = 51;
-            this.dgvHistorial.Size = new System.Drawing.Size(1104, 148);
+            this.dgvHistorial.Size = new System.Drawing.Size(1083, 148);
             this.dgvHistorial.TabIndex = 4;
             // 
             // colFecha
@@ -255,7 +255,7 @@
             this.panelCamposPersonalizados.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelCamposPersonalizados.Location = new System.Drawing.Point(0, 324);
             this.panelCamposPersonalizados.Name = "panelCamposPersonalizados";
-            this.panelCamposPersonalizados.Size = new System.Drawing.Size(1104, 160);
+            this.panelCamposPersonalizados.Size = new System.Drawing.Size(1083, 160);
             this.panelCamposPersonalizados.TabIndex = 5;
             // 
             // lblCamposPersonalizados
@@ -271,16 +271,14 @@
             // 
             // flpCampos
             // 
-            this.flpCampos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.flpCampos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flpCampos.AutoScroll = true;
-            this.flpCampos.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
             this.flpCampos.Location = new System.Drawing.Point(11, 35);
             this.flpCampos.Name = "flpCampos";
-            this.flpCampos.Size = new System.Drawing.Size(1080, 110);
+            this.flpCampos.Size = new System.Drawing.Size(1059, 110);
             this.flpCampos.TabIndex = 1;
-            this.flpCampos.WrapContents = true;
             // 
             // panelDates
             // 
@@ -293,7 +291,7 @@
             this.panelDates.Location = new System.Drawing.Point(0, 294);
             this.panelDates.Margin = new System.Windows.Forms.Padding(4);
             this.panelDates.Name = "panelDates";
-            this.panelDates.Size = new System.Drawing.Size(1104, 30);
+            this.panelDates.Size = new System.Drawing.Size(1083, 30);
             this.panelDates.TabIndex = 0;
             // 
             // lblFechadeCreacion
@@ -382,7 +380,7 @@
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblDetails.Size = new System.Drawing.Size(1104, 294);
+            this.tblDetails.Size = new System.Drawing.Size(1083, 294);
             this.tblDetails.TabIndex = 1;
             // 
             // lblClient
@@ -397,16 +395,16 @@
             // txtCliente
             // 
             this.txtCliente.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtCliente.Location = new System.Drawing.Point(144, 14);
+            this.txtCliente.Location = new System.Drawing.Point(142, 14);
             this.txtCliente.Margin = new System.Windows.Forms.Padding(4);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.ReadOnly = true;
-            this.txtCliente.Size = new System.Drawing.Size(396, 22);
+            this.txtCliente.Size = new System.Drawing.Size(394, 22);
             this.txtCliente.TabIndex = 1;
             // 
             // lblCreatedBy
             // 
-            this.lblCreatedBy.Location = new System.Drawing.Point(554, 10);
+            this.lblCreatedBy.Location = new System.Drawing.Point(544, 10);
             this.lblCreatedBy.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCreatedBy.Name = "lblCreatedBy";
             this.lblCreatedBy.Size = new System.Drawing.Size(100, 23);
@@ -416,7 +414,7 @@
             // txtCreadoPor
             // 
             this.txtCreadoPor.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtCreadoPor.Location = new System.Drawing.Point(728, 14);
+            this.txtCreadoPor.Location = new System.Drawing.Point(714, 14);
             this.txtCreadoPor.Margin = new System.Windows.Forms.Padding(4);
             this.txtCreadoPor.Name = "txtCreadoPor";
             this.txtCreadoPor.ReadOnly = true;
@@ -435,16 +433,16 @@
             // txtUbicacion
             // 
             this.txtUbicacion.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtUbicacion.Location = new System.Drawing.Point(144, 44);
+            this.txtUbicacion.Location = new System.Drawing.Point(142, 44);
             this.txtUbicacion.Margin = new System.Windows.Forms.Padding(4);
             this.txtUbicacion.Name = "txtUbicacion";
             this.txtUbicacion.ReadOnly = true;
-            this.txtUbicacion.Size = new System.Drawing.Size(396, 22);
+            this.txtUbicacion.Size = new System.Drawing.Size(394, 22);
             this.txtUbicacion.TabIndex = 5;
             // 
             // lblDepartment
             // 
-            this.lblDepartment.Location = new System.Drawing.Point(554, 40);
+            this.lblDepartment.Location = new System.Drawing.Point(544, 40);
             this.lblDepartment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDepartment.Name = "lblDepartment";
             this.lblDepartment.Size = new System.Drawing.Size(143, 23);
@@ -454,7 +452,7 @@
             // txtDepartamento
             // 
             this.txtDepartamento.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtDepartamento.Location = new System.Drawing.Point(728, 44);
+            this.txtDepartamento.Location = new System.Drawing.Point(714, 44);
             this.txtDepartamento.Margin = new System.Windows.Forms.Padding(4);
             this.txtDepartamento.Name = "txtDepartamento";
             this.txtDepartamento.ReadOnly = true;
@@ -473,15 +471,15 @@
             // cmbCategoria
             // 
             this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCategoria.Location = new System.Drawing.Point(144, 74);
+            this.cmbCategoria.Location = new System.Drawing.Point(142, 74);
             this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(396, 24);
+            this.cmbCategoria.Size = new System.Drawing.Size(394, 24);
             this.cmbCategoria.TabIndex = 9;
             // 
             // lblTipoTicket
             // 
-            this.lblTipoTicket.Location = new System.Drawing.Point(554, 70);
+            this.lblTipoTicket.Location = new System.Drawing.Point(544, 70);
             this.lblTipoTicket.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTipoTicket.Name = "lblTipoTicket";
             this.lblTipoTicket.Size = new System.Drawing.Size(100, 23);
@@ -491,7 +489,7 @@
             // cmbTicketType
             // 
             this.cmbTicketType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTicketType.Location = new System.Drawing.Point(728, 74);
+            this.cmbTicketType.Location = new System.Drawing.Point(714, 74);
             this.cmbTicketType.Margin = new System.Windows.Forms.Padding(4);
             this.cmbTicketType.Name = "cmbTicketType";
             this.cmbTicketType.Size = new System.Drawing.Size(224, 24);
@@ -509,15 +507,15 @@
             // cmbGrupoTecDestino
             // 
             this.cmbGrupoTecDestino.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbGrupoTecDestino.Location = new System.Drawing.Point(144, 106);
+            this.cmbGrupoTecDestino.Location = new System.Drawing.Point(142, 106);
             this.cmbGrupoTecDestino.Margin = new System.Windows.Forms.Padding(4);
             this.cmbGrupoTecDestino.Name = "cmbGrupoTecDestino";
-            this.cmbGrupoTecDestino.Size = new System.Drawing.Size(396, 24);
+            this.cmbGrupoTecDestino.Size = new System.Drawing.Size(394, 24);
             this.cmbGrupoTecDestino.TabIndex = 13;
             // 
             // lblAssignedTech
             // 
-            this.lblAssignedTech.Location = new System.Drawing.Point(554, 102);
+            this.lblAssignedTech.Location = new System.Drawing.Point(544, 102);
             this.lblAssignedTech.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAssignedTech.Name = "lblAssignedTech";
             this.lblAssignedTech.Size = new System.Drawing.Size(100, 23);
@@ -527,7 +525,7 @@
             // txtAssignedTech
             // 
             this.txtAssignedTech.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtAssignedTech.Location = new System.Drawing.Point(728, 106);
+            this.txtAssignedTech.Location = new System.Drawing.Point(714, 106);
             this.txtAssignedTech.Margin = new System.Windows.Forms.Padding(4);
             this.txtAssignedTech.Name = "txtAssignedTech";
             this.txtAssignedTech.ReadOnly = true;
@@ -546,10 +544,10 @@
             // cmbPrioridad
             // 
             this.cmbPrioridad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPrioridad.Location = new System.Drawing.Point(144, 138);
+            this.cmbPrioridad.Location = new System.Drawing.Point(142, 138);
             this.cmbPrioridad.Margin = new System.Windows.Forms.Padding(4);
             this.cmbPrioridad.Name = "cmbPrioridad";
-            this.cmbPrioridad.Size = new System.Drawing.Size(396, 24);
+            this.cmbPrioridad.Size = new System.Drawing.Size(394, 24);
             this.cmbPrioridad.TabIndex = 17;
             // 
             // lblAsunto
@@ -565,7 +563,7 @@
             // 
             this.txtAsunto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tblDetails.SetColumnSpan(this.txtAsunto, 3);
-            this.txtAsunto.Location = new System.Drawing.Point(144, 170);
+            this.txtAsunto.Location = new System.Drawing.Point(142, 170);
             this.txtAsunto.Margin = new System.Windows.Forms.Padding(4);
             this.txtAsunto.Name = "txtAsunto";
             this.txtAsunto.Size = new System.Drawing.Size(809, 22);
@@ -584,7 +582,7 @@
             // 
             this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tblDetails.SetColumnSpan(this.txtDescripcion, 3);
-            this.txtDescripcion.Location = new System.Drawing.Point(144, 200);
+            this.txtDescripcion.Location = new System.Drawing.Point(142, 200);
             this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
@@ -593,7 +591,7 @@
             // 
             // lblEstado
             // 
-            this.lblEstado.Location = new System.Drawing.Point(554, 134);
+            this.lblEstado.Location = new System.Drawing.Point(544, 134);
             this.lblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Size = new System.Drawing.Size(100, 23);
@@ -603,7 +601,7 @@
             // txtEstado
             // 
             this.txtEstado.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.txtEstado.Location = new System.Drawing.Point(728, 138);
+            this.txtEstado.Location = new System.Drawing.Point(714, 138);
             this.txtEstado.Margin = new System.Windows.Forms.Padding(4);
             this.txtEstado.Name = "txtEstado";
             this.txtEstado.ReadOnly = true;
@@ -696,6 +694,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "VistaDeTicketCliente";
             this.Text = "Detalle de Ticket";
+            this.Load += new System.EventHandler(this.VistaDeTicketCliente_Load);
             this.splitContainerMain.Panel1.ResumeLayout(false);
             this.splitContainerMain.Panel1.PerformLayout();
             this.splitContainerMain.Panel2.ResumeLayout(false);

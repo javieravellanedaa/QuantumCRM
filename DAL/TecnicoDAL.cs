@@ -128,13 +128,19 @@ namespace DAL
             }
         }
 
+        // NUEVO: Lista técnicos de un grupo específico - VERSIÓN SIMPLIFICADA
+        public List<Tecnico> ListarTecnicosPorGrupo(int grupoTecnicoId)
+        {
+            // Usar el método del GrupoTecnicoDAL que ya maneja esta lógica
+            return _grupoDAL.ListarTecnicosPorGrupo(grupoTecnicoId);
+        }
 
         public Tecnico ObtenerPorUsuarioId(Guid usuarioId)
         {
             var parametros = new List<SqlParameter>
-    {
-        _acceso.CrearParametro("@usuario_id", usuarioId)
-    };
+            {
+                _acceso.CrearParametro("@usuario_id", usuarioId)
+            };
 
             try
             {
@@ -163,7 +169,6 @@ namespace DAL
         {
             return ObtenerTodos().ToList();
         }
-
 
         // Actualiza el estado activo y sincroniza grupos
         public void Actualizar(Tecnico tecnico)

@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Drawing;
 using BLL;
 using BE;
 using SERVICIOS;
-using System.Drawing;
 
 namespace UI
 {
@@ -14,32 +14,41 @@ namespace UI
         private readonly TicketBLL _ticketBLL;
         private readonly CategoriaBLL _categoriaBLL;
         private readonly EstadoTicketBLL _estadoBLL;
-        private readonly GrupoTecnicoBLL _grupoBLL;
+        private readonly ClienteBLL _clienteBLL;
         private readonly TecnicoBLL _tecnicoBLL;
+        private readonly PrioridadBLL _prioridadBLL;
+        private readonly GrupoTecnicoBLL _grupoBLL;
 
-        public frmBandejaDeTicketsTecnico()
+        public frmBandejaDeTicketsTecnico(EventManagerService eventManagerService)
         {
             InitializeComponent();
 
             _ticketBLL = new TicketBLL();
             _categoriaBLL = new CategoriaBLL();
             _estadoBLL = new EstadoTicketBLL();
-            _grupoBLL = new GrupoTecnicoBLL();
+            _clienteBLL = new ClienteBLL();
             _tecnicoBLL = new TecnicoBLL();
+            _prioridadBLL = new PrioridadBLL();
+            _grupoBLL = new GrupoTecnicoBLL();
 
+            // Event handlers
+            this.Load += frmBandejaDeTicketsTecnico_Load;
             dgvTickets.CellFormatting += dgvTickets_CellFormatting;
+            btnBuscar.Click += btnBuscar_Click;
+            btnLimpiar.Click += btnLimpiar_Click;
+            btnAbrirTicket.Click += btnAbrirTicket_Click;
         }
 
         private void frmBandejaDeTicketsTecnico_Load(object sender, EventArgs e)
         {
-            // --- Bind de categorías ---
+            // Bind categorías
             var categorias = _categoriaBLL.ListarCategorias();
             categorias.Insert(0, new Categoria { CategoriaId = 0, Nombre = "Todos" });
             cmbCategoriaFilter.DataSource = categorias;
             cmbCategoriaFilter.DisplayMember = "Nombre";
             cmbCategoriaFilter.ValueMember = "CategoriaId";
 
-            // --- Bind de estados ---
+            // Bind estados
             var estados = _estadoBLL.ListarEstadosTicket();
             estados.Insert(0, new EstadoTicket { EstadoId = 0, Nombre = "Todos" });
             cmbEstadoFilter.DataSource = estados;
@@ -56,124 +65,108 @@ namespace UI
 
         private void dgvTickets_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Solo nos interesa la columna "Prioridad"
             if (dgvTickets.Columns[e.ColumnIndex].Name != "Prioridad" || e.Value == null)
                 return;
 
-            var val = e.Value.ToString();
-            switch (val)
+            switch (e.Value.ToString())
             {
                 case "Baja":
                     e.CellStyle.BackColor = Color.FromArgb(198, 239, 206);
-                    e.CellStyle.ForeColor = Color.Black;
                     break;
                 case "Media":
                     e.CellStyle.BackColor = Color.FromArgb(255, 235, 156);
-                    e.CellStyle.ForeColor = Color.Black;
                     break;
                 case "Alta":
                     e.CellStyle.BackColor = Color.FromArgb(255, 199, 206);
-                    e.CellStyle.ForeColor = Color.Black;
                     break;
                 case "Urgente":
                     e.CellStyle.BackColor = Color.FromArgb(244, 88, 88);
                     e.CellStyle.ForeColor = Color.White;
-                    break;
-                default:
-                    e.CellStyle.BackColor = Color.White;
-                    e.CellStyle.ForeColor = Color.Black;
-                    break;
+                    return;
             }
+            e.CellStyle.ForeColor = Color.Black;
         }
 
         private void CargarTickets()
         {
-            // 0) Obtener usuario y su técnico
             var usuario = SingletonSesion.Instancia.Sesion.Usuario;
             var tecnico = _tecnicoBLL
                 .ListarTecnicosActivos()
                 .FirstOrDefault(t => t.Id == usuario.Id)
                 ?? throw new InvalidOperationException("No se encontró el registro de técnico para este usuario.");
 
-            // 1) Obtener grupos del técnico
             var grupos = _grupoBLL.ObtenerGruposAsignados(tecnico.TecnicoId);
-
-            // 2) Cargar tickets de todos los grupos
             var query = grupos
                 .SelectMany(g => _ticketBLL.ListarTicketsPorGrupo(g.GrupoId))
                 .AsEnumerable();
 
-            // 3) Filtro por número de ticket
-            var filtroNum = txtTicketNumber.Text.Trim();
-            if (!string.IsNullOrEmpty(filtroNum))
-                query = query.Where(t => t.TicketId.ToString().Contains(filtroNum));
+            // Filtro por número de ticket
+            if (int.TryParse(txtTicketNumber.Text.Trim(), out int num))
+                query = query.Where(t => t.Numero == num);
 
-            // 4) Filtro por categoría
+            // Filtro por categoría
             if (cmbCategoriaFilter.SelectedItem is Categoria selCat && selCat.CategoriaId != 0)
                 query = query.Where(t => t.CategoriaId == selCat.CategoriaId);
 
-            // 5) Filtro por estado
+            // Filtro por estado
             if (cmbEstadoFilter.SelectedItem is EstadoTicket selEst && selEst.EstadoId != 0)
                 query = query.Where(t => t.EstadoId == selEst.EstadoId);
 
-            // 6) Filtro por rango de fechas
+            // Filtro por rango de fechas
             var desde = dtpFechaDesde.Value.Date;
             var hasta = dtpFechaHasta.Value.Date.AddDays(1).AddTicks(-1);
             query = query.Where(t => t.FechaCreacion >= desde && t.FechaCreacion <= hasta);
 
-            // 7) Proyección plana
+            // Proyección para grid
             var listadoPlano = query
                 .Select(t =>
                 {
-                    var categoriaObj = _categoriaBLL.ObtenerCategoriaPorId(t.CategoriaId);
-                    var estadoObj = _estadoBLL.ObtenerEstadoTicket(t.EstadoId);
-                    var prioridadObj = _categoriaBLL.Obtener_prioridad(categoriaObj);
-
-                    // Aprobador (si aplica)
-                    string aprobadorTexto = string.Empty;
-                    if (t.UsuarioAprobadorId.HasValue)
-                    {
-                        var apro = new ClienteBLL().ObtenerClientePorId(t.UsuarioAprobadorId.Value);
-                        aprobadorTexto = $"{apro.Apellido}, {apro.Nombre}";
-                    }
-
-                    // Técnico asignado (si aplica)
-                    string tecnicoTexto = string.Empty;
-                    if (t.TecnicoId.HasValue)
-                    {
-                        var tec = _tecnicoBLL.ObtenerTecnicoPorId(t.TecnicoId.Value);
-                        tecnicoTexto = $"{tec.Apellido}, {tec.Nombre}";
-                    }
+                    var cat = _categoriaBLL.ObtenerCategoriaPorId(t.CategoriaId)?.Nombre ?? "";
+                    var est = _estadoBLL.ObtenerEstadoTicket(t.EstadoId)?.Nombre ?? "";
+                    var pri = _prioridadBLL.ObtenerPrioridadPorId(t.PrioridadId)?.Nombre ?? "";
+                    var apr = t.UsuarioAprobadorId.HasValue
+                        ? $"{_clienteBLL.ObtenerClientePorId(t.UsuarioAprobadorId.Value).Apellido}, {_clienteBLL.ObtenerClientePorId(t.UsuarioAprobadorId.Value).Nombre}"
+                        : "";
+                    var tec = t.TecnicoId.HasValue
+                        ? $"{_tecnicoBLL.ObtenerTecnicoPorId(t.TecnicoId.Value).Apellido}, {_tecnicoBLL.ObtenerTecnicoPorId(t.TecnicoId.Value).Nombre}"
+                        : "";
 
                     return new
                     {
-                        TicketNro = t.TicketId,
+                        Numero = t.Numero,
+                        TicketId = t.TicketId,
                         FechaCreacion = t.FechaCreacion,
                         Asunto = t.Asunto,
                         DetalleDescripcion = t.Descripcion,
-                        Categoria = categoriaObj?.Nombre ?? string.Empty,
-                        Estado = estadoObj?.Nombre ?? string.Empty,
-                        Aprobador = aprobadorTexto,
-                        Prioridad = prioridadObj?.Nombre ?? string.Empty,
-                        TecnicoAsignado = tecnicoTexto
+                        Categoria = cat,
+                        Estado = est,
+                        Aprobador = apr,
+                        Prioridad = pri,
+                        TecnicoAsignado = tec
                     };
                 })
                 .ToList();
 
             dgvTickets.DataSource = listadoPlano;
             FormatearGrilla();
+
+            // Seleccionar primera fila
+            if (dgvTickets.Rows.Count > 0)
+            {
+                dgvTickets.ClearSelection();
+                dgvTickets.Rows[0].Selected = true;
+                dgvTickets.CurrentCell = dgvTickets.Rows[0].Cells["Numero"];
+            }
         }
 
         private void FormatearGrilla()
         {
-            // Oculta todas las columnas
             foreach (DataGridViewColumn col in dgvTickets.Columns)
                 col.Visible = false;
 
-            // Columnas a mostrar
-            var columnas = new[]
+            var cols = new[]
             {
-                ("TicketNro",          "Ticket Nro"),
+                ("Numero",             "Nro Ticket"),
                 ("FechaCreacion",      "Fecha Creación"),
                 ("Asunto",             "Asunto"),
                 ("DetalleDescripcion", "Detalle Descripción"),
@@ -184,15 +177,19 @@ namespace UI
                 ("TecnicoAsignado",    "Técnico Asignado")
             };
 
-            foreach (var (prop, header) in columnas)
+            foreach (var (prop, header) in cols)
             {
                 if (dgvTickets.Columns.Contains(prop))
                 {
-                    var col = dgvTickets.Columns[prop];
-                    col.Visible = true;
-                    col.HeaderText = header;
+                    var c = dgvTickets.Columns[prop];
+                    c.Visible = true;
+                    c.HeaderText = header;
                 }
             }
+
+            // Oculta la columna interna TicketId
+            if (dgvTickets.Columns.Contains("TicketId"))
+                dgvTickets.Columns["TicketId"].Visible = false;
 
             dgvTickets.AutoResizeColumns();
         }
@@ -216,41 +213,37 @@ namespace UI
         {
             if (dgvTickets.CurrentRow == null) return;
 
-            var id = (Guid)dgvTickets.CurrentRow.Cells["TicketNro"].Value;
+            // Ahora abrimos usando el GUID del TicketId y mostramos el número en el encabezado
+            var id = (Guid)dgvTickets.CurrentRow.Cells["TicketId"].Value;
             var ticket = _ticketBLL.ObtenerTicketPorId(id);
+            lblHeaderTitle.Text = $"Ticket #{ticket.Numero}";
             var vista = new frmVistaDeTicketTecnico(ticket);
-
             CargarSubformEnPanel(vista);
         }
 
         private void CargarSubformEnPanel(Form subform)
         {
-            // Ocultar filtros y grilla
             panelFilters.Visible = false;
-            if (this.Controls.Contains(dgvTickets))
-                this.Controls.Remove(dgvTickets);
+            if (Controls.Contains(dgvTickets))
+                Controls.Remove(dgvTickets);
+            foreach (var frm in Controls.OfType<Form>().ToList())
+                Controls.Remove(frm);
 
-            // Eliminar hijos previos
-            foreach (var frm in this.Controls.OfType<Form>().ToList())
-                this.Controls.Remove(frm);
-
-            // Configurar subform
             subform.TopLevel = false;
             subform.FormBorderStyle = FormBorderStyle.None;
             subform.ControlBox = false;
             subform.Dock = DockStyle.Fill;
 
-            // Inyectar
-            this.Controls.Add(subform);
+            Controls.Add(subform);
             subform.BringToFront();
             subform.Show();
 
-            // Al cerrar, restaurar
             subform.FormClosed += (s, e) =>
             {
-                this.Controls.Remove(subform);
+                lblHeaderTitle.Text = "Seleccione un ticket para ver su detalle";
+                Controls.Remove(subform);
                 panelFilters.Visible = true;
-                this.Controls.Add(dgvTickets);
+                Controls.Add(dgvTickets);
                 dgvTickets.Dock = DockStyle.Fill;
                 dgvTickets.BringToFront();
                 CargarTickets();

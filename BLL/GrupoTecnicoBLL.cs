@@ -122,7 +122,13 @@ namespace BLL
         }
 
         // ----- Métodos para relación m:n con técnicos -----
-
+        public List<GrupoTecnico> ListarTodos()
+        {
+            // Retorna todos los grupos técnicos activos y no eliminados
+            return _grupoTecnicoDAL.ListarGruposTecnicos()
+                                   .Where(g => !g.Eliminado && g.Activo)
+                                   .ToList();
+        }
         public void AsignarTecnicoAlGrupo(int grupoId, int tecnicoId)
         {
             if (grupoId <= 0) throw new ArgumentException("ID de grupo no válido.", nameof(grupoId));

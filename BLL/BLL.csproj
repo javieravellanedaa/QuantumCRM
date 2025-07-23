@@ -48,6 +48,7 @@
     <Compile Include="BitacoraBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="CategoriaCampoPersonalizadoBLL.cs" />
+    <Compile Include="CategoriaGrupoTecnicoVisibleBLL.cs" />
     <Compile Include="ClienteBLL.cs" />
     <Compile Include="ComentarioBLL.cs" />
     <Compile Include="ControlDeCambiosBLL.cs" />

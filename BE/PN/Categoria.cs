@@ -58,5 +58,16 @@ namespace BE
         public Departamento Departamento { get; set; }
 
         public bool Estado { get; set; }
+
+        /// <summary>
+        /// Lista de IDs de departamentos que pueden ver esta categoría.
+        /// </summary>
+
+        public List<int> DepartamentosVisiblesIds { get; set; } = new List<int>();
+
+        /// <summary>
+        /// Opcionalmente, si prefieres tener las entidades completas:
+        /// </summary>
+         public List<CategoriaDepartamentoVisible> DepartamentosVisibles { get; set; } = new List<CategoriaDepartamentoVisible>();
     }
 }

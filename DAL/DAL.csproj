@@ -52,6 +52,8 @@
     <Compile Include="BitacoraDAL.cs" />
     <Compile Include="CategoriaCampoPersonalizadoDAL.cs" />
     <Compile Include="CategoriaDAL.cs" />
+    <Compile Include="CategoriaDepartamentoVisibleDAL.cs" />
+    <Compile Include="CategoriaGrupoTecnicoVisibleDAL.cs" />
     <Compile Include="ClienteDAL.cs" />
     <Compile Include="ComentarioDAL.cs" />
     <Compile Include="ControlDeCambiosDAL.cs" />

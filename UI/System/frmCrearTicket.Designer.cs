@@ -1,28 +1,46 @@
-﻿namespace UI
+﻿// frmCrearTicket.Designer.cs
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace UI
 {
     partial class frmCrearTicket
     {
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblCliente;
-        private System.Windows.Forms.TextBox txtCliente;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtDepartamentoOrigen;
-        private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.ComboBox cmbCategorias;
-        private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.Label lblAsunto;
-        private System.Windows.Forms.TextBox txtAsunto;
-        private System.Windows.Forms.Label lblDescripcion;
-        private System.Windows.Forms.TextBox txtDescripcion;
-        private System.Windows.Forms.FlowLayoutPanel flpCampos;        // NUEVO
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Label lblPrioridad;
-        private System.Windows.Forms.TextBox txtPrioridad;
-        private System.Windows.Forms.Label lblEstado;
-        private System.Windows.Forms.TextBox txtEstado;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtFecha;
+        private IContainer components = null;
+        private GroupBox groupBox1;
+        private Label label2;
+        private Label label1;
+        private Label lblCliente;
+        private TextBox txtFecha;
+        private TextBox txtDepartamentoOrigen;
+        private TextBox txtCliente;
+        private Label lblCategoria;
+        private ComboBox cmbCategorias;
+        private Button btnBuscar;
+        private Label lblAsunto;
+        private TextBox txtAsunto;
+        private Label lblDescripcion;
+        private TextBox txtDescripcion;
+        private FlowLayoutPanel flpCampos;
+        private Label lblPrioridad;
+        private TextBox txtPrioridad;
+        private Label lblEstado;
+        private TextBox txtEstado;
+        private Button btnGuardar;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
         #region Windows Form Designer generated code
 
@@ -42,12 +60,12 @@
             this.txtAsunto = new System.Windows.Forms.TextBox();
             this.lblDescripcion = new System.Windows.Forms.Label();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.flpCampos = new System.Windows.Forms.FlowLayoutPanel();
             this.lblPrioridad = new System.Windows.Forms.Label();
             this.txtPrioridad = new System.Windows.Forms.TextBox();
             this.lblEstado = new System.Windows.Forms.Label();
             this.txtEstado = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.flpCampos = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +85,6 @@
             this.groupBox1.Controls.Add(this.txtAsunto);
             this.groupBox1.Controls.Add(this.lblDescripcion);
             this.groupBox1.Controls.Add(this.txtDescripcion);
-            this.groupBox1.Controls.Add(this.flpCampos);
             this.groupBox1.Controls.Add(this.lblPrioridad);
             this.groupBox1.Controls.Add(this.txtPrioridad);
             this.groupBox1.Controls.Add(this.lblEstado);
@@ -82,6 +99,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Crear Nuevo Ticket";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // label2
             // 
@@ -129,10 +147,10 @@
             this.txtDepartamentoOrigen.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtDepartamentoOrigen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDepartamentoOrigen.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDepartamentoOrigen.Location = new System.Drawing.Point(1207, 64);
+            this.txtDepartamentoOrigen.Location = new System.Drawing.Point(1303, 60);
             this.txtDepartamentoOrigen.Name = "txtDepartamentoOrigen";
             this.txtDepartamentoOrigen.ReadOnly = true;
-            this.txtDepartamentoOrigen.Size = new System.Drawing.Size(207, 27);
+            this.txtDepartamentoOrigen.Size = new System.Drawing.Size(283, 27);
             this.txtDepartamentoOrigen.TabIndex = 1;
             // 
             // txtCliente
@@ -140,7 +158,7 @@
             this.txtCliente.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCliente.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtCliente.Location = new System.Drawing.Point(335, 60);
+            this.txtCliente.Location = new System.Drawing.Point(237, 58);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.ReadOnly = true;
             this.txtCliente.Size = new System.Drawing.Size(151, 27);
@@ -199,7 +217,7 @@
             this.txtAsunto.Location = new System.Drawing.Point(202, 251);
             this.txtAsunto.Name = "txtAsunto";
             this.txtAsunto.ReadOnly = true;
-            this.txtAsunto.Size = new System.Drawing.Size(578, 27);
+            this.txtAsunto.Size = new System.Drawing.Size(1212, 27);
             this.txtAsunto.TabIndex = 8;
             // 
             // lblDescripcion
@@ -221,18 +239,8 @@
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.ReadOnly = true;
-            this.txtDescripcion.Size = new System.Drawing.Size(578, 64);
+            this.txtDescripcion.Size = new System.Drawing.Size(1212, 64);
             this.txtDescripcion.TabIndex = 10;
-            // 
-            // flpCampos
-            // 
-            this.flpCampos.AutoScroll = true;
-            this.flpCampos.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;   // <— aquí
-            this.flpCampos.WrapContents = false;                                         // <— y aquí
-            this.flpCampos.Location = new System.Drawing.Point(36, 391);
-            this.flpCampos.Name = "flpCampos";
-            this.flpCampos.Size = new System.Drawing.Size(767, 451);
-            this.flpCampos.TabIndex = 11;
             // 
             // lblPrioridad
             // 
@@ -291,6 +299,16 @@
             this.btnGuardar.Visible = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // flpCampos
+            // 
+            this.flpCampos.AutoScroll = true;
+            this.flpCampos.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpCampos.Location = new System.Drawing.Point(36, 391);
+            this.flpCampos.Name = "flpCampos";
+            this.flpCampos.Size = new System.Drawing.Size(1600, 480);
+            this.flpCampos.TabIndex = 11;
+            this.flpCampos.WrapContents = false;
+            // 
             // frmCrearTicket
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -299,11 +317,13 @@
             this.ClientSize = new System.Drawing.Size(1680, 950);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "frmCrearTicket";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Crear Ticket";
             this.Load += new System.EventHandler(this.CrearTicket_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmCrearTicket_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

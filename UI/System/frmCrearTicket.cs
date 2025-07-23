@@ -1,12 +1,14 @@
-﻿using BE;
-using BE.PN; // Para TipoDatoCampo y DefinicionCampoPersonalizado
-using BLL;
-using SERVICIOS;
+﻿// frmCrearTicket.cs
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using BE;
+using BE.PN;                  // Para TipoDatoCampo y DefinicionCampoPersonalizado
+using BLL;
+using SERVICIOS;
 
 namespace UI
 {
@@ -24,6 +26,10 @@ namespace UI
         private List<Categoria> _categorias;
         private Dictionary<int, Control> _mapControles = new Dictionary<int, Control>();
         private Dictionary<int, bool> _camposObligatorios = new Dictionary<int, bool>();
+        private List<ToolTip> _allToolTips = new List<ToolTip>();
+        private bool _f1Down = false;
+
+        private SplitContainer splitContainer;
 
         public frmCrearTicket(EventManagerService eventManagerService)
         {
@@ -38,11 +44,15 @@ namespace UI
             _defCampoBLL = new DefinicionCampoPersonalizadoBLL();
             _eventManagerService = eventManagerService;
             _eventManagerService.Subscribe("TicketCreated", new NotificadorTicket());
+
+            // Permitir capturar F1
+            this.KeyPreview = true;
+            this.KeyDown += frmCrearTicket_KeyDown;
+            this.KeyUp += frmCrearTicket_KeyUp;
         }
 
         private void CrearTicket_Load(object sender, EventArgs e)
         {
-            // Fecha y datos de usuario/departamento
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             var usuario = SingletonSesion.Instancia.Sesion.Usuario;
             txtCliente.Text = $"{usuario.Apellido}, {usuario.Nombre}";
@@ -50,14 +60,15 @@ namespace UI
             var depto = _departamentoBLL.ObtenerDepartamentoPorId(cliente.Departamento.Id);
             txtDepartamentoOrigen.Text = depto.Nombre;
 
-            // Configuro flpCampos para apilar verticalmente
-            flpCampos.FlowDirection = FlowDirection.TopDown;
-            flpCampos.WrapContents = false;
-            flpCampos.AutoScroll = true;
+            // Configuración inicial del panel de campos
+            flpCampos.FlowDirection = FlowDirection.LeftToRight;
+            flpCampos.WrapContents = true;
+            flpCampos.AutoScroll = false;
 
-            // Cargo categorías
-            _categorias = _categoriaBLL.ListarCategorias();
-            if (_categorias.Count > 0)
+            ConfigurarAreaCamposDinamicos();
+
+            _categorias = _categoriaBLL.ListarCategoriasVisiblesPorDepartamento(depto.Id);
+            if (_categorias.Any())
             {
                 cmbCategorias.DataSource = _categorias;
                 cmbCategorias.DisplayMember = "Nombre";
@@ -66,64 +77,103 @@ namespace UI
             else
             {
                 cmbCategorias.Items.Clear();
-                cmbCategorias.Text = "No hay categorías";
+                cmbCategorias.Text = "No hay categorías disponibles";
                 btnBuscar.Enabled = false;
             }
         }
 
-        private void cmbCategorias_SelectedIndexChanged(object sender, EventArgs e)
+        private void ConfigurarAreaCamposDinamicos()
         {
-            // Reseteo UI
-            txtPrioridad.Clear();
-            txtAsunto.Clear();
-            txtDescripcion.Clear();
-            txtAsunto.ReadOnly = true;
-            txtDescripcion.ReadOnly = true;
-            btnGuardar.Visible = false;
-            txtEstado.Clear();
+            var originalLocation = flpCampos.Location;
+            var originalSize = flpCampos.Size;
 
-            _mapControles.Clear();
-            _camposObligatorios.Clear();
-            flpCampos.Controls.Clear();
+            groupBox1.Controls.Remove(flpCampos);
+
+            // Bajar 10px para separar del borde superior
+            var adjustedLoc = new Point(originalLocation.X, originalLocation.Y + 10);
+
+            splitContainer = new SplitContainer
+            {
+                Location = adjustedLoc,
+                Size = originalSize,
+                Orientation = Orientation.Horizontal,
+                Panel1MinSize = 150,
+                Panel2MinSize = 30,
+                SplitterDistance = originalSize.Height - 40,
+                BorderStyle = BorderStyle.FixedSingle
+            };
+
+            var panelCampos = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.White
+            };
+
+            flpCampos.FlowDirection = FlowDirection.LeftToRight;
+            flpCampos.WrapContents = true;
+            flpCampos.AutoScroll = true;
+            flpCampos.AutoSize = false;
+            flpCampos.Dock = DockStyle.Fill;
+            flpCampos.Padding = new Padding(30);  // Espacio interior
+            flpCampos.BackColor = Color.White;
+
+            panelCampos.Controls.Add(flpCampos);
+            splitContainer.Panel1.Controls.Add(panelCampos);
+
+            var labelInfo = new Label
+            {
+                Text = "Presione F1 para ver ayuda de los campos",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                ForeColor = Color.FromArgb(55, 71, 79),
+                Font = new Font("Segoe UI", 9F, FontStyle.Italic)
+            };
+            splitContainer.Panel2.Controls.Add(labelInfo);
+
+            groupBox1.Controls.Add(splitContainer);
+
+            AjustarControlesInferiores();
+        }
+
+        private void AjustarControlesInferiores()
+        {
+            int nuevaY = splitContainer.Bottom + 10;
+            lblPrioridad.Top = nuevaY;
+            txtPrioridad.Top = nuevaY;
+            lblEstado.Top = nuevaY;
+            txtEstado.Top = nuevaY;
+            btnGuardar.Top = nuevaY;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             if (!(cmbCategorias.SelectedItem is Categoria categoria)) return;
 
-            // Prioridad + habilitación de asunto/descr.
             var prioridad = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
             txtPrioridad.Text = prioridad.Nombre;
             txtAsunto.ReadOnly = false;
             txtDescripcion.ReadOnly = false;
             btnGuardar.Visible = true;
-            txtEstado.Text = categoria.AprobadorRequerido ? "En Aprobacion" : "Derivado";
+            txtEstado.Text = categoria.AprobadorRequerido ? "En Aprobación" : "Derivado";
 
-            // Mensaje de aprobación
             if (categoria.AprobadorRequerido)
             {
                 MessageBox.Show(
-                    $"Esta categoría requiere aprobación de: {categoria.ClienteAprobador.Nombre}\n\n" +
-                    $"Desc: {categoria.Descripcion}",
-                    "Requiere Aprobación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    $"Esta categoría requiere aprobación de: {categoria.ClienteAprobador.Nombre}\n\nDesc: {categoria.Descripcion}",
+                    "Requiere Aprobación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
                 MessageBox.Show(
                     $"Categoría: {categoria.Nombre}\n{categoria.Descripcion}",
-                    "Sin Aprobación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                    "Sin Aprobación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // === Generar campos dinámicos en el orden definido ===
+            // Limpiar controles anteriores
+            flpCampos.Controls.Clear();
             _mapControles.Clear();
             _camposObligatorios.Clear();
-            flpCampos.Controls.Clear();
+            _allToolTips.Clear();
 
             var asociaciones = _catCampoBLL
                 .ListarPorCategoria(categoria.CategoriaId)
@@ -134,81 +184,135 @@ namespace UI
             {
                 if (asoc.DefinicionCampoPersonalizadoId <= 0) continue;
                 var def = _defCampoBLL.ObtenerPorId(asoc.DefinicionCampoPersonalizadoId);
-                Debug.WriteLine($"Id={def.Id}, Etiqueta={def.Etiqueta}, TipoDato={(int)def.TipoDato}");
 
-                // Cada fila es un FlowLayoutPanel horizontal
-                var fila = new FlowLayoutPanel
+                // Panel que crece con su contenido
+                var campoContainer = new Panel
                 {
-                    FlowDirection = FlowDirection.LeftToRight,
                     AutoSize = true,
-                    WrapContents = false,
-                    Margin = new Padding(0, 5, 0, 5)
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                    Margin = new Padding(30, 15, 30, 15)
                 };
 
-                // Label
                 var lbl = new Label
                 {
-                    Text = def.Etiqueta + (asoc.EsObligatorio ? "*" : ""),
+                    Text = def.Etiqueta + (asoc.EsObligatorio ? " *" : ""),
                     AutoSize = true,
-                    Margin = new Padding(3, 6, 3, 0)
+                    Font = new Font("Segoe UI Semibold", 9F),
+                    ForeColor = Color.FromArgb(33, 150, 243),
+                    Location = new Point(0, 0)
                 };
-                fila.Controls.Add(lbl);
 
-                // Control según el enum que ahora va de 1 a 4
                 Control ctrl;
+                int anchoControl;
                 switch (def.TipoDato)
                 {
-                    case TipoDatoCampo.Texto:  // 1
-                        ctrl = new TextBox { Width = 200 };
+                    case TipoDatoCampo.Texto:
+                        anchoControl = 150;
+                        ctrl = new TextBox { Width = anchoControl, Font = new Font("Segoe UI", 9F) };
                         break;
-                    case TipoDatoCampo.Numero: // 2
-                        ctrl = new NumericUpDown
-                        {
-                            Width = 100,
-                            DecimalPlaces = 0,
-                            Maximum = 100000
-                        };
+                    case TipoDatoCampo.Numero:
+                        anchoControl = 80;
+                        ctrl = new NumericUpDown { Width = anchoControl, DecimalPlaces = 0, Maximum = 100000, Font = new Font("Segoe UI", 9F) };
                         break;
-                    case TipoDatoCampo.Fecha:  // 3
-                        ctrl = new DateTimePicker
-                        {
-                            Width = 140,
-                            Format = DateTimePickerFormat.Short
-                        };
+                    case TipoDatoCampo.Fecha:
+                        anchoControl = 100;
+                        ctrl = new DateTimePicker { Width = anchoControl, Format = DateTimePickerFormat.Short, Font = new Font("Segoe UI", 9F) };
                         break;
-                    case TipoDatoCampo.Lista:  // 4
-                        var cb = new ComboBox
-                        {
-                            DropDownStyle = ComboBoxStyle.DropDownList,
-                            Width = 200
-                        };
+                    case TipoDatoCampo.Lista:
+                        anchoControl = 150;
+                        var cb = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = anchoControl, Font = new Font("Segoe UI", 9F) };
                         if (!string.IsNullOrEmpty(def.OpcionesJson))
                         {
-                            var items = def.OpcionesJson
-                                           .Trim('[', ']')
-                                           .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                           .Select(x => x.Trim('"'));
-                            cb.Items.AddRange(items.ToArray());
+                            var items = def.OpcionesJson.Trim('[', ']').Split(',').Select(x => x.Trim('\"')).ToArray();
+                            cb.Items.AddRange(items);
                         }
                         ctrl = cb;
                         break;
                     default:
-                        ctrl = new TextBox { Width = 200 };
+                        anchoControl = 150;
+                        ctrl = new TextBox { Width = anchoControl, Font = new Font("Segoe UI", 9F) };
                         break;
                 }
 
-                fila.Controls.Add(ctrl);
-                flpCampos.Controls.Add(fila);
+                // Position control right after the label
+                ctrl.Location = new Point(lbl.PreferredWidth + 10, 0);
 
-                // Guardamos ambos:
+                campoContainer.Controls.Add(lbl);
+                campoContainer.Controls.Add(ctrl);
+                flpCampos.Controls.Add(campoContainer);
+
                 _mapControles[def.Id] = ctrl;
                 _camposObligatorios[def.Id] = asoc.EsObligatorio;
+
+                if (!string.IsNullOrEmpty(def.TextoAyuda))
+                {
+                    _allToolTips.Add(CreatePersistentToolTip(lbl, def.TextoAyuda));
+                    _allToolTips.Add(CreatePersistentToolTip(ctrl, def.TextoAyuda));
+                }
             }
+        }
+
+        /// <summary>
+        /// Muestra todos los tooltips al mantener F1 presionado
+        /// </summary>
+        private void frmCrearTicket_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 && !_f1Down)
+            {
+                _f1Down = true;
+                foreach (var tip in _allToolTips)
+                {
+                    try
+                    {
+                        var field = tip.GetType().GetField("tools", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        if (field?.GetValue(tip) is Hashtable tools)
+                        {
+                            foreach (Control ctrl in tools.Keys)
+                            {
+                                var text = tip.GetToolTip(ctrl);
+                                if (!string.IsNullOrEmpty(text) && ctrl.Visible)
+                                    tip.Show(text, ctrl, 0, ctrl.Height, int.MaxValue);
+                            }
+                        }
+                    }
+                    catch { }
+                }
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Oculta todos los tooltips al soltar F1
+        /// </summary>
+        private void frmCrearTicket_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 && _f1Down)
+            {
+                _f1Down = false;
+                foreach (var tip in _allToolTips)
+                {
+                    try
+                    {
+                        var field = tip.GetType().GetField("tools", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        if (field?.GetValue(tip) is Hashtable tools)
+                        {
+                            foreach (Control ctrl in tools.Keys)
+                                tip.Hide(ctrl);
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        private void cmbCategorias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Lógica al cambiar de categoría (si se necesita)
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validación mínima asunto/descr.
+            // 1) Validar asunto y descripción
             if (string.IsNullOrWhiteSpace(txtAsunto.Text) ||
                 string.IsNullOrWhiteSpace(txtDescripcion.Text))
             {
@@ -216,113 +320,95 @@ namespace UI
                     "Debe completar Asunto y Descripción.",
                     "Validación",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation
-                );
+                    MessageBoxIcon.Exclamation);
                 return;
             }
 
-            // --- Validar campos personalizados obligatorios ---
+            // 2) Validar campos obligatorios
             foreach (var kvp in _mapControles)
             {
-                var defId = kvp.Key;
-                var control = kvp.Value;
-                var esObligatorio = _camposObligatorios.TryGetValue(defId, out bool req) && req;
-                if (!esObligatorio) continue;
+                int defId = kvp.Key;
+                Control ctrl = kvp.Value;
+                bool requerido = _camposObligatorios.TryGetValue(defId, out bool req) && req;
+                if (!requerido) continue;
 
                 bool vacio = false;
-                switch (control)
-                {
-                    case TextBox tb:
-                        vacio = string.IsNullOrWhiteSpace(tb.Text);
-                        break;
-                    case ComboBox cb:
-                        vacio = cb.SelectedIndex < 0;
-                        break;
-                    case NumericUpDown nud:
-                        vacio = nud.Value == 0;
-                        break;
-                    case DateTimePicker dtp:
-                        // aquí podrías decidir un umbral de “valor válido”
-                        vacio = false;
-                        break;
-                }
+                if (ctrl is TextBox tb) vacio = string.IsNullOrWhiteSpace(tb.Text);
+                else if (ctrl is ComboBox cb) vacio = cb.SelectedIndex < 0;
+                else if (ctrl is NumericUpDown nud) vacio = nud.Value == 0m;
 
                 if (vacio)
                 {
-                    // recupero la etiqueta para el mensaje
                     var def = _defCampoBLL.ObtenerPorId(defId);
                     MessageBox.Show(
                         $"El campo «{def.Etiqueta}» es obligatorio y debe completarse.",
                         "Validación",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation
-                    );
+                        MessageBoxIcon.Exclamation);
                     return;
                 }
             }
 
-            // Si pasamos validaciones, construyo el Ticket
-            var categoria = (Categoria)cmbCategorias.SelectedItem;
-            var prioridad = _prioridadBLL.ObtenerPrioridadCategoria(categoria);
+            // 3) Recategorizar si categoría 1
+            var selectedCategoria = (Categoria)cmbCategorias.SelectedItem;
+            var categoriaToSave = selectedCategoria.CategoriaId == 1
+                ? _categoriaBLL.ObtenerCategoriaPorId(2)
+                : selectedCategoria;
+
+            // 4) Prioridad, usuario y cliente
+            var prioridad = _prioridadBLL.ObtenerPrioridadCategoria(categoriaToSave);
             var usuario = SingletonSesion.Instancia.Sesion.Usuario;
             var cliente = _clienteBLL.ObtenerClientePorIdUsuario(usuario.Id);
 
+            // 5) Construir ticket
             var ticket = new Ticket
             {
                 Asunto = txtAsunto.Text.Trim(),
                 Descripcion = txtDescripcion.Text.Trim(),
-                CategoriaId = categoria.CategoriaId,
-                Categoria = categoria,
+                CategoriaId = categoriaToSave.CategoriaId,
+                Categoria = categoriaToSave,
                 ClienteCreador = cliente,
                 ClienteCreadorId = cliente.ClienteId,
                 FechaCreacion = DateTime.Now,
                 FechaUltimaModif = DateTime.Now,
-                EstadoId = categoria.AprobadorRequerido ? 6 : 2,
+                EstadoId = categoriaToSave.AprobadorRequerido ? 6 : 2,
                 PrioridadId = prioridad.Id,
                 Prioridad = prioridad,
-                UsuarioAprobadorId = categoria.AprobadorRequerido
-                                              ? categoria.ClienteAprobador.ClienteId
-                                              : (int?)null,
-                GrupoTecnicoId = categoria.GrupoTecnico.GrupoId,
+                UsuarioAprobadorId = categoriaToSave.AprobadorRequerido
+                                            ? categoriaToSave.ClienteAprobador.ClienteId
+                                            : (int?)null,
+                GrupoTecnicoId = categoriaToSave.GrupoTecnico.GrupoId,
                 ValoresCamposPersonalizados = new List<ValorCampoTicket>()
             };
 
-            // Recojo valores dinámicos
+            // 6) Recoger valores dinámicos
             foreach (var kvp in _mapControles)
             {
-                var defId = kvp.Key;
-                var ctrl = kvp.Value;
+                int defId = kvp.Key;
+                Control ctrl = kvp.Value;
                 var val = new ValorCampoTicket { DefinicionCampoPersonalizadoId = defId };
 
-                switch (ctrl)
-                {
-                    case TextBox tb:
-                        val.ValorTexto = tb.Text;
-                        break;
-                    case NumericUpDown nud:
-                        val.ValorNumero = nud.Value;
-                        break;
-                    case DateTimePicker dtp:
-                        val.ValorFecha = dtp.Value;
-                        break;
-                    case ComboBox cbx:
-                        val.ValorTexto = cbx.SelectedItem?.ToString();
-                        break;
-                }
+                if (ctrl is TextBox tb2) val.ValorTexto = tb2.Text;
+                else if (ctrl is NumericUpDown nud2) val.ValorNumero = nud2.Value;
+                else if (ctrl is DateTimePicker dtp2) val.ValorFecha = dtp2.Value;
+                else if (ctrl is ComboBox cb2) val.ValorTexto = cb2.SelectedItem?.ToString();
 
                 ticket.ValoresCamposPersonalizados.Add(val);
             }
 
-            // Guardo
+            // 7) Guardar y notificar
             try
             {
                 _ticketBLL.CrearTicket(ticket);
+
+                // Mensaje más llamativo con número de ticket en vez de ID
                 MessageBox.Show(
-                    $"Ticket #{ticket.TicketId} creado con éxito.",
-                    "Confirmación",
+                    $"🎉 ¡Ticket #{ticket.Numero} creado con éxito! 🎉\n\n" +
+                    "Guarda este número para futuras búsquedas.",
+                    "¡Éxito!",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                    MessageBoxIcon.Information);
+
                 _eventManagerService.Notify("TicketCreated", ticket);
                 DialogResult = DialogResult.OK;
                 Close();
@@ -330,12 +416,30 @@ namespace UI
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Error al crear el ticket: {ex.Message}",
+                    $"🚨 Error al crear el ticket:\n{ex.Message}",
                     "Error",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                    MessageBoxIcon.Error);
             }
+        }
+
+
+        private ToolTip CreatePersistentToolTip(Control owner, string text)
+        {
+            var tip = new ToolTip
+            {
+                AutoPopDelay = int.MaxValue,
+                InitialDelay = 0,
+                ReshowDelay = 0,
+                ShowAlways = true
+            };
+            tip.SetToolTip(owner, text);
+            return tip;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+            // No-op
         }
     }
 }

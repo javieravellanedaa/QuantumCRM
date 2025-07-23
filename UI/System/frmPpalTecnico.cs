@@ -17,7 +17,7 @@ using UI.Design;
 
 namespace UI
 {
-    public partial class frmPpalTecnico: Form, IEventListener
+    public partial class frmPpalTecnico : Form, IEventListener
     {
 
         BLL.UsuarioBLL _bllUsuarios;
@@ -29,13 +29,11 @@ namespace UI
         private Size formSize;
         private readonly EventManagerService _eventManagerService = new EventManagerService();
 
-
-
-
         public List<Etiqueta> etiquetas = new List<Etiqueta>();
+
         public frmPpalTecnico()
         {
-            SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId = 2;
+            SingletonSesion.Instancia.Sesion.Usuario.UltimoRolId = 3;
             InitializeComponent();
             if (SingletonSesion.Instancia.Sesion.IsLogged())
             {
@@ -57,7 +55,6 @@ namespace UI
                 TraducirDropDownMenu(dropDownMenu1, this.Name, _traduccionBLL.ObtenerTraducciones(SingletonSesion.Instancia.Sesion.Usuario.Idioma));
                 TraducirDropDownMenu(dropDownMenu2, this.Name, _traduccionBLL.ObtenerTraducciones(SingletonSesion.Instancia.Sesion.Usuario.Idioma));
 
-
             }
             else
             {
@@ -69,11 +66,9 @@ namespace UI
             _bllUsuarios = new BLL.UsuarioBLL();
             BLL.TraduccionBLL _bllTraduccion = new BLL.TraduccionBLL();
             _bllTraduccion.AgregarEtiquetasBulk(etiquetas);
-
-
         }
-        // Drag Form 
 
+        // Drag Form 
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
@@ -83,11 +78,7 @@ namespace UI
         {
             ReleaseCapture();
             SendMessage(this.Handle, 0x112, 0xf012, 0);
-
-
         }
-
-
 
         //Overridden methods
         protected override void WndProc(ref Message m)
@@ -186,15 +177,12 @@ namespace UI
 
         private void frmPpalNew_Load(object sender, EventArgs e)
         {
-
             formSize = this.ClientSize;
             dropDownMenu1.IsMainMenu = true;
             dropDownMenu2.IsMainMenu = true;
             dropDownMenu3.IsMainMenu = true;
-
         }
 
-  
         private void PanelTitleBar_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
@@ -205,6 +193,7 @@ namespace UI
         {
 
         }
+
         private void AdjustForm()
         {
             switch (this.WindowState)
@@ -224,6 +213,7 @@ namespace UI
             AdjustForm();
         }
 
+        // BOTONES DE VENTANA - AGREGADOS/ACTUALIZADOS
         private void btnMinimize_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -232,20 +222,13 @@ namespace UI
         private void btnMaximaze_Click(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Normal)
-
                 this.WindowState = FormWindowState.Maximized;
-
             else
-            {
                 this.WindowState = FormWindowState.Normal;
-            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-         
-         
-
             // Confirmar la salida con un mensaje
             DialogResult result = MessageBox.Show(
                 "¿Está seguro que desea salir?",
@@ -261,11 +244,8 @@ namespace UI
             }
         }
 
-        // Método para guardar el último registro
-
         private void ColapseMenu()
         {
-
             if (this.PanelMenu.Width > 100)
             {
                 PanelMenu.Width = 100;
@@ -276,13 +256,10 @@ namespace UI
                     menuButton.Text = "";
                     menuButton.ImageAlign = ContentAlignment.MiddleCenter;
                     menuButton.Padding = new Padding(0);
-
                 }
-
             }
             else
             {
-
                 PanelMenu.Width = 230;
                 pictureBox1.Visible = true;
                 btnMenu.Dock = DockStyle.None;
@@ -291,9 +268,7 @@ namespace UI
                     menuButton.Text = "   " + menuButton.Tag.ToString();
                     menuButton.ImageAlign = ContentAlignment.MiddleCenter;
                     menuButton.Padding = new Padding(10, 0, 0, 0);
-
                 }
-
             }
         }
 
@@ -325,9 +300,8 @@ namespace UI
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             dropDownMenu2.Show(pictureBox1, 0, pictureBox1.Height);
-
-
         }
+
         private void FormularioSecundarioCerrado(object sender, EventArgs e)
         {
             lblTitulo.Text = "Seleccione una opción";
@@ -338,7 +312,6 @@ namespace UI
             if (formulario is frmPerfil perfilForm)
             {
                 _eventManagerService.Subscribe("FormularioCerrado", this);
-
             }
             PanelDesktop.Controls.Clear();
             formulario.TopLevel = false;
@@ -358,8 +331,6 @@ namespace UI
             {
                 lblTitulo.Text = "Seleccione una opcion";
             }
-
-
         }
 
         private void cambiarRolToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -368,7 +339,7 @@ namespace UI
             if (cambiarRolToolStripMenuItem.DropDownItems.Count == 0)
             {
                 // Verificar si hay roles en la lista y crear hijos dinámicamente
-                if (SingletonSesion.Instancia.Sesion.Usuario.Roles.Count >0)
+                if (SingletonSesion.Instancia.Sesion.Usuario.Roles.Count > 0)
                 {
                     // Verificar si hay roles en la lista y crear hijos dinámicamente
                     if (SingletonSesion.Instancia.Sesion.Usuario.Roles.Count > 0)
@@ -397,9 +368,7 @@ namespace UI
                                     {
                                         this.Close();
                                         frmPpalCliente frm = new frmPpalCliente();
-
                                         frm.Show();
-
                                     }
                                     else if (item.Nombre.StartsWith("Administrador"))
                                     {
@@ -407,7 +376,6 @@ namespace UI
                                         frmPpalAdmin frm = new frmPpalAdmin();
                                         frm.Show();
                                     }
-
                                 }
                             };
                         }
@@ -428,7 +396,6 @@ namespace UI
         {
 
         }
-
 
         public List<Etiqueta> RecopilarEtiquetas(Form formulario)
         {
@@ -462,6 +429,7 @@ namespace UI
 
             return etiquetas;
         }
+
         private List<Etiqueta> ObtenerEtiquetasDeDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName)
         {
             var etiquetas = new List<Etiqueta>();
@@ -499,11 +467,10 @@ namespace UI
             return etiquetas;
         }
 
-
         public void TraducirFormulario(Form formulario, IIdioma idiomaSeleccionado)
         {
             // Obtener el diccionario de traducciones en el idioma seleccionado
-            SingletonSesion.Instancia.Sesion.Usuario.Idioma= idiomaSeleccionado;
+            SingletonSesion.Instancia.Sesion.Usuario.Idioma = idiomaSeleccionado;
 
             IDictionary<string, ITraduccion> traducciones = _traduccionBLL.ObtenerTraducciones(idiomaSeleccionado);
 
@@ -531,12 +498,11 @@ namespace UI
             {
                 AplicarTraduccion(control);
             }
-            
         }
 
         public void TraducirDropDownMenu(UI.Design.DropDownMenu dropDownMenu, string formName, IDictionary<string, ITraduccion> traducciones)
         {
-            dropDownMenu.IsMainMenu=true;
+            dropDownMenu.IsMainMenu = true;
             // Método recursivo para traducir cada elemento del menú
             void AplicarTraduccionMenuItem(ToolStripMenuItem menuItem)
             {
@@ -567,9 +533,7 @@ namespace UI
                     AplicarTraduccionMenuItem(menuItem);
                 }
             }
-           
         }
-
 
         // Función para cargar los idiomas disponibles en el ToolStripMenu
         private void CargarIdiomas()
@@ -607,10 +571,9 @@ namespace UI
                         {
                             MessageBox.Show($"Idioma seleccionado: {idioma.Nombre}");
                             // Lógica para cambiar el idioma de la aplicación
-                            TraducirFormulario(this,idioma);
+                            TraducirFormulario(this, idioma);
                             TraducirDropDownMenu(dropDownMenu1, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
                             TraducirDropDownMenu(dropDownMenu2, this.Name, _traduccionBLL.ObtenerTraducciones(idioma));
-
                         }
                     };
                 }
@@ -642,19 +605,15 @@ namespace UI
             }
         }
 
-
-
         private void aaaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
 
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var frmBandeja = new frmBandejaDeTicketsTecnico();
+            var frmBandeja = new frmBandejaDeTicketsTecnico(_eventManagerService);
             CargarFormularioEnPanel(frmBandeja);
-
         }
 
         private void iconBtnTickets_Click(object sender, EventArgs e)
@@ -667,7 +626,4 @@ namespace UI
 
         }
     }
-
-
 }
-

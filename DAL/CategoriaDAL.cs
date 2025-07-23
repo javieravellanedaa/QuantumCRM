@@ -240,6 +240,7 @@ namespace DAL
             return prioridad;
         }
 
+
         public Categoria ObtenerCategoriaPorId(int categoriaId)
         {
             if (categoriaId <= 0)

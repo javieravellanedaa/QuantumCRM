@@ -36,5 +36,38 @@ namespace BLL
                 _dal.Insertar(v);
             }
         }
+        public void ActualizarValoresPorTicket(Guid ticketId, List<ValorCampoTicket> nuevosValores)
+        {
+            if (ticketId == Guid.Empty)
+                throw new ArgumentException("El ID del ticket no puede ser vacío.");
+
+            if (nuevosValores == null || nuevosValores.Count == 0)
+                return;
+
+            try
+            {
+                // 1. Obtener definiciones de campos que vamos a actualizar
+                var definicionesAAcualizar = nuevosValores
+                    .Select(v => v.DefinicionCampoPersonalizadoId)
+                    .ToList();
+
+                // 2. Eliminar solo los valores de los campos que estamos actualizando
+                foreach (var definicionId in definicionesAAcualizar)
+                {
+                    _dal.EliminarPorTicketYDefinicion(ticketId, definicionId);
+                }
+
+                // 3. Insertar los nuevos valores
+                foreach (var nuevoValor in nuevosValores)
+                {
+                    nuevoValor.TicketId = ticketId;
+                    _dal.Insertar(nuevoValor);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar los valores de campos personalizados.", ex);
+            }
+        }
     }
 }
