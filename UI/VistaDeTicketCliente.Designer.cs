@@ -7,6 +7,9 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        // NUEVO: Botón para exportar PDF
+        private System.Windows.Forms.Button btnExportarPDF;
+
         // Controles existentes
         private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.Panel panelDates;
@@ -157,6 +160,7 @@
             this.splitContainerMain.Panel1.Controls.Add(this.panelDates);
             this.splitContainerMain.Panel1.Controls.Add(this.tblDetails);
             this.splitContainerMain.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerMain_Panel1_Paint);
+
             // 
             // splitContainerMain.Panel2
             // 
@@ -164,6 +168,7 @@
             this.splitContainerMain.Panel2.Controls.Add(this.btnNuevoComentario);
             this.splitContainerMain.Panel2.Controls.Add(this.btnGuardarCambios);
             this.splitContainerMain.Panel2.Controls.Add(this.btnCancelarTicket);
+            // NOTA: El btnExportarPDF se agrega dinámicamente en ConfigurarBotonExportarPDF()
             this.splitContainerMain.Size = new System.Drawing.Size(1104, 800);
             this.splitContainerMain.SplitterDistance = 563;
             this.splitContainerMain.TabIndex = 0;
@@ -271,8 +276,8 @@
             // 
             // flpCampos
             // 
-            this.flpCampos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.flpCampos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flpCampos.AutoScroll = true;
             this.flpCampos.Location = new System.Drawing.Point(11, 35);
@@ -684,6 +689,7 @@
             this.btnCancelarTicket.Text = "Cancelar Ticket";
             this.btnCancelarTicket.UseVisualStyleBackColor = false;
             this.btnCancelarTicket.Click += new System.EventHandler(this.btnCancelarTicket_Click);
+
             // 
             // VistaDeTicketCliente
             // 

@@ -12,6 +12,7 @@ namespace UI
 {
     public partial class VistaDeTicketAprobador : Form
     {
+        private Button btnExportarPDF;
         private readonly TicketBLL _ticketBLL;
         private readonly ComentarioBLL _comentarioBLL;
         private readonly ClienteBLL _clienteBLL;
@@ -31,8 +32,10 @@ namespace UI
 
         public VistaDeTicketAprobador(Ticket ticket, int aprobadorId)
         {
-            InitializeComponent();
+           
 
+            InitializeComponent();
+             ConfigurarBotonExportarPDF();
             // Validar que el ticket no sea null y tenga datos básicos
             if (ticket == null)
                 throw new ArgumentNullException(nameof(ticket));
@@ -85,7 +88,151 @@ namespace UI
             // Cambiar título del formulario
             this.Text = "Vista de Ticket - Modo Aprobador (Solo Lectura)";
         }
+        private void ConfigurarBotonExportarPDF()
+        {
+            btnExportarPDF = new Button
+            {
+                Text = "📄 Exportar a PDF",
+                BackColor = Color.FromArgb(220, 53, 69),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Location = new Point(206, 10),
+                Size = new Size(187, 30),
+                Cursor = Cursors.Hand
+            };
+            btnExportarPDF.FlatAppearance.BorderSize = 0;
+            btnExportarPDF.Click += BtnExportarPDF_Click;
 
+            splitContainerMain.Panel2.Controls.Add(btnExportarPDF);
+        }
+        private void BtnExportarPDF_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Preparar los datos para el servicio PDF
+                var datosExport = PrepararDatosParaPDF();
+
+                // Mostrar diálogo para guardar
+                SaveFileDialog saveDialog = new SaveFileDialog
+                {
+                    Filter = "Archivos PDF (*.pdf)|*.pdf",
+                    FileName = $"Ticket_{_ticket.Numero}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf",
+                    Title = "Guardar Ticket como PDF"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var pdfService = new TicketPDFExportService();
+                    bool resultado = pdfService.ExportarTicket(datosExport, saveDialog.FileName, true);
+
+                    if (resultado)
+                    {
+                        MessageBox.Show("PDF exportado exitosamente", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al exportar PDF: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private TicketPDFExportService.TicketExportData PrepararDatosParaPDF()
+        {
+            // 1) Instancia y asignar el ticket
+            var datos = new TicketPDFExportService.TicketExportData
+            {
+                Ticket = _ticket
+            };
+
+            // 2) Campos personalizados y sus definiciones
+            var valores = _valorCampoBLL.ListarPorTicket(_ticket.TicketId);
+            datos.CamposPersonalizados = valores;
+
+            var defs = new Dictionary<int, DefinicionCampoPersonalizado>();
+            foreach (var v in valores)
+            {
+                var def = _defCampoBLL.ObtenerPorId(v.DefinicionCampoPersonalizadoId);
+                if (def != null && !defs.ContainsKey(def.Id))
+                    defs.Add(def.Id, def);
+            }
+            datos.DefinicionesCampos = defs;
+
+            // 3) Historial de cambios
+            var historicoBLL = new TicketHistoricoBLL();
+            var historial = historicoBLL.ObtenerHistorialPorTicket(_ticket.TicketId);
+            datos.Historial = historial;
+
+            // 4) Comentarios (incluye respuestas anidadas)
+            var comentarios = _comentarioBLL.ListarComentariosPorTicket(_ticket.TicketId);
+            datos.Comentarios = comentarios;
+
+            // 5) Usuarios usados en historial y comentarios
+            var userDict = new Dictionary<Guid, string>();
+            // → del historial
+            foreach (var h in historial)
+            {
+                if (!userDict.ContainsKey(h.UsuarioCambioId))
+                {
+                    var usr = _usuarioBLL.ObtenerUsuarioPorId(h.UsuarioCambioId);
+                    userDict[h.UsuarioCambioId] =
+                        usr != null
+                            ? $"{usr.Nombre} {usr.Apellido}"
+                            : "Desconocido";
+                }
+            }
+            // → de los comentarios
+            foreach (var c in comentarios)
+            {
+                if (!userDict.ContainsKey(c.UsuarioId))
+                {
+                    var usr = _usuarioBLL.ObtenerUsuarioPorId(c.UsuarioId);
+                    userDict[c.UsuarioId] =
+                        usr != null
+                            ? $"{usr.Nombre} {usr.Apellido}"
+                            : "Desconocido";
+                }
+            }
+            datos.UsuariosNombres = userDict;
+
+            // 6) Diccionario de prioridades
+            datos.PrioridadesNombres = _prioridadBLL
+                .GetAllPrioridades()
+                .ToDictionary(p => p.Id, p => p.Nombre);
+
+            // 7) Diccionario de categorías
+            datos.CategoriasNombres = _categoriaBLL
+                .ListarCategorias()
+                .ToDictionary(c => c.CategoriaId, c => c.Nombre);
+
+            // 8) Diccionario de estados (se obtiene dinámicamente de los IDs)
+            var estadoIds = new HashSet<int>();
+            if (_ticket.EstadoId > 0) estadoIds.Add(_ticket.EstadoId);
+            foreach (var h in historial)
+            {
+                if (h.ValorAnteriorId.HasValue) estadoIds.Add(h.ValorAnteriorId.Value);
+                if (h.ValorNuevoId.HasValue) estadoIds.Add(h.ValorNuevoId.Value);
+            }
+
+            var estadosDict = new Dictionary<int, string>();
+            foreach (var id in estadoIds)
+            {
+                var est = _estadoBLL.ObtenerEstadoTicket(id);
+                estadosDict[id] = est?.Nombre ?? "—";
+            }
+            datos.EstadosNombres = estadosDict;
+
+            // 9) Prioridad actual (nombre)
+            datos.NombrePrioridadActual =
+                _prioridadBLL
+                    .ObtenerPrioridadPorId(_ticket.PrioridadId)?
+                    .Nombre
+                ?? "—";
+
+            return datos;
+        }
         private void ConfigurarControlesComoSoloLectura()
         {
             // Hacer todos los campos de solo lectura
@@ -470,5 +617,7 @@ namespace UI
             panelAgregarComentario.Visible = false;
             txtComentarioNuevo.Clear();
         }
+
+    
     }
 }
